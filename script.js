@@ -441,6 +441,12 @@ document.addEventListener('DOMContentLoaded', () => {
     ['schedule-input', 'exam-input'].forEach(id => {
         document.getElementById(id).addEventListener('input', debounce(saveDataToLocalStorage, 1000));
     });
+    
+    // Cập nhật ngày tháng và tuần hiện tại
+    updateCurrentDateAndWeek();
+    
+    // Cập nhật mỗi phút
+    setInterval(updateCurrentDateAndWeek, 60000);
 });
 
 // Hàm debounce để tránh lưu quá nhiều lần
@@ -609,4 +615,45 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.querySelectorAll('#courses-body tr').length === 0) {
         createCourseRow();
     }
-}); 
+});
+
+// Hàm tính tuần trong năm
+function getWeekNumber(d) {
+    // Copy date so don't modify original
+    d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+    // Set to nearest Thursday: current date + 4 - current day number
+    // Make Sunday's day number 7
+    d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+    // Get first day of year
+    const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+    // Calculate full weeks to nearest Thursday
+    const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+    return weekNo;
+}
+
+// Hàm cập nhật ngày tháng và tuần hiện tại
+function updateCurrentDateAndWeek() {
+    const now = new Date();
+    
+    // Cập nhật ngày tháng
+    const dateStr = now.toLocaleDateString('vi-VN', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+    });
+    document.getElementById('current-date').textContent = dateStr;
+    
+    // Cập nhật tuần
+    const weekNumber = getWeekNumber(now);
+    document.getElementById('current-week').textContent = weekNumber;
+    
+    // Tự động chọn tuần hiện tại trong dropdown nếu nằm trong khoảng cho phép
+    const weekSelect = document.getElementById('week-select');
+    const weekOptions = Array.from(weekSelect.options).map(opt => parseInt(opt.value));
+    if (weekOptions.includes(weekNumber)) {
+        weekSelect.value = weekNumber;
+        // Trigger change event để cập nhật thời khóa biểu
+        const event = new Event('change');
+        weekSelect.dispatchEvent(event);
+    }
+} 

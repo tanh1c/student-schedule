@@ -479,4 +479,45 @@ select:focus {
     #courses-table {
         font-size: 0.9em;
     }
+}
+
+/* Styles cho phần hiển thị ngày tháng và tuần */
+.current-date-info {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.date-display {
+    font-size: 1.2em;
+    font-weight: 500;
+    color: #2c3e50;
+}
+
+.week-info {
+    font-size: 1.1em;
+    color: #3498db;
+    font-weight: 500;
+}
+
+#current-date, #current-week {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: white;
+    border-radius: 4px;
+    margin-left: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+    .current-date-info {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
 } 
