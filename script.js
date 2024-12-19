@@ -214,12 +214,20 @@ function displayCurriculum() {
         return;
     }
     
-    // Hiển thị file PDF tương ứng với ngành học
-    // Format: 2023_[KHOA]_[CHUYÊN NGHÀNH].pdf
-    // Ví dụ: 2023_MT_KHMT.pdf cho Khoa Máy tính, chuyên ngành Khoa học máy tính
+    // Tạo đường dẫn đến file PDF
     const faculty = 'MT'; // Khoa Máy tính
     const pdfPath = `CTDT/2023_${faculty}_${major}.pdf`;
-    pdfViewer.src = pdfPath;
+    
+    // Sử dụng Google Docs Viewer để hiển thị PDF
+    const baseUrl = 'https://tanh1c.github.io/student-schedule/';
+    const fullPdfUrl = baseUrl + pdfPath;
+    pdfViewer.src = `https://docs.google.com/viewer?url=${encodeURIComponent(fullPdfUrl)}&embedded=true`;
+    
+    // Thêm fallback nếu Google Docs Viewer không hoạt động
+    pdfViewer.onerror = function() {
+        // Sử dụng PDF.js viewer như một phương án dự phòng
+        pdfViewer.src = `https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(fullPdfUrl)}`;
+    };
 }
 
 // Xử lý dữ liệu lịch thi
