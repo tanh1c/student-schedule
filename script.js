@@ -647,7 +647,7 @@ function updateCurrentDateAndWeek() {
     const weekNumber = getWeekNumber(now);
     document.getElementById('current-week').textContent = weekNumber;
     
-    // Tự động chọn tuần hiện tại trong dropdown nếu nằm trong khoảng cho phép
+    // Tự động chọn tuần hiện tại trong dropdown nếu nằm trong kho���ng cho phép
     const weekSelect = document.getElementById('week-select');
     const weekOptions = Array.from(weekSelect.options).map(opt => parseInt(opt.value));
     if (weekOptions.includes(weekNumber)) {
@@ -668,15 +668,17 @@ function formatDateTime(date, time) {
     const [hours, minutes] = time.split(':').map(num => parseInt(num));
     const newDate = new Date(date);
     
-    // Điều chỉnh múi giờ
-    const offset = newDate.getTimezoneOffset();
-    newDate.setMinutes(newDate.getMinutes() + offset);
-    
-    // Đặt giờ và phút
+    // Đặt giờ và phút theo giờ Việt Nam
     newDate.setHours(hours, minutes, 0, 0);
     
-    // Chuyển đổi sang định dạng UTC
-    return newDate.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+    // Format ngày giờ theo định dạng YYYYMMDD'T'HHMMSS
+    const year = newDate.getFullYear();
+    const month = String(newDate.getMonth() + 1).padStart(2, '0');
+    const day = String(newDate.getDate()).padStart(2, '0');
+    const hour = String(newDate.getHours()).padStart(2, '0');
+    const minute = String(newDate.getMinutes()).padStart(2, '0');
+    
+    return `${year}${month}${day}T${hour}${minute}00`;
 }
 
 // Hàm tạo nội dung file ICS
@@ -686,8 +688,7 @@ function generateICS(scheduleData) {
         'VERSION:2.0',
         'PRODID:-//Student Schedule Manager//VN',
         'CALSCALE:GREGORIAN',
-        'METHOD:PUBLISH',
-        'X-WR-TIMEZONE:Asia/Ho_Chi_Minh'  // Thêm thông tin múi giờ
+        'METHOD:PUBLISH'
     ];
 
     // Lấy năm hiện tại
@@ -714,9 +715,9 @@ function generateICS(scheduleData) {
             const event = [
                 'BEGIN:VEVENT',
                 `UID:${generateUID()}`,
-                `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').split('.')[0]}Z`,
-                `DTSTART;TZID=Asia/Ho_Chi_Minh:${formatDateTime(eventDate, startTime)}`,
-                `DTEND;TZID=Asia/Ho_Chi_Minh:${formatDateTime(eventDate, endTime)}`,
+                `DTSTAMP:${formatDateTime(new Date(), '00:00')}`,
+                `DTSTART:${formatDateTime(eventDate, startTime)}`,
+                `DTEND:${formatDateTime(eventDate, endTime)}`,
                 `SUMMARY:${course.name}`,
                 `DESCRIPTION:Mã môn: ${course.code}\\nNhóm: ${course.group}\\nPhòng: ${course.room}\\nCơ sở: ${course.location}`,
                 `LOCATION:${course.room} - ${course.location}`,
@@ -727,21 +728,6 @@ function generateICS(scheduleData) {
         });
     });
 
-    // Thêm định nghĩa múi giờ
-    const vtimezone = [
-        'BEGIN:VTIMEZONE',
-        'TZID:Asia/Ho_Chi_Minh',
-        'X-LIC-LOCATION:Asia/Ho_Chi_Minh',
-        'BEGIN:STANDARD',
-        'TZOFFSETFROM:+0700',
-        'TZOFFSETTO:+0700',
-        'TZNAME:+07',
-        'DTSTART:19700101T000000',
-        'END:STANDARD',
-        'END:VTIMEZONE'
-    ];
-
-    icsContent = [...icsContent.slice(0, 6), ...vtimezone, ...icsContent.slice(6)];
     icsContent.push('END:VCALENDAR');
     return icsContent.join('\r\n');
 }
