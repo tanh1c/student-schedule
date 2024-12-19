@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Thời Khóa Biểu Sinh Viên</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Quản Lý Thời Khóa Biểu Sinh Viên</h1>
+            <nav>
+                <button class="tab-btn active" data-tab="schedule">Thời Khóa Biểu</button>
+                <button class="tab-btn" data-tab="exam">Lịch Thi</button>
+                <button class="tab-btn" data-tab="curriculum">Chương Trình Đào Tạo</button>
+            </nav>
+        </header>
+
+        <main>
+            <section id="schedule" class="tab-content active">
+                <div class="input-section">
+                    <h2>Tạo Thời Khóa Biểu</h2>
+                    <textarea id="schedule-input" placeholder="Dán nội dung thời khóa biểu từ trang đăng ký môn học hoặc MyBK vào đây..."></textarea>
+                    <button id="generate-schedule">Tạo Thời Khóa Biểu</button>
+                </div>
+                <div class="week-selector">
+                    <label for="week-select">Chọn tuần:</label>
+                    <select id="week-select">
+                        <option value="35">Tuần 35</option>
+                        <option value="36">Tuần 36</option>
+                        <option value="37">Tuần 37</option>
+                        <option value="38">Tuần 38</option>
+                        <option value="39">Tuần 39</option>
+                        <option value="40">Tuần 40</option>
+                        <option value="41">Tuần 41</option>
+                        <option value="42">Tuần 42</option>
+                        <option value="43">Tuần 43</option>
+                        <option value="44">Tuần 44</option>
+                        <option value="45">Tuần 45</option>
+                        <option value="46">Tuần 46</option>
+                        <option value="47">Tuần 47</option>
+                        <option value="48">Tuần 48</option>
+                        <option value="49">Tuần 49</option>
+                        <option value="50">Tuần 50</option>
+                    </select>
+                </div>
+                <div class="schedule-display">
+                    <div class="timetable">
+                        <div class="time-slots">
+                            <div class="time-slot">Tiết</div>
+                            <div class="time-slot">1 (06:00 - 06:50)</div>
+                            <div class="time-slot">2 (07:00 - 07:50)</div>
+                            <div class="time-slot">3 (08:00 - 08:50)</div>
+                            <div class="time-slot">4 (09:00 - 09:50)</div>
+                            <div class="time-slot">5 (10:00 - 10:50)</div>
+                            <div class="time-slot">6 (11:00 - 11:50)</div>
+                            <div class="time-slot">7 (12:00 - 12:50)</div>
+                            <div class="time-slot">8 (13:00 - 13:50)</div>
+                            <div class="time-slot">9 (14:00 - 14:50)</div>
+                            <div class="time-slot">10 (15:00 - 15:50)</div>
+                            <div class="time-slot">11 (16:00 - 16:50)</div>
+                            <div class="time-slot">12 (17:00 - 17:50)</div>
+                            <div class="time-slot">13 (18:00 - 18:50)</div>
+                            <div class="time-slot">14 (18:50 - 19:40)</div>
+                            <div class="time-slot">15 (19:40 - 20:30)</div>
+                            <div class="time-slot">16 (20:30 - 21:10)</div>
+                        </div>
+                        <div class="schedule-grid">
+                            <!-- Sẽ được điền bởi JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="exam" class="tab-content">
+                <div class="input-section">
+                    <h2>Tạo Lịch Thi</h2>
+                    <textarea id="exam-input" placeholder="Dán nội dung lịch thi từ MyBK vào đây..."></textarea>
+                    <button id="generate-exam">Tạo Lịch Thi</button>
+                </div>
+                <div class="exam-display">
+                    <table class="exam-table">
+                        <thead>
+                            <tr>
+                                <th>Môn học</th>
+                                <th>Nhóm lớp</th>
+                                <th>Ngày thi</th>
+                                <th>Loại thi</th>
+                                <th>Phòng</th>
+                                <th>Thời gian</th>
+                                <th>Thời lượng</th>
+                            </tr>
+                        </thead>
+                        <tbody id="exam-list">
+                            <!-- Sẽ được điền bởi JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="curriculum" class="tab-content">
+                <div class="search-section">
+                    <h2>Tra Cứu Chương Trình Đào Tạo</h2>
+                    <div class="search-controls">
+                        <select id="major-select">
+                            <option value="">Chọn ngành học</option>
+                            <option value="KHMT">Khoa học máy tính</option>
+                            <option value="KTMT">Kỹ thuật máy tính</option>
+                            <option value="KTPM">Kỹ thuật phần mềm</option>
+                            <option value="HTTT">Hệ thống thông tin</option>
+                        </select>
+                    </div>
+                    <div class="curriculum-display">
+                        <div class="pdf-container">
+                            <iframe id="pdf-viewer" style="width: 100%; height: 800px; border: none;"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html> 

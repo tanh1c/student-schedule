@@ -1,0 +1,66 @@
+Project: Simple Online Marketplace Website
+
+Objective:
+Create a user-friendly online marketplace platform where users can buy and sell various items, with a clean and intuitive interface.
+
+Key Features:
+
+1. User Authentication System:
+   - Simple sign-up/login process
+   - User profiles with basic information
+   - Secure authentication
+
+2. Product Listing:
+   - Easy product upload system
+   - Product categories
+   - Search functionality
+   - Filtering options
+   - Sort by price, date, etc.
+
+3. Product Pages:
+   - Clear product images
+   - Detailed descriptions
+   - Price display
+   - Seller information
+   - Contact/messaging system
+
+4. User Dashboard:
+   - List/manage products
+   - View purchase history
+   - Manage personal listings
+   - Message center
+
+5. Simple Shopping Features:
+   - Shopping cart
+   - Basic checkout process
+   - Payment integration
+   - Order tracking
+
+Technical Requirements:
+1. Responsive design (mobile-friendly)
+2. Fast loading times
+3. Secure data handling
+4. Simple navigation structure
+5. Clean, minimalist UI
+
+User Interface Guidelines:
+1. Use a simple color scheme (2-3 main colors)
+2. Clear typography
+3. Intuitive navigation menu
+4. Consistent button styles
+5. Easy-to-read product cards
+6. Simple forms with clear labels
+7. Visual feedback for user actions
+
+Priority Features for MVP (Minimum Viable Product):
+1. User registration and login
+2. Basic product listing
+3. Simple search function
+4. Basic messaging system
+5. Simple checkout process
+
+Additional Considerations:
+1. Multiple language support (English and Vietnamese)
+2. Simple rating/review system
+3. Basic notification system
+4. Simple admin panel for moderation
