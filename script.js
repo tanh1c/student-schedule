@@ -208,10 +208,11 @@ function clearSchedule() {
 function displayCurriculum() {
     const major = document.getElementById('major-select').value;
     const pdfViewer = document.getElementById('pdf-viewer');
+    const pdfDownloadLink = document.getElementById('pdf-download-link');
     
     if (!major) {
-        pdfViewer.href = '#';
-        pdfViewer.style.display = 'none';
+        pdfViewer.data = '';
+        pdfDownloadLink.href = '';
         return;
     }
     
@@ -220,9 +221,26 @@ function displayCurriculum() {
     const pdfPath = `CTDT/2023_${faculty}_${major}.pdf`;
     const fullPdfUrl = `https://tanh1c.github.io/student-schedule/${pdfPath}`;
     
-    // Cập nhật href cho thẻ a
-    pdfViewer.href = fullPdfUrl;
-    pdfViewer.style.display = 'inline-block';
+    // Thử các cách khác nhau để hiển thị PDF
+    try {
+        // Cách 1: Sử dụng trực tiếp
+        pdfViewer.data = fullPdfUrl;
+        
+        // Cập nhật link tải về
+        pdfDownloadLink.href = fullPdfUrl;
+        
+        // Thêm sự kiện để kiểm tra nếu PDF không load được
+        pdfViewer.onerror = function() {
+            // Cách 2: Sử dụng PDF.js
+            const pdfJsUrl = `https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(fullPdfUrl)}`;
+            pdfViewer.data = pdfJsUrl;
+        };
+    } catch (error) {
+        console.error('Lỗi khi hiển thị PDF:', error);
+        // Fallback: Chỉ hiển thị link tải về
+        pdfViewer.data = '';
+        alert('Không thể hiển thị PDF trực tiếp. Vui lòng sử dụng link tải về.');
+    }
 }
 
 // Xử lý dữ liệu lịch thi
