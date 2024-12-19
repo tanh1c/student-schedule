@@ -12,14 +12,17 @@
         <header>
             <h1>Quản Lý Thời Khóa Biểu Sinh Viên</h1>
             <nav>
-                <button class="tab-btn active" data-tab="schedule">Thời Khóa Biểu</button>
-                <button class="tab-btn" data-tab="exam">Lịch Thi</button>
-                <button class="tab-btn" data-tab="curriculum">Chương Trình Đào Tạo</button>
+                <div class="nav-tabs">
+                    <button class="tab-btn active" data-tab="schedule-tab">Thời Khóa Biểu</button>
+                    <button class="tab-btn" data-tab="exam-tab">Lịch Thi</button>
+                    <button class="tab-btn" data-tab="curriculum-tab">Chương Trình Đào Tạo</button>
+                    <button class="tab-btn" data-tab="gpa-tab">Tính GPA</button>
+                </div>
             </nav>
         </header>
 
         <main>
-            <section id="schedule" class="tab-content active">
+            <section id="schedule-tab" class="tab-content active">
                 <div class="input-section">
                     <h2>Tạo Thời Khóa Biểu</h2>
                     <textarea id="schedule-input" placeholder="Dán nội dung thời khóa biểu từ trang đăng ký môn học hoặc MyBK vào đây..."></textarea>
@@ -74,7 +77,7 @@
                 </div>
             </section>
 
-            <section id="exam" class="tab-content">
+            <section id="exam-tab" class="tab-content">
                 <div class="input-section">
                     <h2>Tạo Lịch Thi</h2>
                     <textarea id="exam-input" placeholder="Dán nội dung lịch thi từ MyBK vào đây..."></textarea>
@@ -100,7 +103,7 @@
                 </div>
             </section>
 
-            <section id="curriculum" class="tab-content">
+            <section id="curriculum-tab" class="tab-content">
                 <div class="search-section">
                     <h2>Tra Cứu Chương Trình Đào Tạo</h2>
                     <div class="search-controls">
@@ -119,6 +122,92 @@
                     </div>
                 </div>
             </section>
+
+            <div id="gpa-tab" class="tab-content">
+                <div class="gpa-container">
+                    <div class="gpa-info">
+                        <h3>Bảng Quy Đổi Điểm</h3>
+                        <table class="grade-table">
+                            <tr>
+                                <th>Thang 10</th>
+                                <th>Thang chữ</th>
+                                <th>Thang 4</th>
+                                <th>Xếp loại</th>
+                            </tr>
+                            <tr>
+                                <td>8.5 - 10.0</td>
+                                <td>A/A+</td>
+                                <td>4.0</td>
+                                <td rowspan="2">Xuất sắc</td>
+                            </tr>
+                            <tr>
+                                <td>8.0 - 8.4</td>
+                                <td>B+</td>
+                                <td>3.5</td>
+                            </tr>
+                            <tr>
+                                <td>7.0 - 7.9</td>
+                                <td>B</td>
+                                <td>3.0</td>
+                                <td>Giỏi</td>
+                            </tr>
+                            <tr>
+                                <td>6.5 - 6.9</td>
+                                <td>C+</td>
+                                <td>2.5</td>
+                                <td rowspan="2">Khá</td>
+                            </tr>
+                            <tr>
+                                <td>5.5 - 6.4</td>
+                                <td>C</td>
+                                <td>2.0</td>
+                            </tr>
+                            <tr>
+                                <td>5.0 - 5.4</td>
+                                <td>D+</td>
+                                <td>1.5</td>
+                                <td rowspan="2">Trung bình</td>
+                            </tr>
+                            <tr>
+                                <td>4.0 - 4.9</td>
+                                <td>D</td>
+                                <td>1.0</td>
+                            </tr>
+                            <tr>
+                                <td>< 4.0</td>
+                                <td>F</td>
+                                <td>0.0</td>
+                                <td>Yếu/Kém</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="gpa-calculator">
+                        <h3>Tính Điểm Trung Bình</h3>
+                        <div class="courses-list">
+                            <table id="courses-table">
+                                <thead>
+                                    <tr>
+                                        <th>Tên môn học</th>
+                                        <th>Số tín chỉ</th>
+                                        <th>Điểm hệ 10</th>
+                                        <th>Điểm hệ 4</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="courses-body">
+                                </tbody>
+                            </table>
+                            <button id="add-course" class="btn">Thêm môn học</button>
+                        </div>
+                        <div class="gpa-result">
+                            <p>Tổng số tín chỉ: <span id="total-credits">0</span></p>
+                            <p>Điểm trung bình hệ 4: <span id="gpa-4">0.00</span></p>
+                            <p>Điểm trung bình hệ 10: <span id="gpa-10">0.00</span></p>
+                            <p>Xếp loại: <span id="grade-classification">-</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </main>
     </div>
     <script src="script.js"></script>

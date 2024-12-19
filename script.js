@@ -454,4 +454,159 @@ function debounce(func, wait) {
         clearTimeout(timeout);
         timeout = setTimeout(later, wait);
     };
-} 
+}
+
+// Hàm chuyển đổi điểm hệ 10 sang hệ 4
+function convertTo4Scale(score) {
+    if (score >= 8.5) return 4.0;
+    if (score >= 8.0) return 3.5;
+    if (score >= 7.0) return 3.0;
+    if (score >= 6.5) return 2.5;
+    if (score >= 5.5) return 2.0;
+    if (score >= 5.0) return 1.5;
+    if (score >= 4.0) return 1.0;
+    return 0.0;
+}
+
+// Hàm xếp loại học lực
+function getClassification(gpa4) {
+    if (gpa4 >= 3.6) return "Xuất sắc";
+    if (gpa4 >= 3.2) return "Giỏi";
+    if (gpa4 >= 2.5) return "Khá";
+    if (gpa4 >= 2.0) return "Trung bình";
+    if (gpa4 >= 1.0) return "Yếu";
+    return "Kém";
+}
+
+// Hàm tạo hàng mới trong bảng môn học
+function createCourseRow() {
+    const tbody = document.getElementById('courses-body');
+    const row = document.createElement('tr');
+    
+    row.innerHTML = `
+        <td><input type="text" class="course-name" placeholder="Nhập tên môn"></td>
+        <td><input type="number" class="course-credits" min="1" max="10" placeholder="Số TC"></td>
+        <td><input type="number" class="course-score" min="0" max="10" step="0.1" placeholder="Điểm hệ 10"></td>
+        <td><input type="number" class="course-score-4" readonly></td>
+        <td><button class="delete-course">Xóa</button></td>
+    `;
+    
+    // Thêm event listener cho điểm hệ 10
+    const scoreInput = row.querySelector('.course-score');
+    const score4Input = row.querySelector('.course-score-4');
+    
+    scoreInput.addEventListener('input', () => {
+        const score10 = parseFloat(scoreInput.value);
+        if (!isNaN(score10)) {
+            score4Input.value = convertTo4Scale(score10).toFixed(1);
+            calculateGPA();
+        } else {
+            score4Input.value = '';
+        }
+    });
+    
+    // Thêm event listener cho nút xóa
+    const deleteButton = row.querySelector('.delete-course');
+    deleteButton.addEventListener('click', () => {
+        row.remove();
+        calculateGPA();
+    });
+    
+    tbody.appendChild(row);
+}
+
+// Hàm tính GPA
+function calculateGPA() {
+    let totalCredits = 0;
+    let totalScore10 = 0;
+    let totalScore4 = 0;
+    
+    document.querySelectorAll('#courses-body tr').forEach(row => {
+        const credits = parseFloat(row.querySelector('.course-credits').value) || 0;
+        const score10 = parseFloat(row.querySelector('.course-score').value) || 0;
+        const score4 = parseFloat(row.querySelector('.course-score-4').value) || 0;
+        
+        if (credits > 0 && score10 > 0) {
+            totalCredits += credits;
+            totalScore10 += score10 * credits;
+            totalScore4 += score4 * credits;
+        }
+    });
+    
+    const gpa10 = totalCredits > 0 ? totalScore10 / totalCredits : 0;
+    const gpa4 = totalCredits > 0 ? totalScore4 / totalCredits : 0;
+    
+    document.getElementById('total-credits').textContent = totalCredits;
+    document.getElementById('gpa-10').textContent = gpa10.toFixed(2);
+    document.getElementById('gpa-4').textContent = gpa4.toFixed(2);
+    document.getElementById('grade-classification').textContent = getClassification(gpa4);
+    
+    // Lưu dữ liệu vào localStorage
+    saveGPAData();
+}
+
+// Hàm lưu dữ liệu GPA
+function saveGPAData() {
+    const courses = [];
+    document.querySelectorAll('#courses-body tr').forEach(row => {
+        courses.push({
+            name: row.querySelector('.course-name').value,
+            credits: row.querySelector('.course-credits').value,
+            score10: row.querySelector('.course-score').value,
+            score4: row.querySelector('.course-score-4').value
+        });
+    });
+    
+    const gpaData = {
+        courses: courses,
+        lastUpdated: new Date().toISOString()
+    };
+    
+    localStorage.setItem('studentGPAData', JSON.stringify(gpaData));
+}
+
+// Hàm tải dữ liệu GPA
+function loadGPAData() {
+    const savedData = localStorage.getItem('studentGPAData');
+    if (savedData) {
+        const data = JSON.parse(savedData);
+        
+        // Kiểm tra xem dữ liệu có quá cũ không (ví dụ: 6 tháng)
+        const lastUpdated = new Date(data.lastUpdated);
+        const now = new Date();
+        const sixMonthsInMs = 6 * 30 * 24 * 60 * 60 * 1000;
+        
+        if (now - lastUpdated > sixMonthsInMs) {
+            localStorage.removeItem('studentGPAData');
+            return;
+        }
+        
+        // Khôi phục dữ liệu
+        data.courses.forEach(course => {
+            createCourseRow();
+            const row = document.querySelector('#courses-body tr:last-child');
+            row.querySelector('.course-name').value = course.name;
+            row.querySelector('.course-credits').value = course.credits;
+            row.querySelector('.course-score').value = course.score10;
+            row.querySelector('.course-score-4').value = course.score4;
+        });
+        
+        calculateGPA();
+    }
+}
+
+// Cập nhật event listeners
+document.addEventListener('DOMContentLoaded', () => {
+    // ... existing code ...
+    
+    // Thêm event listener cho nút thêm môn học
+    document.getElementById('add-course').addEventListener('click', createCourseRow);
+    
+    // Tải dữ liệu GPA đã lưu
+    loadGPAData();
+    
+    // Nếu chưa có môn học nào, tạo một hàng trống
+    if (document.querySelectorAll('#courses-body tr').length === 0) {
+        createCourseRow();
+    }
+}); 

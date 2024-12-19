@@ -358,4 +358,125 @@ select:focus {
 
 .exam-table tr:not(.date-header):hover {
     background-color: #f5f5f5;
+}
+
+/* Styles cho tab GPA */
+.gpa-container {
+    display: flex;
+    gap: 30px;
+    padding: 20px;
+}
+
+.gpa-info {
+    flex: 1;
+}
+
+.gpa-calculator {
+    flex: 2;
+}
+
+.grade-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+.grade-table th,
+.grade-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.grade-table th {
+    background-color: #f8f9fa;
+}
+
+.courses-list {
+    margin: 20px 0;
+}
+
+#courses-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+}
+
+#courses-table th,
+#courses-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+#courses-table th {
+    background-color: #f8f9fa;
+    text-align: left;
+}
+
+#courses-table input {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#courses-table input:read-only {
+    background-color: #f8f9fa;
+    border: none;
+}
+
+.delete-course {
+    background-color: #ff4444;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.delete-course:hover {
+    background-color: #cc0000;
+}
+
+.gpa-result {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.gpa-result p {
+    margin: 10px 0;
+    font-size: 1.1em;
+}
+
+.gpa-result span {
+    font-weight: bold;
+    color: #2196F3;
+}
+
+#add-course {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+#add-course:hover {
+    background-color: #45a049;
+}
+
+/* Responsive styles cho GPA tab */
+@media (max-width: 768px) {
+    .gpa-container {
+        flex-direction: column;
+    }
+    
+    .grade-table,
+    #courses-table {
+        font-size: 0.9em;
+    }
 } 
