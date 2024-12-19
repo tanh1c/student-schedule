@@ -656,4 +656,99 @@ function updateCurrentDateAndWeek() {
         const event = new Event('change');
         weekSelect.dispatchEvent(event);
     }
-} 
+}
+
+// Hàm tạo chuỗi ngẫu nhiên cho UID của sự kiện
+function generateUID() {
+    return 'event_' + Math.random().toString(36).substr(2, 9);
+}
+
+// Hàm định dạng ngày giờ theo định dạng iCalendar
+function formatDateTime(date, time) {
+    const [hours, minutes] = time.split(':').map(num => parseInt(num));
+    const newDate = new Date(date);
+    newDate.setHours(hours, minutes, 0, 0);
+    return newDate.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+}
+
+// Hàm tạo nội dung file ICS
+function generateICS(scheduleData) {
+    let icsContent = [
+        'BEGIN:VCALENDAR',
+        'VERSION:2.0',
+        'PRODID:-//Student Schedule Manager//VN',
+        'CALSCALE:GREGORIAN',
+        'METHOD:PUBLISH'
+    ];
+
+    // Lấy năm hiện tại
+    const currentYear = new Date().getFullYear();
+    
+    // Tạo sự kiện cho mỗi môn học trong tất cả các tuần
+    scheduleData.forEach(course => {
+        course.weeks.forEach(week => {
+            // Tính ngày của tuần này
+            const firstDayOfYear = new Date(currentYear, 0, 1);
+            const daysToAdd = (week - 1) * 7 + (course.day - 1);
+            const eventDate = new Date(firstDayOfYear);
+            eventDate.setDate(firstDayOfYear.getDate() + daysToAdd);
+
+            // Lấy thời gian bắt đầu và kết thúc
+            const timeMatch = course.time.match(/(\d{1,2}):(\d{2})\s*-\s*(\d{1,2}):(\d{2})/);
+            if (!timeMatch) return;
+
+            const [_, startHour, startMin, endHour, endMin] = timeMatch;
+            const startTime = `${startHour.padStart(2, '0')}:${startMin}`;
+            const endTime = `${endHour.padStart(2, '0')}:${endMin}`;
+
+            // Tạo sự kiện
+            const event = [
+                'BEGIN:VEVENT',
+                `UID:${generateUID()}`,
+                `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').split('.')[0]}Z`,
+                `DTSTART:${formatDateTime(eventDate, startTime)}`,
+                `DTEND:${formatDateTime(eventDate, endTime)}`,
+                `SUMMARY:${course.name}`,
+                `DESCRIPTION:Mã môn: ${course.code}\\nNhóm: ${course.group}\\nPhòng: ${course.room}\\nCơ sở: ${course.location}`,
+                `LOCATION:${course.room} - ${course.location}`,
+                'END:VEVENT'
+            ];
+
+            icsContent = icsContent.concat(event);
+        });
+    });
+
+    icsContent.push('END:VCALENDAR');
+    return icsContent.join('\r\n');
+}
+
+// Hàm tải xuống file ICS
+function downloadICS(content, filename) {
+    const blob = new Blob([content], { type: 'text/calendar;charset=utf-8' });
+    const link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+// Cập nhật event listeners
+document.addEventListener('DOMContentLoaded', () => {
+    // ... existing code ...
+    
+    // Thêm event listener cho nút xuất lịch
+    document.getElementById('export-calendar').addEventListener('click', () => {
+        const input = document.getElementById('schedule-input').value;
+        if (!input) {
+            alert('Vui lòng nhập dữ liệu thời khóa biểu trước khi xuất lịch!');
+            return;
+        }
+        
+        const scheduleData = parseScheduleData(input);
+        const icsContent = generateICS(scheduleData);
+        downloadICS(icsContent, 'thoikhoabieu.ics');
+    });
+    
+    // ... rest of the existing code ...
+}); 
