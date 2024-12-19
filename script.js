@@ -219,9 +219,8 @@ function displayCurriculum() {
     const pdfPath = `CTDT/2023_${faculty}_${major}.pdf`;
     const fullPdfUrl = `https://tanh1c.github.io/student-schedule/${pdfPath}`;
     
-    // Sử dụng Google Docs Viewer
-    const googleDocsUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(fullPdfUrl)}&embedded=true`;
-    pdfViewer.src = googleDocsUrl;
+    // Hiển thị PDF trực tiếp
+    pdfViewer.src = fullPdfUrl;
 }
 
 // Xử lý dữ liệu lịch thi
