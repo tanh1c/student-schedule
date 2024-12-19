@@ -210,7 +210,8 @@ function displayCurriculum() {
     const pdfViewer = document.getElementById('pdf-viewer');
     
     if (!major) {
-        pdfViewer.src = '';
+        pdfViewer.href = '#';
+        pdfViewer.style.display = 'none';
         return;
     }
     
@@ -219,8 +220,9 @@ function displayCurriculum() {
     const pdfPath = `CTDT/2023_${faculty}_${major}.pdf`;
     const fullPdfUrl = `https://tanh1c.github.io/student-schedule/${pdfPath}`;
     
-    // Hiển thị PDF trực tiếp
-    pdfViewer.src = fullPdfUrl;
+    // Cập nhật href cho thẻ a
+    pdfViewer.href = fullPdfUrl;
+    pdfViewer.style.display = 'inline-block';
 }
 
 // Xử lý dữ liệu lịch thi
