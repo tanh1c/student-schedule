@@ -208,38 +208,27 @@ function clearSchedule() {
 function displayCurriculum() {
     const major = document.getElementById('major-select').value;
     const pdfViewer = document.getElementById('pdf-viewer');
-    const pdfDownloadLink = document.getElementById('pdf-download-link');
     
     if (!major) {
-        pdfViewer.data = '';
-        pdfDownloadLink.href = '';
+        pdfViewer.src = '';
         return;
     }
     
-    // Tạo đường dẫn đến file PDF
-    const faculty = 'MT'; // Khoa Máy tính
-    const pdfPath = `CTDT/2023_${faculty}_${major}.pdf`;
-    const fullPdfUrl = `https://tanh1c.github.io/student-schedule/${pdfPath}`;
+    // Map các ngành học với ID file trên Google Drive
+    const pdfLinks = {
+        'KHMT': '1ebgPzwl88UWAzhI5Jg0O71JzlkhIKQyE',
+        'KTMT': 'your_file_id_here',
+        'KTPM': 'your_file_id_here',
+        'HTTT': 'your_file_id_here'
+    };
     
-    // Thử các cách khác nhau để hiển thị PDF
-    try {
-        // Cách 1: Sử dụng trực tiếp
-        pdfViewer.data = fullPdfUrl;
-        
-        // Cập nhật link tải về
-        pdfDownloadLink.href = fullPdfUrl;
-        
-        // Thêm sự kiện để kiểm tra nếu PDF không load được
-        pdfViewer.onerror = function() {
-            // Cách 2: Sử dụng PDF.js
-            const pdfJsUrl = `https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(fullPdfUrl)}`;
-            pdfViewer.data = pdfJsUrl;
-        };
-    } catch (error) {
-        console.error('Lỗi khi hiển thị PDF:', error);
-        // Fallback: Chỉ hiển thị link tải về
-        pdfViewer.data = '';
-        alert('Không thể hiển thị PDF trực tiếp. Vui lòng sử dụng link tải về.');
+    const fileId = pdfLinks[major];
+    if (fileId) {
+        // Sử dụng Google Drive Viewer
+        pdfViewer.src = `https://drive.google.com/file/d/${fileId}/preview`;
+    } else {
+        pdfViewer.src = '';
+        console.log('Không tìm thấy file PDF cho ngành này');
     }
 }
 
