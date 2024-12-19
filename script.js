@@ -699,7 +699,7 @@ function generateICS(scheduleData) {
         course.weeks.forEach(week => {
             // Tính ngày của tuần này
             const firstDayOfYear = new Date(currentYear, 0, 1);
-            const daysToAdd = (week - 2) * 7 + (course.day - 2);
+            const daysToAdd = (week - 1) * 7 + (course.day - 2);
             const eventDate = new Date(firstDayOfYear);
             eventDate.setDate(firstDayOfYear.getDate() + daysToAdd); // Thêm 1 ngày để bù đắp
 
