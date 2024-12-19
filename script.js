@@ -647,7 +647,7 @@ function updateCurrentDateAndWeek() {
     const weekNumber = getWeekNumber(now);
     document.getElementById('current-week').textContent = weekNumber;
     
-    // Tự động chọn tuần hiện tại trong dropdown nếu nằm trong kho���ng cho phép
+    // Tự động chọn tuần hiện tại trong dropdown nếu nằm trong khoảng cho phép
     const weekSelect = document.getElementById('week-select');
     const weekOptions = Array.from(weekSelect.options).map(opt => parseInt(opt.value));
     if (weekOptions.includes(weekNumber)) {
@@ -701,7 +701,7 @@ function generateICS(scheduleData) {
             const firstDayOfYear = new Date(currentYear, 0, 1);
             const daysToAdd = (week - 1) * 7 + (course.day - 1);
             const eventDate = new Date(firstDayOfYear);
-            eventDate.setDate(firstDayOfYear.getDate() + daysToAdd);
+            eventDate.setDate(firstDayOfYear.getDate() + daysToAdd + 1); // Thêm 1 ngày để bù đắp
 
             // Lấy thời gian bắt đầu và kết thúc
             const timeMatch = course.time.match(/(\d{1,2}):(\d{2})\s*-\s*(\d{1,2}):(\d{2})/);
