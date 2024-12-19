@@ -208,26 +208,39 @@ function clearSchedule() {
 function displayCurriculum() {
     const major = document.getElementById('major-select').value;
     const pdfViewer = document.getElementById('pdf-viewer');
+    const pdfDownloadLink = document.getElementById('pdf-download-link');
     
     if (!major) {
-        pdfViewer.src = '';
+        pdfViewer.data = '';
+        pdfDownloadLink.href = '';
         return;
     }
     
     // Tạo đường dẫn đến file PDF
     const faculty = 'MT'; // Khoa Máy tính
     const pdfPath = `CTDT/2023_${faculty}_${major}.pdf`;
+    const fullPdfUrl = `https://tanh1c.github.io/student-schedule/${pdfPath}`;
     
-    // Sử dụng Google Docs Viewer để hiển thị PDF
-    const baseUrl = 'https://tanh1c.github.io/student-schedule/';
-    const fullPdfUrl = baseUrl + pdfPath;
-    pdfViewer.src = `https://docs.google.com/viewer?url=${encodeURIComponent(fullPdfUrl)}&embedded=true`;
-    
-    // Thêm fallback nếu Google Docs Viewer không hoạt động
-    pdfViewer.onerror = function() {
-        // Sử dụng PDF.js viewer như một phương án dự phòng
-        pdfViewer.src = `https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(fullPdfUrl)}`;
-    };
+    // Thử các cách khác nhau để hiển thị PDF
+    try {
+        // Cách 1: Sử dụng trực tiếp
+        pdfViewer.data = fullPdfUrl;
+        
+        // Cập nhật link tải về
+        pdfDownloadLink.href = fullPdfUrl;
+        
+        // Thêm sự kiện để kiểm tra nếu PDF không load được
+        pdfViewer.onerror = function() {
+            // Cách 2: Sử dụng PDF.js
+            const pdfJsUrl = `https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(fullPdfUrl)}`;
+            pdfViewer.data = pdfJsUrl;
+        };
+    } catch (error) {
+        console.error('Lỗi khi hiển thị PDF:', error);
+        // Fallback: Chỉ hiển thị link tải về
+        pdfViewer.data = '';
+        alert('Không thể hiển thị PDF trực tiếp. Vui lòng sử dụng link tải về.');
+    }
 }
 
 // Xử lý dữ liệu lịch thi
