@@ -762,4 +762,110 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     // ... rest of the existing code ...
-}); 
+});
+
+// Hàm lấy ngày bắt đầu của tuần học
+function getStartDateOfWeek(weekNumber) {
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    
+    // Xác định năm học dựa vào số tuần
+    let year;
+    if (weekNumber >= 1 && weekNumber <= 23) {
+        // Học kỳ 2 (tuần 1-23) bắt đầu từ tháng 1 năm sau
+        year = currentYear + 1;
+    } else {
+        // Học kỳ 1 (tuần 35-50) bắt đầu từ tháng 8 năm hiện tại
+        year = currentYear;
+    }
+
+    // Tính ngày bắt đầu của tuần
+    const firstDayOfYear = new Date(year, 0, 1);
+    let daysToAdd;
+    
+    if (weekNumber >= 1 && weekNumber <= 23) {
+        // Học kỳ 2: tính từ tuần 1 của năm mới
+        daysToAdd = (weekNumber - 1) * 7;
+    } else {
+        // Học kỳ 1: tính từ tuần 35
+        daysToAdd = (weekNumber - 35) * 7;
+    }
+    
+    const startDate = new Date(firstDayOfYear);
+    startDate.setDate(firstDayOfYear.getDate() + daysToAdd);
+    
+    return startDate;
+}
+
+// Hàm tạo sự kiện cho Google Calendar
+function createCalendarEvent(subject, dayOfWeek, startTime, endTime, location, weekNumbers) {
+    const events = [];
+    
+    weekNumbers.forEach(week => {
+        // Lấy ngày bắt đầu của tuần
+        const weekStartDate = getStartDateOfWeek(parseInt(week));
+        
+        // Tính ngày của sự kiện dựa vào thứ trong tuần
+        const eventDate = new Date(weekStartDate);
+        let targetDay = dayOfWeek - 2; // Chuyển đổi thứ 2-CN (2-8) sang 0-6
+        if (targetDay < 0) targetDay = 6; // Chủ nhật
+        eventDate.setDate(weekStartDate.getDate() + targetDay);
+        
+        // Tạo thời gian bắt đầu và kết thúc
+        const [startHour, startMinute] = startTime.split(':').map(Number);
+        const [endHour, endMinute] = endTime.split(':').map(Number);
+        
+        const start = new Date(eventDate);
+        start.setHours(startHour, startMinute, 0);
+        
+        const end = new Date(eventDate);
+        end.setHours(endHour, endMinute, 0);
+        
+        // Tạo sự kiện
+        const event = {
+            'summary': subject,
+            'location': location,
+            'start': {
+                'dateTime': start.toISOString(),
+                'timeZone': 'Asia/Ho_Chi_Minh'
+            },
+            'end': {
+                'dateTime': end.toISOString(),
+                'timeZone': 'Asia/Ho_Chi_Minh'
+            },
+            'recurrence': [],
+            'reminders': {
+                'useDefault': true
+            }
+        };
+        
+        events.push(event);
+    });
+    
+    return events;
+}
+
+// Hàm xử lý xuất lịch sang Google Calendar
+async function exportToGoogleCalendar() {
+    // ... existing code ...
+    
+    scheduleData.forEach(subject => {
+        subject.schedule.forEach(schedule => {
+            const weekNumbers = schedule.weeks.map(week => week.toString());
+            const [startTime, endTime] = schedule.time.split(' - ');
+            
+            const events = createCalendarEvent(
+                subject.name,
+                schedule.day,
+                startTime,
+                endTime,
+                schedule.room,
+                weekNumbers
+            );
+            
+            allEvents.push(...events);
+        });
+    });
+    
+    // ... rest of the code ...
+} 
