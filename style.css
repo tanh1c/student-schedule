@@ -551,4 +551,142 @@ select:focus {
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
+}
+
+/* Thêm CSS cho phần lịch giảng dạy */
+.teaching-schedule-container {
+    padding: 20px;
+}
+
+.teaching-schedule-container h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.teaching-schedule-container .search-container {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.teaching-schedule-container .form-group {
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.teaching-schedule-container label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+.teaching-schedule-container input,
+.teaching-schedule-container select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.teaching-schedule-container .suggestions {
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+    display: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.teaching-schedule-container .suggestion-item {
+    padding: 8px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+}
+
+.teaching-schedule-container .suggestion-item:last-child {
+    border-bottom: none;
+}
+
+.teaching-schedule-container .suggestion-item:hover {
+    background-color: #f0f0f0;
+}
+
+.teaching-schedule-container .search-tabs {
+    margin-bottom: 15px;
+    display: flex;
+    gap: 10px;
+}
+
+.teaching-schedule-container .search-tab {
+    padding: 8px 16px;
+    border: none;
+    background: #ddd;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.teaching-schedule-container .search-tab.active {
+    background: #4CAF50;
+    color: white;
+}
+
+.teaching-schedule-container .search-section {
+    display: none;
+}
+
+.teaching-schedule-container .search-section.active {
+    display: block;
+}
+
+.teaching-schedule-container .schedule-item {
+    background-color: white;
+    padding: 15px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.teaching-schedule-container .schedule-item p {
+    margin: 8px 0;
+    line-height: 1.5;
+}
+
+.teaching-schedule-container .schedule-item strong {
+    color: #333;
+    margin-right: 5px;
+}
+
+/* Animation cho các chuyển đổi */
+.teaching-schedule-container .search-section {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+}
+
+.teaching-schedule-container .search-section.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .teaching-schedule-container .search-tabs {
+        flex-direction: column;
+    }
+    
+    .teaching-schedule-container .search-tab {
+        width: 100%;
+        text-align: center;
+    }
 } 
