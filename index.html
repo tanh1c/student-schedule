@@ -14,18 +14,52 @@
     
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 </head>
 <body>
+    <!-- Hiển thị ngày tháng góc phải -->
+    <div class="corner-datetime" id="corner-datetime">
+        <div class="corner-date"></div>
+        <div class="corner-time"></div>
+    </div>
+    
+    <!-- Menu bên -->
+    <div class="side-menu" id="side-menu">
+        <div class="menu-header"></div>
+        <a href="#" class="side-menu-item active" data-tab="schedule-tab">Thời Khóa Biểu</a>
+        <a href="#" class="side-menu-item" data-tab="exam-tab">Lịch Thi</a>
+        <a href="#" class="side-menu-item" data-tab="curriculum-tab">Chương Trình Đào Tạo</a>
+        <a href="#" class="side-menu-item" data-tab="gpa-tab">Tính GPA</a>
+        <a href="#" class="side-menu-item" data-tab="teaching-schedule-tab">Lịch Giảng Dạy</a>
+        <a href="#" class="side-menu-item" data-tab="notes-plans-tab">Ghi Chú & Kế Hoạch</a>
+        <a href="#" class="side-menu-item" data-tab="campus-map-tab">Bản Đồ Trường</a>
+    </div>
+    
+    <!-- Nút menu tròn -->
+    <button class="floating-menu-button" id="toggle-menu">
+        <svg class="menu-icon" viewBox="0 0 24 24" width="24" height="24">
+            <path fill="white" d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z"></path>
+        </svg>
+        <svg class="close-icon" viewBox="0 0 24 24" width="24" height="24" style="display: none;">
+            <path fill="white" d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"></path>
+        </svg>
+    </button>
+    
+    <!-- Overlay khi menu hiện ra -->
+    <div class="menu-overlay" id="menu-overlay"></div>
+
     <div class="container">
         <header>
             <h1>Quản Lý Thời Khóa Biểu Sinh Viên</h1>
-            <nav>
+            <nav class="main-nav">
                 <div class="nav-tabs">
                     <button class="tab-btn active" data-tab="schedule-tab">Thời Khóa Biểu</button>
                     <button class="tab-btn" data-tab="exam-tab">Lịch Thi</button>
                     <button class="tab-btn" data-tab="curriculum-tab">Chương Trình Đào Tạo</button>
                     <button class="tab-btn" data-tab="gpa-tab">Tính GPA</button>
                     <button class="tab-btn" data-tab="teaching-schedule-tab">Lịch Giảng Dạy</button>
+                    <button class="tab-btn" data-tab="notes-plans-tab">Ghi Chú & Kế Hoạch</button>
+                    <button class="tab-btn" data-tab="campus-map-tab">Bản Đồ Trường</button>
                 </div>
             </nav>
         </header>
@@ -97,28 +131,87 @@
                     <div class="export-section">
                         <button id="export-calendar" class="btn">Xuất lịch sang Google Calendar</button>
                     </div>
-                    <div class="timetable">
-                        <div class="time-slots">
-                            <div class="time-slot">Tiết</div>
-                            <div class="time-slot">1 (06:00 - 06:50)</div>
-                            <div class="time-slot">2 (07:00 - 07:50)</div>
-                            <div class="time-slot">3 (08:00 - 08:50)</div>
-                            <div class="time-slot">4 (09:00 - 09:50)</div>
-                            <div class="time-slot">5 (10:00 - 10:50)</div>
-                            <div class="time-slot">6 (11:00 - 11:50)</div>
-                            <div class="time-slot">7 (12:00 - 12:50)</div>
-                            <div class="time-slot">8 (13:00 - 13:50)</div>
-                            <div class="time-slot">9 (14:00 - 14:50)</div>
-                            <div class="time-slot">10 (15:00 - 15:50)</div>
-                            <div class="time-slot">11 (16:00 - 16:50)</div>
-                            <div class="time-slot">12 (17:00 - 17:50)</div>
-                            <div class="time-slot">13 (18:00 - 18:50)</div>
-                            <div class="time-slot">14 (18:50 - 19:40)</div>
-                            <div class="time-slot">15 (19:40 - 20:30)</div>
-                            <div class="time-slot">16 (20:30 - 21:10)</div>
+                    <!-- Chế độ xem desktop -->
+                    <div class="timetable-container">
+                        <div class="timetable">
+                            <div class="time-slots">
+                                <div class="time-slot">Tiết</div>
+                                <div class="time-slot">1 (06:00 - 06:50)</div>
+                                <div class="time-slot">2 (07:00 - 07:50)</div>
+                                <div class="time-slot">3 (08:00 - 08:50)</div>
+                                <div class="time-slot">4 (09:00 - 09:50)</div>
+                                <div class="time-slot">5 (10:00 - 10:50)</div>
+                                <div class="time-slot">6 (11:00 - 11:50)</div>
+                                <div class="time-slot">7 (12:00 - 12:50)</div>
+                                <div class="time-slot">8 (13:00 - 13:50)</div>
+                                <div class="time-slot">9 (14:00 - 14:50)</div>
+                                <div class="time-slot">10 (15:00 - 15:50)</div>
+                                <div class="time-slot">11 (16:00 - 16:50)</div>
+                                <div class="time-slot">12 (17:00 - 17:50)</div>
+                                <div class="time-slot">13 (18:00 - 18:50)</div>
+                                <div class="time-slot">14 (18:50 - 19:40)</div>
+                                <div class="time-slot">15 (19:40 - 20:30)</div>
+                                <div class="time-slot">16 (20:30 - 21:10)</div>
+                            </div>
+                            <div class="schedule-grid">
+                                <!-- Sẽ được điền bởi JavaScript -->
+                            </div>
                         </div>
-                        <div class="schedule-grid">
-                            <!-- Sẽ được điền bởi JavaScript -->
+                    </div>
+                    
+                    <!-- Chế độ xem mobile -->
+                    <div class="mobile-timetable">
+                        <div class="day-selector">
+                            <button data-day="2" class="active">Thứ 2</button>
+                            <button data-day="3">Thứ 3</button>
+                            <button data-day="4">Thứ 4</button>
+                            <button data-day="5">Thứ 5</button>
+                            <button data-day="6">Thứ 6</button>
+                            <button data-day="7">Thứ 7</button>
+                        </div>
+                        
+                        <div class="mobile-days-container">
+                            <!-- Thứ 2 -->
+                            <div class="mobile-day active" data-day="2">
+                                <div class="mobile-time-slots">
+                                    <!-- Các time slot sẽ được tạo bởi JavaScript -->
+                                </div>
+                            </div>
+                            
+                            <!-- Thứ 3 -->
+                            <div class="mobile-day" data-day="3">
+                                <div class="mobile-time-slots">
+                                    <!-- Các time slot sẽ được tạo bởi JavaScript -->
+                                </div>
+                            </div>
+                            
+                            <!-- Thứ 4 -->
+                            <div class="mobile-day" data-day="4">
+                                <div class="mobile-time-slots">
+                                    <!-- Các time slot sẽ được tạo bởi JavaScript -->
+                                </div>
+                            </div>
+                            
+                            <!-- Thứ 5 -->
+                            <div class="mobile-day" data-day="5">
+                                <div class="mobile-time-slots">
+                                    <!-- Các time slot sẽ được tạo bởi JavaScript -->
+                                </div>
+                            </div>
+                            
+                            <!-- Thứ 6 -->
+                            <div class="mobile-day" data-day="6">
+                                <div class="mobile-time-slots">
+                                    <!-- Các time slot sẽ được tạo bởi JavaScript -->
+                                </div>
+                            </div>
+                            
+                            <!-- Thứ 7 -->
+                            <div class="mobile-day" data-day="7">
+                                <div class="mobile-time-slots">
+                                    <!-- Các time slot sẽ được tạo bởi JavaScript -->
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -294,9 +387,151 @@
                     <div id="resultContainer"></div>
                 </div>
             </section>
+
+            <section id="notes-plans-tab" class="tab-content">
+                <div class="notes-plans-container">
+                    <div id="notifications-area" class="notifications-area">
+                        <h3>Thông Báo</h3>
+                        <div id="deadline-notifications" class="deadline-notifications">
+                            <!-- Hiển thị thông báo về deadline -->
+                        </div>
+                    </div>
+                    
+                    <div class="notes-plans-actions">
+                        <button id="add-note-btn" class="btn">Thêm Ghi Chú</button>
+                        <button id="add-plan-btn" class="btn">Thêm Kế Hoạch</button>
+                    </div>
+                    
+                    <div class="view-toggle">
+                        <span>Chế độ xem:</span>
+                        <button id="list-view-btn" class="view-btn active">Danh sách</button>
+                        <button id="calendar-view-btn" class="view-btn">Lịch</button>
+                    </div>
+                    
+                    <div id="list-view" class="view-container active">
+                        <div class="filter-options">
+                            <label for="filter-type">Hiển thị:</label>
+                            <select id="filter-type">
+                                <option value="all">Tất cả</option>
+                                <option value="notes">Chỉ ghi chú</option>
+                                <option value="plans">Chỉ kế hoạch</option>
+                            </select>
+                        </div>
+                        
+                        <div id="notes-plans-items" class="notes-plans-items">
+                            <!-- Danh sách các note và plan sẽ được hiển thị ở đây -->
+                        </div>
+                    </div>
+                    
+                    <div id="calendar-view" class="view-container">
+                        <div class="calendar-nav">
+                            <button id="prev-month" class="btn">&#10094;</button>
+                            <h3 id="calendar-title">Tháng 1, 2023</h3>
+                            <button id="next-month" class="btn">&#10095;</button>
+                        </div>
+                        <div class="calendar-weekdays">
+                            <div>CN</div>
+                            <div>T2</div>
+                            <div>T3</div>
+                            <div>T4</div>
+                            <div>T5</div>
+                            <div>T6</div>
+                            <div>T7</div>
+                        </div>
+                        <div id="calendar-days" class="calendar-days">
+                            <!-- Các ngày trong tháng sẽ được thêm vào đây -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Thêm section cho tab Bản Đồ Trường -->
+            <section id="campus-map-tab" class="tab-content">
+                <h2>Bản Đồ Trường Đại Học Bách Khoa TP.HCM</h2>
+                
+                <!-- Thêm liên kết Leaflet CSS và JS -->
+                <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+                <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+                
+                <div class="map-container">
+                    <div id="campus-map"></div>
+                    <div class="map-controls">
+                        <button id="locate-me" class="btn">Vị Trí Của Tôi</button>
+                        <button id="locate-school" class="btn">Vị Trí Trường</button>
+                        <div id="distance-info" class="distance-info" style="display: none;">
+                            <p>Khoảng cách: <span id="distance-value">--</span> km</p>
+                            <p>Thời gian ước tính: <span id="time-value">--</span> phút</p>
+                        </div>
+                    </div>
+                    <div class="static-map-container">
+                        <h3>Bản Đồ Chi Tiết Trường</h3>
+                        <div class="static-map">
+                            <img src="image/map/cs1.jpg" alt="Bản đồ chi tiết Đại học Bách Khoa TP.HCM">
+                        </div>
+                    </div>
+                </div>
+            </section>
         </main>
     </div>
     <script src="script.js"></script>
     <script src="teaching-schedule.js"></script>
+
+    <!-- Modal tạo/chỉnh sửa ghi chú -->
+    <div id="note-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3 id="note-modal-title">Thêm Ghi Chú Mới</h3>
+            <form id="note-form">
+                <input type="hidden" id="note-id">
+                <div class="form-group">
+                    <label for="note-title">Tiêu đề:</label>
+                    <input type="text" id="note-title" required>
+                </div>
+                <div class="form-group">
+                    <label for="note-content">Nội dung:</label>
+                    <textarea id="note-content" rows="5" required></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn">Lưu</button>
+                    <button type="button" class="btn cancel-btn">Hủy</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal tạo/chỉnh sửa kế hoạch -->
+    <div id="plan-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3 id="plan-modal-title">Thêm Kế Hoạch Mới</h3>
+            <form id="plan-form">
+                <input type="hidden" id="plan-id">
+                <div class="form-group">
+                    <label for="plan-title">Tiêu đề:</label>
+                    <input type="text" id="plan-title" required>
+                </div>
+                <div class="form-group">
+                    <label for="plan-content">Nội dung:</label>
+                    <textarea id="plan-content" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="plan-deadline">Hạn chót:</label>
+                    <input type="datetime-local" id="plan-deadline" required>
+                </div>
+                <div class="form-group">
+                    <label for="plan-priority">Mức độ ưu tiên:</label>
+                    <select id="plan-priority">
+                        <option value="low">Thấp</option>
+                        <option value="medium">Trung bình</option>
+                        <option value="high">Cao</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn">Lưu</button>
+                    <button type="button" class="btn cancel-btn">Hủy</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </body>
 </html> 
