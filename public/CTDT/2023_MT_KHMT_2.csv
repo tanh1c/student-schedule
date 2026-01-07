@@ -1,0 +1,296 @@
+"KHOA: KHOA HỌC VÀ KỸ THUẬT MÁY TÍNH                                                                                         Ngày 16/10/2023
+KẾ HOẠCH GIẢNG DẠY CHƯƠNG TRÌNH CỬ NHÂN KHÓA 2023",,,,,
+"Ngành: Khoa học Máy tính - 128.0 Tín chỉ
+Major: Computer Science - 128.0 Credits
+Chuyên ngành: Khoa học Máy tính - 128.0 Tín chỉ
+Speciality: Computer Science - 128.0 Credits",,,,,
+"II. Kế hoạch giảng dạy theo học kỳ (Program Plan )
+Ghi chú (notes): TQ: Tiên quyết (Prerequisite); SH: Song hành (Co-requisite Courses); KN: Khuyến nghị (Recommended-Courses)
+x  - cốt lõi tài năng (Honors)",,,,,
+,,,,,
+"STT
+No.","Mã học phần
+(Course ID)","Tên học phần
+(Course Title)","Tín chỉ
+(Credits)","Học phần tiên quyết/song hành
+(Prerequisites)","Ghi chú
+(Notes)"
+"Học kỳ 1 (Semester 1 )                                                                                                16
+Các học phần bắt buộc (Compulsary Courses)",,,,,
+1,LA1003,"Anh văn 1
+English 1",2,,
+2,...,"Giáo dục thể chất
+Physical Education",0,,
+3,MT1003,"Giải tích 1
+Calculus 1",4,,
+4,PH1003,"Vật lý 1
+General Physics 1",4,,
+5,CO1005,"Nhập môn điện toán
+Introduction to Computing",3,,
+6,CO1023,"Hệ thống số
+Digital Systems",3,,
+"Học kỳ 2 (Semester 2 )
+Các học phần bắt buộc (Compulsary Courses)",,,17,,
+1,LA1005,"Anh văn 2
+English 2",2,LA1003(TQ),
+2,...,"Giáo dục thể chất
+Physical Education",0,,
+3,MT1005,"Giải tích 2
+Calculus 2",4,MT1003(KN),
+4,MT1007,"Đại số tuyến tính
+Linear Algebra",3,,
+5,CO1007,"Cấu trúc rời rạc cho khoa học máy tính
+Discrete Structures for Computing",4,,
+6,CO1027,"Kỹ thuật lập trình
+Programming Fundamentals",3,,
+7,PH1007,"Thí nghiệm vật lý
+General Physics Labs",1,,
+8,MI1003,"Giáo dục quốc phòng
+Military Training",0,,
+"Học kỳ 3 (Semester 3 )
+Các học phần bắt buộc (Compulsary Courses)",,,16,,
+1,LA1007,"Anh văn 3
+English 3",2,LA1005(TQ),
+2,SP1031,"Triết học Mác - Lênin
+Marxist - Leninist Philosophy",3,,
+3,CO2007,"Kiến trúc máy tính
+Computer Architecture",4,CO1005(KN) CO1023(KN),x
+4,CO2011,"Mô hình hóa toán học
+Mathematical Modeling",3,CO1007(KN),
+5,CO2003,"Cấu trúc dữ liệu và giải thuật
+Data Structures and Algorithms",4,CO1007(KN) CO1027(KN),x
+"Học kỳ 4 (Semester 4 )
+Các học phần bắt buộc (Compulsary Courses)",,,17,,
+1,LA1009,Anh văn 4,2,LA1007(TQ),
+,,English 4,,,
+2,SP1033,"Kinh tế chính trị Mác - Lênin
+Marxist - Leninist Political Economy",2,SP1031(KN),
+3,CO2017,"Hệ điều hành
+Operating Systems",3,,x
+4,CO2039,"Lập trình nâng cao
+Advanced Programming",3,,x
+5,MT2013,"Xác suất và thống kê
+Probability and Statistics",4,MT1003(KN) MT1007(KN),
+Các học phần tự chọn (Elective Courses),,,,,
+1,,"Tự chọn tự do 3 tín chỉ
+Free Electives 3 credits",,,
+"Học kỳ 5 (Semester 5 )
+Các học phần bắt buộc (Compulsary Courses)",,,16,,
+1,SP1035,"Chủ nghĩa xã hội khoa học
+Scientific Socialism",2,SP1033(KN),
+2,CO3093,"Mạng máy tính
+Computer Networks",3,,x
+3,CO2013,"Hệ cơ sở dữ liệu
+Database Systems",4,,x
+4,CO3001,"Công nghệ phần mềm
+Software Engineering",3,CO1027(KN),x
+5,CH1003,"Hóa đại cương
+General Chemistry",3,,
+Các học phần tự chọn (Elective Courses),,,,,
+1,,Tự chọn nhóm A (chọn 1 tín chỉ trong các học phần sau),,,
+,,Elective Courses - Group A (Select 1 credits in the group of courses below),,,
+1.1,CO3101,"Đồ án tổng hợp - hướng trí tuệ nhân tạo
+Programming Intergration Project",1,,x
+1.2,CO3103,"Đồ án tổng hợp - hướng công nghệ phần mềm
+Programming Intergration Project",1,,x
+1.3,CO3105,"Đồ án tổng hợp - hướng hệ thống thông tin
+Programming Intergration Project",1,,x
+1.4,CO3127,"Đồ án tổng hợp - hướng kỹ thuật dữ liệu
+Programming Intergration Project - Data Engineering",1,,x
+"Học kỳ 6 (Semester 6 )
+Các học phần bắt buộc (Compulsary Courses)",,,15,,
+1,SP1039,"Lịch sử Đảng Cộng sản Việt Nam
+History of Vietnamese Communist Party",2,SP1035(KN),
+2,CO2001,"Kỹ năng chuyên nghiệp cho kỹ sư
+Professional Skills for Engineers",3,CO1005(TQ),
+3,CO3005,"Nguyên lý ngôn ngữ lập trình
+Principles of Programming Languages",4,CO1027(TQ),x
+4,CO3335,"Thực tập ngoài trường
+Internship",2,,
+Các học phần tự chọn (Elective Courses),,,,,
+1,,"Tự chọn tự do 3 tín chỉ
+Free Electives 3 credits",,,
+2,,Tự chọn nhóm B (chọn 1 tín chỉ trong các học phần sau),,,
+,,Elective Courses - Group B (Select 1 credits in the group of courses below),,,
+2.1,CO3107,"Thực tập đồ án môn học đa ngành - hướng trí tuệ nhân tạo
+Multidisciplinary Project",1,,x
+2.2,CO3109,"Thực tập đồ án môn học đa ngành - hướng công nghệ phần mềm
+Multidisciplinary Project",1,,x
+2.3,CO3111,"Thực tập đồ án môn học đa ngành - hướng hệ thống thông tin
+Multidisciplinary Project",1,,x
+"Học kỳ 7 (Semester 7 )
+Các học phần bắt buộc (Compulsary Courses)",,,16,,
+1,SP1037,"Tư tưởng Hồ Chí Minh
+Ho Chi Minh Ideology",2,SP1039(KN),
+2,CO4029,"Đồ án chuyên ngành
+Specialized Project",2,CO3335(SH),x
+Các học phần tự chọn (Elective Courses),,,,,
+1,,"Tự chọn tự do 3 tín chỉ
+Free Electives 3 credits",,,
+2,,Tự chọn nhóm C (chọn 6 tín chỉ trong các học phần sau) **,,,
+,,Elective Courses - Group C (Select 6 credits in the group of courses below) **,,,
+2.1,CO3011,"Quản lý dự án phần mềm
+Software Project Management",3,,
+2.2,CO3013,"Xây dựng chương trình dịch
+Compiler Construction",3,,
+2.3,CO3015,"Kiểm tra phần mềm
+Software Testing",3,CO1027(TQ) CO3001(KN),
+2.4,CO3017,"Kiến trúc phần mềm
+Software Architecture",3,,
+2.5,CO3021,"Hệ quản trị cơ sở dữ liệu
+Database Management Systems",3,CO2013(KN),
+2.6,CO3023,"Cơ sở dữ liệu phân tán và hướng đối tượng
+Distributed and Object-Oriented Databases",3,,
+2.7,CO3027,"Thương mại điện tử
+Electronic Commerce",3,,
+2.8,CO3029,"Khai phá dữ liệu
+Data Mining",3,,
+2.9,CO3031,"Phân tích và thiết kế giải thuật
+Algorithms-Design and Analysis",3,CO2003(KN),
+2.10,CO3033,"Bảo mật hệ thống thông tin
+Information System Security",3,CO2013(KN),
+2.11,CO3035,"Hệ thời gian thực
+Real-Time Systems",3,,
+2.12,CO3037,"Phát triển ứng dụng internet of things
+Internet of Things Application Development",3,,
+2.13,CO3041,"Hệ thống thông minh
+Intelligent Systems",3,,
+2.14,CO3043,"Phát triển ứng dụng trên thiết bị di động
+Mobile Application Development",3,,
+2.15,CO3045,"Lập trình game
+Game Programming",3,,
+2.16,CO3047,"Mạng máy tính nâng cao
+Advanced Computer Networks",3,,
+2.17,CO3049,"Lập trình web
+Web Programming",3,,
+2.18,CO3051,"Hệ thống thiết bị di động
+Mobile Systems",3,,
+2.19,CO3057,"Xử lý ảnh số và thị giác máy tính
+Digital Image Processing and Computer Vision",3,,
+2.20,CO3059,"Đồ họa máy tính
+Computer Graphics",3,,
+2.21,CO3061,"Nhập môn trí tuệ nhân tạo
+Introduction to Artificial Intelligence",3,,
+2.22,CO3065,"Công nghệ phần mềm nâng cao
+Advanced Software Engineering",3,,
+2.23,CO3067,"Tính toán song song
+Parallel Computing",3,,
+2.24,CO3069,"Mật mã và an ninh mạng
+Cryptography and Network Security",3,,
+2.25,CO3071,"Hệ phân bố
+Distributed Systems",3,,
+2.26,CO3083,"Mật mã học và mã hóa thông tin
+Advance Cryptography and Coding Theory",3,,
+2.27,CO3085,"Xử lý ngôn ngữ tự nhiên
+Natural Language Processing",3,,
+2.28,CO3089,"Những chủ đề nâng cao trong khoa học máy tính
+Selected Topics in High Performance Computing",3,,
+2.29,CO3115,Phân tích và thiết kế hệ thống,3,,
+,,Systems Analysis and Design,,,
+2.30,CO4025,"Mạng xã hội và thông tin
+Information and Social Networks",3,,
+2.31,CO3117,"Học máy
+Machine Learning",3,,
+2.32,CO4031,"Kho dữ liệu và hệ hỗ trợ quyết định
+Data Warehouses and Decision Support Systems",3,CO2013(KN),
+2.33,CO4033,"Phân tích dữ liệu lớn và trí tuệ kinh doanh
+Big Data Analytics and Business Intelligence",3,,
+2.34,CO4035,"Hệ hoạch định tài nguyên tổ chức
+Enterprise Resource Planning Systems",3,CO2013(KN),
+2.35,CO4037,"Hệ thống thông tin quản lý
+Management Information Systems",3,,
+2.36,CO4039,"Bảo mật sinh trắc
+Biometric Security",3,,
+3,,Tự chọn Quản lý (chọn 3 tín chỉ trong các học phần sau),,,
+,,Elective Courses - Management for Engineers (Select 3 credits in the group of courses below),,,
+3.1,IM1013,"Kinh tế học đại cương
+Economics",3,,
+3.2,IM3001,"Quản trị kinh doanh cho kỹ sư
+Business Administration for Engineers",3,,
+3.3,IM1027,"Kinh tế kỹ thuật
+Engineering Economics",3,,
+3.4,IM1023,"Quản lý sản xuất cho kỹ sư
+Production and Operations Management for Engineers",3,,
+3.5,IM1025,"Quản lý dự án cho kỹ sư
+Project Management for Engineers",3,,
+"Học kỳ 8 (Semester 8 )                                                                                                15
+Các học phần bắt buộc (Compulsary Courses)",,,,,
+1,SP1007,"Pháp luật Việt Nam đại cương
+Introduction to Vietnamese Law",2,,
+2,CO4337,"Đồ án tốt nghiệp (Khoa học Máy tính)
+Capstone Project",4,CO3335(TQ) CO4029(TQ),
+Các học phần tự chọn (Elective Courses),,,,,
+1,,Tự chọn nhóm C (chọn 9 tín chỉ trong các học phần sau) **,,,
+,,Elective Courses - Group C (Select 9 credits in the group of courses below) **,,,
+1.1,CO3011,"Quản lý dự án phần mềm
+Software Project Management",3,,
+1.2,CO3013,"Xây dựng chương trình dịch
+Compiler Construction",3,,
+1.3,CO3015,"Kiểm tra phần mềm
+Software Testing",3,CO1027(TQ) CO3001(KN),
+1.4,CO3017,"Kiến trúc phần mềm
+Software Architecture",3,,
+1.5,CO3021,"Hệ quản trị cơ sở dữ liệu
+Database Management Systems",3,CO2013(KN),
+1.6,CO3023,"Cơ sở dữ liệu phân tán và hướng đối tượng
+Distributed and Object-Oriented Databases",3,,
+1.7,CO3027,"Thương mại điện tử
+Electronic Commerce",3,,
+1.8,CO3029,"Khai phá dữ liệu
+Data Mining",3,,
+1.9,CO3031,"Phân tích và thiết kế giải thuật
+Algorithms-Design and Analysis",3,CO2003(KN),
+1.10,CO3033,"Bảo mật hệ thống thông tin
+Information System Security",3,CO2013(KN),
+1.11,CO3035,"Hệ thời gian thực
+Real-Time Systems",3,,
+1.12,CO3037,"Phát triển ứng dụng internet of things
+Internet of Things Application Development",3,,
+1.13,CO3041,"Hệ thống thông minh
+Intelligent Systems",3,,
+1.14,CO3043,Phát triển ứng dụng trên thiết bị di động,3,,
+,,Mobile Application Development,,,
+1.15,CO3045,"Lập trình game
+Game Programming",3,,
+1.16,CO3047,"Mạng máy tính nâng cao
+Advanced Computer Networks",3,,
+1.17,CO3049,"Lập trình web
+Web Programming",3,,
+1.18,CO3051,"Hệ thống thiết bị di động
+Mobile Systems",3,,
+1.19,CO3057,"Xử lý ảnh số và thị giác máy tính
+Digital Image Processing and Computer Vision",3,,
+1.20,CO3059,"Đồ họa máy tính
+Computer Graphics",3,,
+1.21,CO3061,"Nhập môn trí tuệ nhân tạo
+Introduction to Artificial Intelligence",3,,
+1.22,CO3065,"Công nghệ phần mềm nâng cao
+Advanced Software Engineering",3,,
+1.23,CO3067,"Tính toán song song
+Parallel Computing",3,,
+1.24,CO3069,"Mật mã và an ninh mạng
+Cryptography and Network Security",3,,
+1.25,CO3071,"Hệ phân bố
+Distributed Systems",3,,
+1.26,CO3083,"Mật mã học và mã hóa thông tin
+Advance Cryptography and Coding Theory",3,,
+1.27,CO3085,"Xử lý ngôn ngữ tự nhiên
+Natural Language Processing",3,,
+1.28,CO3089,"Những chủ đề nâng cao trong khoa học máy tính
+Selected Topics in High Performance Computing",3,,
+1.29,CO3115,"Phân tích và thiết kế hệ thống
+Systems Analysis and Design",3,,
+1.30,CO4025,"Mạng xã hội và thông tin
+Information and Social Networks",3,,
+1.31,CO3117,"Học máy
+Machine Learning",3,,
+1.32,CO4031,"Kho dữ liệu và hệ hỗ trợ quyết định
+Data Warehouses and Decision Support Systems",3,CO2013(KN),
+1.33,CO4033,"Phân tích dữ liệu lớn và trí tuệ kinh doanh
+Big Data Analytics and Business Intelligence",3,,
+1.34,CO4035,"Hệ hoạch định tài nguyên tổ chức
+Enterprise Resource Planning Systems",3,CO2013(KN),
+1.35,CO4037,"Hệ thống thông tin quản lý
+Management Information Systems",3,,
+1.36,CO4039,"Bảo mật sinh trắc
+Biometric Security",3,,

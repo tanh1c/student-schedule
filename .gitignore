@@ -1,0 +1,40 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Debug files (contain sensitive session data)
+server/debug_*.html
+debug_*.html
+
+# Environment variables
+.env
+.env.local
+.env.production
+
+# Test HTML files (sample API responses)
+*.action.html
+sso.html
+
+# OS files
+Thumbs.db

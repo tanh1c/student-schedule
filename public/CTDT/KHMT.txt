@@ -1,0 +1,503 @@
+STT Mã học phần Tên học phần Tín chỉ Học phần tiên quyết/song hành Ghi chú
+No. (Course ID) (Course Title) (Credits) (Prerequisites) (Notes)
+Học kỳ 1 (Semester 1 ) 16
+Các học phần bắt buộc (Compulsary Courses)
+Anh văn 1
+English 1
+Giáo dục thể chất
+Physical Education
+Giải tích 1
+Calculus 1
+Vật lý 1
+General Physics 1
+Nhập môn điện toán
+Introduction to Computing
+Hệ thống số
+Digital Systems
+
+Học kỳ 2 (Semester 2 ) 17
+Các học phần bắt buộc (Compulsary Courses)
+Anh văn 2
+English 2
+Giáo dục thể chất
+Physical Education
+Giải tích 2
+Calculus 2
+Đại số tuyến tính
+Linear Algebra
+Cấu trúc rời rạc cho khoa học máy tính
+Discrete Structures for Computing
+Kỹ thuật lập trình
+Programming Fundamentals
+Thí nghiệm vật lý
+General Physics Labs
+Giáo dục quốc phòng
+Military Training
+
+Học kỳ 3 (Semester 3 ) 16
+Các học phần bắt buộc (Compulsary Courses)
+Anh văn 3
+English 3
+Triết học Mác - Lênin
+Marxist - Leninist Philosophy
+Kiến trúc máy tính
+Computer Architecture
+Mô hình hóa toán học
+Mathematical Modeling
+Cấu trúc dữ liệu và giải thuật
+Data Structures and Algorithms
+
+Học kỳ 4 (Semester 4 ) 17
+Các học phần bắt buộc (Compulsary Courses)
+Anh văn 4
+
+1 LA1003 2
+2 ... 0
+3 MT1003 4
+4 PH1003 4
+5 CO1005 3
+6 CO1023 3
+
+1 LA1005 2 LA1003(TQ)
+2 ... 0
+3 MT1005 4 MT1003(KN)
+4 MT1007 3
+5 CO1007 4
+6 CO1027 3
+7 PH1007 1
+8 MI1003 0
+
+1 LA1007 2 LA1005(TQ)
+2 SP1031 3
+3 CO2007 4 CO1005(KN) CO1023(KN) x
+4 CO2011 3 CO1007(KN)
+5 CO2003 4 CO1007(KN) CO1027(KN) x
+
+1 LA1009 2 LA1007(TQ)
+
+English 4
+Kinh tế chính trị Mác - Lênin
+Marxist - Leninist Political Economy
+Hệ điều hành
+Operating Systems
+Lập trình nâng cao
+Advanced Programming
+Xác suất và thống kê
+Probability and Statistics
+Các học phần tự chọn (Elective Courses)
+Tự chọn tự do 3 tín chỉ
+Free Electives 3 credits
+
+Học kỳ 5 (Semester 5 ) 16
+Các học phần bắt buộc (Compulsary Courses)
+Chủ nghĩa xã hội khoa học
+Scientific Socialism
+Mạng máy tính
+Computer Networks
+Hệ cơ sở dữ liệu
+Database Systems
+Công nghệ phần mềm
+Software Engineering
+Hóa đại cương
+General Chemistry
+Các học phần tự chọn (Elective Courses)
+
+Tự chọn nhóm A (chọn 1 tín chỉ trong các học phần sau)
+Elective Courses - Group A (Select 1 credits in the group of courses below)
+Đồ án tổng hợp - hướng trí tuệ nhân tạo
+Programming Intergration Project
+Đồ án tổng hợp - hướng công nghệ phần mềm
+Programming Intergration Project
+Đồ án tổng hợp - hướng hệ thống thông tin
+Programming Intergration Project
+Đồ án tổng hợp - hướng kỹ thuật dữ liệu
+Programming Intergration Project - Data Engineering
+Học kỳ 6 (Semester 6 ) 15
+Các học phần bắt buộc (Compulsary Courses)
+Lịch sử Đảng Cộng sản Việt Nam
+History of Vietnamese Communist Party
+Kỹ năng chuyên nghiệp cho kỹ sư
+Professional Skills for Engineers
+Nguyên lý ngôn ngữ lập trình
+Principles of Programming Languages
+Thực tập ngoài trường
+Internship
+Các học phần tự chọn (Elective Courses)
+Tự chọn tự do 3 tín chỉ
+Free Electives 3 credits
+Tự chọn nhóm B (chọn 1 tín chỉ trong các học phần sau)
+Elective Courses - Group B (Select 1 credits in the group of courses below)
+Thực tập đồ án môn học đa ngành - hướng trí tuệ nhân tạo
+Multidisciplinary Project
+Thực tập đồ án môn học đa ngành - hướng công nghệ
+phần mềm
+Multidisciplinary Project
+Thực tập đồ án môn học đa ngành - hướng hệ thống thông
+tin
+Multidisciplinary Project
+
+Học kỳ 7 (Semester 7 ) 16
+Các học phần bắt buộc (Compulsary Courses)
+Tư tưởng Hồ Chí Minh
+Ho Chi Minh Ideology
+
+1 LA1009 2 LA1007(TQ)
+2 SP1033 2 SP1031(KN)
+3 CO2017 3 x
+4 CO2039 3 x
+5 MT2013 4 MT1003(KN) MT1007(KN)
+1
+
+1 SP1035 2 SP1033(KN)
+2 CO3093 3 x
+3 CO2013 4 x
+4 CO3001 3 CO1027(KN) x
+5 CH1003 3
+
+x
+1.2 CO3103 1 x
+1
+1.1 CO3101 1
+
+1.3 CO3105 1 x
+1.4 CO3127 1 x
+
+1 SP1039 2 SP1035(KN)
+2 CO2001 3 CO1005(TQ)
+
+1
+2
+3 CO3005 4 CO1027(TQ) x
+4 CO3335 2
+
+2.1 CO3107 1 x
+2.2 CO3109 1 x
+2.3 CO3111 1 x
+
+1 SP1037 2 SP1039(KN)
+
+Đồ án chuyên ngành
+Specialized Project
+Các học phần tự chọn (Elective Courses)
+Tự chọn tự do 3 tín chỉ
+Free Electives 3 credits
+Tự chọn nhóm C (chọn 6 tín chỉ trong các học phần sau) **
+Elective Courses - Group C (Select 6 credits in the group of courses below) **
+Quản lý dự án phần mềm
+Software Project Management
+Xây dựng chương trình dịch
+Compiler Construction
+Kiểm tra phần mềm
+Software Testing
+Kiến trúc phần mềm
+Software Architecture
+Hệ quản trị cơ sở dữ liệu
+Database Management Systems
+Cơ sở dữ liệu phân tán và hướng đối tượng
+Distributed and Object-Oriented Databases
+Thương mại điện tử
+Electronic Commerce
+Khai phá dữ liệu
+Data Mining
+Phân tích và thiết kế giải thuật
+Algorithms-Design and Analysis
+Bảo mật hệ thống thông tin
+Information System Security
+Hệ thời gian thực
+Real-Time Systems
+Phát triển ứng dụng internet of things
+Internet of Things Application Development
+Hệ thống thông minh
+Intelligent Systems
+Phát triển ứng dụng trên thiết bị di động
+Mobile Application Development
+Lập trình game
+Game Programming
+Mạng máy tính nâng cao
+Advanced Computer Networks
+Lập trình web
+Web Programming
+Hệ thống thiết bị di động
+Mobile Systems
+Xử lý ảnh số và thị giác máy tính
+Digital Image Processing and Computer Vision
+Đồ họa máy tính
+Computer Graphics
+Nhập môn trí tuệ nhân tạo
+Introduction to Artificial Intelligence
+Công nghệ phần mềm nâng cao
+Advanced Software Engineering
+Tính toán song song
+Parallel Computing
+Mật mã và an ninh mạng
+Cryptography and Network Security
+Hệ phân bố
+Distributed Systems
+Mật mã học và mã hóa thông tin
+Advance Cryptography and Coding Theory
+Xử lý ngôn ngữ tự nhiên
+Natural Language Processing
+Những chủ đề nâng cao trong khoa học máy tính
+Selected Topics in High Performance Computing
+Phân tích và thiết kế hệ thống
+
+2 CO4029 2 CO3335(SH) x
+1
+
+2.2 CO3013 3
+2
+2.1 CO3011 3
+
+2.3 CO3015 3 CO1027(TQ) CO3001(KN)
+2.4 CO3017 3
+2.5 CO3021 3 CO2013(KN)
+2.6 CO3023 3
+2.7 CO3027 3
+2.8 CO3029 3
+2.9 CO3031 3 CO2003(KN)
+2.10 CO3033 3 CO2013(KN)
+2.11 CO3035 3
+2.12 CO3037 3
+2.13 CO3041 3
+2.14 CO3043 3
+2.15 CO3045 3
+2.16 CO3047 3
+2.17 CO3049 3
+2.18 CO3051 3
+2.19 CO3057 3
+2.20 CO3059 3
+2.21 CO3061 3
+2.22 CO3065 3
+2.23 CO3067 3
+2.24 CO3069 3
+2.25 CO3071 3
+2.26 CO3083 3
+2.27 CO3085 3
+2.28 CO3089 3
+2.29 CO3115 3
+
+Systems Analysis and Design
+Mạng xã hội và thông tin
+Information and Social Networks
+Học máy
+Machine Learning
+Kho dữ liệu và hệ hỗ trợ quyết định
+Data Warehouses and Decision Support Systems
+Phân tích dữ liệu lớn và trí tuệ kinh doanh
+Big Data Analytics and Business Intelligence
+Hệ hoạch định tài nguyên tổ chức
+Enterprise Resource Planning Systems
+Hệ thống thông tin quản lý
+Management Information Systems
+Bảo mật sinh trắc
+Biometric Security
+Tự chọn Quản lý (chọn 3 tín chỉ trong các học phần sau)
+Elective Courses - Management for Engineers (Select 3 credits in the group of courses below)
+Kinh tế học đại cương
+Economics
+Quản trị kinh doanh cho kỹ sư
+Business Administration for Engineers
+Kinh tế kỹ thuật
+Engineering Economics
+Quản lý sản xuất cho kỹ sư
+Production and Operations Management for Engineers
+Quản lý dự án cho kỹ sư
+Project Management for Engineers
+
+Học kỳ 8 (Semester 8 ) 15
+Các học phần bắt buộc (Compulsary Courses)
+Pháp luật Việt Nam đại cương
+Introduction to Vietnamese Law
+Đồ án tốt nghiệp (Khoa học Máy tính)
+Capstone Project
+Các học phần tự chọn (Elective Courses)
+
+Tự chọn nhóm C (chọn 9 tín chỉ trong các học phần sau) **
+Elective Courses - Group C (Select 9 credits in the group of courses below) **
+Quản lý dự án phần mềm
+Software Project Management
+Xây dựng chương trình dịch
+Compiler Construction
+Kiểm tra phần mềm
+Software Testing
+Kiến trúc phần mềm
+Software Architecture
+Hệ quản trị cơ sở dữ liệu
+Database Management Systems
+Cơ sở dữ liệu phân tán và hướng đối tượng
+Distributed and Object-Oriented Databases
+Thương mại điện tử
+Electronic Commerce
+Khai phá dữ liệu
+Data Mining
+Phân tích và thiết kế giải thuật
+Algorithms-Design and Analysis
+Bảo mật hệ thống thông tin
+Information System Security
+Hệ thời gian thực
+Real-Time Systems
+Phát triển ứng dụng internet of things
+Internet of Things Application Development
+Hệ thống thông minh
+Intelligent Systems
+Phát triển ứng dụng trên thiết bị di động
+
+2.29 CO3115 3
+2.30 CO4025 3
+2.31 CO3117 3
+2.32 CO4031 3 CO2013(KN)
+2.33 CO4033 3
+2.34 CO4035 3 CO2013(KN)
+2.35 CO4037 3
+2.36 CO4039 3
+
+3.2 IM3001 3
+3
+3.1 IM1013 3
+
+3.3 IM1027 3
+3.4 IM1023 3
+
+2 CO4337 4 CO3335(TQ) CO4029(TQ)
+1
+3.5 IM1025 3
+
+1 SP1007 2
+
+1.1 CO3011 3
+1.2 CO3013 3
+1.3 CO3015 3 CO1027(TQ) CO3001(KN)
+1.4 CO3017 3
+1.5 CO3021 3 CO2013(KN)
+1.6 CO3023 3
+1.7 CO3027 3
+1.8 CO3029 3
+1.9 CO3031 3 CO2003(KN)
+1.10 CO3033 3 CO2013(KN)
+1.11 CO3035 3
+1.12 CO3037 3
+1.13 CO3041 3
+1.14 CO3043 3
+
+Mobile Application Development Lập trình game
+Game Programming Mạng máy tính nâng cao
+Advanced Computer Networks Lập trình web
+Web Programming Hệ thống thiết bị di động
+Mobile Systems Xử lý ảnh số và thị giác máy tính
+Digital Image Processing and Computer Vision Đồ họa máy tính
+Computer Graphics
+Nhập môn trí tuệ nhân tạo
+Introduction to Artificial Intelligence
+Công nghệ phần mềm nâng cao
+Advanced Software Engineering
+Tính toán song song
+Parallel Computing Mật mã và an ninh mạng
+Cryptography and Network Security Hệ phân bố
+Distributed Systems Mật mã học và mã hóa thông tin
+Advance Cryptography and Coding Theory Xử lý ngôn ngữ tự nhiên
+Natural Language Processing
+Những chủ đề nâng cao trong khoa học máy tính
+Selected Topics in High Performance Computing
+Phân tích và thiết kế hệ thống
+Systems Analysis and Design Mạng xã hội và thông tin
+Information and Social Networks Học máy
+Machine Learning
+Kho dữ liệu và hệ hỗ trợ quyết định
+Data Warehouses and Decision Support Systems
+Phân tích dữ liệu lớn và trí tuệ kinh doanh
+Big Data Analytics and Business Intelligence Hệ hoạch định tài nguyên tổ chức
+Enterprise Resource Planning Systems Hệ thống thông tin quản lý
+Management Information Systems Bảo mật sinh trắc
+Biometric Security
+
+1.14 CO3043
+
+3
+
+1.15 CO3045
+
+3
+
+1.16 CO3047
+
+3
+
+1.17 CO3049
+
+3
+
+1.18 CO3051
+
+3
+
+1.19 CO3057
+
+3
+
+1.20 CO3059
+
+3
+
+1.21 CO3061
+
+3
+
+1.22 CO3065
+
+3
+
+1.23 CO3067
+
+3
+
+1.24 CO3069
+
+3
+
+1.25 CO3071
+
+3
+
+1.26 CO3083
+
+3
+
+1.27 CO3085
+
+3
+
+1.28 CO3089
+
+3
+
+1.29 CO3115
+
+3
+
+1.30 CO4025
+
+3
+
+1.31 CO3117
+
+3
+
+1.32 CO4031
+
+3 CO2013(KN)
+
+1.33 CO4033
+
+3
+
+1.34 CO4035
+
+3 CO2013(KN)
+
+1.35 CO4037
+
+3
+
+1.36 CO4039
+
+3

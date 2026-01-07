@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Thời Khóa Biểu Sinh Viên</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="images/favicon/favicon.ico">
+    <link rel="icon" type="image/svg+xml" href="images/favicon/favicon.svg">
+    <link rel="icon" type="image/png" sizes="96x96" href="images/favicon/favicon-96x96.png">
+    <link rel="apple-touch-icon" href="images/favicon/apple-touch-icon.png">
+    <link rel="manifest" href="images/favicon/site.webmanifest">
+    
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+<body>
+    <!-- Hiển thị ngày tháng góc phải -->
+    <div class="corner-datetime" id="corner-datetime">
+        <div class="corner-date"></div>
+        <div class="corner-time"></div>
+    </div>
+    
+    <!-- Menu bên -->
+    <div class="side-menu" id="side-menu">
+        <div class="menu-header"></div>
+        <a href="#" class="side-menu-item active" data-tab="schedule-tab">Thời Khóa Biểu</a>
+        <a href="#" class="side-menu-item" data-tab="exam-tab">Lịch Thi</a>
+        <a href="#" class="side-menu-item" data-tab="curriculum-tab">Chương Trình Đào Tạo</a>
+        <a href="#" class="side-menu-item" data-tab="gpa-tab">Tính GPA</a>
+        <a href="#" class="side-menu-item" data-tab="teaching-schedule-tab">Lịch Giảng Dạy</a>
+        <a href="#" class="side-menu-item" data-tab="notes-plans-tab">Ghi Chú & Kế Hoạch</a>
+        <a href="#" class="side-menu-item" data-tab="campus-map-tab">Bản Đồ Trường</a>
+        <a href="#" class="side-menu-item" data-tab="preview-registration-tab">Preview Đăng Ký Môn</a>
+    </div>
+    
+    <!-- Nút menu tròn -->
+    <button class="floating-menu-button" id="toggle-menu">
+        <svg class="menu-icon" viewBox="0 0 24 24" width="24" height="24">
+            <path fill="white" d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z"></path>
+        </svg>
+        <svg class="close-icon" viewBox="0 0 24 24" width="24" height="24" style="display: none;">
+            <path fill="white" d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"></path>
+        </svg>
+    </button>
+    
+    <!-- Overlay khi menu hiện ra -->
+    <div class="menu-overlay" id="menu-overlay"></div>
+
+    <div class="container">
+        <header>
+            <h1>Quản Lý Thời Khóa Biểu Sinh Viên</h1>
+            <nav class="main-nav">
+                <div class="nav-tabs">
+                    <button class="tab-btn active" data-tab="schedule-tab">Thời Khóa Biểu</button>
+                    <button class="tab-btn" data-tab="exam-tab">Lịch Thi</button>
+                    <button class="tab-btn" data-tab="curriculum-tab">Chương Trình Đào Tạo</button>
+                    <button class="tab-btn" data-tab="gpa-tab">Tính GPA</button>
+                    <button class="tab-btn" data-tab="teaching-schedule-tab">Lịch Giảng Dạy</button>
+                    <button class="tab-btn" data-tab="notes-plans-tab">Ghi Chú & Kế Hoạch</button>
+                    <button class="tab-btn" data-tab="campus-map-tab">Bản Đồ Trường</button>
+                    <button class="tab-btn" data-tab="preview-registration-tab">Preview Đăng Ký Môn</button>
+                </div>
+            </nav>
+        </header>
+
+        <main>
+            <section id="schedule-tab" class="tab-content active">
+                <div class="current-date-info">
+                    <div class="date-display">
+                        <span id="current-date">--/--/----</span>
+                    </div>
+                    <div class="week-info">
+                        <span>Tuần hiện tại: <span id="current-week">--</span></span>
+                    </div>
+                </div>
+                <div class="input-section">
+                    <h2>Tạo Thời Khóa Biểu</h2>
+                    <textarea id="schedule-input" placeholder="Dán nội dung thời khóa biểu từ trang đăng ký môn học hoặc MyBK vào đây..."></textarea>
+                    <button id="generate-schedule">Tạo Thời Khóa Biểu</button>
+                </div>
+                <div class="week-selector">
+                    <label for="week-select">Chọn tuần:</label>
+                    <select id="week-select">
+                        <optgroup label="Học kỳ 3">
+                            <option value="24">Tuần 24</option>
+                            <option value="25">Tuần 25</option>
+                            <option value="26">Tuần 26</option>
+                            <option value="27">Tuần 27</option>
+                            <option value="28">Tuần 28</option>
+                            <option value="29">Tuần 29</option>
+                            <option value="30">Tuần 30</option>
+                            <option value="31">Tuần 31</option>
+                            <option value="32">Tuần 32</option>
+                            <option value="33">Tuần 33</option>
+                            <option value="34">Tuần 34</option>
+                        </optgroup>
+                        <optgroup label="Học kỳ 2">
+                            <option value="1">Tuần 01</option>
+                            <option value="2">Tuần 02</option>
+                            <option value="3">Tuần 03</option>
+                            <option value="4">Tuần 04</option>
+                            <option value="5">Tuần 05</option>
+                            <option value="6">Tuần 06</option>
+                            <option value="7">Tuần 07</option>
+                            <option value="8">Tuần 08</option>
+                            <option value="9">Tuần 09</option>
+                            <option value="10">Tuần 10</option>
+                            <option value="11">Tuần 11</option>
+                            <option value="12">Tuần 12</option>
+                            <option value="13">Tuần 13</option>
+                            <option value="14">Tuần 14</option>
+                            <option value="15">Tuần 15</option>
+                            <option value="16">Tuần 16</option>
+                            <option value="17">Tuần 17</option>
+                            <option value="18">Tuần 18</option>
+                            <option value="19">Tuần 19</option>
+                            <option value="20">Tuần 20</option>
+                            <option value="21">Tuần 21</option>
+                            <option value="22">Tuần 22</option>
+                            <option value="23">Tuần 23</option>
+                        </optgroup>
+                        <optgroup label="Học kỳ 1">
+                            <option value="35">Tuần 35</option>
+                            <option value="36">Tuần 36</option>
+                            <option value="37">Tuần 37</option>
+                            <option value="38">Tuần 38</option>
+                            <option value="39">Tuần 39</option>
+                            <option value="40">Tuần 40</option>
+                            <option value="41">Tuần 41</option>
+                            <option value="42">Tuần 42</option>
+                            <option value="43">Tuần 43</option>
+                            <option value="44">Tuần 44</option>
+                            <option value="45">Tuần 45</option>
+                            <option value="46">Tuần 46</option>
+                            <option value="47">Tuần 47</option>
+                            <option value="48">Tuần 48</option>
+                            <option value="49">Tuần 49</option>
+                            <option value="50">Tuần 50</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="schedule-display">
+                    <div class="export-section">
+                        <button id="export-calendar" class="btn">Xuất lịch sang Google Calendar</button>
+                    </div>
+                    <!-- Chế độ xem desktop -->
+                    <div class="timetable-container">
+                        <div class="timetable">
+                            <div class="time-slots">
+                                <div class="time-slot">Tiết</div>
+                                <div class="time-slot">1 (06:00 - 06:50)</div>
+                                <div class="time-slot">2 (07:00 - 07:50)</div>
+                                <div class="time-slot">3 (08:00 - 08:50)</div>
+                                <div class="time-slot">4 (09:00 - 09:50)</div>
+                                <div class="time-slot">5 (10:00 - 10:50)</div>
+                                <div class="time-slot">6 (11:00 - 11:50)</div>
+                                <div class="time-slot">7 (12:00 - 12:50)</div>
+                                <div class="time-slot">8 (13:00 - 13:50)</div>
+                                <div class="time-slot">9 (14:00 - 14:50)</div>
+                                <div class="time-slot">10 (15:00 - 15:50)</div>
+                                <div class="time-slot">11 (16:00 - 16:50)</div>
+                                <div class="time-slot">12 (17:00 - 17:50)</div>
+                                <div class="time-slot">13 (18:00 - 18:50)</div>
+                                <div class="time-slot">14 (18:50 - 19:40)</div>
+                                <div class="time-slot">15 (19:40 - 20:30)</div>
+                                <div class="time-slot">16 (20:30 - 21:10)</div>
+                            </div>
+                            <div class="schedule-grid">
+                                <!-- Sẽ được điền bởi JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Chế độ xem mobile -->
+                    <div class="mobile-timetable">
+                        <div class="day-selector">
+                            <button data-day="2" class="active">Thứ 2</button>
+                            <button data-day="3">Thứ 3</button>
+                            <button data-day="4">Thứ 4</button>
+                            <button data-day="5">Thứ 5</button>
+                            <button data-day="6">Thứ 6</button>
+                            <button data-day="7">Thứ 7</button>
+                        </div>
+                        
+                        <div class="mobile-days-container">
+                            <!-- Thứ 2 -->
+                            <div class="mobile-day active" data-day="2">
+                                <div class="mobile-time-slots">
+                                    <!-- Các time slot sẽ được tạo bởi JavaScript -->
+                                </div>
+                            </div>
+                            
+                            <!-- Thứ 3 -->
+                            <div class="mobile-day" data-day="3">
+                                <div class="mobile-time-slots">
+                                    <!-- Các time slot sẽ được tạo bởi JavaScript -->
+                                </div>
+                            </div>
+                            
+                            <!-- Thứ 4 -->
+                            <div class="mobile-day" data-day="4">
+                                <div class="mobile-time-slots">
+                                    <!-- Các time slot sẽ được tạo bởi JavaScript -->
+                                </div>
+                            </div>
+                            
+                            <!-- Thứ 5 -->
+                            <div class="mobile-day" data-day="5">
+                                <div class="mobile-time-slots">
+                                    <!-- Các time slot sẽ được tạo bởi JavaScript -->
+                                </div>
+                            </div>
+                            
+                            <!-- Thứ 6 -->
+                            <div class="mobile-day" data-day="6">
+                                <div class="mobile-time-slots">
+                                    <!-- Các time slot sẽ được tạo bởi JavaScript -->
+                                </div>
+                            </div>
+                            
+                            <!-- Thứ 7 -->
+                            <div class="mobile-day" data-day="7">
+                                <div class="mobile-time-slots">
+                                    <!-- Các time slot sẽ được tạo bởi JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="exam-tab" class="tab-content">
+                <div class="input-section">
+                    <h2>Tạo Lịch Thi</h2>
+                    <textarea id="exam-input" placeholder="Dán nội dung lịch thi từ MyBK vào đây..."></textarea>
+                    <button id="generate-exam">Tạo Lịch Thi</button>
+                </div>
+                <div class="exam-display">
+                    <table class="exam-table">
+                        <thead>
+                            <tr>
+                                <th>Môn học</th>
+                                <th>Nhóm lớp</th>
+                                <th>Ngày thi</th>
+                                <th>Loại thi</th>
+                                <th>Phòng</th>
+                                <th>Thời gian</th>
+                                <th>Thời lượng</th>
+                            </tr>
+                        </thead>
+                        <tbody id="exam-list">
+                            <!-- Sẽ được điền bởi JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="curriculum-tab" class="tab-content">
+                <div class="search-section">
+                    <h2>Tra Cứu Chương Trình Đào Tạo</h2>
+                    <div class="search-controls">
+                        <select id="major-select">
+                            <option value="">Chọn ngành học</option>
+                            <option value="KHMT">Khoa học máy tính</option>
+                            <option value="KTMT">Kỹ thuật máy tính</option>
+                            <option value="KTPM">Kỹ thuật phần mềm</option>
+                            <option value="HTTT">Hệ thống thông tin</option>
+                        </select>
+                    </div>
+                    <div class="curriculum-display">
+                        <div class="pdf-container">
+                            <iframe id="pdf-viewer" style="width: 100%; height: 800px; border: none;"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div id="gpa-tab" class="tab-content">
+                <div class="gpa-container">
+                    <div class="gpa-info">
+                        <h3>Bảng Quy Đổi Điểm</h3>
+                        <table class="grade-table">
+                            <tr>
+                                <th>Thang 10</th>
+                                <th>Thang chữ</th>
+                                <th>Thang 4</th>
+                                <th>Xếp loại</th>
+                            </tr>
+                            <tr>
+                                <td>8.5 - 10.0</td>
+                                <td>A/A+</td>
+                                <td>4.0</td>
+                                <td rowspan="2">Xuất sắc</td>
+                            </tr>
+                            <tr>
+                                <td>8.0 - 8.4</td>
+                                <td>B+</td>
+                                <td>3.5</td>
+                            </tr>
+                            <tr>
+                                <td>7.0 - 7.9</td>
+                                <td>B</td>
+                                <td>3.0</td>
+                                <td>Giỏi</td>
+                            </tr>
+                            <tr>
+                                <td>6.5 - 6.9</td>
+                                <td>C+</td>
+                                <td>2.5</td>
+                                <td rowspan="2">Khá</td>
+                            </tr>
+                            <tr>
+                                <td>5.5 - 6.4</td>
+                                <td>C</td>
+                                <td>2.0</td>
+                            </tr>
+                            <tr>
+                                <td>5.0 - 5.4</td>
+                                <td>D+</td>
+                                <td>1.5</td>
+                                <td rowspan="2">Trung bình</td>
+                            </tr>
+                            <tr>
+                                <td>4.0 - 4.9</td>
+                                <td>D</td>
+                                <td>1.0</td>
+                            </tr>
+                            <tr>
+                                <td>< 4.0</td>
+                                <td>F</td>
+                                <td>0.0</td>
+                                <td>Yếu/Kém</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="gpa-calculator">
+                        <h3>Tính Điểm Trung Bình</h3>
+                        <div class="courses-list">
+                            <table id="courses-table">
+                                <thead>
+                                    <tr>
+                                        <th>Tên môn học</th>
+                                        <th>Số tín chỉ</th>
+                                        <th>Điểm hệ 10</th>
+                                        <th>Điểm hệ 4</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="courses-body">
+                                </tbody>
+                            </table>
+                            <button id="add-course" class="btn">Thêm môn học</button>
+                        </div>
+                        <div class="gpa-result">
+                            <p>Tổng số tín chỉ: <span id="total-credits">0</span></p>
+                            <p>Điểm trung bình hệ 4: <span id="gpa-4">0.00</span></p>
+                            <p>Điểm trung bình hệ 10: <span id="gpa-10">0.00</span></p>
+                            <p>Xếp loại: <span id="grade-classification">-</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <section id="teaching-schedule-tab" class="tab-content">
+                <div class="teaching-schedule-container">
+                    <h2>Tra Cứu Lịch Giảng Dạy</h2>
+                    
+                    <div class="search-container">
+                        <div class="search-tabs">
+                            <button class="search-tab active" onclick="switchTab('code')">Tìm theo mã môn</button>
+                            <button class="search-tab" onclick="switchTab('name')">Tìm theo tên môn</button>
+                        </div>
+
+                        <div id="codeSearch" class="search-section active">
+                            <div class="form-group">
+                                <label for="courseCode">Mã Môn Học:</label>
+                                <input type="text" id="courseCode" placeholder="Nhập mã môn học...">
+                            </div>
+                        </div>
+
+                        <div id="nameSearch" class="search-section">
+                            <div class="form-group">
+                                <label for="courseName">Tên Môn Học:</label>
+                                <input type="text" id="courseName" placeholder="Nhập tên môn học...">
+                                <div id="courseSuggestions" class="suggestions"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="teacherSelect">Giảng Viên:</label>
+                            <select id="teacherSelect" disabled>
+                                <option value="">Vui lòng chọn môn học trước</option>
+                            </select>
+                        </div>
+                        
+                        <button onclick="searchSchedule()" class="btn">Tìm Kiếm</button>
+                    </div>
+
+                    <div id="resultContainer"></div>
+                </div>
+            </section>
+
+            <section id="notes-plans-tab" class="tab-content">
+                <div class="notes-plans-container">
+                    <div id="notifications-area" class="notifications-area">
+                        <h3>Thông Báo</h3>
+                        <div id="deadline-notifications" class="deadline-notifications">
+                            <!-- Hiển thị thông báo về deadline -->
+                        </div>
+                    </div>
+                    
+                    <div class="notes-plans-actions">
+                        <button id="add-note-btn" class="btn">Thêm Ghi Chú</button>
+                        <button id="add-plan-btn" class="btn">Thêm Kế Hoạch</button>
+                    </div>
+                    
+                    <div class="view-toggle">
+                        <span>Chế độ xem:</span>
+                        <button id="list-view-btn" class="view-btn active">Danh sách</button>
+                        <button id="calendar-view-btn" class="view-btn">Lịch</button>
+                    </div>
+                    
+                    <div id="list-view" class="view-container active">
+                        <div class="filter-options">
+                            <label for="filter-type">Hiển thị:</label>
+                            <select id="filter-type">
+                                <option value="all">Tất cả</option>
+                                <option value="notes">Chỉ ghi chú</option>
+                                <option value="plans">Chỉ kế hoạch</option>
+                            </select>
+                        </div>
+                        
+                        <div id="notes-plans-items" class="notes-plans-items">
+                            <!-- Danh sách các note và plan sẽ được hiển thị ở đây -->
+                        </div>
+                    </div>
+                    
+                    <div id="calendar-view" class="view-container">
+                        <div class="calendar-nav">
+                            <button id="prev-month" class="btn">&#10094;</button>
+                            <h3 id="calendar-title">Tháng 1, 2023</h3>
+                            <button id="next-month" class="btn">&#10095;</button>
+                        </div>
+                        <div class="calendar-weekdays">
+                            <div>CN</div>
+                            <div>T2</div>
+                            <div>T3</div>
+                            <div>T4</div>
+                            <div>T5</div>
+                            <div>T6</div>
+                            <div>T7</div>
+                        </div>
+                        <div id="calendar-days" class="calendar-days">
+                            <!-- Các ngày trong tháng sẽ được thêm vào đây -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Thêm section cho tab Bản Đồ Trường -->
+            <section id="campus-map-tab" class="tab-content">
+                <h2>Bản Đồ Trường Đại Học Bách Khoa TP.HCM</h2>
+                
+                <!-- Thêm liên kết Leaflet CSS và JS -->
+                <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+                <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+                
+                <div class="map-container">
+                    <div id="campus-map"></div>
+                    <div class="map-controls">
+                        <button id="locate-me" class="btn">Vị Trí Của Tôi</button>
+                        <button id="locate-school" class="btn">Vị Trí Trường</button>
+                        <div id="distance-info" class="distance-info" style="display: none;">
+                            <p>Khoảng cách: <span id="distance-value">--</span> km</p>
+                            <p>Thời gian ước tính: <span id="time-value">--</span> phút</p>
+                        </div>
+                    </div>
+                    <div class="static-map-container">
+                        <h3>Bản Đồ Chi Tiết Trường</h3>
+                        <div class="static-map">
+                            <img src="image/map/cs1.jpg" alt="Bản đồ chi tiết Đại học Bách Khoa TP.HCM">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section cho tab Preview Đăng Ký Môn -->
+            <section id="preview-registration-tab" class="tab-content">
+                <div class="current-date-info">
+                    <div class="date-display">
+                        <span id="preview-current-date">--/--/----</span>
+                    </div>
+                    <div class="week-info">
+                        <span>Tuần hiện tại: <span id="preview-current-week">--</span></span>
+                    </div>
+                </div>
+                
+                <div class="input-section">
+                    <h2>Preview Đăng Ký Môn</h2>
+                    <textarea id="registration-input" placeholder="Dán nội dung đăng ký môn từ trang đăng ký môn học vào đây...&#10;&#10;Ví dụ:&#10;1CO3101 - Đồ án tổng hợp - ttnt1.0&#10;Nhóm lớp	DK/ Sĩ số	Ngôn ngữ	Nhóm LT	Giảng viên	Nhóm BT	Giảng viên BT/TN	Sĩ số LT	#&#10;CC01	58/60	V	CC01				60	&#10;Thứ	Tiết	Phòng	CS	BT/TN	Tuần học&#10;Chưa biết	--	------	1		12345678-0123456--------------"></textarea>
+                    <button id="generate-preview-schedule">Tạo Preview Thời Khóa Biểu</button>
+                </div>
+                
+
+                
+                <div class="schedule-display" id="preview-schedule-display">
+                    <!-- Chế độ xem desktop -->
+                    <div class="timetable-container">
+                        <div class="timetable">
+                            <div class="time-slots">
+                                <div class="time-slot">Tiết</div>
+                                <div class="time-slot">1 (06:00 - 06:50)</div>
+                                <div class="time-slot">2 (07:00 - 07:50)</div>
+                                <div class="time-slot">3 (08:00 - 08:50)</div>
+                                <div class="time-slot">4 (09:00 - 09:50)</div>
+                                <div class="time-slot">5 (10:00 - 10:50)</div>
+                                <div class="time-slot">6 (11:00 - 11:50)</div>
+                                <div class="time-slot">7 (12:00 - 12:50)</div>
+                                <div class="time-slot">8 (13:00 - 13:50)</div>
+                                <div class="time-slot">9 (14:00 - 14:50)</div>
+                                <div class="time-slot">10 (15:00 - 15:50)</div>
+                                <div class="time-slot">11 (16:00 - 16:50)</div>
+                                <div class="time-slot">12 (17:00 - 17:50)</div>
+                                <div class="time-slot">13 (18:00 - 18:50)</div>
+                                <div class="time-slot">14 (18:50 - 19:40)</div>
+                                <div class="time-slot">15 (19:40 - 20:30)</div>
+                                <div class="time-slot">16 (20:30 - 21:10)</div>
+                            </div>
+                            <div class="schedule-grid" id="preview-schedule-grid">
+                                <!-- Sẽ được điền bởi JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Chế độ xem mobile -->
+                    <div class="mobile-timetable" id="preview-mobile-timetable">
+                        <div class="day-selector">
+                            <button data-day="2" class="active">Thứ 2</button>
+                            <button data-day="3">Thứ 3</button>
+                            <button data-day="4">Thứ 4</button>
+                            <button data-day="5">Thứ 5</button>
+                            <button data-day="6">Thứ 6</button>
+                            <button data-day="7">Thứ 7</button>
+                        </div>
+                        
+                        <div class="mobile-days-container">
+                            <!-- Thứ 2 -->
+                            <div class="mobile-day active" data-day="2">
+                                <div class="mobile-time-slots">
+                                    <!-- Các time slot sẽ được tạo bởi JavaScript -->
+                                </div>
+                            </div>
+                            
+                            <!-- Thứ 3 -->
+                            <div class="mobile-day" data-day="3">
+                                <div class="mobile-time-slots">
+                                    <!-- Các time slot sẽ được tạo bởi JavaScript -->
+                                </div>
+                            </div>
+                            
+                            <!-- Thứ 4 -->
+                            <div class="mobile-day" data-day="4">
+                                <div class="mobile-time-slots">
+                                    <!-- Các time slot sẽ được tạo bởi JavaScript -->
+                                </div>
+                            </div>
+                            
+                            <!-- Thứ 5 -->
+                            <div class="mobile-day" data-day="5">
+                                <div class="mobile-time-slots">
+                                    <!-- Các time slot sẽ được tạo bởi JavaScript -->
+                                </div>
+                            </div>
+                            
+                            <!-- Thứ 6 -->
+                            <div class="mobile-day" data-day="6">
+                                <div class="mobile-time-slots">
+                                    <!-- Các time slot sẽ được tạo bởi JavaScript -->
+                                </div>
+                            </div>
+                            
+                            <!-- Thứ 7 -->
+                            <div class="mobile-day" data-day="7">
+                                <div class="mobile-time-slots">
+                                    <!-- Các time slot sẽ được tạo bởi JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="script.js"></script>
+    <script src="teaching-schedule.js"></script>
+
+    <!-- Modal tạo/chỉnh sửa ghi chú -->
+    <div id="note-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3 id="note-modal-title">Thêm Ghi Chú Mới</h3>
+            <form id="note-form">
+                <input type="hidden" id="note-id">
+                <div class="form-group">
+                    <label for="note-title">Tiêu đề:</label>
+                    <input type="text" id="note-title" required>
+                </div>
+                <div class="form-group">
+                    <label for="note-content">Nội dung:</label>
+                    <textarea id="note-content" rows="5" required></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn">Lưu</button>
+                    <button type="button" class="btn cancel-btn">Hủy</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal tạo/chỉnh sửa kế hoạch -->
+    <div id="plan-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3 id="plan-modal-title">Thêm Kế Hoạch Mới</h3>
+            <form id="plan-form">
+                <input type="hidden" id="plan-id">
+                <div class="form-group">
+                    <label for="plan-title">Tiêu đề:</label>
+                    <input type="text" id="plan-title" required>
+                </div>
+                <div class="form-group">
+                    <label for="plan-content">Nội dung:</label>
+                    <textarea id="plan-content" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="plan-deadline">Hạn chót:</label>
+                    <input type="datetime-local" id="plan-deadline" required>
+                </div>
+                <div class="form-group">
+                    <label for="plan-priority">Mức độ ưu tiên:</label>
+                    <select id="plan-priority">
+                        <option value="low">Thấp</option>
+                        <option value="medium">Trung bình</option>
+                        <option value="high">Cao</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn">Lưu</button>
+                    <button type="button" class="btn cancel-btn">Hủy</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html> 
