@@ -1,0 +1,58 @@
+<div class="box box-primary">
+
+    <div class="box-header with-border">
+        <h3 class="box-title">Chọn môn học đăng ký</h3>
+    </div>
+
+    <div class="box-body">
+
+        <div class='row'>
+            <div class='col-md-12'>
+                <div class="input-group input-group-sm">
+                    <input name="msmh" class='form-control' id="txtMSMHSearch"
+                        placeholder="Mã môn học/Tên môn học (Để trống => toàn bộ lớp môn học - RẤT CHẬM!!!)">
+                    <span class="input-group-btn">
+                        <button id="btnMSMHSearch" type="button" onclick="searchMonHocDangKy();"
+                            class="btn btn-primary btn-flat">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                        </button>
+                    </span>
+
+                </div>
+                <input class="pointer hide" type="button" value="Xoá tìm kiếm"
+                    onclick="jQuery('#txtMSMHSearch').val(''); searchMonHocDangKy();" />
+                <br />
+
+            </div>
+            <!--
+<div class='col-md-12'>
+	<div class="input-group input-group-sm">
+		<input name="mhavail" type="checkbox" id="checkMHAvail" onclick="showAvailOnly();" unchecked>
+		&nbsp;
+		<label for="checkMHAvail" class='text-blue'">
+		Chỉ hiển thị các lớp môn học còn trống chỗ
+		</label>
+	</div>
+</div>
+-->
+            <div class='col-md-12'>
+            </div>
+            <div class='col-md-12' id="divMonHocDangKyListResponse">
+
+
+                <div class="" id="divMonHocMoLopResponse" style="height: 350px;overflow:auto;">
+
+                    Chưa tìm kiếm / Môn học bạn đang tìm kiếm hiện không được mở cho đăng ký.
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+
+    jQuery("#txtMSMHSearch").enterKey(function () {
+        searchMonHocDangKy();
+    })
+
+</script>

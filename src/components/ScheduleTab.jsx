@@ -1,36 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Box,
-  Paper,
-  Typography,
-  TextField,
-  Button,
-  Grid,
-  Card,
-  CardContent,
-  IconButton,
-  Stack,
-  Tabs,
-  Tab,
-  Chip,
-  useTheme,
-  useMediaQuery,
-} from '@mui/material';
-import {
-  Schedule as ScheduleIcon,
-  ChevronLeft as ChevronLeftIcon,
-  ChevronRight as ChevronRightIcon,
-  Today as TodayIcon,
-  CalendarMonth as CalendarIcon,
-  AccessTime as TimeIcon,
-  Room as RoomIcon,
-  Group as GroupIcon,
-  ContentPasteGo as PasteIcon,
+  Calendar,
+  ChevronLeft,
+  ChevronRight,
+  Clock,
+  MapPin,
+  Users,
   Link as LinkIcon,
-  KeyboardArrowDown as ArrowDownIcon,
-  KeyboardArrowUp as ArrowUpIcon,
-  ContentCopy as CopyIcon,
-} from '@mui/icons-material';
+  ChevronDown,
+  ChevronUp,
+  ClipboardPaste,
+  CalendarDays,
+  CheckCircle2,
+  Settings2
+} from "lucide-react";
 import {
   parseScheduleData,
   getSubjectColor,
@@ -38,6 +21,13 @@ import {
 } from '../utils/scheduleParser';
 import { useScheduleData } from '../hooks/useLocalStorage';
 import MyBKLoginCard from './MyBKLoginCard';
+import { Button } from "./ui/button";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "./ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
+import { Textarea } from "./ui/textarea";
+import { Badge } from "./ui/badge";
+import { ScrollArea, ScrollBar } from "./ui/scroll-area";
+import { cn } from "@/lib/utils";
 
 const timeSlots = [
   { id: 1, label: 'Tiết 1', time: '06:00-06:50' },
@@ -73,12 +63,11 @@ function ScheduleTab() {
   const [selectedDay, setSelectedDay] = useState(2); // Default to Monday (Thứ 2)
   const [showManualInput, setShowManualInput] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [inputMethod, setInputMethod] = useState(0); // 0 = MyBK sync, 1 = Manual
+  // inputMethod: "sync" | "manual"
+  const [inputMethod, setInputMethod] = useState("sync");
+  const [isInputExpanded, setIsInputExpanded] = useState(true);
 
   const { scheduleData, setScheduleData, selectedWeek, setSelectedWeek } = useScheduleData();
-
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   useEffect(() => {
     setCurrentWeek(getCurrentWeek());
@@ -90,6 +79,13 @@ function ScheduleTab() {
     }
   }, []);
 
+  // Collapse input section when data is available
+  useEffect(() => {
+    if (scheduleData && scheduleData.length > 0) {
+      setIsInputExpanded(false);
+    }
+  }, [scheduleData]);
+
   const generateSchedule = (inputData = scheduleInput) => {
     try {
       const parsed = parseScheduleData(inputData);
@@ -98,6 +94,7 @@ function ScheduleTab() {
         // Reset input and collapse manual section if successful
         setScheduleInput('');
         setShowManualInput(false);
+        setIsInputExpanded(false);
         // Optional: Show success toast/alert
       } else {
         alert("Không tìm thấy dữ liệu hợp lệ. Vui lòng đảm bảo bạn đã copy đúng bảng thời khóa biểu từ MyBK.");
@@ -153,544 +150,458 @@ function ScheduleTab() {
 
   // Mobile View - Card based per day
   const renderMobileSchedule = () => {
-    const classesForDay = getClassesForDay(selectedDay);
+    // Filter out unscheduled courses (startPeriod=0)
+    const classesForDay = getClassesForDay(selectedDay).filter(c => c.startPeriod > 0);
 
     return (
-      <Box>
+      <div className="md:hidden">
         {/* Day Selector Tabs */}
-        <Tabs
-          value={selectedDay}
-          onChange={(e, newValue) => setSelectedDay(newValue)}
-          variant="scrollable"
-          scrollButtons="auto"
-          sx={{
-            mb: 2,
-            '& .MuiTab-root': {
-              minWidth: 'auto',
-              px: 2,
-              py: 1.5,
-              fontSize: '0.875rem',
-              fontWeight: 600,
-            },
-            '& .Mui-selected': {
-              color: 'primary.main',
-            }
-          }}
-        >
-          {daysOfWeek.map((day) => {
-            const classCount = getClassesForDay(day.id).length;
-            return (
-              <Tab
-                key={day.id}
-                value={day.id}
-                label={
-                  <Box sx={{ textAlign: 'center' }}>
-                    <Typography variant="body2" fontWeight={600}>{day.short}</Typography>
-                    {classCount > 0 && (
-                      <Chip
-                        label={classCount}
-                        size="small"
-                        color="primary"
-                        sx={{ height: 18, fontSize: '0.7rem', mt: 0.5 }}
-                      />
+        <div className="sticky top-0 z-30 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 py-2 -mx-3 px-3 border-b mb-4">
+          <ScrollArea className="w-full whitespace-nowrap">
+            <div className="flex w-max space-x-2 pb-1">
+              {daysOfWeek.map((day) => {
+                const classCount = getClassesForDay(day.id).filter(c => c.startPeriod > 0).length;
+                const isSelected = selectedDay === day.id;
+                return (
+                  <button
+                    key={day.id}
+                    onClick={() => setSelectedDay(day.id)}
+                    className={cn(
+                      "flex flex-col items-center justify-center min-w-[60px] h-[64px] rounded-xl transition-all duration-200 border-2",
+                      isSelected
+                        ? "bg-primary border-primary text-primary-foreground shadow-lg scale-105"
+                        : "bg-card border-transparent text-muted-foreground hover:bg-accent hover:text-accent-foreground"
                     )}
-                  </Box>
-                }
-              />
-            );
-          })}
-        </Tabs>
+                  >
+                    <span className="text-xs font-medium opacity-80">{day.label}</span>
+                    <span className="text-lg font-bold leading-none">{day.short.replace('T', '')}</span>
+                    {classCount > 0 && (
+                      <div className={cn(
+                        "mt-1 flex items-center justify-center h-4 min-w-4 px-1 rounded-full text-[10px] font-bold",
+                        isSelected ? "bg-white/30 text-white" : "bg-primary text-white"
+                      )}>
+                        {classCount}
+                      </div>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+            <ScrollBar orientation="horizontal" className="invisible" />
+          </ScrollArea>
+        </div>
 
         {/* Classes for selected day */}
         {classesForDay.length === 0 ? (
-          <Paper sx={{ p: 4, textAlign: 'center' }}>
-            <ScheduleIcon sx={{ fontSize: 48, color: 'text.secondary', opacity: 0.5, mb: 1 }} />
-            <Typography variant="body1" color="text.secondary">
-              Không có lớp trong {daysOfWeek.find(d => d.id === selectedDay)?.label}
-            </Typography>
-          </Paper>
+          <div className="flex flex-col items-center justify-center p-10 text-center border-2 border-dashed rounded-xl bg-muted/30">
+            <div className="h-16 w-16 bg-muted rounded-full flex items-center justify-center mb-4">
+              <Calendar className="h-8 w-8 text-muted-foreground" />
+            </div>
+            <h3 className="font-semibold text-foreground">Không có lịch học</h3>
+            <p className="text-sm text-muted-foreground mt-1">
+              {daysOfWeek.find(d => d.id === selectedDay)?.label} tuần này bạn được nghỉ!
+            </p>
+          </div>
         ) : (
-          <Stack spacing={2}>
-            {classesForDay.map((course, index) => (
-              <Card
-                key={index}
-                sx={{
-                  borderLeft: 4,
-                  borderColor: getSubjectColor(course.code),
-                  '&:hover': { boxShadow: 3 },
-                  transition: 'box-shadow 0.2s'
-                }}
-              >
-                <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
-                  {/* Header */}
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1.5 }}>
-                    <Box sx={{ flex: 1, minWidth: 0 }}>
-                      <Typography variant="subtitle1" fontWeight={700} color="primary" noWrap>
-                        {course.code}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary" sx={{
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        display: '-webkit-box',
-                        WebkitLineClamp: 2,
-                        WebkitBoxOrient: 'vertical',
-                      }}>
-                        {course.name}
-                      </Typography>
-                    </Box>
-                    <Chip
-                      label={`Tiết ${course.startPeriod}-${course.endPeriod}`}
-                      size="small"
-                      sx={{
-                        backgroundColor: getSubjectColor(course.code),
-                        color: 'white',
-                        fontWeight: 600,
-                        ml: 1
-                      }}
-                    />
-                  </Box>
+          <div className="space-y-3 pb-20">
+            {classesForDay.map((course, index) => {
+              // Parse time from course.time or fallback to timeSlots
+              let startTime = '', endTime = '';
+              if (course.time && course.time.includes('-')) {
+                [startTime, endTime] = course.time.split('-').map(t => t.trim());
+              } else {
+                startTime = timeSlots[course.startPeriod - 1]?.time.split('-')[0] || '';
+                endTime = timeSlots[course.endPeriod - 1]?.time.split('-')[1] || '';
+              }
 
-                  {/* Details */}
-                  <Stack direction="row" spacing={2} flexWrap="wrap" useFlexGap>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                      <TimeIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
-                      <Typography variant="caption" fontWeight={500}>
-                        {timeSlots[course.startPeriod - 1]?.time.split('-')[0]} - {timeSlots[course.endPeriod - 1]?.time.split('-')[1]}
-                      </Typography>
-                    </Box>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                      <RoomIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
-                      <Typography variant="caption" fontWeight={500}>
-                        {course.room}
-                      </Typography>
-                    </Box>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                      <GroupIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
-                      <Typography variant="caption" fontWeight={500}>
-                        Nhóm {course.group}
-                      </Typography>
-                    </Box>
-                  </Stack>
-                </CardContent>
-              </Card>
-            ))}
-          </Stack>
+              const numPeriods = course.endPeriod - course.startPeriod + 1;
+
+              return (
+                <Card
+                  key={index}
+                  className="overflow-hidden border-none shadow-md ring-1 ring-border/50 bg-card transition-all hover:shadow-lg active:scale-[0.99]"
+                >
+                  <div className="flex h-full">
+                    {/* Left Color strip with time */}
+                    <div
+                      className="w-20 flex-none flex flex-col items-center justify-center p-2 text-white"
+                      style={{ backgroundColor: getSubjectColor(course.code) }}
+                    >
+                      <span className="text-sm font-bold">{startTime}</span>
+                      <div className="flex flex-col items-center my-1">
+                        <div className="w-0.5 h-2 bg-white/40 rounded-full" />
+                        <span className="text-[10px] font-medium opacity-80 my-0.5">
+                          {numPeriods} tiết
+                        </span>
+                        <div className="w-0.5 h-2 bg-white/40 rounded-full" />
+                      </div>
+                      <span className="text-sm font-bold">{endTime}</span>
+                    </div>
+
+                    {/* Content */}
+                    <div className="flex-1 p-3 min-w-0">
+                      <div className="flex justify-between items-start mb-1.5 gap-2">
+                        <h4 className="font-bold text-base leading-tight line-clamp-2" title={course.name}>
+                          {course.name}
+                        </h4>
+                        <Badge variant="outline" className="shrink-0 text-[10px] font-mono whitespace-nowrap border-primary/30 bg-primary/10 text-primary font-bold">
+                          {course.code}
+                        </Badge>
+                      </div>
+
+                      <div className="flex flex-wrap gap-2 mt-2">
+                        <div className="flex items-center gap-1.5 text-sm bg-muted/50 px-2 py-1 rounded-md">
+                          <MapPin className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+                          <span className="font-medium">{course.room || 'TBA'}</span>
+                        </div>
+
+                        {course.group && (
+                          <div className="flex items-center gap-1.5 text-sm bg-muted/50 px-2 py-1 rounded-md">
+                            <Users className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+                            <span className="font-medium">{course.group}</span>
+                          </div>
+                        )}
+
+                        <div className="flex items-center gap-1.5 text-sm bg-muted/50 px-2 py-1 rounded-md">
+                          <Clock className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+                          <span>Tiết {course.startPeriod}-{course.endPeriod}</span>
+                        </div>
+                      </div>
+
+                      {/* Teacher info */}
+                      {course.teacher && course.teacher !== 'Chưa biết chưa biết' && (
+                        <div className="mt-2 pt-2 border-t border-border/50 text-sm text-muted-foreground flex items-center gap-1.5">
+                          <Users className="h-3.5 w-3.5 shrink-0" />
+                          <span>{course.teacher}</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </Card>
+              );
+            })}
+          </div>
         )}
-      </Box>
+      </div>
     );
   };
 
-  // Desktop View - Table format with larger cells for readability
-  const renderDesktopSchedule = () => (
-    <Box sx={{ overflowX: 'auto' }}>
-      <Box sx={{ minWidth: 1100 }}>
-        {/* Header */}
-        <Grid container sx={{ borderBottom: 2, borderColor: 'primary.main', bgcolor: 'action.hover' }}>
-          <Grid item sx={{ width: 120, p: 2, borderRight: 1, borderColor: 'divider' }}>
-            <Typography variant="subtitle1" fontWeight={700}>Tiết</Typography>
-          </Grid>
-          {daysOfWeek.map((day) => (
-            <Grid item xs key={day.id} sx={{ p: 2, textAlign: 'center', borderRight: 1, borderColor: 'divider' }}>
-              <Typography variant="subtitle1" fontWeight={700} color="primary.main">
-                {day.label}
-              </Typography>
-            </Grid>
-          ))}
-        </Grid>
 
-        {/* Body */}
-        {timeSlots.map((slot) => (
-          <Grid
-            container
-            key={slot.id}
-            sx={{
-              borderBottom: 1,
-              borderColor: 'divider',
-              minHeight: 90,
-              '&:hover': { bgcolor: 'action.hover' }
-            }}
-          >
-            <Grid item sx={{
-              width: 120,
-              p: 1.5,
-              borderRight: 1,
-              borderColor: 'divider',
-              bgcolor: 'action.hover',
-              display: 'flex',
-              alignItems: 'center'
-            }}>
-              <Box>
-                <Typography variant="body2" fontWeight={600} display="block">
-                  {slot.label}
-                </Typography>
-                <Typography variant="caption" color="text.secondary">
-                  {slot.time}
-                </Typography>
-              </Box>
-            </Grid>
-            {daysOfWeek.map((day) => {
-              const classesInSlot = scheduleData.filter(course => {
-                const isActiveInWeek = course.weeks && course.weeks.includes(selectedWeek);
-                const isInTimeSlot = course.day === day.id &&
-                  slot.id >= course.startPeriod &&
-                  slot.id <= course.endPeriod;
-                return isActiveInWeek && isInTimeSlot && slot.id === course.startPeriod;
-              });
+  // Desktop View - Table format with multi-period spanning
+  const renderDesktopSchedule = () => {
+    const ROW_HEIGHT = 70; // Height per time slot row in pixels
 
-              return (
-                <Grid
-                  item
-                  xs
-                  key={day.id}
-                  sx={{
-                    p: 1,
-                    borderRight: 1,
-                    borderColor: 'divider',
-                    position: 'relative'
-                  }}
+    // Get all courses for a specific day that are active in selected week
+    const getCoursesForDay = (dayId) => {
+      return scheduleData.filter(course => {
+        const isActiveInWeek = course.weeks && course.weeks.includes(selectedWeek);
+        return isActiveInWeek && course.day === dayId && course.startPeriod > 0;
+      });
+    };
+
+    return (
+      <div className="hidden md:block border rounded-xl overflow-hidden bg-background shadow-sm">
+        <ScrollArea className="w-full">
+          <div className="min-w-[1100px]">
+            {/* Header */}
+            <div className="grid grid-cols-[80px_1fr_1fr_1fr_1fr_1fr_1fr] border-b bg-muted/40 font-medium">
+              <div className="p-3 border-r text-center text-sm font-bold">Tiết</div>
+              {daysOfWeek.map((day) => (
+                <div key={day.id} className="p-3 border-r last:border-r-0 text-center text-sm font-bold text-primary">
+                  {day.label}
+                </div>
+              ))}
+            </div>
+
+            {/* Body - Container with relative positioning */}
+            <div className="relative">
+              {/* Background grid rows */}
+              {timeSlots.map((slot) => (
+                <div
+                  key={slot.id}
+                  className="grid grid-cols-[80px_1fr_1fr_1fr_1fr_1fr_1fr] border-b last:border-b-0"
+                  style={{ height: `${ROW_HEIGHT}px` }}
                 >
-                  {classesInSlot.map((course, idx) => (
-                    <Box
-                      key={idx}
-                      sx={{
+                  {/* Time Column */}
+                  <div className="p-2 border-r bg-muted/10 text-center flex flex-col justify-center items-center">
+                    <span className="font-bold text-sm">{slot.label}</span>
+                    <span className="text-[10px] text-muted-foreground mt-0.5">{slot.time}</span>
+                  </div>
+                  {/* Empty day cells for grid lines */}
+                  {daysOfWeek.map((day) => (
+                    <div key={day.id} className="border-r last:border-r-0" />
+                  ))}
+                </div>
+              ))}
+
+              {/* Overlay courses using absolute positioning */}
+              {daysOfWeek.map((day, dayIdx) => {
+                const courses = getCoursesForDay(day.id);
+                return courses.map((course, idx) => {
+                  const numPeriods = course.endPeriod - course.startPeriod + 1;
+                  const topOffset = (course.startPeriod - 1) * ROW_HEIGHT;
+                  const height = numPeriods * ROW_HEIGHT - 4; // -4 for padding
+
+                  // Calculate left position based on day column (skip first column which is 80px)
+                  // Each day column is (100% - 80px) / 6 = ~16.67% width
+                  const leftOffset = 80 + (dayIdx * (100 - 8) / 6) + '%';
+                  const width = `calc((100% - 80px) / 6 - 8px)`;
+
+                  return (
+                    <div
+                      key={`${course.code}-${idx}`}
+                      className="absolute p-2 rounded-lg shadow-md text-white hover:shadow-lg transition-all cursor-pointer z-10 group overflow-hidden"
+                      style={{
                         backgroundColor: getSubjectColor(course.code),
-                        color: 'white',
-                        p: 1.5,
-                        borderRadius: 1.5,
-                        cursor: 'pointer',
-                        transition: 'all 0.2s ease',
-                        '&:hover': {
-                          transform: 'scale(1.02)',
-                          boxShadow: 3,
-                        }
+                        top: `${topOffset}px`,
+                        left: `calc(80px + ${dayIdx} * ((100% - 80px) / 6) + 4px)`,
+                        width: `calc((100% - 80px) / 6 - 8px)`,
+                        height: `${height}px`,
                       }}
                     >
-                      <Typography variant="body2" sx={{ fontWeight: 700, display: 'block', mb: 0.5 }}>
-                        {course.code}
-                      </Typography>
-                      <Typography variant="caption" sx={{
-                        opacity: 0.95,
-                        display: 'block',
-                        fontSize: '0.75rem',
-                        lineHeight: 1.3,
-                        mb: 0.5
-                      }}>
-                        {course.name}
-                      </Typography>
-                      <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mt: 0.5 }}>
-                        <Typography variant="caption" sx={{
-                          opacity: 0.95,
-                          fontSize: '0.8rem',
-                          fontWeight: 600,
-                          bgcolor: 'rgba(255,255,255,0.2)',
-                          px: 0.75,
-                          py: 0.25,
-                          borderRadius: 0.5
-                        }}>
-                          📍 {course.room}
-                        </Typography>
-                        <Typography variant="caption" sx={{
-                          opacity: 0.95,
-                          fontSize: '0.8rem',
-                          fontWeight: 600,
-                          bgcolor: 'rgba(255,255,255,0.2)',
-                          px: 0.75,
-                          py: 0.25,
-                          borderRadius: 0.5
-                        }}>
-                          👥 Nhóm {course.group}
-                        </Typography>
-                      </Box>
-                    </Box>
-                  ))}
-                </Grid>
-              );
-            })}
-          </Grid>
-        ))}
-      </Box>
-    </Box>
-  );
+                      <div className="h-full flex flex-col relative px-2 py-1.5">
+                        {/* Hover overlay effect */}
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-200 pointer-events-none" />
+
+                        {/* Header: Course Code */}
+                        <div className="font-bold text-sm flex justify-between items-start mb-0.5 shrink-0">
+                          <span>{course.code}</span>
+                        </div>
+
+                        {/* Body: Course Name (Takes remaining space) */}
+                        <div className="flex-1 min-h-0 overflow-hidden mb-1">
+                          <div
+                            className="text-xs font-semibold leading-snug opacity-95"
+                            title={course.name}
+                            style={{
+                              display: '-webkit-box',
+                              WebkitLineClamp: numPeriods > 2 ? 4 : (numPeriods > 1 ? 3 : 2),
+                              WebkitBoxOrient: 'vertical',
+                              overflow: 'hidden'
+                            }}
+                          >
+                            {course.name}
+                          </div>
+                        </div>
+
+                        {/* Footer: Info (Fixed at bottom) */}
+                        <div className="flex flex-col gap-1 shrink-0 mt-auto">
+                          <div className="flex items-center gap-1.5 text-xs font-medium opacity-95">
+                            <MapPin className="h-3.5 w-3.5 shrink-0" />
+                            <span className="truncate">{course.room}</span>
+                          </div>
+
+                          {course.group && (
+                            <div className="flex items-center gap-1.5 text-xs font-medium opacity-90">
+                              <Users className="h-3.5 w-3.5 shrink-0" />
+                              <span className="truncate">{course.group}</span>
+                            </div>
+                          )}
+
+                          {numPeriods > 1 && (
+                            <div className="flex items-center gap-1.5 text-xs font-medium opacity-90 mt-0.5 pt-1 border-t border-white/20">
+                              <Clock className="h-3.5 w-3.5 shrink-0" />
+                              <span className="truncate">{course.time}</span>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                });
+              })}
+            </div>
+          </div>
+          <ScrollBar orientation="horizontal" />
+        </ScrollArea>
+      </div>
+    );
+  };
 
   return (
-    <Box sx={{ p: { xs: 2, sm: 3 } }}>
-      {/* Input Section with Tabs */}
-      <Card sx={{ mb: 2, overflow: 'visible' }}>
-        <CardContent sx={{ p: { xs: 2, sm: 3 }, '&:last-child': { pb: { xs: 2, sm: 3 } } }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-            <ScheduleIcon color="primary" />
-            <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
-              Tạo Thời Khóa Biểu
-            </Typography>
-          </Box>
+    <div className="p-3 md:p-6 max-w-[1600px] mx-auto space-y-4 md:space-y-6">
+      {/* Input Section */}
+      <Card className="border-2 border-primary/10">
+        <CardHeader
+          className="p-4 cursor-pointer hover:bg-muted/50 transition-colors"
+          onClick={() => setIsInputExpanded(!isInputExpanded)}
+        >
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Settings2 className="h-5 w-5 text-primary" />
+              <CardTitle className="text-base md:text-lg">Cài đặt & Dữ liệu</CardTitle>
+            </div>
+            {isInputExpanded ? (
+              <ChevronUp className="h-5 w-5 text-muted-foreground" />
+            ) : (
+              <ChevronDown className="h-5 w-5 text-muted-foreground" />
+            )}
+          </div>
+        </CardHeader>
 
-          {/* Method Selection Tabs */}
-          <Tabs
-            value={inputMethod}
-            onChange={(e, v) => setInputMethod(v)}
-            sx={{ mb: 2, borderBottom: 1, borderColor: 'divider' }}
-          >
-            <Tab
-              label="🔄 Đồng bộ MyBK"
-              sx={{ fontWeight: 600, textTransform: 'none' }}
-            />
-            <Tab
-              label="📋 Nhập thủ công"
-              sx={{ fontWeight: 600, textTransform: 'none' }}
-            />
-          </Tabs>
+        {isInputExpanded && (
+          <CardContent className="p-4 pt-0 border-t animate-in slide-in-from-top-2">
+            <div className="pt-4">
+              <Tabs value={inputMethod} onValueChange={(v) => setInputMethod(v)} className="w-full">
+                <TabsList className="mb-4 grid w-full max-w-[400px] grid-cols-2">
+                  <TabsTrigger value="sync" className="font-semibold">
+                    🔄 Đồng bộ MyBK
+                  </TabsTrigger>
+                  <TabsTrigger value="manual" className="font-semibold">
+                    📋 Nhập thủ công
+                  </TabsTrigger>
+                </TabsList>
 
-          {/* Tab 0: MyBK Sync */}
-          {inputMethod === 0 && (
-            <Box>
-              <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                Đăng nhập bằng tài khoản MyBK để tự động lấy thời khóa biểu
-              </Typography>
-              <MyBKLoginCard
-                onScheduleFetched={(data) => {
-                  setScheduleData(data);
-                }}
-                onError={(err) => console.error(err)}
-              />
-            </Box>
-          )}
-
-          {/* Tab 1: Manual Input */}
-          {inputMethod === 1 && (
-            <Box>
-              <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                Copy dữ liệu từ trang MyBK và dán vào đây
-              </Typography>
-
-              <Grid container spacing={2} sx={{ mb: 2 }}>
-                <Grid item xs={12} md={6}>
-                  <Paper
-                    variant="outlined"
-                    sx={{
-                      p: 2,
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 2,
-                      cursor: 'pointer',
-                      transition: 'all 0.2s',
-                      '&:hover': { borderColor: 'primary.main', bgcolor: 'action.hover' }
+                <TabsContent value="sync" className="mt-0">
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Đăng nhập bằng tài khoản MyBK để tự động lấy thời khóa biểu
+                  </p>
+                  <MyBKLoginCard
+                    onScheduleFetched={(data) => {
+                      setScheduleData(data);
                     }}
-                    onClick={handleOpenMyBK}
-                  >
-                    <Box sx={{
-                      width: 36, height: 36,
-                      borderRadius: '50%',
-                      bgcolor: 'primary.main',
-                      color: 'white',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontWeight: 'bold'
-                    }}>
-                      1
-                    </Box>
-                    <Box sx={{ flex: 1 }}>
-                      <Typography variant="subtitle2" fontWeight={600}>Mở MyBK & Copy</Typography>
-                      <Typography variant="caption" color="text.secondary">
-                        Nhấn Ctrl+A rồi Ctrl+C để copy toàn bộ trang
-                      </Typography>
-                    </Box>
-                    <LinkIcon color="action" />
-                  </Paper>
-                </Grid>
-
-                <Grid item xs={12} md={6}>
-                  <Paper
-                    variant="outlined"
-                    sx={{
-                      p: 2,
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 2,
-                      cursor: 'pointer',
-                      border: '2px solid',
-                      borderColor: 'primary.main',
-                      bgcolor: 'primary.light',
-                      color: 'primary.contrastText',
-                      transition: 'all 0.2s',
-                      '&:hover': { transform: 'scale(1.02)', boxShadow: 2, bgcolor: 'primary.main' }
-                    }}
-                    onClick={handleSmartPaste}
-                  >
-                    <Box sx={{
-                      width: 36, height: 36,
-                      borderRadius: '50%',
-                      bgcolor: 'white',
-                      color: 'primary.main',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontWeight: 'bold'
-                    }}>
-                      2
-                    </Box>
-                    <Box sx={{ flex: 1 }}>
-                      <Typography variant="subtitle2" fontWeight={800} sx={{ color: 'inherit' }}>
-                        Tự động phân tích
-                      </Typography>
-                      <Typography variant="caption" sx={{ color: 'inherit', opacity: 0.9 }}>
-                        Nhấn vào đây để đọc dữ liệu từ Clipboard
-                      </Typography>
-                    </Box>
-                    <PasteIcon sx={{ color: 'inherit' }} />
-                  </Paper>
-                </Grid>
-              </Grid>
-
-              {/* Expandable manual paste area */}
-              <Button
-                variant="text"
-                size="small"
-                onClick={() => setShowManualInput(!showManualInput)}
-                endIcon={showManualInput ? <ArrowUpIcon /> : <ArrowDownIcon />}
-                sx={{ color: 'text.secondary', mb: 1 }}
-              >
-                Dán thủ công
-              </Button>
-
-              {showManualInput && (
-                <Box sx={{ animation: 'fadeIn 0.3s ease-in' }}>
-                  <TextField
-                    fullWidth
-                    multiline
-                    rows={isMobile ? 3 : 5}
-                    placeholder="Dán dữ liệu thời khóa biểu từ MyBK vào đây..."
-                    value={scheduleInput}
-                    onChange={(e) => setScheduleInput(e.target.value)}
-                    sx={{ mb: 2 }}
-                    variant="outlined"
-                    size="small"
+                    onError={(err) => console.error(err)}
                   />
-                  <Button
-                    variant="contained"
-                    onClick={() => generateSchedule(scheduleInput)}
-                    disabled={!scheduleInput.trim()}
-                    startIcon={<ScheduleIcon />}
-                    fullWidth
-                  >
-                    Xử lý dữ liệu thủ công
-                  </Button>
-                </Box>
-              )}
-            </Box>
-          )}
-        </CardContent>
+                </TabsContent>
+
+                <TabsContent value="manual" className="mt-0 space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div
+                      className="p-4 border rounded-lg hover:border-primary/50 hover:bg-muted/50 cursor-pointer transition-colors flex items-center gap-3"
+                      onClick={handleOpenMyBK}
+                    >
+                      <div className="h-9 w-9 bg-primary text-primary-foreground rounded-full flex items-center justify-center font-bold">
+                        1
+                      </div>
+                      <div className="flex-1">
+                        <div className="font-semibold text-sm">Mở MyBK & Copy</div>
+                        <div className="text-xs text-muted-foreground">Ctrl+A sau đó Ctrl+C toàn bộ trang</div>
+                      </div>
+                      <LinkIcon className="h-4 w-4 text-muted-foreground" />
+                    </div>
+
+                    <div
+                      className="p-4 border-2 border-primary/20 bg-primary/5 rounded-lg hover:bg-primary/10 hover:border-primary/40 cursor-pointer transition-all flex items-center gap-3"
+                      onClick={handleSmartPaste}
+                    >
+                      <div className="h-9 w-9 bg-background text-primary border border-primary/20 rounded-full flex items-center justify-center font-bold shadow-sm">
+                        2
+                      </div>
+                      <div className="flex-1">
+                        <div className="font-bold text-sm text-primary">Tự động phân tích</div>
+                        <div className="text-xs text-primary/80">Nhấn để đọc từ Clipboard</div>
+                      </div>
+                      <ClipboardPaste className="h-5 w-5 text-primary" />
+                    </div>
+                  </div>
+
+                  <div className="pt-2">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="text-muted-foreground hover:text-foreground p-0 h-auto"
+                      onClick={() => setShowManualInput(!showManualInput)}
+                    >
+                      {showManualInput ? "Ẩn nhập thủ công" : "Hiện khung nhập thủ công"}
+                      {showManualInput ? <ChevronUp className="ml-1 h-3 w-3" /> : <ChevronDown className="ml-1 h-3 w-3" />}
+                    </Button>
+
+                    {showManualInput && (
+                      <div className="mt-2 space-y-2 animate-in fade-in slide-in-from-top-2 duration-300">
+                        <Textarea
+                          placeholder="Dán dữ liệu thời khóa biểu từ MyBK vào đây..."
+                          className="min-h-[100px]"
+                          value={scheduleInput}
+                          onChange={(e) => setScheduleInput(e.target.value)}
+                        />
+                        <Button
+                          className="w-full"
+                          onClick={() => generateSchedule(scheduleInput)}
+                          disabled={!scheduleInput.trim()}
+                        >
+                          <CheckCircle2 className="mr-2 h-4 w-4" />
+                          Xử lý dữ liệu
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                </TabsContent>
+              </Tabs>
+            </div>
+          </CardContent>
+        )}
       </Card>
 
       {/* Schedule Section */}
       {scheduleData.length > 0 && (
-        <>
-          {/* Week Navigation - Compact for mobile */}
-          <Paper sx={{
-            p: { xs: 1.5, sm: 2 },
-            mb: 2,
-            backgroundColor: 'primary.main',
-            color: 'white'
-          }}>
-            <Stack
-              direction="row"
-              alignItems="center"
-              justifyContent="space-between"
-              spacing={1}
-            >
-              <Stack direction="row" alignItems="center" spacing={0.5}>
-                <CalendarIcon sx={{ fontSize: { xs: 20, sm: 24 } }} />
-                <Typography variant={isMobile ? "body1" : "h6"} sx={{ fontWeight: 600 }}>
-                  {getWeekLabel(selectedWeek)}
-                </Typography>
-              </Stack>
+        <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+          {/* Week Navigation */}
+          <div className="bg-primary text-primary-foreground p-3 rounded-xl shadow-md mb-4 flex items-center justify-between sticky top-[60px] md:static z-20">
+            <div className="flex items-center gap-2">
+              <CalendarDays className="h-5 w-5 md:h-6 md:w-6" />
+              <h3 className="font-bold text-lg md:text-xl">
+                {getWeekLabel(selectedWeek)}
+              </h3>
+            </div>
 
-              <Stack direction="row" alignItems="center" spacing={0.5}>
-                <IconButton
-                  onClick={goToPreviousWeek}
-                  disabled={selectedWeek <= 1}
-                  size="small"
-                  sx={{ color: 'white', '&:disabled': { color: 'rgba(255,255,255,0.3)' } }}
-                >
-                  <ChevronLeftIcon />
-                </IconButton>
+            <div className="flex items-center gap-1">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 text-primary-foreground hover:bg-primary-foreground/20 hover:text-white"
+                onClick={goToPreviousWeek}
+                disabled={selectedWeek <= 1}
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </Button>
 
-                <Button
-                  variant="outlined"
-                  size="small"
-                  onClick={goToCurrentWeek}
-                  startIcon={!isMobile && <TodayIcon />}
-                  sx={{
-                    color: 'white',
-                    borderColor: 'white',
-                    minWidth: 'auto',
-                    px: { xs: 1, sm: 2 },
-                    fontSize: { xs: '0.75rem', sm: '0.875rem' },
-                    '&:hover': { borderColor: 'white', backgroundColor: 'rgba(255,255,255,0.1)' }
-                  }}
-                >
-                  {isMobile ? 'Nay' : 'Hiện tại'}
-                </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                className="hidden md:flex bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground/10 hover:text-white h-8"
+                onClick={goToCurrentWeek}
+              >
+                Hiện tại
+              </Button>
 
-                <IconButton
-                  onClick={goToNextWeek}
-                  disabled={selectedWeek >= 50}
-                  size="small"
-                  sx={{ color: 'white', '&:disabled': { color: 'rgba(255,255,255,0.3)' } }}
-                >
-                  <ChevronRightIcon />
-                </IconButton>
-              </Stack>
-            </Stack>
-          </Paper>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 text-primary-foreground hover:bg-primary-foreground/20 hover:text-white"
+                onClick={goToNextWeek}
+                disabled={selectedWeek >= 50}
+              >
+                <ChevronRight className="h-5 w-5" />
+              </Button>
+            </div>
+          </div>
 
-          {/* Schedule Stats - 2 columns on mobile */}
-          <Grid container spacing={1.5} sx={{ mb: 2 }}>
-            <Grid item xs={6} sm={3}>
-              <Paper sx={{ p: { xs: 1.5, sm: 2 }, textAlign: 'center' }}>
-                <Typography variant={isMobile ? "h5" : "h4"} color="primary" sx={{ fontWeight: 600 }}>
-                  {scheduleData.length}
-                </Typography>
-                <Typography variant="caption" color="text.secondary">
-                  Môn học
-                </Typography>
-              </Paper>
-            </Grid>
-            <Grid item xs={6} sm={3}>
-              <Paper sx={{ p: { xs: 1.5, sm: 2 }, textAlign: 'center' }}>
-                <Typography variant={isMobile ? "h5" : "h4"} color="primary" sx={{ fontWeight: 600 }}>
-                  {scheduleData.reduce((sum, course) => sum + (course.credits || 0), 0)}
-                </Typography>
-                <Typography variant="caption" color="text.secondary">
-                  Tín chỉ
-                </Typography>
-              </Paper>
-            </Grid>
-            <Grid item xs={6} sm={3}>
-              <Paper sx={{ p: { xs: 1.5, sm: 2 }, textAlign: 'center' }}>
-                <Typography variant={isMobile ? "h5" : "h4"} color="primary" sx={{ fontWeight: 600 }}>
-                  {scheduleData.filter(course => course.weeks && course.weeks.includes(selectedWeek)).length}
-                </Typography>
-                <Typography variant="caption" color="text.secondary">
-                  Tuần này
-                </Typography>
-              </Paper>
-            </Grid>
-            <Grid item xs={6} sm={3}>
-              <Paper sx={{ p: { xs: 1.5, sm: 2 }, textAlign: 'center' }}>
-                <Typography variant={isMobile ? "h5" : "h4"} color="primary" sx={{ fontWeight: 600 }}>
-                  {currentWeek}
-                </Typography>
-                <Typography variant="caption" color="text.secondary">
-                  Tuần hiện tại
-                </Typography>
-              </Paper>
-            </Grid>
-          </Grid>
+          {/* Stats Cards */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3 mb-4">
+            {[
+              { label: "Môn học", value: scheduleData.length },
+              { label: "Tín chỉ", value: scheduleData.reduce((sum, course) => sum + (course.credits || 0), 0) },
+              { label: "Học tuần này", value: scheduleData.filter(course => course.weeks && course.weeks.includes(selectedWeek)).length },
+              { label: "Tuần hiện tại", value: currentWeek }
+            ].map((stat, idx) => (
+              <Card key={idx} className="bg-card shadow-sm border">
+                <CardContent className="p-3 md:p-4 text-center">
+                  <div className="text-xl md:text-2xl font-bold text-primary mb-0.5">{stat.value}</div>
+                  <div className="text-[10px] md:text-xs text-muted-foreground font-medium uppercase tracking-wide">{stat.label}</div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
 
-          {/* Schedule Display */}
-          <Paper sx={{ overflow: 'hidden' }}>
-            {isMobile ? renderMobileSchedule() : renderDesktopSchedule()}
-          </Paper>
-        </>
+          {/* Render Schedule View */}
+          {renderMobileSchedule()}
+          {renderDesktopSchedule()}
+        </div>
       )}
-    </Box>
+
+      {/* Mobile spacer for navigation (if any) */}
+      <div className="h-16 md:hidden"></div>
+    </div>
   );
 }
 

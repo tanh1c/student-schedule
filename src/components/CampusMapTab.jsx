@@ -1,38 +1,49 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import {
-  Box,
-  Paper,
-  Typography,
-  Button,
-  Grid,
-  Card,
-  CardContent,
-  Alert,
-} from '@mui/material';
+  Map,
+  MapControls,
+  MapMarker,
+  MarkerContent,
+  MarkerPopup,
+  MarkerTooltip
+} from '@/components/ui/map';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import {
-  Map as MapIcon,
-  MyLocation as LocationIcon,
-  School as SchoolIcon,
-  DirectionsWalk as WalkIcon,
-} from '@mui/icons-material';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import L from 'leaflet';
+  MapPin,
+  Navigation,
+  School,
+  Clock,
+  Phone,
+  Mail,
+  Globe,
+  Bus,
+  Car,
+  AlertCircle,
+  Building2
+} from 'lucide-react';
 
-// Fix for default markers in react-leaflet
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
-  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-});
+// Coordinates for HCMUT (MapLibre uses [lng, lat] format)
+const HCMUT_LNG = 106.6576;
+const HCMUT_LAT = 10.7720;
 
-const HCMUT_COORDINATES = [10.7720, 106.6576]; // Coordinates for HCMUT
+// Campus buildings/locations
+const campusLocations = [
+  { id: 'main', name: 'Cổng chính', lng: 106.6588, lat: 10.7728, type: 'entrance' },
+  { id: 'a1', name: 'Tòa A1 - Văn phòng', lng: 106.6580, lat: 10.7722, type: 'building' },
+  { id: 'b1', name: 'Tòa B1 - Giảng đường', lng: 106.6570, lat: 10.7718, type: 'building' },
+  { id: 'b4', name: 'Tòa B4 - Khoa KHMT', lng: 106.6565, lat: 10.7715, type: 'building' },
+  { id: 'c', name: 'Khu C - Thư viện', lng: 106.6572, lat: 10.7710, type: 'library' },
+];
 
 function CampusMapTab() {
   const [userLocation, setUserLocation] = useState(null);
   const [distance, setDistance] = useState(null);
   const [estimatedTime, setEstimatedTime] = useState(null);
   const [locationError, setLocationError] = useState(null);
+  const [selectedLocation, setSelectedLocation] = useState(null);
   const mapRef = useRef(null);
 
   const getCurrentLocation = useCallback(() => {
@@ -44,8 +55,8 @@ function CampusMapTab() {
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
-        setUserLocation([latitude, longitude]);
-        calculateDistance([latitude, longitude], HCMUT_COORDINATES);
+        setUserLocation({ lat: latitude, lng: longitude });
+        calculateDistance({ lat: latitude, lng: longitude }, { lat: HCMUT_LAT, lng: HCMUT_LNG });
         setLocationError(null);
       },
       (error) => {
@@ -78,236 +89,288 @@ function CampusMapTab() {
 
   const calculateDistance = (from, to) => {
     const R = 6371; // Earth's radius in kilometers
-    const dLat = (to[0] - from[0]) * Math.PI / 180;
-    const dLon = (to[1] - from[1]) * Math.PI / 180;
+    const dLat = (to.lat - from.lat) * Math.PI / 180;
+    const dLon = (to.lng - from.lng) * Math.PI / 180;
     const a =
       Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(from[0] * Math.PI / 180) * Math.cos(to[0] * Math.PI / 180) *
+      Math.cos(from.lat * Math.PI / 180) * Math.cos(to.lat * Math.PI / 180) *
       Math.sin(dLon / 2) * Math.sin(dLon / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const distance = R * c;
+    const dist = R * c;
 
-    setDistance(distance.toFixed(2));
+    setDistance(dist.toFixed(2));
     // Estimate walking time (average walking speed: 5 km/h)
-    const walkingTime = (distance / 5) * 60; // in minutes
+    const walkingTime = (dist / 5) * 60; // in minutes
     setEstimatedTime(Math.round(walkingTime));
   };
 
-  const locateMe = () => {
-    getCurrentLocation();
-    if (userLocation && mapRef.current) {
-      mapRef.current.setView(userLocation, 15);
-    }
-  };
-
-  const locateSchool = () => {
-    if (mapRef.current) {
-      mapRef.current.setView(HCMUT_COORDINATES, 16);
-    }
-  };
+  const handleLocate = useCallback((coords) => {
+    setUserLocation({ lat: coords.latitude, lng: coords.longitude });
+    calculateDistance(
+      { lat: coords.latitude, lng: coords.longitude },
+      { lat: HCMUT_LAT, lng: HCMUT_LNG }
+    );
+  }, []);
 
   return (
-    <Box sx={{ p: { xs: 2, sm: 3 } }}>
-      <Grid container spacing={{ xs: 2, sm: 3 }}>
-        <Grid item xs={12}>
-          {locationError && (
-            <Alert severity="warning" sx={{ mb: 2 }}>
-              {locationError}
-            </Alert>
-          )}
-        </Grid>
+    <div className="p-3 md:p-6 max-w-[1600px] mx-auto space-y-4 md:space-y-6">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
+            <MapPin className="h-5 w-5 text-primary" />
+          </div>
+          <div>
+            <h2 className="text-xl font-bold">Bản đồ trường</h2>
+            <p className="text-sm text-muted-foreground">ĐHBK TP.HCM - Cơ sở Lý Thường Kiệt</p>
+          </div>
+        </div>
+      </div>
 
-        <Grid item xs={12} lg={8}>
-          <Paper sx={{ p: 2, height: { xs: '400px', md: '500px' } }}>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-              <Typography variant="h6">
+      {/* Error Alert */}
+      {locationError && (
+        <Alert variant="destructive" className="bg-orange-50 border-orange-200 dark:bg-orange-900/10 dark:border-orange-900/30">
+          <AlertCircle className="h-4 w-4" />
+          <AlertDescription className="text-orange-800 dark:text-orange-400">
+            {locationError}
+          </AlertDescription>
+        </Alert>
+      )}
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
+        {/* Map Section */}
+        <div className="lg:col-span-2">
+          <Card className="overflow-hidden">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-lg flex items-center gap-2">
+                <Navigation className="h-5 w-5" />
                 Bản Đồ Tương Tác
-              </Typography>
-              <Box sx={{ display: 'flex', gap: 1 }}>
-                <Button
-                  variant="outlined"
-                  size="small"
-                  startIcon={<LocationIcon />}
-                  onClick={locateMe}
-                  disabled={!userLocation}
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="p-0">
+              <div className="h-[400px] md:h-[500px] w-full">
+                <Map
+                  ref={mapRef}
+                  center={[HCMUT_LNG, HCMUT_LAT]}
+                  zoom={16}
                 >
-                  Vị Trí Của Tôi
-                </Button>
-                <Button
-                  variant="contained"
-                  size="small"
-                  startIcon={<SchoolIcon />}
-                  onClick={locateSchool}
-                >
-                  Vị Trí Trường
-                </Button>
-              </Box>
-            </Box>
+                  <MapControls
+                    showZoom={true}
+                    showLocate={true}
+                    showFullscreen={true}
+                    onLocate={handleLocate}
+                  />
 
-            <Box sx={{ height: 'calc(100% - 60px)', borderRadius: 1, overflow: 'hidden' }}>
-              <MapContainer
-                center={HCMUT_COORDINATES}
-                zoom={16}
-                style={{ height: '100%', width: '100%' }}
-                ref={mapRef}
+                  {/* HCMUT Main Marker */}
+                  <MapMarker
+                    longitude={HCMUT_LNG}
+                    latitude={HCMUT_LAT}
+                    onClick={() => setSelectedLocation('main')}
+                  >
+                    <MarkerContent>
+                      <div className="relative">
+                        <div className="h-8 w-8 rounded-full bg-primary border-2 border-white shadow-lg flex items-center justify-center">
+                          <School className="h-4 w-4 text-white" />
+                        </div>
+                        <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[8px] border-t-primary" />
+                      </div>
+                    </MarkerContent>
+                    <MarkerTooltip>
+                      <span className="font-semibold">Đại học Bách Khoa TP.HCM</span>
+                    </MarkerTooltip>
+                    <MarkerPopup closeButton>
+                      <div className="min-w-[200px]">
+                        <h3 className="font-bold text-base mb-1">Đại học Bách Khoa TP.HCM</h3>
+                        <p className="text-sm text-muted-foreground">
+                          268 Lý Thường Kiệt, Phường 14, Quận 10, TP.HCM
+                        </p>
+                        <div className="flex gap-2 mt-2">
+                          <Badge variant="secondary" className="text-xs">
+                            <Building2 className="h-3 w-3 mr-1" />
+                            Cơ sở 1
+                          </Badge>
+                        </div>
+                      </div>
+                    </MarkerPopup>
+                  </MapMarker>
+
+                  {/* Campus Buildings */}
+                  {campusLocations.map((loc) => (
+                    <MapMarker
+                      key={loc.id}
+                      longitude={loc.lng}
+                      latitude={loc.lat}
+                    >
+                      <MarkerContent>
+                        <div className="h-5 w-5 rounded-full bg-blue-500 border-2 border-white shadow-md flex items-center justify-center">
+                          <Building2 className="h-3 w-3 text-white" />
+                        </div>
+                      </MarkerContent>
+                      <MarkerTooltip>{loc.name}</MarkerTooltip>
+                    </MapMarker>
+                  ))}
+
+                  {/* User Location Marker */}
+                  {userLocation && (
+                    <MapMarker
+                      longitude={userLocation.lng}
+                      latitude={userLocation.lat}
+                    >
+                      <MarkerContent>
+                        <div className="relative">
+                          <div className="h-6 w-6 rounded-full bg-green-500 border-2 border-white shadow-lg flex items-center justify-center animate-pulse">
+                            <div className="h-2 w-2 rounded-full bg-white" />
+                          </div>
+                        </div>
+                      </MarkerContent>
+                      <MarkerTooltip>Vị trí của bạn</MarkerTooltip>
+                    </MapMarker>
+                  )}
+                </Map>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Info Sidebar */}
+        <div className="space-y-4">
+          {/* Distance Card */}
+          {distance && estimatedTime && (
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base flex items-center gap-2">
+                  <Clock className="h-4 w-4" />
+                  Khoảng cách
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-muted-foreground">Khoảng cách</span>
+                    <span className="font-bold text-lg">{distance} km</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-muted-foreground">Đi bộ (ước tính)</span>
+                    <span className="font-bold text-lg">{estimatedTime} phút</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Contact Info */}
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-base flex items-center gap-2">
+                <Phone className="h-4 w-4" />
+                Thông tin liên hệ
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <div className="flex items-start gap-2 text-sm">
+                <MapPin className="h-4 w-4 mt-0.5 text-muted-foreground shrink-0" />
+                <span>268 Lý Thường Kiệt, P.14, Q.10, TP.HCM</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm">
+                <Phone className="h-4 w-4 text-muted-foreground" />
+                <span>(028) 3865 4647</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm">
+                <Mail className="h-4 w-4 text-muted-foreground" />
+                <span>dhbk@hcmut.edu.vn</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm">
+                <Globe className="h-4 w-4 text-muted-foreground" />
+                <a href="https://hcmut.edu.vn" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                  www.hcmut.edu.vn
+                </a>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Transportation */}
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-base flex items-center gap-2">
+                <Bus className="h-4 w-4" />
+                Hướng dẫn đi lại
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <div className="flex items-start gap-2 text-sm">
+                <Bus className="h-4 w-4 mt-0.5 text-muted-foreground shrink-0" />
+                <div>
+                  <span className="font-medium">Xe buýt:</span>
+                  <span className="ml-1">Tuyến 01, 03, 19, 36, 93</span>
+                </div>
+              </div>
+              <div className="flex items-start gap-2 text-sm">
+                <Navigation className="h-4 w-4 mt-0.5 text-muted-foreground shrink-0" />
+                <div>
+                  <span className="font-medium">Metro:</span>
+                  <span className="ml-1">Ga Bến Thành (đang xây dựng)</span>
+                </div>
+              </div>
+              <div className="flex items-start gap-2 text-sm">
+                <Car className="h-4 w-4 mt-0.5 text-muted-foreground shrink-0" />
+                <div>
+                  <span className="font-medium">Xe máy/Ô tô:</span>
+                  <span className="ml-1">Có bãi đỗ xe trong khuôn viên trường</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Quick Actions */}
+          <Card>
+            <CardContent className="pt-4">
+              <Button
+                className="w-full"
+                variant="outline"
+                onClick={() => {
+                  window.open(`https://www.google.com/maps/dir/?api=1&destination=${HCMUT_LAT},${HCMUT_LNG}`, '_blank');
+                }}
               >
-                <TileLayer
-                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />
+                <Navigation className="mr-2 h-4 w-4" />
+                Chỉ đường bằng Google Maps
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
 
-                {/* School marker */}
-                <Marker position={HCMUT_COORDINATES}>
-                  <Popup>
-                    <Box>
-                      <Typography variant="subtitle2" fontWeight="bold">
-                        Đại học Bách Khoa TP.HCM
-                      </Typography>
-                      <Typography variant="body2">
-                        268 Lý Thường Kiệt, Phường 14, Quận 10, TP.HCM
-                      </Typography>
-                    </Box>
-                  </Popup>
-                </Marker>
-
-                {/* User location marker */}
-                {userLocation && (
-                  <Marker position={userLocation}>
-                    <Popup>
-                      <Typography variant="body2">
-                        Vị trí của bạn
-                      </Typography>
-                    </Popup>
-                  </Marker>
-                )}
-              </MapContainer>
-            </Box>
-          </Paper>
-        </Grid>
-
-        <Grid item xs={12} lg={4}>
-          <Grid container spacing={2}>
-            {distance && estimatedTime && (
-              <Grid item xs={12}>
-                <Card>
-                  <CardContent>
-                    <Typography variant="h6" gutterBottom>
-                      <WalkIcon sx={{ mr: 1, verticalAlign: 'middle' }} />
-                      Thông Tin Khoảng Cách
-                    </Typography>
-                    <Typography variant="body1" sx={{ mb: 1 }}>
-                      Khoảng cách: <strong>{distance} km</strong>
-                    </Typography>
-                    <Typography variant="body1">
-                      Thời gian ước tính (đi bộ): <strong>{estimatedTime} phút</strong>
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-            )}
-
-            <Grid item xs={12}>
-              <Card>
-                <CardContent>
-                  <Typography variant="h6" gutterBottom>
-                    Thông Tin Liên Hệ
-                  </Typography>
-                  <Typography variant="body2" sx={{ mb: 1 }}>
-                    <strong>Địa chỉ:</strong> 268 Lý Thường Kiệt, Phường 14, Quận 10, TP.HCM
-                  </Typography>
-                  <Typography variant="body2" sx={{ mb: 1 }}>
-                    <strong>Điện thoại:</strong> (028) 3865 4647
-                  </Typography>
-                  <Typography variant="body2" sx={{ mb: 1 }}>
-                    <strong>Email:</strong> dhbk@hcmut.edu.vn
-                  </Typography>
-                  <Typography variant="body2">
-                    <strong>Website:</strong> www.hcmut.edu.vn
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-
-            <Grid item xs={12}>
-              <Card>
-                <CardContent>
-                  <Typography variant="h6" gutterBottom>
-                    Hướng Dẫn Đi Lại
-                  </Typography>
-                  <Typography variant="body2" sx={{ mb: 1 }}>
-                    <strong>Xe buýt:</strong> Tuyến 01, 03, 19, 36, 93
-                  </Typography>
-                  <Typography variant="body2" sx={{ mb: 1 }}>
-                    <strong>Metro:</strong> Ga Bến Thành (đang xây dựng)
-                  </Typography>
-                  <Typography variant="body2">
-                    <strong>Xe máy/Ô tô:</strong> Có bãi đỗ xe trong khuôn viên trường
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-          </Grid>
-        </Grid>
-
-        <Grid item xs={12}>
-          <Paper sx={{ p: 3 }}>
-            <Typography variant="h6" gutterBottom>
-              Bản Đồ Chi Tiết Trường
-            </Typography>
-            <Box
-              sx={{
-                width: '100%',
-                maxWidth: '800px',
-                mx: 'auto',
-                borderRadius: 2,
-                overflow: 'hidden',
-                boxShadow: 3,
-                border: '1px solid',
-                borderColor: 'divider',
+      {/* Campus Map Image */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Building2 className="h-5 w-5" />
+            Sơ đồ chi tiết khuôn viên
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="max-w-3xl mx-auto">
+            <img
+              src="/image/map/cs1.jpg"
+              alt="Bản đồ chi tiết Đại học Bách Khoa TP.HCM"
+              className="w-full rounded-lg shadow-md border"
+              onError={(e) => {
+                e.target.style.display = 'none';
+                e.target.nextSibling.style.display = 'flex';
               }}
+            />
+            <div
+              className="hidden items-center justify-center h-64 bg-muted/30 rounded-lg border-2 border-dashed"
             >
-              <img
-                src="/image/map/cs1.jpg"
-                alt="Bản đồ chi tiết Đại học Bách Khoa TP.HCM"
-                style={{
-                  width: '100%',
-                  maxHeight: '500px',
-                  objectFit: 'contain',
-                  display: 'block',
-                }}
-                onError={(e) => {
-                  // Fallback nếu không tìm thấy ảnh
-                  e.target.style.display = 'none';
-                  e.target.nextSibling.style.display = 'flex';
-                }}
-              />
-              <Box
-                sx={{
-                  width: '100%',
-                  height: '300px',
-                  display: 'none',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  backgroundColor: 'action.hover',
-                  border: '2px dashed',
-                  borderColor: 'divider',
-                }}
-              >
-                <Box sx={{ textAlign: 'center' }}>
-                  <MapIcon sx={{ fontSize: 48, color: 'text.secondary', mb: 2 }} />
-                  <Typography variant="h6" color="text.secondary">
-                    Không tìm thấy bản đồ
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Vui lòng đặt file ảnh tại: public/image/map/cs1.jpg
-                  </Typography>
-                </Box>
-              </Box>
-            </Box>
-          </Paper>
-        </Grid>
-      </Grid>
-    </Box>
+              <div className="text-center text-muted-foreground">
+                <MapPin className="h-12 w-12 mx-auto mb-2 opacity-50" />
+                <p className="font-medium">Không tìm thấy bản đồ</p>
+                <p className="text-sm">Vui lòng đặt file ảnh tại: public/image/map/cs1.jpg</p>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   );
 }
 

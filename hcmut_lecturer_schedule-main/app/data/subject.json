@@ -1,0 +1,5924 @@
+[
+  {
+    "maMonHoc": "AS2015",
+    "tenMonHoc": "Thực tập cơ kỹ thuật 1",
+    "soTinChi": 0,
+    "id": "14181"
+  },
+  {
+    "maMonHoc": "AS2031",
+    "tenMonHoc": "Đồ án môn học-thiếtkế kt",
+    "soTinChi": 0,
+    "id": "15177"
+  },
+  {
+    "maMonHoc": "AS2045",
+    "tenMonHoc": "Đồ án thiết kế cơ sở",
+    "soTinChi": 0,
+    "id": "15388"
+  },
+  {
+    "maMonHoc": "AS3011",
+    "tenMonHoc": "Thực tập cơ kỹ thuật 2",
+    "soTinChi": 0,
+    "id": "14543"
+  },
+  {
+    "maMonHoc": "AS3089",
+    "tenMonHoc": "Thực tập kỹ thuật (nt)",
+    "soTinChi": 0,
+    "id": "15391"
+  },
+  {
+    "maMonHoc": "AS3115",
+    "tenMonHoc": "ứng dụng vxl trong ktys",
+    "soTinChi": 0,
+    "id": "17332"
+  },
+  {
+    "maMonHoc": "AS3163",
+    "tenMonHoc": "Đồ án bs cơhọc vậtrắn bd",
+    "soTinChi": 0,
+    "id": "19802"
+  },
+  {
+    "maMonHoc": "AS3313",
+    "tenMonHoc": "Thực tập tốt nghiệp",
+    "soTinChi": 0,
+    "id": "15298"
+  },
+  {
+    "maMonHoc": "AS3335",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "17147"
+  },
+  {
+    "maMonHoc": "AS3345",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "17148"
+  },
+  {
+    "maMonHoc": "AS4001",
+    "tenMonHoc": "ĐAMH Cơ kỹ thuật",
+    "soTinChi": 0,
+    "id": "15906"
+  },
+  {
+    "maMonHoc": "AS4005",
+    "tenMonHoc": "Đồ án chuyên ngành (vlkt",
+    "soTinChi": 0,
+    "id": "17329"
+  },
+  {
+    "maMonHoc": "AS4007",
+    "tenMonHoc": "Đồ án chuyên ngành (ckt)",
+    "soTinChi": 0,
+    "id": "17349"
+  },
+  {
+    "maMonHoc": "AS4311",
+    "tenMonHoc": "Đề cương luận văn tn",
+    "soTinChi": 0,
+    "id": "15907"
+  },
+  {
+    "maMonHoc": "AS4313",
+    "tenMonHoc": "Luận văn tốt nghiệp (ckt",
+    "soTinChi": 0,
+    "id": "15396"
+  },
+  {
+    "maMonHoc": "AS4317",
+    "tenMonHoc": "Luận văn tốt nghiệp (ckt",
+    "soTinChi": 0,
+    "id": "16901"
+  },
+  {
+    "maMonHoc": "AS4327",
+    "tenMonHoc": "Luận văn tốt nghiệp",
+    "soTinChi": 0,
+    "id": "16903"
+  },
+  {
+    "maMonHoc": "AS4337",
+    "tenMonHoc": "Đồ án tốt nghiệp (ckt)",
+    "soTinChi": 0,
+    "id": "17149"
+  },
+  {
+    "maMonHoc": "AS4343",
+    "tenMonHoc": "Luận văn tốt nghiệp(ktys",
+    "soTinChi": 0,
+    "id": "15400"
+  },
+  {
+    "maMonHoc": "AS4347",
+    "tenMonHoc": "Đồ án tốt nghiệp",
+    "soTinChi": 0,
+    "id": "17150"
+  },
+  {
+    "maMonHoc": "CH1001",
+    "tenMonHoc": "Nhập môn về kỹ thuật",
+    "soTinChi": 0,
+    "id": "13914"
+  },
+  {
+    "maMonHoc": "CH1005",
+    "tenMonHoc": "Hóa lý hóa keo",
+    "soTinChi": 0,
+    "id": "13975"
+  },
+  {
+    "maMonHoc": "CH2003",
+    "tenMonHoc": "Hóa lý 1",
+    "soTinChi": 0,
+    "id": "14039"
+  },
+  {
+    "maMonHoc": "CH2017",
+    "tenMonHoc": "Kỹ thuật thực phẩm 1",
+    "soTinChi": 0,
+    "id": "14049"
+  },
+  {
+    "maMonHoc": "CH2019",
+    "tenMonHoc": "Quátrình &thi;ết bị cơhọc",
+    "soTinChi": 0,
+    "id": "14050"
+  },
+  {
+    "maMonHoc": "CH2039",
+    "tenMonHoc": "Kỹ thuật thực phẩm 3",
+    "soTinChi": 0,
+    "id": "14189"
+  },
+  {
+    "maMonHoc": "CH2041",
+    "tenMonHoc": "Thí nghiệm hóa lý",
+    "soTinChi": 0,
+    "id": "14190"
+  },
+  {
+    "maMonHoc": "CH2043",
+    "tenMonHoc": "Q/tr & th/bị truyềnnhiệt",
+    "soTinChi": 0,
+    "id": "14191"
+  },
+  {
+    "maMonHoc": "CH2049",
+    "tenMonHoc": "TN hóa học & hóa sinh tp",
+    "soTinChi": 0,
+    "id": "14194"
+  },
+  {
+    "maMonHoc": "CH2051",
+    "tenMonHoc": "Q/trình &tb;ị truyền khối",
+    "soTinChi": 0,
+    "id": "14195"
+  },
+  {
+    "maMonHoc": "CH2053",
+    "tenMonHoc": "Thí nghiệm hóa hữu cơ",
+    "soTinChi": 0,
+    "id": "14196"
+  },
+  {
+    "maMonHoc": "CH2089",
+    "tenMonHoc": "Quá trình &thi;ết bị CN 1",
+    "soTinChi": 0,
+    "id": "14314"
+  },
+  {
+    "maMonHoc": "CH2109",
+    "tenMonHoc": "Hóa lý 2",
+    "soTinChi": 0,
+    "id": "17103"
+  },
+  {
+    "maMonHoc": "CH2111",
+    "tenMonHoc": "Thí nghiệm hóa hữu cơ cb",
+    "soTinChi": 0,
+    "id": "17230"
+  },
+  {
+    "maMonHoc": "CH2113",
+    "tenMonHoc": "Hóa phân tích",
+    "soTinChi": 0,
+    "id": "17806"
+  },
+  {
+    "maMonHoc": "CH2115",
+    "tenMonHoc": "Thí nghiệm hóa phân tích",
+    "soTinChi": 0,
+    "id": "17807"
+  },
+  {
+    "maMonHoc": "CH3001",
+    "tenMonHoc": "Thí nghiệm visinh t/phẩm",
+    "soTinChi": 0,
+    "id": "14535"
+  },
+  {
+    "maMonHoc": "CH3015",
+    "tenMonHoc": "T/n quá trình thiết bị",
+    "soTinChi": 0,
+    "id": "14395"
+  },
+  {
+    "maMonHoc": "CH3017",
+    "tenMonHoc": "Côngnghệ chếbiến th/phẩm",
+    "soTinChi": 0,
+    "id": "14531"
+  },
+  {
+    "maMonHoc": "CH3053",
+    "tenMonHoc": "Thiết kế nhàmáy thựcphẩm",
+    "soTinChi": 0,
+    "id": "15039"
+  },
+  {
+    "maMonHoc": "CH3133",
+    "tenMonHoc": "Mô hình hóa,mp &t;ưh CNHH",
+    "soTinChi": 0,
+    "id": "15081"
+  },
+  {
+    "maMonHoc": "CH3321",
+    "tenMonHoc": "Thiết kế hệ thống qtcnhh",
+    "soTinChi": 0,
+    "id": "17231"
+  },
+  {
+    "maMonHoc": "CH3327",
+    "tenMonHoc": "Hóa keo",
+    "soTinChi": 0,
+    "id": "17232"
+  },
+  {
+    "maMonHoc": "CH3329",
+    "tenMonHoc": "Các p/pháp phân tích hđ",
+    "soTinChi": 0,
+    "id": "17233"
+  },
+  {
+    "maMonHoc": "CH3331",
+    "tenMonHoc": "Cs vậtliệu &b;ảo vệ ănmòn",
+    "soTinChi": 0,
+    "id": "17234"
+  },
+  {
+    "maMonHoc": "CH3337",
+    "tenMonHoc": "Tổng hợp hữu cơ hóa dầu",
+    "soTinChi": 0,
+    "id": "17235"
+  },
+  {
+    "maMonHoc": "CH3341",
+    "tenMonHoc": "Cơsở điều khiển quátrình",
+    "soTinChi": 0,
+    "id": "17237"
+  },
+  {
+    "maMonHoc": "CH3345",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "16906"
+  },
+  {
+    "maMonHoc": "CH3347",
+    "tenMonHoc": "Kỹ thuật phản ứng",
+    "soTinChi": 0,
+    "id": "17238"
+  },
+  {
+    "maMonHoc": "CH3349",
+    "tenMonHoc": "Cơ sở tính toán tk tb hh",
+    "soTinChi": 0,
+    "id": "17239"
+  },
+  {
+    "maMonHoc": "CH3355",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "17104"
+  },
+  {
+    "maMonHoc": "CH3365",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "17105"
+  },
+  {
+    "maMonHoc": "CH3375",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "17106"
+  },
+  {
+    "maMonHoc": "CH3379",
+    "tenMonHoc": "T/h p/tích t/phẩm A",
+    "soTinChi": 0,
+    "id": "17319"
+  },
+  {
+    "maMonHoc": "CH3389",
+    "tenMonHoc": "P/triển bền vững &cnxlmt;",
+    "soTinChi": 0,
+    "id": "17317"
+  },
+  {
+    "maMonHoc": "CH3421",
+    "tenMonHoc": "Cơ sở kỹ thuật mỹ phẩm",
+    "soTinChi": 0,
+    "id": "18470"
+  },
+  {
+    "maMonHoc": "CH4001",
+    "tenMonHoc": "Thí nghiệm c/nghệ cbtp",
+    "soTinChi": 0,
+    "id": "15405"
+  },
+  {
+    "maMonHoc": "CH4007",
+    "tenMonHoc": "Đồ án thiếtkế kỹ thuậthh",
+    "soTinChi": 0,
+    "id": "15407"
+  },
+  {
+    "maMonHoc": "CH4011",
+    "tenMonHoc": "Đồ án thiếtkế côngnghệsh",
+    "soTinChi": 0,
+    "id": "15409"
+  },
+  {
+    "maMonHoc": "CH4053",
+    "tenMonHoc": "Đồ án chuyên ngành",
+    "soTinChi": 0,
+    "id": "17248"
+  },
+  {
+    "maMonHoc": "CH4057",
+    "tenMonHoc": "Đồ án công nghệ sinh học",
+    "soTinChi": 0,
+    "id": "17250"
+  },
+  {
+    "maMonHoc": "CH4059",
+    "tenMonHoc": "Kiểm toán năng lượng",
+    "soTinChi": 0,
+    "id": "17251"
+  },
+  {
+    "maMonHoc": "CH4061",
+    "tenMonHoc": "Kỹ thuật đường ống bể chứa",
+    "soTinChi": 0,
+    "id": "17252"
+  },
+  {
+    "maMonHoc": "CH4063",
+    "tenMonHoc": "Thiết kế P&ID;",
+    "soTinChi": 0,
+    "id": "17253"
+  },
+  {
+    "maMonHoc": "CH4067",
+    "tenMonHoc": "Cơ sở thiết kế nhà máy",
+    "soTinChi": 0,
+    "id": "17255"
+  },
+  {
+    "maMonHoc": "CH4079",
+    "tenMonHoc": "Hóa học xanh",
+    "soTinChi": 0,
+    "id": "17261"
+  },
+  {
+    "maMonHoc": "CH4085",
+    "tenMonHoc": "Hóa học và công nghệ chất hoạt động bề mặt",
+    "soTinChi": 0,
+    "id": "17264"
+  },
+  {
+    "maMonHoc": "CH4087",
+    "tenMonHoc": "Các phương pháp vật lý nghiên cứu chất rắn",
+    "soTinChi": 0,
+    "id": "17361"
+  },
+  {
+    "maMonHoc": "CH4091",
+    "tenMonHoc": "Hóa học nano và ứng dụng",
+    "soTinChi": 0,
+    "id": "17363"
+  },
+  {
+    "maMonHoc": "CH4093",
+    "tenMonHoc": "Độc chất học cn ứng dụng",
+    "soTinChi": 0,
+    "id": "17364"
+  },
+  {
+    "maMonHoc": "CH4095",
+    "tenMonHoc": "Đồ án chuyên ngành",
+    "soTinChi": 0,
+    "id": "17365"
+  },
+  {
+    "maMonHoc": "CH4099",
+    "tenMonHoc": "Đồ án thiết kế nhàmáy tp",
+    "soTinChi": 0,
+    "id": "17367"
+  },
+  {
+    "maMonHoc": "CH4103",
+    "tenMonHoc": "Đồ án chuyên ngành",
+    "soTinChi": 0,
+    "id": "17368"
+  },
+  {
+    "maMonHoc": "CH4111",
+    "tenMonHoc": "Vật lý thực phẩm",
+    "soTinChi": 0,
+    "id": "18067"
+  },
+  {
+    "maMonHoc": "CH4113",
+    "tenMonHoc": "Kỹ thuật bao gói t/phẩm",
+    "soTinChi": 0,
+    "id": "18068"
+  },
+  {
+    "maMonHoc": "CH4115",
+    "tenMonHoc": "Công nghệ sau thu hoạch",
+    "soTinChi": 0,
+    "id": "18069"
+  },
+  {
+    "maMonHoc": "CH4125",
+    "tenMonHoc": "Độc chất học",
+    "soTinChi": 0,
+    "id": "18488"
+  },
+  {
+    "maMonHoc": "CH4127",
+    "tenMonHoc": "Cong nghe che bien khi thien nhien",
+    "soTinChi": 0,
+    "id": "18489"
+  },
+  {
+    "maMonHoc": "CH4129",
+    "tenMonHoc": "Cong nghe loc dau va che bien dau",
+    "soTinChi": 0,
+    "id": "18490"
+  },
+  {
+    "maMonHoc": "CH4313",
+    "tenMonHoc": "Luận văn tốt nghiệp(cbdk",
+    "soTinChi": 0,
+    "id": "15426"
+  },
+  {
+    "maMonHoc": "CH4325",
+    "tenMonHoc": "Đề cương luận văn tn",
+    "soTinChi": 0,
+    "id": "16907"
+  },
+  {
+    "maMonHoc": "CH4327",
+    "tenMonHoc": "Luận văn tốt nghiệp",
+    "soTinChi": 0,
+    "id": "16908"
+  },
+  {
+    "maMonHoc": "CH4337",
+    "tenMonHoc": "Luận văn tốt nghiệp(cntp",
+    "soTinChi": 0,
+    "id": "16910"
+  },
+  {
+    "maMonHoc": "CH4345",
+    "tenMonHoc": "Đề cương luận văn tn",
+    "soTinChi": 0,
+    "id": "16911"
+  },
+  {
+    "maMonHoc": "CH4347",
+    "tenMonHoc": "Luận văn tốt nghiệp (csh",
+    "soTinChi": 0,
+    "id": "16912"
+  },
+  {
+    "maMonHoc": "CH4351",
+    "tenMonHoc": "Đề cương luận văn tn",
+    "soTinChi": 0,
+    "id": "15433"
+  },
+  {
+    "maMonHoc": "CH4357",
+    "tenMonHoc": "Đồ án tốt nghiệp",
+    "soTinChi": 0,
+    "id": "17107"
+  },
+  {
+    "maMonHoc": "CH4367",
+    "tenMonHoc": "Đồ án tốt nghiệp",
+    "soTinChi": 0,
+    "id": "17108"
+  },
+  {
+    "maMonHoc": "CH4377",
+    "tenMonHoc": "Đồ án tốt nghiệp",
+    "soTinChi": 0,
+    "id": "17110"
+  },
+  {
+    "maMonHoc": "CI1001",
+    "tenMonHoc": "Nhập môn về kỹ thuật",
+    "soTinChi": 0,
+    "id": "13917"
+  },
+  {
+    "maMonHoc": "CI1055",
+    "tenMonHoc": "T/kế kiếntrúc côngnghiệp",
+    "soTinChi": 0,
+    "id": "14348"
+  },
+  {
+    "maMonHoc": "CI1065",
+    "tenMonHoc": "Nhập môn kiến trúc",
+    "soTinChi": 0,
+    "id": "16760"
+  },
+  {
+    "maMonHoc": "CI1067",
+    "tenMonHoc": "Vẽ kỹ thuật kiến trúc",
+    "soTinChi": 0,
+    "id": "16761"
+  },
+  {
+    "maMonHoc": "CI1069",
+    "tenMonHoc": "Khoa học trái đất",
+    "soTinChi": 0,
+    "id": "16762"
+  },
+  {
+    "maMonHoc": "CI2025",
+    "tenMonHoc": "Thiết kế ktrúc côngcộng2",
+    "soTinChi": 0,
+    "id": "14073"
+  },
+  {
+    "maMonHoc": "CI2069",
+    "tenMonHoc": "Thiếtkế k/trúc côngcộng3",
+    "soTinChi": 0,
+    "id": "14220"
+  },
+  {
+    "maMonHoc": "CI2093",
+    "tenMonHoc": "ĐAMH kết cấu bêtông ct1",
+    "soTinChi": 0,
+    "id": "16332"
+  },
+  {
+    "maMonHoc": "CI2103",
+    "tenMonHoc": "N/l t/kế k/trúc ct nhà ở",
+    "soTinChi": 0,
+    "id": "17027"
+  },
+  {
+    "maMonHoc": "CI2105",
+    "tenMonHoc": "T/kế kt kiến trúc ctdd",
+    "soTinChi": 0,
+    "id": "17154"
+  },
+  {
+    "maMonHoc": "CI2109",
+    "tenMonHoc": "Thực tập công nhân",
+    "soTinChi": 0,
+    "id": "17214"
+  },
+  {
+    "maMonHoc": "CI2117",
+    "tenMonHoc": "Đồ án kiếntrúc cảnh quan",
+    "soTinChi": 0,
+    "id": "19059"
+  },
+  {
+    "maMonHoc": "CI2119",
+    "tenMonHoc": "Thực tập công nhân",
+    "soTinChi": 0,
+    "id": "17454"
+  },
+  {
+    "maMonHoc": "CI2123",
+    "tenMonHoc": "Pt địa điểm &ki;ến tạo nc",
+    "soTinChi": 0,
+    "id": "19566"
+  },
+  {
+    "maMonHoc": "CI2125",
+    "tenMonHoc": "T/kế I- ct công cộng",
+    "soTinChi": 0,
+    "id": "19575"
+  },
+  {
+    "maMonHoc": "CI2131",
+    "tenMonHoc": "TN môi trường nước đôthị",
+    "soTinChi": 0,
+    "id": "19657"
+  },
+  {
+    "maMonHoc": "CI2133",
+    "tenMonHoc": "Kết cấu thép",
+    "soTinChi": 0,
+    "id": "19804"
+  },
+  {
+    "maMonHoc": "CI2139",
+    "tenMonHoc": "Kết cấu bê tông cốt thép",
+    "soTinChi": 0,
+    "id": "19807"
+  },
+  {
+    "maMonHoc": "CI2141",
+    "tenMonHoc": "Bản đồ học",
+    "soTinChi": 0,
+    "id": "19809"
+  },
+  {
+    "maMonHoc": "CI2145",
+    "tenMonHoc": "Nền móng",
+    "soTinChi": 0,
+    "id": "19808"
+  },
+  {
+    "maMonHoc": "CI2147",
+    "tenMonHoc": "Thi Nghiem Cong Trinh",
+    "soTinChi": 0,
+    "id": "19810"
+  },
+  {
+    "maMonHoc": "CI2151",
+    "tenMonHoc": "Kinh tế xây dựng",
+    "soTinChi": 0,
+    "id": "19811"
+  },
+  {
+    "maMonHoc": "CI3009",
+    "tenMonHoc": "Kết cấu thép 1",
+    "soTinChi": 0,
+    "id": "14409"
+  },
+  {
+    "maMonHoc": "CI3043",
+    "tenMonHoc": "Kỹ thuật thi công",
+    "soTinChi": 0,
+    "id": "15290"
+  },
+  {
+    "maMonHoc": "CI3145",
+    "tenMonHoc": "Thiết kế kiến trúc nhà ở",
+    "soTinChi": 0,
+    "id": "15265"
+  },
+  {
+    "maMonHoc": "CI3157",
+    "tenMonHoc": "Thiết kế nội thất",
+    "soTinChi": 0,
+    "id": "15480"
+  },
+  {
+    "maMonHoc": "CI3177",
+    "tenMonHoc": "ĐAMH kết cấu bê tông ct2",
+    "soTinChi": 0,
+    "id": "16334"
+  },
+  {
+    "maMonHoc": "CI3185",
+    "tenMonHoc": "ĐAMH quy hoạch cảng",
+    "soTinChi": 0,
+    "id": "16338"
+  },
+  {
+    "maMonHoc": "CI3193",
+    "tenMonHoc": "ĐAMH công nghệ gốm xdựng",
+    "soTinChi": 0,
+    "id": "16342"
+  },
+  {
+    "maMonHoc": "CI3197",
+    "tenMonHoc": "ĐAMH nền móng",
+    "soTinChi": 0,
+    "id": "16344"
+  },
+  {
+    "maMonHoc": "CI3201",
+    "tenMonHoc": "ĐAMH thủy công",
+    "soTinChi": 0,
+    "id": "16346"
+  },
+  {
+    "maMonHoc": "CI3213",
+    "tenMonHoc": "ĐAMH kết cấu thép",
+    "soTinChi": 0,
+    "id": "16352"
+  },
+  {
+    "maMonHoc": "CI3217",
+    "tenMonHoc": "ĐAMH thicông c/trìnhcảng",
+    "soTinChi": 0,
+    "id": "16354"
+  },
+  {
+    "maMonHoc": "CI3221",
+    "tenMonHoc": "ĐAMH thiết kế đường",
+    "soTinChi": 0,
+    "id": "16356"
+  },
+  {
+    "maMonHoc": "CI3231",
+    "tenMonHoc": "Kết cấu thép",
+    "soTinChi": 0,
+    "id": "17155"
+  },
+  {
+    "maMonHoc": "CI3237",
+    "tenMonHoc": "Kết cấu bê tông cốt thép",
+    "soTinChi": 0,
+    "id": "17158"
+  },
+  {
+    "maMonHoc": "CI3239",
+    "tenMonHoc": "Nền móng",
+    "soTinChi": 0,
+    "id": "17159"
+  },
+  {
+    "maMonHoc": "CI3241",
+    "tenMonHoc": "Cấp thoát nước",
+    "soTinChi": 0,
+    "id": "17160"
+  },
+  {
+    "maMonHoc": "CI3243",
+    "tenMonHoc": "Kết cấu công trình btct",
+    "soTinChi": 0,
+    "id": "17161"
+  },
+  {
+    "maMonHoc": "CI3255",
+    "tenMonHoc": "Thực tập đovẽ &l;ập bđ đh",
+    "soTinChi": 0,
+    "id": "17166"
+  },
+  {
+    "maMonHoc": "CI3257",
+    "tenMonHoc": "Trắc địa cao cấp",
+    "soTinChi": 0,
+    "id": "17167"
+  },
+  {
+    "maMonHoc": "CI3265",
+    "tenMonHoc": "Kỹ thuật hạ tầng đô thị",
+    "soTinChi": 0,
+    "id": "17172"
+  },
+  {
+    "maMonHoc": "CI3267",
+    "tenMonHoc": "Thủy công",
+    "soTinChi": 0,
+    "id": "17173"
+  },
+  {
+    "maMonHoc": "CI3289",
+    "tenMonHoc": "Lãnh đạo và khởi nghiệp",
+    "soTinChi": 0,
+    "id": "19569"
+  },
+  {
+    "maMonHoc": "CI3291",
+    "tenMonHoc": "Lãnh đạo &qu;ản lý dự án",
+    "soTinChi": 0,
+    "id": "19570"
+  },
+  {
+    "maMonHoc": "CI3293",
+    "tenMonHoc": "K/thuật c/trình dân dụng",
+    "soTinChi": 0,
+    "id": "19571"
+  },
+  {
+    "maMonHoc": "CI3295",
+    "tenMonHoc": "Thiết kế III - tcq đôthị",
+    "soTinChi": 0,
+    "id": "19572"
+  },
+  {
+    "maMonHoc": "CI3299",
+    "tenMonHoc": "T/kế III -ct công nghiệp",
+    "soTinChi": 0,
+    "id": "19577"
+  },
+  {
+    "maMonHoc": "CI3315",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "16913"
+  },
+  {
+    "maMonHoc": "CI3325",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "16918"
+  },
+  {
+    "maMonHoc": "CI3345",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "16915"
+  },
+  {
+    "maMonHoc": "CI3385",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "17306"
+  },
+  {
+    "maMonHoc": "CI3395",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "17307"
+  },
+  {
+    "maMonHoc": "CI3415",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "17111"
+  },
+  {
+    "maMonHoc": "CI3425",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "17112"
+  },
+  {
+    "maMonHoc": "CI3435",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "17113"
+  },
+  {
+    "maMonHoc": "CI3445",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "17114"
+  },
+  {
+    "maMonHoc": "CI3455",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "17115"
+  },
+  {
+    "maMonHoc": "CI3465",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "17116"
+  },
+  {
+    "maMonHoc": "CI3475",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "17117"
+  },
+  {
+    "maMonHoc": "CI3485",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "17118"
+  },
+  {
+    "maMonHoc": "CI4011",
+    "tenMonHoc": "Thi Nghiem Cong Trinh",
+    "soTinChi": 0,
+    "id": "15489"
+  },
+  {
+    "maMonHoc": "CI4093",
+    "tenMonHoc": "Thiết kế kiến trúc cc4",
+    "soTinChi": 0,
+    "id": "15525"
+  },
+  {
+    "maMonHoc": "CI4115",
+    "tenMonHoc": "ĐAMH công trình ven biển",
+    "soTinChi": 0,
+    "id": "16362"
+  },
+  {
+    "maMonHoc": "CI4119",
+    "tenMonHoc": "ĐAMH côngtrình đườg thủy",
+    "soTinChi": 0,
+    "id": "16364"
+  },
+  {
+    "maMonHoc": "CI4123",
+    "tenMonHoc": "ĐAMH thiết kế cầu",
+    "soTinChi": 0,
+    "id": "16366"
+  },
+  {
+    "maMonHoc": "CI4127",
+    "tenMonHoc": "ĐAMH tổ chức thi công",
+    "soTinChi": 0,
+    "id": "16368"
+  },
+  {
+    "maMonHoc": "CI4129",
+    "tenMonHoc": "Kinh tế xây dựng",
+    "soTinChi": 0,
+    "id": "17180"
+  },
+  {
+    "maMonHoc": "CI4131",
+    "tenMonHoc": "Kết cấu công trình thép",
+    "soTinChi": 0,
+    "id": "17181"
+  },
+  {
+    "maMonHoc": "CI4133",
+    "tenMonHoc": "Đồ án chuyên ngành",
+    "soTinChi": 0,
+    "id": "17182"
+  },
+  {
+    "maMonHoc": "CI4135",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "16920"
+  },
+  {
+    "maMonHoc": "CI4137",
+    "tenMonHoc": "Thiết kế dựán tốt nghiệp",
+    "soTinChi": 0,
+    "id": "16921"
+  },
+  {
+    "maMonHoc": "CI4151",
+    "tenMonHoc": "Thí nghiệm vật liệu ctgt",
+    "soTinChi": 0,
+    "id": "17199"
+  },
+  {
+    "maMonHoc": "CI4157",
+    "tenMonHoc": "Đồ án chuyên ngành",
+    "soTinChi": 0,
+    "id": "17192"
+  },
+  {
+    "maMonHoc": "CI4161",
+    "tenMonHoc": "Quy hoạch hạ tầng đô thị",
+    "soTinChi": 0,
+    "id": "17189"
+  },
+  {
+    "maMonHoc": "CI4167",
+    "tenMonHoc": "Đồ án chuyên ngành",
+    "soTinChi": 0,
+    "id": "17194"
+  },
+  {
+    "maMonHoc": "CI4169",
+    "tenMonHoc": "Đồ án chuyên ngành",
+    "soTinChi": 0,
+    "id": "17195"
+  },
+  {
+    "maMonHoc": "CI4171",
+    "tenMonHoc": "Đồ án chuyên ngành",
+    "soTinChi": 0,
+    "id": "17196"
+  },
+  {
+    "maMonHoc": "CI4173",
+    "tenMonHoc": "Đồ án chuyên ngành",
+    "soTinChi": 0,
+    "id": "17197"
+  },
+  {
+    "maMonHoc": "CI4175",
+    "tenMonHoc": "Đồ án chuyên ngành",
+    "soTinChi": 0,
+    "id": "17198"
+  },
+  {
+    "maMonHoc": "CI4179",
+    "tenMonHoc": "Đồ án thiết kế nội thất",
+    "soTinChi": 0,
+    "id": "17201"
+  },
+  {
+    "maMonHoc": "CI4181",
+    "tenMonHoc": "Lãnh đạo và khởi nghiệp",
+    "soTinChi": 0,
+    "id": "17203"
+  },
+  {
+    "maMonHoc": "CI4183",
+    "tenMonHoc": "Lãnh đạo & quản lý dự án",
+    "soTinChi": 0,
+    "id": "17219"
+  },
+  {
+    "maMonHoc": "CI4187",
+    "tenMonHoc": "Thiên tai &b;/đổi khí hậu",
+    "soTinChi": 0,
+    "id": "17432"
+  },
+  {
+    "maMonHoc": "CI4189",
+    "tenMonHoc": "Q/hoạch tổ chức thi công",
+    "soTinChi": 0,
+    "id": "17433"
+  },
+  {
+    "maMonHoc": "CI4195",
+    "tenMonHoc": "Thủy lực nước ngầm",
+    "soTinChi": 0,
+    "id": "17448"
+  },
+  {
+    "maMonHoc": "CI4201",
+    "tenMonHoc": "Hệ thống c/đ trg tòa nhà",
+    "soTinChi": 0,
+    "id": "18066"
+  },
+  {
+    "maMonHoc": "CI4203",
+    "tenMonHoc": "Đồ án cấp thoát nước",
+    "soTinChi": 0,
+    "id": "18026"
+  },
+  {
+    "maMonHoc": "CI4211",
+    "tenMonHoc": "Kỹ thuật xử lý nước cấp",
+    "soTinChi": 0,
+    "id": "19658"
+  },
+  {
+    "maMonHoc": "CI4303",
+    "tenMonHoc": "Thiết kế dựán tốt nghiệp",
+    "soTinChi": 0,
+    "id": "15534"
+  },
+  {
+    "maMonHoc": "CI4313",
+    "tenMonHoc": "Luận văn tốt nghiệp (cđ)",
+    "soTinChi": 0,
+    "id": "15536"
+  },
+  {
+    "maMonHoc": "CI4315",
+    "tenMonHoc": "Đề cương luận văn tn",
+    "soTinChi": 0,
+    "id": "16922"
+  },
+  {
+    "maMonHoc": "CI4317",
+    "tenMonHoc": "Luận văn tốt nghiệp",
+    "soTinChi": 0,
+    "id": "16923"
+  },
+  {
+    "maMonHoc": "CI4325",
+    "tenMonHoc": "Đề cương luận văn tn",
+    "soTinChi": 0,
+    "id": "16932"
+  },
+  {
+    "maMonHoc": "CI4327",
+    "tenMonHoc": "Luận văn tốt nghiệp(csht",
+    "soTinChi": 0,
+    "id": "16933"
+  },
+  {
+    "maMonHoc": "CI4331",
+    "tenMonHoc": "Đề cương luận văn tn",
+    "soTinChi": 0,
+    "id": "15539"
+  },
+  {
+    "maMonHoc": "CI4333",
+    "tenMonHoc": "Luận văn tốt nghiệp (ctb",
+    "soTinChi": 0,
+    "id": "15540"
+  },
+  {
+    "maMonHoc": "CI4335",
+    "tenMonHoc": "Đề cương luận văn tn",
+    "soTinChi": 0,
+    "id": "16924"
+  },
+  {
+    "maMonHoc": "CI4337",
+    "tenMonHoc": "Luận văn tốt nghiệp (ctb",
+    "soTinChi": 0,
+    "id": "16925"
+  },
+  {
+    "maMonHoc": "CI4341",
+    "tenMonHoc": "Đề cương luận văn tn",
+    "soTinChi": 0,
+    "id": "15541"
+  },
+  {
+    "maMonHoc": "CI4343",
+    "tenMonHoc": "Luận văn tốt nghiệp",
+    "soTinChi": 0,
+    "id": "15542"
+  },
+  {
+    "maMonHoc": "CI4345",
+    "tenMonHoc": "Đề cương luận văn tn",
+    "soTinChi": 0,
+    "id": "16926"
+  },
+  {
+    "maMonHoc": "CI4347",
+    "tenMonHoc": "Luận văn tốt nghiệp",
+    "soTinChi": 0,
+    "id": "16927"
+  },
+  {
+    "maMonHoc": "CI4353",
+    "tenMonHoc": "Luận văn tốt nghiệp (tdi",
+    "soTinChi": 0,
+    "id": "15544"
+  },
+  {
+    "maMonHoc": "CI4357",
+    "tenMonHoc": "Luận văn tốt nghiệp",
+    "soTinChi": 0,
+    "id": "16929"
+  },
+  {
+    "maMonHoc": "CI4365",
+    "tenMonHoc": "Đề cương luận văn tn",
+    "soTinChi": 0,
+    "id": "16934"
+  },
+  {
+    "maMonHoc": "CI4367",
+    "tenMonHoc": "Luận văn tốt nghiệp (vxd",
+    "soTinChi": 0,
+    "id": "16935"
+  },
+  {
+    "maMonHoc": "CI4373",
+    "tenMonHoc": "Luận văn tốt nghiệp (ctt",
+    "soTinChi": 0,
+    "id": "15548"
+  },
+  {
+    "maMonHoc": "CI4377",
+    "tenMonHoc": "Luận văn tốt nghiệp",
+    "soTinChi": 0,
+    "id": "16931"
+  },
+  {
+    "maMonHoc": "CI4383",
+    "tenMonHoc": "Luận văn tốt nghiệp(csht",
+    "soTinChi": 0,
+    "id": "15550"
+  },
+  {
+    "maMonHoc": "CI4385",
+    "tenMonHoc": "Thực tập kỹ sư",
+    "soTinChi": 0,
+    "id": "17308"
+  },
+  {
+    "maMonHoc": "CI4393",
+    "tenMonHoc": "Luận văn tốt nghiệp (vxd",
+    "soTinChi": 0,
+    "id": "15552"
+  },
+  {
+    "maMonHoc": "CI4395",
+    "tenMonHoc": "Thực tập kỹ sư",
+    "soTinChi": 0,
+    "id": "17309"
+  },
+  {
+    "maMonHoc": "CI4417",
+    "tenMonHoc": "Đồ án tốt nghiệp",
+    "soTinChi": 0,
+    "id": "17120"
+  },
+  {
+    "maMonHoc": "CI4427",
+    "tenMonHoc": "Đồ án tốt nghiệp",
+    "soTinChi": 0,
+    "id": "17121"
+  },
+  {
+    "maMonHoc": "CI4437",
+    "tenMonHoc": "Đồ án tốt nghiệp",
+    "soTinChi": 0,
+    "id": "17122"
+  },
+  {
+    "maMonHoc": "CI4447",
+    "tenMonHoc": "Đồ án tốt nghiệp",
+    "soTinChi": 0,
+    "id": "17123"
+  },
+  {
+    "maMonHoc": "CI4457",
+    "tenMonHoc": "Đồ án tốt nghiệp",
+    "soTinChi": 0,
+    "id": "17124"
+  },
+  {
+    "maMonHoc": "CI4467",
+    "tenMonHoc": "Đồ án tốt nghiệp",
+    "soTinChi": 0,
+    "id": "17125"
+  },
+  {
+    "maMonHoc": "CI4477",
+    "tenMonHoc": "Đồ án tốt nghiệp",
+    "soTinChi": 0,
+    "id": "17126"
+  },
+  {
+    "maMonHoc": "CI4487",
+    "tenMonHoc": "Đồ án tốt nghiệp",
+    "soTinChi": 0,
+    "id": "17127"
+  },
+  {
+    "maMonHoc": "CI5005",
+    "tenMonHoc": "Đồ án chuyên ngành",
+    "soTinChi": 0,
+    "id": "17451"
+  },
+  {
+    "maMonHoc": "CI5009",
+    "tenMonHoc": "Đồ án nckh & phát triển",
+    "soTinChi": 0,
+    "id": "17472"
+  },
+  {
+    "maMonHoc": "CI5015",
+    "tenMonHoc": "C/tr xanh,k/g,â/t & á/s",
+    "soTinChi": 0,
+    "id": "18257"
+  },
+  {
+    "maMonHoc": "CI5017",
+    "tenMonHoc": "Luận văn tốt nghiệp",
+    "soTinChi": 0,
+    "id": "17460"
+  },
+  {
+    "maMonHoc": "CI5019",
+    "tenMonHoc": "Kết cấu công trình btct",
+    "soTinChi": 0,
+    "id": "18253"
+  },
+  {
+    "maMonHoc": "CI5021",
+    "tenMonHoc": "Kết cấu công trình thép",
+    "soTinChi": 0,
+    "id": "18254"
+  },
+  {
+    "maMonHoc": "CI5031",
+    "tenMonHoc": "T/n &đ/h k/k trg tòa nhà",
+    "soTinChi": 0,
+    "id": "18258"
+  },
+  {
+    "maMonHoc": "CO1007",
+    "tenMonHoc": "Cấutrúc rời rạc cho KHMT",
+    "soTinChi": 0,
+    "id": "13928"
+  },
+  {
+    "maMonHoc": "CO1029",
+    "tenMonHoc": "Đồ án hệ thống số",
+    "soTinChi": 0,
+    "id": "17216"
+  },
+  {
+    "maMonHoc": "CO1031",
+    "tenMonHoc": "Đồ án kỹ thuật lập trình",
+    "soTinChi": 0,
+    "id": "17217"
+  },
+  {
+    "maMonHoc": "CO2001",
+    "tenMonHoc": "Kỹnăng chnghiệp cho kỹsư",
+    "soTinChi": 0,
+    "id": "14076"
+  },
+  {
+    "maMonHoc": "CO2011",
+    "tenMonHoc": "Mô hình hóa toán học",
+    "soTinChi": 0,
+    "id": "14226"
+  },
+  {
+    "maMonHoc": "CO2019",
+    "tenMonHoc": "Thựctập phầncứng máytính",
+    "soTinChi": 0,
+    "id": "14233"
+  },
+  {
+    "maMonHoc": "CO2021",
+    "tenMonHoc": "ĐAMH thiết kế luận lý",
+    "soTinChi": 0,
+    "id": "14234"
+  },
+  {
+    "maMonHoc": "CO2039",
+    "tenMonHoc": "Lập trình nâng cao",
+    "soTinChi": 0,
+    "id": "16834"
+  },
+  {
+    "maMonHoc": "CO2043",
+    "tenMonHoc": "Đồ án lập trình nâng cao",
+    "soTinChi": 0,
+    "id": "18348"
+  },
+  {
+    "maMonHoc": "CO3001",
+    "tenMonHoc": "Công nghệ phần mềm",
+    "soTinChi": 0,
+    "id": "14423"
+  },
+  {
+    "maMonHoc": "CO3005",
+    "tenMonHoc": "Ng/lý ngôn ngữ lập trình",
+    "soTinChi": 0,
+    "id": "14425"
+  },
+  {
+    "maMonHoc": "CO3015",
+    "tenMonHoc": "Kiểm tra phần mềm",
+    "soTinChi": 0,
+    "id": "15556"
+  },
+  {
+    "maMonHoc": "CO3021",
+    "tenMonHoc": "Hệ quản trị cơsở dữ liệu",
+    "soTinChi": 0,
+    "id": "15338"
+  },
+  {
+    "maMonHoc": "CO3027",
+    "tenMonHoc": "Thương mại điện tử",
+    "soTinChi": 0,
+    "id": "15560"
+  },
+  {
+    "maMonHoc": "CO3029",
+    "tenMonHoc": "Khai phá dữ liệu",
+    "soTinChi": 0,
+    "id": "15561"
+  },
+  {
+    "maMonHoc": "CO3041",
+    "tenMonHoc": "Hệ thống thông minh",
+    "soTinChi": 0,
+    "id": "15565"
+  },
+  {
+    "maMonHoc": "CO3043",
+    "tenMonHoc": "Phát triển ứd trên tbdđ",
+    "soTinChi": 0,
+    "id": "15566"
+  },
+  {
+    "maMonHoc": "CO3045",
+    "tenMonHoc": "Lập trình game",
+    "soTinChi": 0,
+    "id": "15567"
+  },
+  {
+    "maMonHoc": "CO3055",
+    "tenMonHoc": "Thực tập công nghệ pm",
+    "soTinChi": 0,
+    "id": "15128"
+  },
+  {
+    "maMonHoc": "CO3057",
+    "tenMonHoc": "Xửlý ảnh số &th;ị giác mt",
+    "soTinChi": 0,
+    "id": "15570"
+  },
+  {
+    "maMonHoc": "CO3059",
+    "tenMonHoc": "Đồ họa máy tính",
+    "soTinChi": 0,
+    "id": "15129"
+  },
+  {
+    "maMonHoc": "CO3061",
+    "tenMonHoc": "Nhập môn trítuệ nhân tạo",
+    "soTinChi": 0,
+    "id": "15130"
+  },
+  {
+    "maMonHoc": "CO3063",
+    "tenMonHoc": "Đồ án môn học kỹthuật mt",
+    "soTinChi": 0,
+    "id": "15136"
+  },
+  {
+    "maMonHoc": "CO3065",
+    "tenMonHoc": "C/nghệ phần mềm nâng cao",
+    "soTinChi": 0,
+    "id": "15131"
+  },
+  {
+    "maMonHoc": "CO3066",
+    "tenMonHoc": "C/nghệ p/mềm nâng cao(tn",
+    "soTinChi": 0,
+    "id": "16230"
+  },
+  {
+    "maMonHoc": "CO3075",
+    "tenMonHoc": "Đồ án 2",
+    "soTinChi": 0,
+    "id": "15301"
+  },
+  {
+    "maMonHoc": "CO3085",
+    "tenMonHoc": "Xử lý ngôn ngữ tự nhiên",
+    "soTinChi": 0,
+    "id": "15573"
+  },
+  {
+    "maMonHoc": "CO3087",
+    "tenMonHoc": "Thực tập đồ án đa ngành",
+    "soTinChi": 0,
+    "id": "16386"
+  },
+  {
+    "maMonHoc": "CO3091",
+    "tenMonHoc": "Đồ án thiết kế luận lý",
+    "soTinChi": 0,
+    "id": "16833"
+  },
+  {
+    "maMonHoc": "CO3101",
+    "tenMonHoc": "Đồ án tổng hợp - ttnt",
+    "soTinChi": 0,
+    "id": "17071"
+  },
+  {
+    "maMonHoc": "CO3103",
+    "tenMonHoc": "Đồ án tổng hợp - cnpm",
+    "soTinChi": 0,
+    "id": "17072"
+  },
+  {
+    "maMonHoc": "CO3105",
+    "tenMonHoc": "Đồ án tổng hợp - httt",
+    "soTinChi": 0,
+    "id": "17073"
+  },
+  {
+    "maMonHoc": "CO3107",
+    "tenMonHoc": "T/tập ĐAMH đa ngành-ttnt",
+    "soTinChi": 0,
+    "id": "17074"
+  },
+  {
+    "maMonHoc": "CO3109",
+    "tenMonHoc": "T/tập ĐAMH đa ngành-cnpm",
+    "soTinChi": 0,
+    "id": "17075"
+  },
+  {
+    "maMonHoc": "CO3111",
+    "tenMonHoc": "T/tập ĐAMH đa ngành-httt",
+    "soTinChi": 0,
+    "id": "17076"
+  },
+  {
+    "maMonHoc": "CO3115",
+    "tenMonHoc": "Phân tích và thiết kế ht",
+    "soTinChi": 0,
+    "id": "17078"
+  },
+  {
+    "maMonHoc": "CO3117",
+    "tenMonHoc": "Học máy",
+    "soTinChi": 0,
+    "id": "17351"
+  },
+  {
+    "maMonHoc": "CO3119",
+    "tenMonHoc": "Đồ án mạng máy tính",
+    "soTinChi": 0,
+    "id": "17839"
+  },
+  {
+    "maMonHoc": "CO3315",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "16936"
+  },
+  {
+    "maMonHoc": "CO3325",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "16937"
+  },
+  {
+    "maMonHoc": "CO3333",
+    "tenMonHoc": "Thực tập tốt nghiệp",
+    "soTinChi": 0,
+    "id": "16211"
+  },
+  {
+    "maMonHoc": "CO3335",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "17033"
+  },
+  {
+    "maMonHoc": "CO3345",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "17034"
+  },
+  {
+    "maMonHoc": "CO4007",
+    "tenMonHoc": "Đồ án 3",
+    "soTinChi": 0,
+    "id": "15314"
+  },
+  {
+    "maMonHoc": "CO4029",
+    "tenMonHoc": "Đồ án chuyên ngành",
+    "soTinChi": 0,
+    "id": "16835"
+  },
+  {
+    "maMonHoc": "CO4031",
+    "tenMonHoc": "Kho d/liệu &h;ệ hỗ trợ qđ",
+    "soTinChi": 0,
+    "id": "16836"
+  },
+  {
+    "maMonHoc": "CO4033",
+    "tenMonHoc": "P/tích dữ liệu lớn &ttkd;",
+    "soTinChi": 0,
+    "id": "17828"
+  },
+  {
+    "maMonHoc": "CO4037",
+    "tenMonHoc": "Hệ thống thông tin q/lý",
+    "soTinChi": 0,
+    "id": "17830"
+  },
+  {
+    "maMonHoc": "CO4041",
+    "tenMonHoc": "Đồ án môn học kỹthuật mt",
+    "soTinChi": 0,
+    "id": "18569"
+  },
+  {
+    "maMonHoc": "CO4311",
+    "tenMonHoc": "Đề cương luận văn tn",
+    "soTinChi": 0,
+    "id": "15578"
+  },
+  {
+    "maMonHoc": "CO4313",
+    "tenMonHoc": "Luận văn tốt nghiệp(khmt",
+    "soTinChi": 0,
+    "id": "15579"
+  },
+  {
+    "maMonHoc": "CO4315",
+    "tenMonHoc": "Đề cương luận văn tn",
+    "soTinChi": 0,
+    "id": "16938"
+  },
+  {
+    "maMonHoc": "CO4317",
+    "tenMonHoc": "Luận văn tốt nghiệp(khmt",
+    "soTinChi": 0,
+    "id": "16939"
+  },
+  {
+    "maMonHoc": "CO4325",
+    "tenMonHoc": "Đề cương luận văn tn",
+    "soTinChi": 0,
+    "id": "16940"
+  },
+  {
+    "maMonHoc": "CO4327",
+    "tenMonHoc": "Luận văn tốt nghiệp (ktm",
+    "soTinChi": 0,
+    "id": "16941"
+  },
+  {
+    "maMonHoc": "CO4331",
+    "tenMonHoc": "Đề cương luận văn tn",
+    "soTinChi": 0,
+    "id": "16103"
+  },
+  {
+    "maMonHoc": "CO4333",
+    "tenMonHoc": "Luận văn tốt nghiệp",
+    "soTinChi": 0,
+    "id": "16104"
+  },
+  {
+    "maMonHoc": "CO4337",
+    "tenMonHoc": "Đồ án tốt nghiệp(khmt)",
+    "soTinChi": 0,
+    "id": "17035"
+  },
+  {
+    "maMonHoc": "CO4347",
+    "tenMonHoc": "Đồ án tốt nghiệp (ktmt)",
+    "soTinChi": 0,
+    "id": "17036"
+  },
+  {
+    "maMonHoc": "EE1031",
+    "tenMonHoc": "Đồ án bs kỹ thuật số",
+    "soTinChi": 0,
+    "id": "17942"
+  },
+  {
+    "maMonHoc": "EE2023",
+    "tenMonHoc": "Thực tập điện tử 1",
+    "soTinChi": 0,
+    "id": "14244"
+  },
+  {
+    "maMonHoc": "EE2025",
+    "tenMonHoc": "Thực tập điện 1",
+    "soTinChi": 0,
+    "id": "14245"
+  },
+  {
+    "maMonHoc": "EE2041",
+    "tenMonHoc": "Đồ án bs giải tích mạch",
+    "soTinChi": 0,
+    "id": "17939"
+  },
+  {
+    "maMonHoc": "EE2043",
+    "tenMonHoc": "Đồ án bs mạch điện tử",
+    "soTinChi": 0,
+    "id": "17940"
+  },
+  {
+    "maMonHoc": "EE2045",
+    "tenMonHoc": "Đồ án bs vi xử lý",
+    "soTinChi": 0,
+    "id": "17941"
+  },
+  {
+    "maMonHoc": "EE2053",
+    "tenMonHoc": "Đồ án 1 (Ktđ & Ktđt-Vt)",
+    "soTinChi": 0,
+    "id": "19475"
+  },
+  {
+    "maMonHoc": "EE2075",
+    "tenMonHoc": "Đồ án 1 (Kỹ thuật điện)",
+    "soTinChi": 0,
+    "id": "19924"
+  },
+  {
+    "maMonHoc": "EE2109",
+    "tenMonHoc": "Thực tập công nhân",
+    "soTinChi": 0,
+    "id": "17455"
+  },
+  {
+    "maMonHoc": "EE2119",
+    "tenMonHoc": "Thực tập công nhân",
+    "soTinChi": 0,
+    "id": "17456"
+  },
+  {
+    "maMonHoc": "EE2409",
+    "tenMonHoc": "Cơ sở trường điện từ",
+    "soTinChi": 0,
+    "id": "17862"
+  },
+  {
+    "maMonHoc": "EE2421",
+    "tenMonHoc": "Đồ án cơ sở ngành",
+    "soTinChi": 0,
+    "id": "19445"
+  },
+  {
+    "maMonHoc": "EE3003",
+    "tenMonHoc": "Thiết kế hệ thống nhúng",
+    "soTinChi": 0,
+    "id": "14428"
+  },
+  {
+    "maMonHoc": "EE3011",
+    "tenMonHoc": "Mạch điện tử thông tin",
+    "soTinChi": 0,
+    "id": "14431"
+  },
+  {
+    "maMonHoc": "EE3015",
+    "tenMonHoc": "Kỹthuật hệthống viễnthôg",
+    "soTinChi": 0,
+    "id": "14525"
+  },
+  {
+    "maMonHoc": "EE3021",
+    "tenMonHoc": "Thực tập điện tử 2",
+    "soTinChi": 0,
+    "id": "14528"
+  },
+  {
+    "maMonHoc": "EE3023",
+    "tenMonHoc": "Thực tập điện 2",
+    "soTinChi": 0,
+    "id": "14527"
+  },
+  {
+    "maMonHoc": "EE3025",
+    "tenMonHoc": "Kỹ thuật siêu cao tần",
+    "soTinChi": 0,
+    "id": "14759"
+  },
+  {
+    "maMonHoc": "EE3031",
+    "tenMonHoc": "Lập trình hệ thống nhúng",
+    "soTinChi": 0,
+    "id": "14781"
+  },
+  {
+    "maMonHoc": "EE3035",
+    "tenMonHoc": "Xử lý ảnh",
+    "soTinChi": 0,
+    "id": "14768"
+  },
+  {
+    "maMonHoc": "EE3037",
+    "tenMonHoc": "Điện tử y sinh",
+    "soTinChi": 0,
+    "id": "14782"
+  },
+  {
+    "maMonHoc": "EE3041",
+    "tenMonHoc": "Xl tín hiệu số với FPGA",
+    "soTinChi": 0,
+    "id": "14783"
+  },
+  {
+    "maMonHoc": "EE3043",
+    "tenMonHoc": "Cấu trúc máy tính",
+    "soTinChi": 0,
+    "id": "14784"
+  },
+  {
+    "maMonHoc": "EE3057",
+    "tenMonHoc": "Nhập môn điều khiển tm",
+    "soTinChi": 0,
+    "id": "14746"
+  },
+  {
+    "maMonHoc": "EE3061",
+    "tenMonHoc": "Đồ án",
+    "soTinChi": 0,
+    "id": "14789"
+  },
+  {
+    "maMonHoc": "EE3063",
+    "tenMonHoc": "Trí tuệ nhântạo trong đk",
+    "soTinChi": 0,
+    "id": "14748"
+  },
+  {
+    "maMonHoc": "EE3067",
+    "tenMonHoc": "Hệ thống điềukhiển nhúng",
+    "soTinChi": 0,
+    "id": "14750"
+  },
+  {
+    "maMonHoc": "EE3075",
+    "tenMonHoc": "Thiết bị & ht tự động tk",
+    "soTinChi": 0,
+    "id": "14754"
+  },
+  {
+    "maMonHoc": "EE3077",
+    "tenMonHoc": "Thị giác máy",
+    "soTinChi": 0,
+    "id": "14755"
+  },
+  {
+    "maMonHoc": "EE3085",
+    "tenMonHoc": "Mạng viễn thông",
+    "soTinChi": 0,
+    "id": "14761"
+  },
+  {
+    "maMonHoc": "EE3101",
+    "tenMonHoc": "Kỹthuật t/kiệm &sd; hqđn",
+    "soTinChi": 0,
+    "id": "14798"
+  },
+  {
+    "maMonHoc": "EE3107",
+    "tenMonHoc": "Thông tin di động",
+    "soTinChi": 0,
+    "id": "14762"
+  },
+  {
+    "maMonHoc": "EE3111",
+    "tenMonHoc": "Mạng máy tính",
+    "soTinChi": 0,
+    "id": "14763"
+  },
+  {
+    "maMonHoc": "EE3117",
+    "tenMonHoc": "Thiết kế vi mạch số",
+    "soTinChi": 0,
+    "id": "14777"
+  },
+  {
+    "maMonHoc": "EE3121",
+    "tenMonHoc": "Thiết kế vi mạch tt & hh",
+    "soTinChi": 0,
+    "id": "14778"
+  },
+  {
+    "maMonHoc": "EE3127",
+    "tenMonHoc": "Anten-truyềnsóng vôtuyến",
+    "soTinChi": 0,
+    "id": "14766"
+  },
+  {
+    "maMonHoc": "EE3129",
+    "tenMonHoc": "Điện tử ứng dụng",
+    "soTinChi": 0,
+    "id": "14780"
+  },
+  {
+    "maMonHoc": "EE3131",
+    "tenMonHoc": "Hệ thống năng lượng xanh",
+    "soTinChi": 0,
+    "id": "14800"
+  },
+  {
+    "maMonHoc": "EE3135",
+    "tenMonHoc": "Kỹ thuật nhiệt lạnh",
+    "soTinChi": 0,
+    "id": "14802"
+  },
+  {
+    "maMonHoc": "EE3145",
+    "tenMonHoc": "Kỹ thuật ra quyết định",
+    "soTinChi": 0,
+    "id": "14799"
+  },
+  {
+    "maMonHoc": "EE3149",
+    "tenMonHoc": "Đồ án",
+    "soTinChi": 0,
+    "id": "16186"
+  },
+  {
+    "maMonHoc": "EE3151",
+    "tenMonHoc": "Đồ án",
+    "soTinChi": 0,
+    "id": "16187"
+  },
+  {
+    "maMonHoc": "EE3165",
+    "tenMonHoc": "Thiết kế vi mạch",
+    "soTinChi": 0,
+    "id": "16796"
+  },
+  {
+    "maMonHoc": "EE3167",
+    "tenMonHoc": "Thiết kế & pt ứ/dụng IoT",
+    "soTinChi": 0,
+    "id": "16842"
+  },
+  {
+    "maMonHoc": "EE3169",
+    "tenMonHoc": "Máy học cơ bản và ứ/dụng",
+    "soTinChi": 0,
+    "id": "16843"
+  },
+  {
+    "maMonHoc": "EE3171",
+    "tenMonHoc": "IoT trg c/nghiệp &d;/dụng",
+    "soTinChi": 0,
+    "id": "16844"
+  },
+  {
+    "maMonHoc": "EE3177",
+    "tenMonHoc": "Chuyên đề đ/tử-viễnthông",
+    "soTinChi": 0,
+    "id": "17019"
+  },
+  {
+    "maMonHoc": "EE3181",
+    "tenMonHoc": "Đồ án 1 (Kỹ thuật điện)",
+    "soTinChi": 0,
+    "id": "17434"
+  },
+  {
+    "maMonHoc": "EE3183",
+    "tenMonHoc": "Đồ án 1 (Kt điện tử -vt)",
+    "soTinChi": 0,
+    "id": "17435"
+  },
+  {
+    "maMonHoc": "EE3185",
+    "tenMonHoc": "Đồ án 1 (Kt đ/khiển &t;đh",
+    "soTinChi": 0,
+    "id": "17436"
+  },
+  {
+    "maMonHoc": "EE3325",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "16943"
+  },
+  {
+    "maMonHoc": "EE3333",
+    "tenMonHoc": "Thực tập tốt nghiệp",
+    "soTinChi": 0,
+    "id": "14787"
+  },
+  {
+    "maMonHoc": "EE3345",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "17131"
+  },
+  {
+    "maMonHoc": "EE3355",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "17132"
+  },
+  {
+    "maMonHoc": "EE3365",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "17133"
+  },
+  {
+    "maMonHoc": "EE3375",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "17134"
+  },
+  {
+    "maMonHoc": "EE3385",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "17135"
+  },
+  {
+    "maMonHoc": "EE3395",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "17136"
+  },
+  {
+    "maMonHoc": "EE3425",
+    "tenMonHoc": "Thiết kế vi mạch",
+    "soTinChi": 0,
+    "id": "19473"
+  },
+  {
+    "maMonHoc": "EE3427",
+    "tenMonHoc": "Thiết kế hệ thống nhúng",
+    "soTinChi": 0,
+    "id": "19474"
+  },
+  {
+    "maMonHoc": "EE3429",
+    "tenMonHoc": "Đồ án cơ sở hệ thống điều khiển",
+    "soTinChi": 0,
+    "id": "19920"
+  },
+  {
+    "maMonHoc": "EE4007",
+    "tenMonHoc": "Đồ án 2 (ktđ)",
+    "soTinChi": 0,
+    "id": "16797"
+  },
+  {
+    "maMonHoc": "EE4009",
+    "tenMonHoc": "Đồ án 2 (đth)",
+    "soTinChi": 0,
+    "id": "16798"
+  },
+  {
+    "maMonHoc": "EE4011",
+    "tenMonHoc": "Đồ án 2 (đvt)",
+    "soTinChi": 0,
+    "id": "16799"
+  },
+  {
+    "maMonHoc": "EE4057",
+    "tenMonHoc": "Đồ án cơ sở ngành",
+    "soTinChi": 0,
+    "id": "18221"
+  },
+  {
+    "maMonHoc": "EE4063",
+    "tenMonHoc": "Hệ thống c/cấp điện (PBL",
+    "soTinChi": 0,
+    "id": "18224"
+  },
+  {
+    "maMonHoc": "EE4065",
+    "tenMonHoc": "Nhàmáy điện&tr;ạm b/á(PBL",
+    "soTinChi": 0,
+    "id": "18225"
+  },
+  {
+    "maMonHoc": "EE4069",
+    "tenMonHoc": "Đồ án cơ sở ngành",
+    "soTinChi": 0,
+    "id": "18413"
+  },
+  {
+    "maMonHoc": "EE4311",
+    "tenMonHoc": "Đề cương luận văn tn",
+    "soTinChi": 0,
+    "id": "15910"
+  },
+  {
+    "maMonHoc": "EE4313",
+    "tenMonHoc": "Luận văn tốt nghiệp (ktd",
+    "soTinChi": 0,
+    "id": "15911"
+  },
+  {
+    "maMonHoc": "EE4315",
+    "tenMonHoc": "Đề cương luận văn tn",
+    "soTinChi": 0,
+    "id": "16945"
+  },
+  {
+    "maMonHoc": "EE4317",
+    "tenMonHoc": "Luận văn tốt nghiệp (ktd",
+    "soTinChi": 0,
+    "id": "16946"
+  },
+  {
+    "maMonHoc": "EE4321",
+    "tenMonHoc": "Đề cương luận văn tn",
+    "soTinChi": 0,
+    "id": "15912"
+  },
+  {
+    "maMonHoc": "EE4323",
+    "tenMonHoc": "Luận văn tốt nghiệp(đktđ",
+    "soTinChi": 0,
+    "id": "15913"
+  },
+  {
+    "maMonHoc": "EE4325",
+    "tenMonHoc": "Đề cương luận văn tn",
+    "soTinChi": 0,
+    "id": "16947"
+  },
+  {
+    "maMonHoc": "EE4327",
+    "tenMonHoc": "Luận văn tốt nghiệp(đktđ",
+    "soTinChi": 0,
+    "id": "16948"
+  },
+  {
+    "maMonHoc": "EE4331",
+    "tenMonHoc": "Đề cương luận văn tn",
+    "soTinChi": 0,
+    "id": "15914"
+  },
+  {
+    "maMonHoc": "EE4333",
+    "tenMonHoc": "Luận văn tốt nghiệp(dttt",
+    "soTinChi": 0,
+    "id": "15915"
+  },
+  {
+    "maMonHoc": "EE4335",
+    "tenMonHoc": "Đề cương luận văn tn",
+    "soTinChi": 0,
+    "id": "16949"
+  },
+  {
+    "maMonHoc": "EE4337",
+    "tenMonHoc": "Luận văn tốt nghiệp(dttt",
+    "soTinChi": 0,
+    "id": "16950"
+  },
+  {
+    "maMonHoc": "EE4343",
+    "tenMonHoc": "Luận văn tốt nghiệp",
+    "soTinChi": 0,
+    "id": "16198"
+  },
+  {
+    "maMonHoc": "EE4347",
+    "tenMonHoc": "Đồ án tốt nghiệp (ktd)",
+    "soTinChi": 0,
+    "id": "17137"
+  },
+  {
+    "maMonHoc": "EE4357",
+    "tenMonHoc": "Đồ án tốt nghiệp (tdh)",
+    "soTinChi": 0,
+    "id": "17138"
+  },
+  {
+    "maMonHoc": "EE4367",
+    "tenMonHoc": "Đồ án tốt nghiệp (dvt)",
+    "soTinChi": 0,
+    "id": "17139"
+  },
+  {
+    "maMonHoc": "EE4377",
+    "tenMonHoc": "Đồ án tốt nghiệp (tt)",
+    "soTinChi": 0,
+    "id": "17140"
+  },
+  {
+    "maMonHoc": "EE4385",
+    "tenMonHoc": "Thực tập kỹ sư",
+    "soTinChi": 0,
+    "id": "17310"
+  },
+  {
+    "maMonHoc": "EE4395",
+    "tenMonHoc": "Thực tập kỹ sư",
+    "soTinChi": 0,
+    "id": "17311"
+  },
+  {
+    "maMonHoc": "EE4405",
+    "tenMonHoc": "Đồ án chuyên ngành",
+    "soTinChi": 0,
+    "id": "18277"
+  },
+  {
+    "maMonHoc": "EE4449",
+    "tenMonHoc": "Kỹ thuật số nâng cao",
+    "soTinChi": 0,
+    "id": "18330"
+  },
+  {
+    "maMonHoc": "EE4451",
+    "tenMonHoc": "Thiết kế vi mạch số",
+    "soTinChi": 0,
+    "id": "18331"
+  },
+  {
+    "maMonHoc": "EE4453",
+    "tenMonHoc": "Thiết kế vimạch tương tự",
+    "soTinChi": 0,
+    "id": "18332"
+  },
+  {
+    "maMonHoc": "EE5001",
+    "tenMonHoc": "Đồ án chuyên ngành",
+    "soTinChi": 0,
+    "id": "18226"
+  },
+  {
+    "maMonHoc": "EE5003",
+    "tenMonHoc": "Đồ án chuyên ngành",
+    "soTinChi": 0,
+    "id": "18227"
+  },
+  {
+    "maMonHoc": "EE5017",
+    "tenMonHoc": "Luận văn tốt nghiệp",
+    "soTinChi": 0,
+    "id": "17462"
+  },
+  {
+    "maMonHoc": "EE5027",
+    "tenMonHoc": "Luận văn tốt nghiệp",
+    "soTinChi": 0,
+    "id": "17463"
+  },
+  {
+    "maMonHoc": "EN1005",
+    "tenMonHoc": "Sinh thái học",
+    "soTinChi": 0,
+    "id": "13936"
+  },
+  {
+    "maMonHoc": "EN2003",
+    "tenMonHoc": "Các Qtrình shọc trg KTMT",
+    "soTinChi": 0,
+    "id": "14094"
+  },
+  {
+    "maMonHoc": "EN2033",
+    "tenMonHoc": "Luật &ch;ínhsách M/trường",
+    "soTinChi": 0,
+    "id": "17100"
+  },
+  {
+    "maMonHoc": "EN2045",
+    "tenMonHoc": "Các qt hóa-lý trong mt",
+    "soTinChi": 0,
+    "id": "17265"
+  },
+  {
+    "maMonHoc": "EN2055",
+    "tenMonHoc": "Mạng lưới cấp thoát nước",
+    "soTinChi": 0,
+    "id": "19490"
+  },
+  {
+    "maMonHoc": "EN2057",
+    "tenMonHoc": "Đồ án mh hh tkt&khmt;",
+    "soTinChi": 0,
+    "id": "20017"
+  },
+  {
+    "maMonHoc": "EN3041",
+    "tenMonHoc": "CN xlý nướccấp &n;ướcthải",
+    "soTinChi": 0,
+    "id": "15126"
+  },
+  {
+    "maMonHoc": "EN3047",
+    "tenMonHoc": "Đánh giá tác động &rrmt;",
+    "soTinChi": 0,
+    "id": "15584"
+  },
+  {
+    "maMonHoc": "EN3073",
+    "tenMonHoc": "Antoàn lđ & vs m/trg cn",
+    "soTinChi": 0,
+    "id": "17208"
+  },
+  {
+    "maMonHoc": "EN3077",
+    "tenMonHoc": "Đamh xử lý nước thải &nc;",
+    "soTinChi": 0,
+    "id": "17321"
+  },
+  {
+    "maMonHoc": "EN3079",
+    "tenMonHoc": "Các hệ thống ql m/trường",
+    "soTinChi": 0,
+    "id": "17313"
+  },
+  {
+    "maMonHoc": "EN3083",
+    "tenMonHoc": "Quan trắc môi trường",
+    "soTinChi": 0,
+    "id": "17376"
+  },
+  {
+    "maMonHoc": "EN3111",
+    "tenMonHoc": "Các qt cơ học trong ktmt",
+    "soTinChi": 0,
+    "id": "17374"
+  },
+  {
+    "maMonHoc": "EN3335",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "17143"
+  },
+  {
+    "maMonHoc": "EN3345",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "17144"
+  },
+  {
+    "maMonHoc": "EN4023",
+    "tenMonHoc": "Đồ án chuyên ngành",
+    "soTinChi": 0,
+    "id": "17210"
+  },
+  {
+    "maMonHoc": "EN4025",
+    "tenMonHoc": "Nmppnc khoa học tqltn&mt;",
+    "soTinChi": 0,
+    "id": "17211"
+  },
+  {
+    "maMonHoc": "EN4027",
+    "tenMonHoc": "Đamh xử lý khí thải &ctr;",
+    "soTinChi": 0,
+    "id": "17267"
+  },
+  {
+    "maMonHoc": "EN4317",
+    "tenMonHoc": "Luận văn tốt nghiệp (qlm",
+    "soTinChi": 0,
+    "id": "16954"
+  },
+  {
+    "maMonHoc": "EN4321",
+    "tenMonHoc": "Đề cương luận văn tn",
+    "soTinChi": 0,
+    "id": "15599"
+  },
+  {
+    "maMonHoc": "EN4323",
+    "tenMonHoc": "Luận văn tốt nghiệp (kmt",
+    "soTinChi": 0,
+    "id": "15600"
+  },
+  {
+    "maMonHoc": "EN4325",
+    "tenMonHoc": "Đề cương luận văn tn",
+    "soTinChi": 0,
+    "id": "16955"
+  },
+  {
+    "maMonHoc": "EN4327",
+    "tenMonHoc": "Luận văn tốt nghiệp (kmt",
+    "soTinChi": 0,
+    "id": "16956"
+  },
+  {
+    "maMonHoc": "EN4337",
+    "tenMonHoc": "Đồ án tốt nghiệp (qlm)",
+    "soTinChi": 0,
+    "id": "17145"
+  },
+  {
+    "maMonHoc": "EN4347",
+    "tenMonHoc": "Đồ án tốt nghiệp (kmt)",
+    "soTinChi": 0,
+    "id": "17146"
+  },
+  {
+    "maMonHoc": "GE1015",
+    "tenMonHoc": "Sức khỏe, An toàn và Môi trường trong ngành dầu khí",
+    "soTinChi": 0,
+    "id": "16767"
+  },
+  {
+    "maMonHoc": "GE1021",
+    "tenMonHoc": "Quản lý dự án tncndk",
+    "soTinChi": 0,
+    "id": "19892"
+  },
+  {
+    "maMonHoc": "GE2029",
+    "tenMonHoc": "Địa chất môi trường",
+    "soTinChi": 0,
+    "id": "16369"
+  },
+  {
+    "maMonHoc": "GE2047",
+    "tenMonHoc": "Tb khai thác tbm&ht;đktđ",
+    "soTinChi": 0,
+    "id": "19893"
+  },
+  {
+    "maMonHoc": "GE2049",
+    "tenMonHoc": "Cơ học đá",
+    "soTinChi": 0,
+    "id": "19894"
+  },
+  {
+    "maMonHoc": "GE3013",
+    "tenMonHoc": "Thí nghiệm địa kỹ thuật",
+    "soTinChi": 0,
+    "id": "14446"
+  },
+  {
+    "maMonHoc": "GE3017",
+    "tenMonHoc": "Kỹ thuật vỉa dầu khí",
+    "soTinChi": 0,
+    "id": "14448"
+  },
+  {
+    "maMonHoc": "GE3037",
+    "tenMonHoc": "TT kt pt các ct của mtđc",
+    "soTinChi": 0,
+    "id": "14523"
+  },
+  {
+    "maMonHoc": "GE3061",
+    "tenMonHoc": "Thực hành địa kỹ thuật 2",
+    "soTinChi": 0,
+    "id": "14737"
+  },
+  {
+    "maMonHoc": "GE3103",
+    "tenMonHoc": "Đồ án k/thác &bv; tn ndđ",
+    "soTinChi": 0,
+    "id": "14741"
+  },
+  {
+    "maMonHoc": "GE3137",
+    "tenMonHoc": "Công trình xây dựng",
+    "soTinChi": 0,
+    "id": "16813"
+  },
+  {
+    "maMonHoc": "GE3141",
+    "tenMonHoc": "Địa thống kê",
+    "soTinChi": 0,
+    "id": "16815"
+  },
+  {
+    "maMonHoc": "GE3143",
+    "tenMonHoc": "Địa kỹ thuật 2",
+    "soTinChi": 0,
+    "id": "16818"
+  },
+  {
+    "maMonHoc": "GE3145",
+    "tenMonHoc": "Đồ án địa kỹ thuật 2",
+    "soTinChi": 0,
+    "id": "16847"
+  },
+  {
+    "maMonHoc": "GE3149",
+    "tenMonHoc": "Đồ án kỹthuật tài nguyên",
+    "soTinChi": 0,
+    "id": "16849"
+  },
+  {
+    "maMonHoc": "GE3151",
+    "tenMonHoc": "Bv mtr trog cndk+kiếntập",
+    "soTinChi": 0,
+    "id": "16850"
+  },
+  {
+    "maMonHoc": "GE3155",
+    "tenMonHoc": "Đồ án tính toán ứd tktdk",
+    "soTinChi": 0,
+    "id": "16864"
+  },
+  {
+    "maMonHoc": "GE3157",
+    "tenMonHoc": "Đồ án kỹ thuật dầu khí 1",
+    "soTinChi": 0,
+    "id": "17278"
+  },
+  {
+    "maMonHoc": "GE3159",
+    "tenMonHoc": "Đồ án kỹ thuật dầu khí 2",
+    "soTinChi": 0,
+    "id": "16862"
+  },
+  {
+    "maMonHoc": "GE3161",
+    "tenMonHoc": "Q/lý dự án trong kt tntđ",
+    "soTinChi": 0,
+    "id": "16877"
+  },
+  {
+    "maMonHoc": "GE3165",
+    "tenMonHoc": "Tr/tích học &nh;ịp đ/tầng",
+    "soTinChi": 0,
+    "id": "16878"
+  },
+  {
+    "maMonHoc": "GE3175",
+    "tenMonHoc": "Hoànthiện giếng & kt vỉa",
+    "soTinChi": 0,
+    "id": "16874"
+  },
+  {
+    "maMonHoc": "GE3177",
+    "tenMonHoc": "Pp tìm kiếm thăm dò tldk",
+    "soTinChi": 0,
+    "id": "16875"
+  },
+  {
+    "maMonHoc": "GE3197",
+    "tenMonHoc": "Đồ án chuyên đề 1",
+    "soTinChi": 0,
+    "id": "17477"
+  },
+  {
+    "maMonHoc": "GE3207",
+    "tenMonHoc": "Cn cb dk pv cho các ncnk",
+    "soTinChi": 0,
+    "id": "18928"
+  },
+  {
+    "maMonHoc": "GE3209",
+    "tenMonHoc": "Đồ án kỹ thuật dầu khí",
+    "soTinChi": 0,
+    "id": "19895"
+  },
+  {
+    "maMonHoc": "GE3211",
+    "tenMonHoc": "Các qtcn chế biến dầukhí",
+    "soTinChi": 0,
+    "id": "19896"
+  },
+  {
+    "maMonHoc": "GE3315",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "16957"
+  },
+  {
+    "maMonHoc": "GE3335",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "16816"
+  },
+  {
+    "maMonHoc": "GE3345",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "16866"
+  },
+  {
+    "maMonHoc": "GE4023",
+    "tenMonHoc": "Đồ án nền móng côngtrình",
+    "soTinChi": 0,
+    "id": "15620"
+  },
+  {
+    "maMonHoc": "GE4029",
+    "tenMonHoc": "Các p/pháp gia cố đất",
+    "soTinChi": 0,
+    "id": "15623"
+  },
+  {
+    "maMonHoc": "GE4039",
+    "tenMonHoc": "Đồ án mônhọc ks-td&ppttl;",
+    "soTinChi": 0,
+    "id": "15628"
+  },
+  {
+    "maMonHoc": "GE4093",
+    "tenMonHoc": "Phân tích và dự báo ktdk",
+    "soTinChi": 0,
+    "id": "17277"
+  },
+  {
+    "maMonHoc": "GE4109",
+    "tenMonHoc": "Đồ án chuyên đề 2",
+    "soTinChi": 0,
+    "id": "16871"
+  },
+  {
+    "maMonHoc": "GE4111",
+    "tenMonHoc": "Đồ án chuyên đề 3",
+    "soTinChi": 0,
+    "id": "16860"
+  },
+  {
+    "maMonHoc": "GE4113",
+    "tenMonHoc": "Đồ án chuyên đề 4",
+    "soTinChi": 0,
+    "id": "16830"
+  },
+  {
+    "maMonHoc": "GE4141",
+    "tenMonHoc": "Đồ án chuyên ngành",
+    "soTinChi": 0,
+    "id": "17063"
+  },
+  {
+    "maMonHoc": "GE4143",
+    "tenMonHoc": "Đồ án chuyên ngành",
+    "soTinChi": 0,
+    "id": "17064"
+  },
+  {
+    "maMonHoc": "GE4315",
+    "tenMonHoc": "Đề cương luận văn tn",
+    "soTinChi": 0,
+    "id": "16960"
+  },
+  {
+    "maMonHoc": "GE4317",
+    "tenMonHoc": "Luận văn tốt nghiệp",
+    "soTinChi": 0,
+    "id": "16961"
+  },
+  {
+    "maMonHoc": "GE4323",
+    "tenMonHoc": "Luận văn tốt nghiệp (ddk",
+    "soTinChi": 0,
+    "id": "15640"
+  },
+  {
+    "maMonHoc": "GE4325",
+    "tenMonHoc": "Đề cương luận văn tn",
+    "soTinChi": 0,
+    "id": "16962"
+  },
+  {
+    "maMonHoc": "GE4327",
+    "tenMonHoc": "Luận văn tốt nghiệp",
+    "soTinChi": 0,
+    "id": "16963"
+  },
+  {
+    "maMonHoc": "GE4333",
+    "tenMonHoc": "Luận văn tốt nghiệp (dkt",
+    "soTinChi": 0,
+    "id": "15642"
+  },
+  {
+    "maMonHoc": "GE4337",
+    "tenMonHoc": "Đồ án tốt nghiệp",
+    "soTinChi": 0,
+    "id": "16819"
+  },
+  {
+    "maMonHoc": "GE4347",
+    "tenMonHoc": "Đồ án tốt nghiệp",
+    "soTinChi": 0,
+    "id": "16869"
+  },
+  {
+    "maMonHoc": "IM1001",
+    "tenMonHoc": "Giới thiệu ngành",
+    "soTinChi": 0,
+    "id": "13940"
+  },
+  {
+    "maMonHoc": "IM1003",
+    "tenMonHoc": "Kinh tế học vi mô",
+    "soTinChi": 0,
+    "id": "13941"
+  },
+  {
+    "maMonHoc": "IM1007",
+    "tenMonHoc": "Quản trị đại cương",
+    "soTinChi": 0,
+    "id": "14004"
+  },
+  {
+    "maMonHoc": "IM1009",
+    "tenMonHoc": "Kinh tế học vĩ mô",
+    "soTinChi": 0,
+    "id": "14005"
+  },
+  {
+    "maMonHoc": "IM1011",
+    "tenMonHoc": "Máy tính trong kinhdoanh",
+    "soTinChi": 0,
+    "id": "14103"
+  },
+  {
+    "maMonHoc": "IM1013",
+    "tenMonHoc": "Kinh tế học đại cương",
+    "soTinChi": 0,
+    "id": "14361"
+  },
+  {
+    "maMonHoc": "IM1015",
+    "tenMonHoc": "Kế toán tài chính",
+    "soTinChi": 0,
+    "id": "16768"
+  },
+  {
+    "maMonHoc": "IM1017",
+    "tenMonHoc": "Thống kê trong kinhdoanh",
+    "soTinChi": 0,
+    "id": "16769"
+  },
+  {
+    "maMonHoc": "IM1019",
+    "tenMonHoc": "Tiếp thị căn bản",
+    "soTinChi": 0,
+    "id": "16770"
+  },
+  {
+    "maMonHoc": "IM1021",
+    "tenMonHoc": "Khởi nghiệp",
+    "soTinChi": 0,
+    "id": "17312"
+  },
+  {
+    "maMonHoc": "IM1023",
+    "tenMonHoc": "Quảnlý sảnxuất cho kỹ sư",
+    "soTinChi": 0,
+    "id": "17316"
+  },
+  {
+    "maMonHoc": "IM1025",
+    "tenMonHoc": "Quản lý dự án cho kỹ sư",
+    "soTinChi": 0,
+    "id": "17359"
+  },
+  {
+    "maMonHoc": "IM1027",
+    "tenMonHoc": "Kinh tế kỹ thuật",
+    "soTinChi": 0,
+    "id": "17360"
+  },
+  {
+    "maMonHoc": "IM1029",
+    "tenMonHoc": "Hệ thống sản xuất",
+    "soTinChi": 0,
+    "id": "17437"
+  },
+  {
+    "maMonHoc": "IM2029",
+    "tenMonHoc": "Thực tập nhận thức",
+    "soTinChi": 0,
+    "id": "14268"
+  },
+  {
+    "maMonHoc": "IM2031",
+    "tenMonHoc": "Quản lý sản xuất",
+    "soTinChi": 0,
+    "id": "17205"
+  },
+  {
+    "maMonHoc": "IM2033",
+    "tenMonHoc": "Tài chính doanh nghiệp",
+    "soTinChi": 0,
+    "id": "17228"
+  },
+  {
+    "maMonHoc": "IM2035",
+    "tenMonHoc": "Phương pháp định lượng",
+    "soTinChi": 0,
+    "id": "17438"
+  },
+  {
+    "maMonHoc": "IM3001",
+    "tenMonHoc": "Quảntrị kinhdoanh cho ks",
+    "soTinChi": 0,
+    "id": "14520"
+  },
+  {
+    "maMonHoc": "IM3021",
+    "tenMonHoc": "Quản lý chuỗi cung ứng",
+    "soTinChi": 0,
+    "id": "15143"
+  },
+  {
+    "maMonHoc": "IM3023",
+    "tenMonHoc": "Thương mại điện tử",
+    "soTinChi": 0,
+    "id": "15648"
+  },
+  {
+    "maMonHoc": "IM3029",
+    "tenMonHoc": "Quản lý công nghệ",
+    "soTinChi": 0,
+    "id": "14462"
+  },
+  {
+    "maMonHoc": "IM3051",
+    "tenMonHoc": "Đạođức kinhdoanh & tn xh",
+    "soTinChi": 0,
+    "id": "14466"
+  },
+  {
+    "maMonHoc": "IM3059",
+    "tenMonHoc": "Quản lý chiến lược",
+    "soTinChi": 0,
+    "id": "15151"
+  },
+  {
+    "maMonHoc": "IM3063",
+    "tenMonHoc": "Quản lý chất lượng",
+    "soTinChi": 0,
+    "id": "15149"
+  },
+  {
+    "maMonHoc": "IM3073",
+    "tenMonHoc": "Điều độ sản xuất",
+    "soTinChi": 0,
+    "id": "16127"
+  },
+  {
+    "maMonHoc": "IM3075",
+    "tenMonHoc": "An toàn cn & q/lý rủi ro",
+    "soTinChi": 0,
+    "id": "16128"
+  },
+  {
+    "maMonHoc": "IM3081",
+    "tenMonHoc": "Quản trị k/doanh quốc tế",
+    "soTinChi": 0,
+    "id": "17042"
+  },
+  {
+    "maMonHoc": "IM3083",
+    "tenMonHoc": "Hành vi người tiêu dùng",
+    "soTinChi": 0,
+    "id": "17043"
+  },
+  {
+    "maMonHoc": "IM3091",
+    "tenMonHoc": "Phân tích &t;/k chuỗi c/ứ",
+    "soTinChi": 0,
+    "id": "18401"
+  },
+  {
+    "maMonHoc": "IM3095",
+    "tenMonHoc": "Quản lý vận hành bán lẻ",
+    "soTinChi": 0,
+    "id": "18403"
+  },
+  {
+    "maMonHoc": "IM3099",
+    "tenMonHoc": "Ql chuỗi c/ứng theo Lean",
+    "soTinChi": 0,
+    "id": "18405"
+  },
+  {
+    "maMonHoc": "IM3107",
+    "tenMonHoc": "Kh/nghiệp &đổi mới s/tạo",
+    "soTinChi": 0,
+    "id": "19941"
+  },
+  {
+    "maMonHoc": "IM3325",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "17040"
+  },
+  {
+    "maMonHoc": "IM4001",
+    "tenMonHoc": "Phương pháp nc trong kd",
+    "soTinChi": 0,
+    "id": "15651"
+  },
+  {
+    "maMonHoc": "IM4003",
+    "tenMonHoc": "Quản lý dự án",
+    "soTinChi": 0,
+    "id": "15652"
+  },
+  {
+    "maMonHoc": "IM4033",
+    "tenMonHoc": "Đồ án chuyên ngành",
+    "soTinChi": 0,
+    "id": "17270"
+  },
+  {
+    "maMonHoc": "IM4313",
+    "tenMonHoc": "Luận văn tốt nghiệp (qcn",
+    "soTinChi": 0,
+    "id": "15660"
+  },
+  {
+    "maMonHoc": "IM4317",
+    "tenMonHoc": "Luận văn tốt nghiệp",
+    "soTinChi": 0,
+    "id": "16966"
+  },
+  {
+    "maMonHoc": "IM4323",
+    "tenMonHoc": "Luận văn tốt nghiệp (qkd",
+    "soTinChi": 0,
+    "id": "15662"
+  },
+  {
+    "maMonHoc": "IM4327",
+    "tenMonHoc": "Khóa luận tốt nghiệp",
+    "soTinChi": 0,
+    "id": "17041"
+  },
+  {
+    "maMonHoc": "IU3071",
+    "tenMonHoc": "Bảotrì robot, máy cc,CNC",
+    "soTinChi": 0,
+    "id": "18948"
+  },
+  {
+    "maMonHoc": "IU3087",
+    "tenMonHoc": "Độ tin cậy &đảm bảo c/l",
+    "soTinChi": 0,
+    "id": "18955"
+  },
+  {
+    "maMonHoc": "IU3325",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "17129"
+  },
+  {
+    "maMonHoc": "IU4013",
+    "tenMonHoc": "Đồ án chuyên ngành",
+    "soTinChi": 0,
+    "id": "17559"
+  },
+  {
+    "maMonHoc": "IU4317",
+    "tenMonHoc": "Luận văn tốt nghiệp",
+    "soTinChi": 0,
+    "id": "16969"
+  },
+  {
+    "maMonHoc": "IU4327",
+    "tenMonHoc": "Đồ án tốt nghiệp",
+    "soTinChi": 0,
+    "id": "17130"
+  },
+  {
+    "maMonHoc": "LA1001",
+    "tenMonHoc": "Anh văn cơ bản",
+    "soTinChi": 0,
+    "id": "16246"
+  },
+  {
+    "maMonHoc": "LA1003",
+    "tenMonHoc": "Anh văn 1",
+    "soTinChi": 0,
+    "id": "13942"
+  },
+  {
+    "maMonHoc": "LA1005",
+    "tenMonHoc": "Anh văn 2",
+    "soTinChi": 0,
+    "id": "14006"
+  },
+  {
+    "maMonHoc": "LA1007",
+    "tenMonHoc": "Anh văn 3",
+    "soTinChi": 0,
+    "id": "14007"
+  },
+  {
+    "maMonHoc": "LA1009",
+    "tenMonHoc": "Anh văn 4",
+    "soTinChi": 0,
+    "id": "14029"
+  },
+  {
+    "maMonHoc": "LA1013",
+    "tenMonHoc": "Pháp văn 2",
+    "soTinChi": 0,
+    "id": "14008"
+  },
+  {
+    "maMonHoc": "LA1017",
+    "tenMonHoc": "Pháp văn 4",
+    "soTinChi": 0,
+    "id": "14109"
+  },
+  {
+    "maMonHoc": "LA1021",
+    "tenMonHoc": "Tiếng Nhật 1",
+    "soTinChi": 0,
+    "id": "16248"
+  },
+  {
+    "maMonHoc": "LA1047",
+    "tenMonHoc": "Tiếng Nhật 2",
+    "soTinChi": 0,
+    "id": "17992"
+  },
+  {
+    "maMonHoc": "LA2007",
+    "tenMonHoc": "Tiếng Nhật 4",
+    "soTinChi": 0,
+    "id": "16253"
+  },
+  {
+    "maMonHoc": "LA2011",
+    "tenMonHoc": "Tiếng Nhật cn ktđ-đt-tt2",
+    "soTinChi": 0,
+    "id": "16255"
+  },
+  {
+    "maMonHoc": "LA2019",
+    "tenMonHoc": "Tiếng Nhật 4",
+    "soTinChi": 0,
+    "id": "17994"
+  },
+  {
+    "maMonHoc": "LA3015",
+    "tenMonHoc": "K/học t/Nhật đb ktđ-đttt",
+    "soTinChi": 0,
+    "id": "16259"
+  },
+  {
+    "maMonHoc": "LA3017",
+    "tenMonHoc": "Tiếng Nhật cn ktđ-đt-tt4",
+    "soTinChi": 0,
+    "id": "16260"
+  },
+  {
+    "maMonHoc": "LA3023",
+    "tenMonHoc": "Pháp văn 6",
+    "soTinChi": 0,
+    "id": "17441"
+  },
+  {
+    "maMonHoc": "LA3027",
+    "tenMonHoc": "Tiếng Nhật 6",
+    "soTinChi": 0,
+    "id": "17996"
+  },
+  {
+    "maMonHoc": "LA4005",
+    "tenMonHoc": "Tiếng Việt 4",
+    "soTinChi": 0,
+    "id": "16697"
+  },
+  {
+    "maMonHoc": "LA4009",
+    "tenMonHoc": "Tiếng Nhật 8",
+    "soTinChi": 0,
+    "id": "17998"
+  },
+  {
+    "maMonHoc": "MA2109",
+    "tenMonHoc": "Thực tập công nhân",
+    "soTinChi": 0,
+    "id": "17457"
+  },
+  {
+    "maMonHoc": "MA2119",
+    "tenMonHoc": "Thực tập công nhân",
+    "soTinChi": 0,
+    "id": "17458"
+  },
+  {
+    "maMonHoc": "MA3005",
+    "tenMonHoc": "Pp p/t cấutrúc vl polyme",
+    "soTinChi": 0,
+    "id": "14469"
+  },
+  {
+    "maMonHoc": "MA3035",
+    "tenMonHoc": "Thí nghiệm silicat đc",
+    "soTinChi": 0,
+    "id": "14484"
+  },
+  {
+    "maMonHoc": "MA3059",
+    "tenMonHoc": "ĐA tb &lo; trg cn silicat",
+    "soTinChi": 0,
+    "id": "15239"
+  },
+  {
+    "maMonHoc": "MA3087",
+    "tenMonHoc": "T/hành hh & h/lý silicat",
+    "soTinChi": 0,
+    "id": "17395"
+  },
+  {
+    "maMonHoc": "MA3099",
+    "tenMonHoc": "T/nghiệm điện hóa học",
+    "soTinChi": 0,
+    "id": "17401"
+  },
+  {
+    "maMonHoc": "MA3109",
+    "tenMonHoc": "Thí nghiệm đúc",
+    "soTinChi": 0,
+    "id": "17399"
+  },
+  {
+    "maMonHoc": "MA3121",
+    "tenMonHoc": "TN hóa học polyme",
+    "soTinChi": 0,
+    "id": "18035"
+  },
+  {
+    "maMonHoc": "MA3143",
+    "tenMonHoc": "T/hành phân tích vậtliệu",
+    "soTinChi": 0,
+    "id": "18248"
+  },
+  {
+    "maMonHoc": "MA3149",
+    "tenMonHoc": "Tn chế tạo các hệ n/lượg",
+    "soTinChi": 0,
+    "id": "18408"
+  },
+  {
+    "maMonHoc": "MA3325",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "17151"
+  },
+  {
+    "maMonHoc": "MA3385",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "17464"
+  },
+  {
+    "maMonHoc": "MA3395",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "17465"
+  },
+  {
+    "maMonHoc": "MA4003",
+    "tenMonHoc": "Đồ án môn học cn nl& ck",
+    "soTinChi": 0,
+    "id": "15666"
+  },
+  {
+    "maMonHoc": "MA4065",
+    "tenMonHoc": "Đo lường và tự động hóa",
+    "soTinChi": 0,
+    "id": "17402"
+  },
+  {
+    "maMonHoc": "MA4069",
+    "tenMonHoc": "Các t/chất của vl polyme",
+    "soTinChi": 0,
+    "id": "17404"
+  },
+  {
+    "maMonHoc": "MA4071",
+    "tenMonHoc": "Đồ án chuyên ngành",
+    "soTinChi": 0,
+    "id": "17405"
+  },
+  {
+    "maMonHoc": "MA4113",
+    "tenMonHoc": "Vl tiên tiến trong chnl",
+    "soTinChi": 0,
+    "id": "17426"
+  },
+  {
+    "maMonHoc": "MA4145",
+    "tenMonHoc": "Thực hành điện hóa",
+    "soTinChi": 0,
+    "id": "17850"
+  },
+  {
+    "maMonHoc": "MA4157",
+    "tenMonHoc": "Đồ án chuyên ngành 1",
+    "soTinChi": 0,
+    "id": "18041"
+  },
+  {
+    "maMonHoc": "MA4169",
+    "tenMonHoc": "Vật liệu polyme xốp",
+    "soTinChi": 0,
+    "id": "18047"
+  },
+  {
+    "maMonHoc": "MA4175",
+    "tenMonHoc": "Thực hành vật liệu 2",
+    "soTinChi": 0,
+    "id": "18249"
+  },
+  {
+    "maMonHoc": "MA4317",
+    "tenMonHoc": "Luận văn tốt nghiệp",
+    "soTinChi": 0,
+    "id": "16972"
+  },
+  {
+    "maMonHoc": "MA4323",
+    "tenMonHoc": "Luận văn tốt nghiệp",
+    "soTinChi": 0,
+    "id": "15697"
+  },
+  {
+    "maMonHoc": "MA4327",
+    "tenMonHoc": "Đồ án tốt nghiệp",
+    "soTinChi": 0,
+    "id": "17152"
+  },
+  {
+    "maMonHoc": "MA4333",
+    "tenMonHoc": "Luận văn tốt nghiệp (vsi",
+    "soTinChi": 0,
+    "id": "15699"
+  },
+  {
+    "maMonHoc": "MA4385",
+    "tenMonHoc": "Thực tập kỹ sư",
+    "soTinChi": 0,
+    "id": "17466"
+  },
+  {
+    "maMonHoc": "MA4395",
+    "tenMonHoc": "Thực tập kỹ sư",
+    "soTinChi": 0,
+    "id": "17467"
+  },
+  {
+    "maMonHoc": "MA5017",
+    "tenMonHoc": "Luận văn tốt nghiệp",
+    "soTinChi": 0,
+    "id": "17468"
+  },
+  {
+    "maMonHoc": "MA5025",
+    "tenMonHoc": "V/l polyme composite(PBL",
+    "soTinChi": 0,
+    "id": "18263"
+  },
+  {
+    "maMonHoc": "MA5027",
+    "tenMonHoc": "Luận văn tốt nghiệp",
+    "soTinChi": 0,
+    "id": "17469"
+  },
+  {
+    "maMonHoc": "ME1001",
+    "tenMonHoc": "Nhập môn về kỹ thuật",
+    "soTinChi": 0,
+    "id": "13944"
+  },
+  {
+    "maMonHoc": "ME1005",
+    "tenMonHoc": "Thựctập cơkhí đại cương1",
+    "soTinChi": 0,
+    "id": "14012"
+  },
+  {
+    "maMonHoc": "ME1013",
+    "tenMonHoc": "Thựctập Cơkhí Đạicương 1",
+    "soTinChi": 0,
+    "id": "16775"
+  },
+  {
+    "maMonHoc": "ME2011",
+    "tenMonHoc": "Đồ án thiết kế",
+    "soTinChi": 0,
+    "id": "14284"
+  },
+  {
+    "maMonHoc": "ME2087",
+    "tenMonHoc": "Thực tập cơ khí đ/cương2",
+    "soTinChi": 0,
+    "id": "17354"
+  },
+  {
+    "maMonHoc": "ME2105",
+    "tenMonHoc": "Công nghệ may 2",
+    "soTinChi": 0,
+    "id": "17482"
+  },
+  {
+    "maMonHoc": "ME2109",
+    "tenMonHoc": "Mỹ thuật trang phục",
+    "soTinChi": 0,
+    "id": "17483"
+  },
+  {
+    "maMonHoc": "ME2115",
+    "tenMonHoc": "Thực tập kỹ thuật",
+    "soTinChi": 0,
+    "id": "17486"
+  },
+  {
+    "maMonHoc": "ME2117",
+    "tenMonHoc": "Thí nghiệm cơ học máy",
+    "soTinChi": 0,
+    "id": "17502"
+  },
+  {
+    "maMonHoc": "ME2119",
+    "tenMonHoc": "Thực tập công nhân",
+    "soTinChi": 0,
+    "id": "18031"
+  },
+  {
+    "maMonHoc": "ME2125",
+    "tenMonHoc": "Quản lý logistics",
+    "soTinChi": 0,
+    "id": "17520"
+  },
+  {
+    "maMonHoc": "ME2163",
+    "tenMonHoc": "Công nghệ dệt nhuộm",
+    "soTinChi": 0,
+    "id": "19612"
+  },
+  {
+    "maMonHoc": "ME2167",
+    "tenMonHoc": "CAD-CAM trong dệt may",
+    "soTinChi": 0,
+    "id": "19614"
+  },
+  {
+    "maMonHoc": "ME2171",
+    "tenMonHoc": "Công nghệ may mặc",
+    "soTinChi": 0,
+    "id": "19616"
+  },
+  {
+    "maMonHoc": "ME3017",
+    "tenMonHoc": "Đồ án thiếtkế hệthốngcđt",
+    "soTinChi": 0,
+    "id": "14644"
+  },
+  {
+    "maMonHoc": "ME3047",
+    "tenMonHoc": "Công nghệ không dệt",
+    "soTinChi": 0,
+    "id": "14491"
+  },
+  {
+    "maMonHoc": "ME3081",
+    "tenMonHoc": "Thiết bị sợi dệt",
+    "soTinChi": 0,
+    "id": "14657"
+  },
+  {
+    "maMonHoc": "ME3105",
+    "tenMonHoc": "Thiết kế đồ họa",
+    "soTinChi": 0,
+    "id": "14700"
+  },
+  {
+    "maMonHoc": "ME3107",
+    "tenMonHoc": "Thẩm mỹ học",
+    "soTinChi": 0,
+    "id": "14701"
+  },
+  {
+    "maMonHoc": "ME3123",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "17487"
+  },
+  {
+    "maMonHoc": "ME3125",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "17488"
+  },
+  {
+    "maMonHoc": "ME3127",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "17489"
+  },
+  {
+    "maMonHoc": "ME3129",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "17490"
+  },
+  {
+    "maMonHoc": "ME3131",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "17491"
+  },
+  {
+    "maMonHoc": "ME3133",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "17492"
+  },
+  {
+    "maMonHoc": "ME3135",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "17493"
+  },
+  {
+    "maMonHoc": "ME3139",
+    "tenMonHoc": "Đồ án thiết kế",
+    "soTinChi": 0,
+    "id": "17503"
+  },
+  {
+    "maMonHoc": "ME3141",
+    "tenMonHoc": "T/h tđ hóa thiết kế (CAD",
+    "soTinChi": 0,
+    "id": "17504"
+  },
+  {
+    "maMonHoc": "ME3143",
+    "tenMonHoc": "Thực tập kỹ thuật cơ khí",
+    "soTinChi": 0,
+    "id": "17505"
+  },
+  {
+    "maMonHoc": "ME3145",
+    "tenMonHoc": "Đồ án hệ thống tr/động",
+    "soTinChi": 0,
+    "id": "17507"
+  },
+  {
+    "maMonHoc": "ME3151",
+    "tenMonHoc": "Đồ án t/kế-hướng tb lạnh",
+    "soTinChi": 0,
+    "id": "17512"
+  },
+  {
+    "maMonHoc": "ME3155",
+    "tenMonHoc": "Thực tập kỹ thuật n/lạnh",
+    "soTinChi": 0,
+    "id": "17514"
+  },
+  {
+    "maMonHoc": "ME3163",
+    "tenMonHoc": "Thực hành mô hìnhhóa ∓",
+    "soTinChi": 0,
+    "id": "17524"
+  },
+  {
+    "maMonHoc": "ME3167",
+    "tenMonHoc": "Thực hành quản lý dự án",
+    "soTinChi": 0,
+    "id": "17526"
+  },
+  {
+    "maMonHoc": "ME3169",
+    "tenMonHoc": "Thực tập kỹ thuật dệt",
+    "soTinChi": 0,
+    "id": "17527"
+  },
+  {
+    "maMonHoc": "ME3173",
+    "tenMonHoc": "Tiếp thị",
+    "soTinChi": 0,
+    "id": "17529"
+  },
+  {
+    "maMonHoc": "ME3177",
+    "tenMonHoc": "Thực tập thiết kế đồ họa",
+    "soTinChi": 0,
+    "id": "17531"
+  },
+  {
+    "maMonHoc": "ME3187",
+    "tenMonHoc": "Robot di động",
+    "soTinChi": 0,
+    "id": "18342"
+  },
+  {
+    "maMonHoc": "ME3199",
+    "tenMonHoc": "Đồ án t/kế-hướng tb tđn",
+    "soTinChi": 0,
+    "id": "18351"
+  },
+  {
+    "maMonHoc": "ME3229",
+    "tenMonHoc": "Kỹ thuật ra quyết định",
+    "soTinChi": 0,
+    "id": "14682"
+  },
+  {
+    "maMonHoc": "ME3231",
+    "tenMonHoc": "Kỹ thuật mhh & mô phỏng",
+    "soTinChi": 0,
+    "id": "14683"
+  },
+  {
+    "maMonHoc": "ME3257",
+    "tenMonHoc": "Mh ra qđ trong chuỗi c/ứ",
+    "soTinChi": 0,
+    "id": "16418"
+  },
+  {
+    "maMonHoc": "ME3259",
+    "tenMonHoc": "ĐAMH logistics 2",
+    "soTinChi": 0,
+    "id": "16419"
+  },
+  {
+    "maMonHoc": "ME3299",
+    "tenMonHoc": "Chuỗi cung ứng điện tử",
+    "soTinChi": 0,
+    "id": "20016"
+  },
+  {
+    "maMonHoc": "ME3385",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "18032"
+  },
+  {
+    "maMonHoc": "ME4019",
+    "tenMonHoc": "Luận văn tốt nghiệp (cđt",
+    "soTinChi": 0,
+    "id": "15712"
+  },
+  {
+    "maMonHoc": "ME4029",
+    "tenMonHoc": "Luận văn tốt nghiệp(ktct",
+    "soTinChi": 0,
+    "id": "15717"
+  },
+  {
+    "maMonHoc": "ME4039",
+    "tenMonHoc": "Luận văn tốt nghiệp (ktn",
+    "soTinChi": 0,
+    "id": "15722"
+  },
+  {
+    "maMonHoc": "ME4045",
+    "tenMonHoc": "Đồ án chuyên ngành (ct)",
+    "soTinChi": 0,
+    "id": "15725"
+  },
+  {
+    "maMonHoc": "ME4047",
+    "tenMonHoc": "Đồ án chuyên ngành (tk)",
+    "soTinChi": 0,
+    "id": "15726"
+  },
+  {
+    "maMonHoc": "ME4049",
+    "tenMonHoc": "Luận văn tốt nghiệp(kttk",
+    "soTinChi": 0,
+    "id": "15727"
+  },
+  {
+    "maMonHoc": "ME4051",
+    "tenMonHoc": "ĐA thiết bị nâng vận/ch",
+    "soTinChi": 0,
+    "id": "15728"
+  },
+  {
+    "maMonHoc": "ME4053",
+    "tenMonHoc": "Đồ án chuyên ngành (ktn)",
+    "soTinChi": 0,
+    "id": "15729"
+  },
+  {
+    "maMonHoc": "ME4057",
+    "tenMonHoc": "Đề cương luận văn tn",
+    "soTinChi": 0,
+    "id": "15731"
+  },
+  {
+    "maMonHoc": "ME4061",
+    "tenMonHoc": "Đồ án chuyên ngành",
+    "soTinChi": 0,
+    "id": "17542"
+  },
+  {
+    "maMonHoc": "ME4063",
+    "tenMonHoc": "Công nghệ 4.0 trg lvck",
+    "soTinChi": 0,
+    "id": "17506"
+  },
+  {
+    "maMonHoc": "ME4065",
+    "tenMonHoc": "Đồ án c/ngành kt robot",
+    "soTinChi": 0,
+    "id": "17508"
+  },
+  {
+    "maMonHoc": "ME4071",
+    "tenMonHoc": "Đồ án chuyên ngành",
+    "soTinChi": 0,
+    "id": "17543"
+  },
+  {
+    "maMonHoc": "ME4073",
+    "tenMonHoc": "Năng lượng tái tạo",
+    "soTinChi": 0,
+    "id": "17515"
+  },
+  {
+    "maMonHoc": "ME4075",
+    "tenMonHoc": "Thực hành ttmp trong nl",
+    "soTinChi": 0,
+    "id": "17516"
+  },
+  {
+    "maMonHoc": "ME4079",
+    "tenMonHoc": "Luận văn tốt nghiệp (may",
+    "soTinChi": 0,
+    "id": "15736"
+  },
+  {
+    "maMonHoc": "ME4081",
+    "tenMonHoc": "Đồ án chuyên ngành",
+    "soTinChi": 0,
+    "id": "17517"
+  },
+  {
+    "maMonHoc": "ME4087",
+    "tenMonHoc": "Đề cương luận văn tn",
+    "soTinChi": 0,
+    "id": "15738"
+  },
+  {
+    "maMonHoc": "ME4089",
+    "tenMonHoc": "Luận văn tốt nghiệp(htcn",
+    "soTinChi": 0,
+    "id": "15739"
+  },
+  {
+    "maMonHoc": "ME4091",
+    "tenMonHoc": "Đề cương luận văn tn(ktn",
+    "soTinChi": 0,
+    "id": "15740"
+  },
+  {
+    "maMonHoc": "ME4093",
+    "tenMonHoc": "Đề cương luận văn tn(ct)",
+    "soTinChi": 0,
+    "id": "15741"
+  },
+  {
+    "maMonHoc": "ME4095",
+    "tenMonHoc": "Đề cương luận văn tn(cđt",
+    "soTinChi": 0,
+    "id": "15742"
+  },
+  {
+    "maMonHoc": "ME4101",
+    "tenMonHoc": "Đồ án th/kế hệ thống cn",
+    "soTinChi": 0,
+    "id": "17532"
+  },
+  {
+    "maMonHoc": "ME4103",
+    "tenMonHoc": "Đồ án th/kế ht logistics",
+    "soTinChi": 0,
+    "id": "17533"
+  },
+  {
+    "maMonHoc": "ME4113",
+    "tenMonHoc": "Đồ án 1",
+    "soTinChi": 0,
+    "id": "17535"
+  },
+  {
+    "maMonHoc": "ME4115",
+    "tenMonHoc": "Công nghệ may mặc",
+    "soTinChi": 0,
+    "id": "17536"
+  },
+  {
+    "maMonHoc": "ME4121",
+    "tenMonHoc": "Đồ án ngành 1",
+    "soTinChi": 0,
+    "id": "17537"
+  },
+  {
+    "maMonHoc": "ME4125",
+    "tenMonHoc": "Công nghệ dệt nhuộm",
+    "soTinChi": 0,
+    "id": "17539"
+  },
+  {
+    "maMonHoc": "ME4127",
+    "tenMonHoc": "Thiếtkế hệthống cơđiệntử",
+    "soTinChi": 0,
+    "id": "18280"
+  },
+  {
+    "maMonHoc": "ME4131",
+    "tenMonHoc": "Kỹ thuật sấy",
+    "soTinChi": 0,
+    "id": "18350"
+  },
+  {
+    "maMonHoc": "ME4139",
+    "tenMonHoc": "Vi điều khiển",
+    "soTinChi": 0,
+    "id": "18943"
+  },
+  {
+    "maMonHoc": "ME4219",
+    "tenMonHoc": "Đề cương luận văn tn(cđt",
+    "soTinChi": 0,
+    "id": "17004"
+  },
+  {
+    "maMonHoc": "ME4221",
+    "tenMonHoc": "Luận văn tốt nghiệp (cđt",
+    "soTinChi": 0,
+    "id": "17005"
+  },
+  {
+    "maMonHoc": "ME4311",
+    "tenMonHoc": "Điện trong kỹ thuật lạnh",
+    "soTinChi": 0,
+    "id": "15760"
+  },
+  {
+    "maMonHoc": "ME4313",
+    "tenMonHoc": "Anh văn chuyên ngành",
+    "soTinChi": 0,
+    "id": "15761"
+  },
+  {
+    "maMonHoc": "ME4319",
+    "tenMonHoc": "Luận văn tốt nghiệp (ktn",
+    "soTinChi": 0,
+    "id": "17007"
+  },
+  {
+    "maMonHoc": "ME4327",
+    "tenMonHoc": "Đồ án tốt nghiệp (cdt)",
+    "soTinChi": 0,
+    "id": "17494"
+  },
+  {
+    "maMonHoc": "ME4337",
+    "tenMonHoc": "Đồ án tốt nghiệp (ktn)",
+    "soTinChi": 0,
+    "id": "17495"
+  },
+  {
+    "maMonHoc": "ME4347",
+    "tenMonHoc": "Đồ án tốt nghiệp (ktd)",
+    "soTinChi": 0,
+    "id": "17496"
+  },
+  {
+    "maMonHoc": "ME4357",
+    "tenMonHoc": "Đồ án tốt nghiệp (cndm)",
+    "soTinChi": 0,
+    "id": "17497"
+  },
+  {
+    "maMonHoc": "ME4367",
+    "tenMonHoc": "Đồ án tốt nghiệp (kthtcn",
+    "soTinChi": 0,
+    "id": "17498"
+  },
+  {
+    "maMonHoc": "ME4377",
+    "tenMonHoc": "Đồ án tốt nghiệp (log)",
+    "soTinChi": 0,
+    "id": "17499"
+  },
+  {
+    "maMonHoc": "ME4385",
+    "tenMonHoc": "Thực tập kỹ sư",
+    "soTinChi": 0,
+    "id": "18033"
+  },
+  {
+    "maMonHoc": "ME4387",
+    "tenMonHoc": "Đồ án tốt nghiệp (ktck)",
+    "soTinChi": 0,
+    "id": "17500"
+  },
+  {
+    "maMonHoc": "ME4533",
+    "tenMonHoc": "Quản lý đơn hàng",
+    "soTinChi": 0,
+    "id": "15813"
+  },
+  {
+    "maMonHoc": "ME4539",
+    "tenMonHoc": "Luận văn tốt nghiệp (det",
+    "soTinChi": 0,
+    "id": "17009"
+  },
+  {
+    "maMonHoc": "ME4543",
+    "tenMonHoc": "Đề cương luận văn tn(cnm",
+    "soTinChi": 0,
+    "id": "17010"
+  },
+  {
+    "maMonHoc": "ME4545",
+    "tenMonHoc": "Luận văn tốt nghiệp (may",
+    "soTinChi": 0,
+    "id": "17011"
+  },
+  {
+    "maMonHoc": "ME4625",
+    "tenMonHoc": "Kỹ năng lãnh đạo",
+    "soTinChi": 0,
+    "id": "15826"
+  },
+  {
+    "maMonHoc": "ME4645",
+    "tenMonHoc": "Hệthống logistics thuhồi",
+    "soTinChi": 0,
+    "id": "15836"
+  },
+  {
+    "maMonHoc": "ME4671",
+    "tenMonHoc": "Đề cương luận văn tn",
+    "soTinChi": 0,
+    "id": "17012"
+  },
+  {
+    "maMonHoc": "ME4677",
+    "tenMonHoc": "Luận văn tốt nghiệp",
+    "soTinChi": 0,
+    "id": "17015"
+  },
+  {
+    "maMonHoc": "ME4725",
+    "tenMonHoc": "Đề cương luận văn tn",
+    "soTinChi": 0,
+    "id": "17016"
+  },
+  {
+    "maMonHoc": "ME4727",
+    "tenMonHoc": "Luận văn tốt nghiệp(ktck",
+    "soTinChi": 0,
+    "id": "17017"
+  },
+  {
+    "maMonHoc": "ME5017",
+    "tenMonHoc": "Luận văn tốt nghiệp",
+    "soTinChi": 0,
+    "id": "18034"
+  },
+  {
+    "maMonHoc": "MI1003",
+    "tenMonHoc": "Giáo dục quốc phòng",
+    "soTinChi": 0,
+    "id": "13945"
+  },
+  {
+    "maMonHoc": "MT1007",
+    "tenMonHoc": "Đại số tuyến tính",
+    "soTinChi": 0,
+    "id": "13948"
+  },
+  {
+    "maMonHoc": "MT1009",
+    "tenMonHoc": "Phương pháp tính",
+    "soTinChi": 0,
+    "id": "14016"
+  },
+  {
+    "maMonHoc": "MT2011",
+    "tenMonHoc": "Phương pháp tính",
+    "soTinChi": 0,
+    "id": "16783"
+  },
+  {
+    "maMonHoc": "MT2013",
+    "tenMonHoc": "Xác suất và thống kê",
+    "soTinChi": 0,
+    "id": "16784"
+  },
+  {
+    "maMonHoc": "MT2015",
+    "tenMonHoc": "Xác suất và ứng dụng kt",
+    "soTinChi": 0,
+    "id": "17229"
+  },
+  {
+    "maMonHoc": "PE1017",
+    "tenMonHoc": "Cầu lông (học phần 1)",
+    "soTinChi": 0,
+    "id": "16702"
+  },
+  {
+    "maMonHoc": "PE1033",
+    "tenMonHoc": "Bóng đá (học phần 2)",
+    "soTinChi": 0,
+    "id": "18070"
+  },
+  {
+    "maMonHoc": "PE1035",
+    "tenMonHoc": "Bóng chuyền (học phần 2)",
+    "soTinChi": 0,
+    "id": "18071"
+  },
+  {
+    "maMonHoc": "PE1037",
+    "tenMonHoc": "Bóng bàn (học phần 2)",
+    "soTinChi": 0,
+    "id": "18072"
+  },
+  {
+    "maMonHoc": "PE1039",
+    "tenMonHoc": "Bóng rổ (học phần 2)",
+    "soTinChi": 0,
+    "id": "18073"
+  },
+  {
+    "maMonHoc": "PE1041",
+    "tenMonHoc": "Cầu lông (học phần 2)",
+    "soTinChi": 0,
+    "id": "18074"
+  },
+  {
+    "maMonHoc": "PE1043",
+    "tenMonHoc": "Bơi (học phần 2)",
+    "soTinChi": 0,
+    "id": "18075"
+  },
+  {
+    "maMonHoc": "PE1045",
+    "tenMonHoc": "Aerobic (học phần 2)",
+    "soTinChi": 0,
+    "id": "18076"
+  },
+  {
+    "maMonHoc": "PH1007",
+    "tenMonHoc": "Thí nghiệm vật lý",
+    "soTinChi": 0,
+    "id": "13954"
+  },
+  {
+    "maMonHoc": "PH1011",
+    "tenMonHoc": "Vật lý - cơ học",
+    "soTinChi": 0,
+    "id": "17022"
+  },
+  {
+    "maMonHoc": "PH1013",
+    "tenMonHoc": "Vật lý - nhiệt, lượng tử",
+    "soTinChi": 0,
+    "id": "17023"
+  },
+  {
+    "maMonHoc": "SP1007",
+    "tenMonHoc": "Ph/luật ViệtNam đạicương",
+    "soTinChi": 0,
+    "id": "14130"
+  },
+  {
+    "maMonHoc": "SP1033",
+    "tenMonHoc": "K/tế chính trị Mác-Lênin",
+    "soTinChi": 0,
+    "id": "16730"
+  },
+  {
+    "maMonHoc": "SP1035",
+    "tenMonHoc": "Chủ nghĩa xã hội khoahọc",
+    "soTinChi": 0,
+    "id": "16731"
+  },
+  {
+    "maMonHoc": "SP1037",
+    "tenMonHoc": "Tư tưởng Hồ Chí Minh",
+    "soTinChi": 0,
+    "id": "16789"
+  },
+  {
+    "maMonHoc": "SP1039",
+    "tenMonHoc": "Lịch sử Đảng Cộng sản VN",
+    "soTinChi": 0,
+    "id": "16732"
+  },
+  {
+    "maMonHoc": "TR1001",
+    "tenMonHoc": "Nhập môn về kỹ thuật",
+    "soTinChi": 0,
+    "id": "13957"
+  },
+  {
+    "maMonHoc": "TR3003",
+    "tenMonHoc": "Cơ học vậtliệu hàngkhông",
+    "soTinChi": 0,
+    "id": "14510"
+  },
+  {
+    "maMonHoc": "TR3025",
+    "tenMonHoc": "Phân tích pthh trong ôtô",
+    "soTinChi": 0,
+    "id": "14827"
+  },
+  {
+    "maMonHoc": "TR3043",
+    "tenMonHoc": "Đồ án thiếtkế động cơ đt",
+    "soTinChi": 0,
+    "id": "14821"
+  },
+  {
+    "maMonHoc": "TR3051",
+    "tenMonHoc": "Thí nghiệm kỹ thuật hk 2",
+    "soTinChi": 0,
+    "id": "14810"
+  },
+  {
+    "maMonHoc": "TR3059",
+    "tenMonHoc": "CAD ứd trong thiếtkế ôtô",
+    "soTinChi": 0,
+    "id": "14825"
+  },
+  {
+    "maMonHoc": "TR3067",
+    "tenMonHoc": "Mô phỏng động cơ đt &ôtô",
+    "soTinChi": 0,
+    "id": "14826"
+  },
+  {
+    "maMonHoc": "TR3075",
+    "tenMonHoc": "Thực tập kỹ thuật ô tô",
+    "soTinChi": 0,
+    "id": "14824"
+  },
+  {
+    "maMonHoc": "TR3077",
+    "tenMonHoc": "T/nghiệm k/th hàngkhông1",
+    "soTinChi": 0,
+    "id": "14519"
+  },
+  {
+    "maMonHoc": "TR3091",
+    "tenMonHoc": "Ô tô chuyên dùng",
+    "soTinChi": 0,
+    "id": "15863"
+  },
+  {
+    "maMonHoc": "TR3119",
+    "tenMonHoc": "Thí nghiệm ô tô &đ/cơ đt",
+    "soTinChi": 0,
+    "id": "17091"
+  },
+  {
+    "maMonHoc": "TR3345",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "16987"
+  },
+  {
+    "maMonHoc": "TR3365",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "16986"
+  },
+  {
+    "maMonHoc": "TR3375",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "17271"
+  },
+  {
+    "maMonHoc": "TR3385",
+    "tenMonHoc": "Thực tập ngoài trường",
+    "soTinChi": 0,
+    "id": "17470"
+  },
+  {
+    "maMonHoc": "TR4015",
+    "tenMonHoc": "Thí nghiệm kỹ thuật hk 3",
+    "soTinChi": 0,
+    "id": "15870"
+  },
+  {
+    "maMonHoc": "TR4047",
+    "tenMonHoc": "Phương pháp số - đlh lc",
+    "soTinChi": 0,
+    "id": "15885"
+  },
+  {
+    "maMonHoc": "TR4069",
+    "tenMonHoc": "Điện -điện tử hàng không",
+    "soTinChi": 0,
+    "id": "15895"
+  },
+  {
+    "maMonHoc": "TR4079",
+    "tenMonHoc": "Đồ án chuyên ngành hk",
+    "soTinChi": 0,
+    "id": "16992"
+  },
+  {
+    "maMonHoc": "TR4081",
+    "tenMonHoc": "Thiết kế máy bay",
+    "soTinChi": 0,
+    "id": "16993"
+  },
+  {
+    "maMonHoc": "TR4085",
+    "tenMonHoc": "P/pháp t/kế động cơ &ôtô",
+    "soTinChi": 0,
+    "id": "17094"
+  },
+  {
+    "maMonHoc": "TR4091",
+    "tenMonHoc": "Đồ án chuyên ngành",
+    "soTinChi": 0,
+    "id": "17097"
+  },
+  {
+    "maMonHoc": "TR4093",
+    "tenMonHoc": "Đồ án chuyên ngành (kttt",
+    "soTinChi": 0,
+    "id": "17227"
+  },
+  {
+    "maMonHoc": "TR4313",
+    "tenMonHoc": "Luận văn tốt nghiệp(ôtô)",
+    "soTinChi": 0,
+    "id": "15901"
+  },
+  {
+    "maMonHoc": "TR4315",
+    "tenMonHoc": "Đề cương luận văn tn",
+    "soTinChi": 0,
+    "id": "16976"
+  },
+  {
+    "maMonHoc": "TR4317",
+    "tenMonHoc": "Luận văn tốt nghiệp(ôtô)",
+    "soTinChi": 0,
+    "id": "16977"
+  },
+  {
+    "maMonHoc": "TR4327",
+    "tenMonHoc": "Luận văn tốt nghiệp (tau",
+    "soTinChi": 0,
+    "id": "16979"
+  },
+  {
+    "maMonHoc": "TR4337",
+    "tenMonHoc": "Luận văn tốt nghiệp (hkg",
+    "soTinChi": 0,
+    "id": "16981"
+  },
+  {
+    "maMonHoc": "TR4347",
+    "tenMonHoc": "Đồ án tốt nghiệp",
+    "soTinChi": 0,
+    "id": "16989"
+  },
+  {
+    "maMonHoc": "TR4357",
+    "tenMonHoc": "Đồ án tốt nghiệp",
+    "soTinChi": 0,
+    "id": "16990"
+  },
+  {
+    "maMonHoc": "TR4367",
+    "tenMonHoc": "Đồ án tốt nghiệp",
+    "soTinChi": 0,
+    "id": "16991"
+  },
+  {
+    "maMonHoc": "TR4377",
+    "tenMonHoc": "Đồ án tốt nghiệp",
+    "soTinChi": 0,
+    "id": "17109"
+  },
+  {
+    "maMonHoc": "TR4385",
+    "tenMonHoc": "Thực tập kỹ sư",
+    "soTinChi": 0,
+    "id": "17471"
+  },
+  {
+    "maMonHoc": "TR5001",
+    "tenMonHoc": "Đồ án chuyên ngành",
+    "soTinChi": 0,
+    "id": "18236"
+  },
+  {
+    "maMonHoc": "TR5003",
+    "tenMonHoc": "Chuyênđề công nghiệp(PBL",
+    "soTinChi": 0,
+    "id": "18237"
+  },
+  {
+    "maMonHoc": "TR5017",
+    "tenMonHoc": "Luận văn tốt nghiệp",
+    "soTinChi": 0,
+    "id": "18235"
+  },
+  {
+    "maMonHoc": "AS1001",
+    "tenMonHoc": "Nhập môn về kỹ thuật",
+    "soTinChi": 0,
+    "id": "13913"
+  },
+  {
+    "maMonHoc": "AS1003",
+    "tenMonHoc": "Cơ lý thuyết",
+    "soTinChi": 0,
+    "id": "13974"
+  },
+  {
+    "maMonHoc": "AS2001",
+    "tenMonHoc": "Cơ học ứng dụng",
+    "soTinChi": 0,
+    "id": "14033"
+  },
+  {
+    "maMonHoc": "AS2003",
+    "tenMonHoc": "Kỹ thuật lập trình CKT",
+    "soTinChi": 0,
+    "id": "14034"
+  },
+  {
+    "maMonHoc": "AS2005",
+    "tenMonHoc": "Cơ lý thuyết nâng cao",
+    "soTinChi": 0,
+    "id": "14036"
+  },
+  {
+    "maMonHoc": "AS2011",
+    "tenMonHoc": "Lý thuyết đàn hồi",
+    "soTinChi": 0,
+    "id": "14179"
+  },
+  {
+    "maMonHoc": "AS2021",
+    "tenMonHoc": "Thiết kế kỹ thuật",
+    "soTinChi": 0,
+    "id": "14342"
+  },
+  {
+    "maMonHoc": "AS2033",
+    "tenMonHoc": "Cảm biến &k;ỹthuật đolườg",
+    "soTinChi": 0,
+    "id": "15199"
+  },
+  {
+    "maMonHoc": "AS2047",
+    "tenMonHoc": "Vật lý sóng",
+    "soTinChi": 0,
+    "id": "16754"
+  },
+  {
+    "maMonHoc": "AS2049",
+    "tenMonHoc": "Cơ học vật rắn & sóng cơ",
+    "soTinChi": 0,
+    "id": "16759"
+  },
+  {
+    "maMonHoc": "AS2053",
+    "tenMonHoc": "T/bị chẩn đoán h/ảnh yh",
+    "soTinChi": 0,
+    "id": "17324"
+  },
+  {
+    "maMonHoc": "AS3013",
+    "tenMonHoc": "Tính toán kết cấu",
+    "soTinChi": 0,
+    "id": "15178"
+  },
+  {
+    "maMonHoc": "AS3015",
+    "tenMonHoc": "P/pháp phầntử hữuhạn ckt",
+    "soTinChi": 0,
+    "id": "14542"
+  },
+  {
+    "maMonHoc": "AS3031",
+    "tenMonHoc": "Đolường các đại lượng pđ",
+    "soTinChi": 0,
+    "id": "14544"
+  },
+  {
+    "maMonHoc": "AS3035",
+    "tenMonHoc": "T/toán đ/lực học lưuchất",
+    "soTinChi": 0,
+    "id": "15173"
+  },
+  {
+    "maMonHoc": "AS3041",
+    "tenMonHoc": "Xử lý tín hiệu số",
+    "soTinChi": 0,
+    "id": "15206"
+  },
+  {
+    "maMonHoc": "AS3045",
+    "tenMonHoc": "ứng dụng laser trong yh",
+    "soTinChi": 0,
+    "id": "15207"
+  },
+  {
+    "maMonHoc": "AS3049",
+    "tenMonHoc": "Cơ sinh học",
+    "soTinChi": 0,
+    "id": "15209"
+  },
+  {
+    "maMonHoc": "AS3061",
+    "tenMonHoc": "Dao động cơ sở",
+    "soTinChi": 0,
+    "id": "15168"
+  },
+  {
+    "maMonHoc": "AS3085",
+    "tenMonHoc": "Lập trình tính toán ckt",
+    "soTinChi": 0,
+    "id": "14538"
+  },
+  {
+    "maMonHoc": "AS3093",
+    "tenMonHoc": "Phương pháp phần tử hhưd",
+    "soTinChi": 0,
+    "id": "15393"
+  },
+  {
+    "maMonHoc": "AS3147",
+    "tenMonHoc": "Cơ học vật rắn biến dạng",
+    "soTinChi": 0,
+    "id": "17350"
+  },
+  {
+    "maMonHoc": "CH1003",
+    "tenMonHoc": "Hóa đại cương",
+    "soTinChi": 0,
+    "id": "13915"
+  },
+  {
+    "maMonHoc": "CH1015",
+    "tenMonHoc": "Hóa đại cương",
+    "soTinChi": 0,
+    "id": "17032"
+  },
+  {
+    "maMonHoc": "CH1017",
+    "tenMonHoc": "Sinh học đại cương",
+    "soTinChi": 0,
+    "id": "20163"
+  },
+  {
+    "maMonHoc": "CH2009",
+    "tenMonHoc": "Hóa phân tích",
+    "soTinChi": 0,
+    "id": "14043"
+  },
+  {
+    "maMonHoc": "CH2013",
+    "tenMonHoc": "Hóa vô cơ",
+    "soTinChi": 0,
+    "id": "14046"
+  },
+  {
+    "maMonHoc": "CH2021",
+    "tenMonHoc": "Hóa hữu cơ",
+    "soTinChi": 0,
+    "id": "14051"
+  },
+  {
+    "maMonHoc": "CH2027",
+    "tenMonHoc": "Sinh học đại cương",
+    "soTinChi": 0,
+    "id": "14055"
+  },
+  {
+    "maMonHoc": "CH2033",
+    "tenMonHoc": "Hóa sinh",
+    "soTinChi": 0,
+    "id": "14184"
+  },
+  {
+    "maMonHoc": "CH3019",
+    "tenMonHoc": "Công nghệ tế bào",
+    "soTinChi": 0,
+    "id": "14396"
+  },
+  {
+    "maMonHoc": "CH3359",
+    "tenMonHoc": "Công nghệ lên men vs vật",
+    "soTinChi": 0,
+    "id": "17242"
+  },
+  {
+    "maMonHoc": "CH3361",
+    "tenMonHoc": "S/học phân tử &di; truyền",
+    "soTinChi": 0,
+    "id": "17243"
+  },
+  {
+    "maMonHoc": "CH3403",
+    "tenMonHoc": "Phương pháp đánh giá hoạt tính sinh học của các hợp chất tự nhiên",
+    "soTinChi": 0,
+    "id": "18461"
+  },
+  {
+    "maMonHoc": "CH3409",
+    "tenMonHoc": "Công nghệ sản xuất vitamin",
+    "soTinChi": 0,
+    "id": "18464"
+  },
+  {
+    "maMonHoc": "CH4051",
+    "tenMonHoc": "An toàn quá trình",
+    "soTinChi": 0,
+    "id": "17247"
+  },
+  {
+    "maMonHoc": "CH4097",
+    "tenMonHoc": "An toàn sh &at; thực phẩm",
+    "soTinChi": 0,
+    "id": "17366"
+  },
+  {
+    "maMonHoc": "CH4107",
+    "tenMonHoc": "Pt sản phẩm thựcphẩm mới",
+    "soTinChi": 0,
+    "id": "17370"
+  },
+  {
+    "maMonHoc": "CI1003",
+    "tenMonHoc": "Vẽ kỹ thuật",
+    "soTinChi": 0,
+    "id": "13918"
+  },
+  {
+    "maMonHoc": "CI1033",
+    "tenMonHoc": "Vẽ kỹ thuật xây dựng",
+    "soTinChi": 0,
+    "id": "13986"
+  },
+  {
+    "maMonHoc": "CI2001",
+    "tenMonHoc": "Sức bền vật liệu",
+    "soTinChi": 0,
+    "id": "14061"
+  },
+  {
+    "maMonHoc": "CI2003",
+    "tenMonHoc": "Cơ lưu chất",
+    "soTinChi": 0,
+    "id": "14062"
+  },
+  {
+    "maMonHoc": "CI2007",
+    "tenMonHoc": "Sức bền vật liệu",
+    "soTinChi": 0,
+    "id": "14065"
+  },
+  {
+    "maMonHoc": "CI2037",
+    "tenMonHoc": "Vật liệu xây dựng",
+    "soTinChi": 0,
+    "id": "14206"
+  },
+  {
+    "maMonHoc": "CI2095",
+    "tenMonHoc": "Địa chất công trình",
+    "soTinChi": 0,
+    "id": "17024"
+  },
+  {
+    "maMonHoc": "CI2135",
+    "tenMonHoc": "Cơ kết cấu",
+    "soTinChi": 0,
+    "id": "19805"
+  },
+  {
+    "maMonHoc": "CI2137",
+    "tenMonHoc": "Cơ học đất",
+    "soTinChi": 0,
+    "id": "19806"
+  },
+  {
+    "maMonHoc": "CI2143",
+    "tenMonHoc": "Viễn thám",
+    "soTinChi": 0,
+    "id": "19803"
+  },
+  {
+    "maMonHoc": "CI3013",
+    "tenMonHoc": "Thủy văn đô thị",
+    "soTinChi": 0,
+    "id": "14411"
+  },
+  {
+    "maMonHoc": "CI3021",
+    "tenMonHoc": "Quy hoạch cảng",
+    "soTinChi": 0,
+    "id": "14415"
+  },
+  {
+    "maMonHoc": "CI3025",
+    "tenMonHoc": "Thủy văn công trình",
+    "soTinChi": 0,
+    "id": "14549"
+  },
+  {
+    "maMonHoc": "CI3039",
+    "tenMonHoc": "Thiết kế cầu 1",
+    "soTinChi": 0,
+    "id": "15251"
+  },
+  {
+    "maMonHoc": "CI3057",
+    "tenMonHoc": "Kỹ thuật bê tông",
+    "soTinChi": 0,
+    "id": "15286"
+  },
+  {
+    "maMonHoc": "CI3061",
+    "tenMonHoc": "Phương pháp phần tử hh",
+    "soTinChi": 0,
+    "id": "15291"
+  },
+  {
+    "maMonHoc": "CI3067",
+    "tenMonHoc": "Hệ thống địnhvị toàn cầu",
+    "soTinChi": 0,
+    "id": "15275"
+  },
+  {
+    "maMonHoc": "CI3233",
+    "tenMonHoc": "Cơ kết cấu",
+    "soTinChi": 0,
+    "id": "17156"
+  },
+  {
+    "maMonHoc": "CI3245",
+    "tenMonHoc": "Kỹ thuật chất kết dính",
+    "soTinChi": 0,
+    "id": "17162"
+  },
+  {
+    "maMonHoc": "CI3247",
+    "tenMonHoc": "Động lực học sông - biển",
+    "soTinChi": 0,
+    "id": "17163"
+  },
+  {
+    "maMonHoc": "CI3261",
+    "tenMonHoc": "C/sở t/kế công trình cầu",
+    "soTinChi": 0,
+    "id": "17169"
+  },
+  {
+    "maMonHoc": "CI3263",
+    "tenMonHoc": "Cơ sở thiết kế đường",
+    "soTinChi": 0,
+    "id": "17170"
+  },
+  {
+    "maMonHoc": "CI4019",
+    "tenMonHoc": "Ha Tang Cong Trinh Gt",
+    "soTinChi": 0,
+    "id": "15492"
+  },
+  {
+    "maMonHoc": "CI4145",
+    "tenMonHoc": "Cs thicông &khai; thác cđ",
+    "soTinChi": 0,
+    "id": "17186"
+  },
+  {
+    "maMonHoc": "CI4165",
+    "tenMonHoc": "Hạ tầng c/tr giao thông",
+    "soTinChi": 0,
+    "id": "17171"
+  },
+  {
+    "maMonHoc": "CI4197",
+    "tenMonHoc": "Quy hoạch hạtầng g/thông",
+    "soTinChi": 0,
+    "id": "17832"
+  },
+  {
+    "maMonHoc": "CO1003",
+    "tenMonHoc": "Nhập môn về lập trình",
+    "soTinChi": 0,
+    "id": "13924"
+  },
+  {
+    "maMonHoc": "CO1005",
+    "tenMonHoc": "Nhập môn điện toán",
+    "soTinChi": 0,
+    "id": "13926"
+  },
+  {
+    "maMonHoc": "CO1023",
+    "tenMonHoc": "Hệ thống số",
+    "soTinChi": 0,
+    "id": "16748"
+  },
+  {
+    "maMonHoc": "CO1025",
+    "tenMonHoc": "Thiết kế luận lý với hdl",
+    "soTinChi": 0,
+    "id": "16763"
+  },
+  {
+    "maMonHoc": "CO1027",
+    "tenMonHoc": "Kỹ thuật lập trình",
+    "soTinChi": 0,
+    "id": "16764"
+  },
+  {
+    "maMonHoc": "CO2003",
+    "tenMonHoc": "Ctrúc dữliệu & giảithuật",
+    "soTinChi": 0,
+    "id": "14077"
+  },
+  {
+    "maMonHoc": "CO2007",
+    "tenMonHoc": "Kiến trúc máy tính",
+    "soTinChi": 0,
+    "id": "14081"
+  },
+  {
+    "maMonHoc": "CO2013",
+    "tenMonHoc": "Hệ cơ sở dữ liệu",
+    "soTinChi": 0,
+    "id": "14228"
+  },
+  {
+    "maMonHoc": "CO2017",
+    "tenMonHoc": "Hệ điều hành",
+    "soTinChi": 0,
+    "id": "14231"
+  },
+  {
+    "maMonHoc": "CO2035",
+    "tenMonHoc": "Xử lý tín hiệu số",
+    "soTinChi": 0,
+    "id": "16384"
+  },
+  {
+    "maMonHoc": "CO3011",
+    "tenMonHoc": "Quản lý dự án phần mềm",
+    "soTinChi": 0,
+    "id": "15554"
+  },
+  {
+    "maMonHoc": "CO3037",
+    "tenMonHoc": "Pt ứd internet of things",
+    "soTinChi": 0,
+    "id": "15563"
+  },
+  {
+    "maMonHoc": "CO3049",
+    "tenMonHoc": "Lập trình web",
+    "soTinChi": 0,
+    "id": "15340"
+  },
+  {
+    "maMonHoc": "CO3053",
+    "tenMonHoc": "Hệ thống nhúng",
+    "soTinChi": 0,
+    "id": "15135"
+  },
+  {
+    "maMonHoc": "CO3069",
+    "tenMonHoc": "Mật mã và an ninh mạng",
+    "soTinChi": 0,
+    "id": "15133"
+  },
+  {
+    "maMonHoc": "CO3093",
+    "tenMonHoc": "Mạng máy tính",
+    "soTinChi": 0,
+    "id": "16985"
+  },
+  {
+    "maMonHoc": "CO3097",
+    "tenMonHoc": "Thiết kế vi mạch",
+    "soTinChi": 0,
+    "id": "17037"
+  },
+  {
+    "maMonHoc": "EE1005",
+    "tenMonHoc": "Kỹ thuật điện",
+    "soTinChi": 0,
+    "id": "13993"
+  },
+  {
+    "maMonHoc": "EE1007",
+    "tenMonHoc": "Vật lý bán dẫn",
+    "soTinChi": 0,
+    "id": "13994"
+  },
+  {
+    "maMonHoc": "EE1009",
+    "tenMonHoc": "Kỹ thuật số",
+    "soTinChi": 0,
+    "id": "14085"
+  },
+  {
+    "maMonHoc": "EE1025",
+    "tenMonHoc": "Nhập môn về kỹ thuật",
+    "soTinChi": 0,
+    "id": "17031"
+  },
+  {
+    "maMonHoc": "EE1029",
+    "tenMonHoc": "Cơ sở kt điện-máy tính",
+    "soTinChi": 0,
+    "id": "17021"
+  },
+  {
+    "maMonHoc": "EE2003",
+    "tenMonHoc": "Trường điện từ",
+    "soTinChi": 0,
+    "id": "14088"
+  },
+  {
+    "maMonHoc": "EE2005",
+    "tenMonHoc": "Tín hiệu và hệ thống",
+    "soTinChi": 0,
+    "id": "14089"
+  },
+  {
+    "maMonHoc": "EE2009",
+    "tenMonHoc": "Hệthống Mtính &ng;ônngữlt",
+    "soTinChi": 0,
+    "id": "14092"
+  },
+  {
+    "maMonHoc": "EE2011",
+    "tenMonHoc": "Kỹ thuật điện-điện tử",
+    "soTinChi": 0,
+    "id": "14235"
+  },
+  {
+    "maMonHoc": "EE2015",
+    "tenMonHoc": "Xử lý số tín hiệu",
+    "soTinChi": 0,
+    "id": "14238"
+  },
+  {
+    "maMonHoc": "EE2017",
+    "tenMonHoc": "Cơ sở kỹ thuật điện",
+    "soTinChi": 0,
+    "id": "14240"
+  },
+  {
+    "maMonHoc": "EE2019",
+    "tenMonHoc": "Cơ sở điều khiển tự động",
+    "soTinChi": 0,
+    "id": "14242"
+  },
+  {
+    "maMonHoc": "EE2021",
+    "tenMonHoc": "Cơ sở điện tử công suất",
+    "soTinChi": 0,
+    "id": "14243"
+  },
+  {
+    "maMonHoc": "EE2031",
+    "tenMonHoc": "Điện - giải tích mạch",
+    "soTinChi": 0,
+    "id": "15580"
+  },
+  {
+    "maMonHoc": "EE2033",
+    "tenMonHoc": "Giải tích mạch",
+    "soTinChi": 0,
+    "id": "16794"
+  },
+  {
+    "maMonHoc": "EE2035",
+    "tenMonHoc": "Mạch điện tử",
+    "soTinChi": 0,
+    "id": "16795"
+  },
+  {
+    "maMonHoc": "EE2039",
+    "tenMonHoc": "Vi xử lý",
+    "soTinChi": 0,
+    "id": "16841"
+  },
+  {
+    "maMonHoc": "EE2411",
+    "tenMonHoc": "Linh kiện bán dẫn",
+    "soTinChi": 0,
+    "id": "18007"
+  },
+  {
+    "maMonHoc": "EE2415",
+    "tenMonHoc": "Ht máy tính &nn; lậptrình",
+    "soTinChi": 0,
+    "id": "18009"
+  },
+  {
+    "maMonHoc": "EE2419",
+    "tenMonHoc": "Kỹ thuật số",
+    "soTinChi": 0,
+    "id": "18335"
+  },
+  {
+    "maMonHoc": "EE3001",
+    "tenMonHoc": "Hệ thống cung cấp điện",
+    "soTinChi": 0,
+    "id": "14524"
+  },
+  {
+    "maMonHoc": "EE3005",
+    "tenMonHoc": "Đo lường công nghiệp",
+    "soTinChi": 0,
+    "id": "14529"
+  },
+  {
+    "maMonHoc": "EE3007",
+    "tenMonHoc": "L/t điều khiển nâng cao",
+    "soTinChi": 0,
+    "id": "14429"
+  },
+  {
+    "maMonHoc": "EE3009",
+    "tenMonHoc": "Máy điện",
+    "soTinChi": 0,
+    "id": "14430"
+  },
+  {
+    "maMonHoc": "EE3013",
+    "tenMonHoc": "Giải tích hệ thống điện",
+    "soTinChi": 0,
+    "id": "14432"
+  },
+  {
+    "maMonHoc": "EE3017",
+    "tenMonHoc": "Đolường & đ/khiển bằngmt",
+    "soTinChi": 0,
+    "id": "14743"
+  },
+  {
+    "maMonHoc": "EE3019",
+    "tenMonHoc": "Truyền số liệu và mạng",
+    "soTinChi": 0,
+    "id": "14433"
+  },
+  {
+    "maMonHoc": "EE3027",
+    "tenMonHoc": "Nhàmáy điện &tr;ạm biếnáp",
+    "soTinChi": 0,
+    "id": "14788"
+  },
+  {
+    "maMonHoc": "EE3029",
+    "tenMonHoc": "Thiếtbị & hệthống tựđộng",
+    "soTinChi": 0,
+    "id": "14526"
+  },
+  {
+    "maMonHoc": "EE3087",
+    "tenMonHoc": "Bảo vệ rơle trong htđiện",
+    "soTinChi": 0,
+    "id": "14790"
+  },
+  {
+    "maMonHoc": "EE3089",
+    "tenMonHoc": "Kỹ thuật cao áp",
+    "soTinChi": 0,
+    "id": "14791"
+  },
+  {
+    "maMonHoc": "EE3093",
+    "tenMonHoc": "Vận hành &điều khiển htđ",
+    "soTinChi": 0,
+    "id": "14793"
+  },
+  {
+    "maMonHoc": "EE3095",
+    "tenMonHoc": "ổn định hệ thống điện",
+    "soTinChi": 0,
+    "id": "14794"
+  },
+  {
+    "maMonHoc": "EE3097",
+    "tenMonHoc": "Kỹ thuật an toàn điện",
+    "soTinChi": 0,
+    "id": "14796"
+  },
+  {
+    "maMonHoc": "EE3099",
+    "tenMonHoc": "Kỹ thuật chiếu sáng",
+    "soTinChi": 0,
+    "id": "14797"
+  },
+  {
+    "maMonHoc": "EE3189",
+    "tenMonHoc": "Điện tử học t/t &ứ/dụng",
+    "soTinChi": 0,
+    "id": "18363"
+  },
+  {
+    "maMonHoc": "EE3405",
+    "tenMonHoc": "Mạch công suất &điện cơ",
+    "soTinChi": 0,
+    "id": "18273"
+  },
+  {
+    "maMonHoc": "EE3411",
+    "tenMonHoc": "Mạch điện tử",
+    "soTinChi": 0,
+    "id": "18308"
+  },
+  {
+    "maMonHoc": "EE3413",
+    "tenMonHoc": "Vi xử lý",
+    "soTinChi": 0,
+    "id": "18309"
+  },
+  {
+    "maMonHoc": "EE3417",
+    "tenMonHoc": "Cảm biến và đo lường",
+    "soTinChi": 0,
+    "id": "19447"
+  },
+  {
+    "maMonHoc": "EE3419",
+    "tenMonHoc": "Điện tử công suất",
+    "soTinChi": 0,
+    "id": "19446"
+  },
+  {
+    "maMonHoc": "EE4407",
+    "tenMonHoc": "Tự động hóa công nghiệp",
+    "soTinChi": 0,
+    "id": "18278"
+  },
+  {
+    "maMonHoc": "EE4441",
+    "tenMonHoc": "Cơ sở người máy (Robot)",
+    "soTinChi": 0,
+    "id": "18326"
+  },
+  {
+    "maMonHoc": "EE4443",
+    "tenMonHoc": "Điều khiển phi tuyến &tn;",
+    "soTinChi": 0,
+    "id": "18327"
+  },
+  {
+    "maMonHoc": "EE4445",
+    "tenMonHoc": "Trí tuệ nhântạo trong đk",
+    "soTinChi": 0,
+    "id": "18328"
+  },
+  {
+    "maMonHoc": "EN1003",
+    "tenMonHoc": "Con người và môi trường",
+    "soTinChi": 0,
+    "id": "13935"
+  },
+  {
+    "maMonHoc": "EN1015",
+    "tenMonHoc": "Vi sinh vật đ/cương &tn;",
+    "soTinChi": 0,
+    "id": "16793"
+  },
+  {
+    "maMonHoc": "EN2049",
+    "tenMonHoc": "Phântích hệthống môi/trg",
+    "soTinChi": 0,
+    "id": "19462"
+  },
+  {
+    "maMonHoc": "EN2051",
+    "tenMonHoc": "Độc học môi trường",
+    "soTinChi": 0,
+    "id": "19464"
+  },
+  {
+    "maMonHoc": "EN3001",
+    "tenMonHoc": "Kỹ thuật xử lý khí thải",
+    "soTinChi": 0,
+    "id": "14434"
+  },
+  {
+    "maMonHoc": "EN3003",
+    "tenMonHoc": "Ud Gis &vt; Trong Qltn&mt;",
+    "soTinChi": 0,
+    "id": "14548"
+  },
+  {
+    "maMonHoc": "EN3027",
+    "tenMonHoc": "Kỹ thuật xl chất thảirắn",
+    "soTinChi": 0,
+    "id": "15110"
+  },
+  {
+    "maMonHoc": "EN3087",
+    "tenMonHoc": "Biến đổi khí hậu",
+    "soTinChi": 0,
+    "id": "17322"
+  },
+  {
+    "maMonHoc": "EN3099",
+    "tenMonHoc": "Công nghệ xanh",
+    "soTinChi": 0,
+    "id": "17383"
+  },
+  {
+    "maMonHoc": "EN3127",
+    "tenMonHoc": "Sản xuất sạch hơn",
+    "soTinChi": 0,
+    "id": "17861"
+  },
+  {
+    "maMonHoc": "GE1001",
+    "tenMonHoc": "Nhập môn về kỹ thuật",
+    "soTinChi": 0,
+    "id": "13937"
+  },
+  {
+    "maMonHoc": "GE1011",
+    "tenMonHoc": "Địa vật lý đại cương+ kt",
+    "soTinChi": 0,
+    "id": "16765"
+  },
+  {
+    "maMonHoc": "GE1013",
+    "tenMonHoc": "Khoa học trái đất",
+    "soTinChi": 0,
+    "id": "16766"
+  },
+  {
+    "maMonHoc": "GE2011",
+    "tenMonHoc": "C/sở khoa học đ/c dầukhí",
+    "soTinChi": 0,
+    "id": "14259"
+  },
+  {
+    "maMonHoc": "GE2021",
+    "tenMonHoc": "Cơ sở thủy địa cơ học",
+    "soTinChi": 0,
+    "id": "14335"
+  },
+  {
+    "maMonHoc": "GE2037",
+    "tenMonHoc": "Địa kỹ thuật 1",
+    "soTinChi": 0,
+    "id": "16812"
+  },
+  {
+    "maMonHoc": "GE2041",
+    "tenMonHoc": "Địa vật lý dầu khí",
+    "soTinChi": 0,
+    "id": "16863"
+  },
+  {
+    "maMonHoc": "IU1003",
+    "tenMonHoc": "Vẽ kỹ thuật bảo dưỡng",
+    "soTinChi": 0,
+    "id": "16589"
+  },
+  {
+    "maMonHoc": "IU2001",
+    "tenMonHoc": "Cơ học vật liệu",
+    "soTinChi": 0,
+    "id": "16591"
+  },
+  {
+    "maMonHoc": "IU2003",
+    "tenMonHoc": "Mạch điện",
+    "soTinChi": 0,
+    "id": "16592"
+  },
+  {
+    "maMonHoc": "IU2011",
+    "tenMonHoc": "Kỹ thuật điện tử",
+    "soTinChi": 0,
+    "id": "16596"
+  },
+  {
+    "maMonHoc": "IU2023",
+    "tenMonHoc": "P/pháp tính &l;ập trình C",
+    "soTinChi": 0,
+    "id": "17281"
+  },
+  {
+    "maMonHoc": "IU3011",
+    "tenMonHoc": "Kỹ thuật lập trình PLC",
+    "soTinChi": 0,
+    "id": "16604"
+  },
+  {
+    "maMonHoc": "IU3017",
+    "tenMonHoc": "Kỹ thuật số",
+    "soTinChi": 0,
+    "id": "16607"
+  },
+  {
+    "maMonHoc": "IU3057",
+    "tenMonHoc": "Công nghệ cơ khí 1",
+    "soTinChi": 0,
+    "id": "17554"
+  },
+  {
+    "maMonHoc": "IU3059",
+    "tenMonHoc": "Công nghệ điện",
+    "soTinChi": 0,
+    "id": "17555"
+  },
+  {
+    "maMonHoc": "IU3061",
+    "tenMonHoc": "Công nghệ cơ khí 2",
+    "soTinChi": 0,
+    "id": "17556"
+  },
+  {
+    "maMonHoc": "IU3063",
+    "tenMonHoc": "Công nghệ khí nén",
+    "soTinChi": 0,
+    "id": "17557"
+  },
+  {
+    "maMonHoc": "IU3065",
+    "tenMonHoc": "Công nghệ cơ khí 3",
+    "soTinChi": 0,
+    "id": "17558"
+  },
+  {
+    "maMonHoc": "IU3067",
+    "tenMonHoc": "Công nghệ lạnh &điều hòa",
+    "soTinChi": 0,
+    "id": "18133"
+  },
+  {
+    "maMonHoc": "IU3069",
+    "tenMonHoc": "Điện &điện tử côngnghiệp",
+    "soTinChi": 0,
+    "id": "18947"
+  },
+  {
+    "maMonHoc": "IU4015",
+    "tenMonHoc": "Công nghệ thủy lực",
+    "soTinChi": 0,
+    "id": "17560"
+  },
+  {
+    "maMonHoc": "IU4019",
+    "tenMonHoc": "An toàn &m;/trường trg bd",
+    "soTinChi": 0,
+    "id": "17562"
+  },
+  {
+    "maMonHoc": "IU4021",
+    "tenMonHoc": "Kỹ thuật bảo trì",
+    "soTinChi": 0,
+    "id": "17563"
+  },
+  {
+    "maMonHoc": "IU4025",
+    "tenMonHoc": "Chi phí bảo trì",
+    "soTinChi": 0,
+    "id": "17565"
+  },
+  {
+    "maMonHoc": "MA1003",
+    "tenMonHoc": "Cơ sở khoa học vật liệu",
+    "soTinChi": 0,
+    "id": "14009"
+  },
+  {
+    "maMonHoc": "MA2007",
+    "tenMonHoc": "Hóa học polyme",
+    "soTinChi": 0,
+    "id": "14271"
+  },
+  {
+    "maMonHoc": "MA2033",
+    "tenMonHoc": "Vật lý chất rắn",
+    "soTinChi": 0,
+    "id": "17356"
+  },
+  {
+    "maMonHoc": "MA2035",
+    "tenMonHoc": "Công nghệ vật liệu",
+    "soTinChi": 0,
+    "id": "17392"
+  },
+  {
+    "maMonHoc": "MA2037",
+    "tenMonHoc": "Hóa lý - cn vật liệu",
+    "soTinChi": 0,
+    "id": "17473"
+  },
+  {
+    "maMonHoc": "MA2039",
+    "tenMonHoc": "Hóa hữu cơ - cn vật liệu",
+    "soTinChi": 0,
+    "id": "17474"
+  },
+  {
+    "maMonHoc": "MA2041",
+    "tenMonHoc": "Hóa vô cơ - cn vật liệu",
+    "soTinChi": 0,
+    "id": "17475"
+  },
+  {
+    "maMonHoc": "MA3001",
+    "tenMonHoc": "Các pp n/cứu ct vl vô cơ",
+    "soTinChi": 0,
+    "id": "14467"
+  },
+  {
+    "maMonHoc": "MA3009",
+    "tenMonHoc": "Công nghệ cao su",
+    "soTinChi": 0,
+    "id": "14471"
+  },
+  {
+    "maMonHoc": "MA3011",
+    "tenMonHoc": "Hóa học xúc tác",
+    "soTinChi": 0,
+    "id": "14472"
+  },
+  {
+    "maMonHoc": "MA3019",
+    "tenMonHoc": "K/t sx các chất cao p/tử",
+    "soTinChi": 0,
+    "id": "14476"
+  },
+  {
+    "maMonHoc": "MA3021",
+    "tenMonHoc": "Nguyên lý lò công nghiệp",
+    "soTinChi": 0,
+    "id": "14477"
+  },
+  {
+    "maMonHoc": "MA3039",
+    "tenMonHoc": "Kỹ thuật sx các sp ttinh",
+    "soTinChi": 0,
+    "id": "15237"
+  },
+  {
+    "maMonHoc": "MA3077",
+    "tenMonHoc": "Vật liệu kỹ thuật",
+    "soTinChi": 0,
+    "id": "15169"
+  },
+  {
+    "maMonHoc": "MA3083",
+    "tenMonHoc": "Cơ học vật liệu",
+    "soTinChi": 0,
+    "id": "17393"
+  },
+  {
+    "maMonHoc": "MA3093",
+    "tenMonHoc": "Công nghệ gốm sứ",
+    "soTinChi": 0,
+    "id": "17398"
+  },
+  {
+    "maMonHoc": "MA3095",
+    "tenMonHoc": "Lý thuyết &c;ông nghệ đúc",
+    "soTinChi": 0,
+    "id": "17547"
+  },
+  {
+    "maMonHoc": "MA3101",
+    "tenMonHoc": "Truyền nhiệt &truy;ềnkhối",
+    "soTinChi": 0,
+    "id": "17476"
+  },
+  {
+    "maMonHoc": "MA3133",
+    "tenMonHoc": "Kỹ thuật s/xuất bán dẫn",
+    "soTinChi": 0,
+    "id": "18243"
+  },
+  {
+    "maMonHoc": "MA3135",
+    "tenMonHoc": "C/n sx& lắp đặt tấm q/đ",
+    "soTinChi": 0,
+    "id": "18244"
+  },
+  {
+    "maMonHoc": "MA3141",
+    "tenMonHoc": "Kỹthuật phân tích v/liệu",
+    "soTinChi": 0,
+    "id": "18247"
+  },
+  {
+    "maMonHoc": "MA3145",
+    "tenMonHoc": "Các nguồn năng lượng bv",
+    "soTinChi": 0,
+    "id": "18260"
+  },
+  {
+    "maMonHoc": "MA3153",
+    "tenMonHoc": "Mt &atnmsx; & gia công vl",
+    "soTinChi": 0,
+    "id": "18945"
+  },
+  {
+    "maMonHoc": "MA3157",
+    "tenMonHoc": "Kt thực nghiệm trong vl",
+    "soTinChi": 0,
+    "id": "19898"
+  },
+  {
+    "maMonHoc": "MA4033",
+    "tenMonHoc": "Vật liệu y sinh",
+    "soTinChi": 0,
+    "id": "15680"
+  },
+  {
+    "maMonHoc": "MA4067",
+    "tenMonHoc": "Kỹ thuật gia công polyme",
+    "soTinChi": 0,
+    "id": "17403"
+  },
+  {
+    "maMonHoc": "MA4083",
+    "tenMonHoc": "Vậtliệu polyme composite",
+    "soTinChi": 0,
+    "id": "17411"
+  },
+  {
+    "maMonHoc": "MA4085",
+    "tenMonHoc": "Polyme blend",
+    "soTinChi": 0,
+    "id": "17412"
+  },
+  {
+    "maMonHoc": "MA4091",
+    "tenMonHoc": "Vật liệu môi trường",
+    "soTinChi": 0,
+    "id": "17415"
+  },
+  {
+    "maMonHoc": "MA4103",
+    "tenMonHoc": "Luyện kim màu",
+    "soTinChi": 0,
+    "id": "17548"
+  },
+  {
+    "maMonHoc": "MA4123",
+    "tenMonHoc": "P/triển bền vững &cnxlmt;",
+    "soTinChi": 0,
+    "id": "17431"
+  },
+  {
+    "maMonHoc": "MA4127",
+    "tenMonHoc": "Công nghệ nhiệt luyện",
+    "soTinChi": 0,
+    "id": "17551"
+  },
+  {
+    "maMonHoc": "MA4153",
+    "tenMonHoc": "Công nghệ cao su",
+    "soTinChi": 0,
+    "id": "18038"
+  },
+  {
+    "maMonHoc": "ME1003",
+    "tenMonHoc": "Cơ khí đại cương",
+    "soTinChi": 0,
+    "id": "14010"
+  },
+  {
+    "maMonHoc": "ME1009",
+    "tenMonHoc": "Quản lý sản xuất",
+    "soTinChi": 0,
+    "id": "16130"
+  },
+  {
+    "maMonHoc": "ME1015",
+    "tenMonHoc": "Nguyên lý máy",
+    "soTinChi": 0,
+    "id": "17355"
+  },
+  {
+    "maMonHoc": "ME2003",
+    "tenMonHoc": "Nguyên lý máy",
+    "soTinChi": 0,
+    "id": "14112"
+  },
+  {
+    "maMonHoc": "ME2005",
+    "tenMonHoc": "Trangbị điện-đtử trg MCN",
+    "soTinChi": 0,
+    "id": "14113"
+  },
+  {
+    "maMonHoc": "ME2007",
+    "tenMonHoc": "Chi tiết máy",
+    "soTinChi": 0,
+    "id": "14282"
+  },
+  {
+    "maMonHoc": "ME2009",
+    "tenMonHoc": "Kỹthuật điềukhiển tựđộng",
+    "soTinChi": 0,
+    "id": "14115"
+  },
+  {
+    "maMonHoc": "ME2015",
+    "tenMonHoc": "Vật liệu học và xử lý",
+    "soTinChi": 0,
+    "id": "14285"
+  },
+  {
+    "maMonHoc": "ME2019",
+    "tenMonHoc": "Môi trường và con người",
+    "soTinChi": 0,
+    "id": "14119"
+  },
+  {
+    "maMonHoc": "ME2045",
+    "tenMonHoc": "Kinh tế kỹ thuật",
+    "soTinChi": 0,
+    "id": "14123"
+  },
+  {
+    "maMonHoc": "ME2051",
+    "tenMonHoc": "Vận trù học",
+    "soTinChi": 0,
+    "id": "14296"
+  },
+  {
+    "maMonHoc": "ME2071",
+    "tenMonHoc": "Các quá trình chế tạo",
+    "soTinChi": 0,
+    "id": "16133"
+  },
+  {
+    "maMonHoc": "ME2089",
+    "tenMonHoc": "Vẽ kỹ thuật cơ khí",
+    "soTinChi": 0,
+    "id": "17479"
+  },
+  {
+    "maMonHoc": "ME2091",
+    "tenMonHoc": "Phương pháp số",
+    "soTinChi": 0,
+    "id": "17353"
+  },
+  {
+    "maMonHoc": "ME2099",
+    "tenMonHoc": "Nhiệt đ/lực học kỹ thuật",
+    "soTinChi": 0,
+    "id": "17480"
+  },
+  {
+    "maMonHoc": "ME2101",
+    "tenMonHoc": "Cơ học máy",
+    "soTinChi": 0,
+    "id": "17481"
+  },
+  {
+    "maMonHoc": "ME2111",
+    "tenMonHoc": "T/kế công việc & nt học",
+    "soTinChi": 0,
+    "id": "17484"
+  },
+  {
+    "maMonHoc": "ME2113",
+    "tenMonHoc": "Quản lý thu mua",
+    "soTinChi": 0,
+    "id": "17485"
+  },
+  {
+    "maMonHoc": "ME2121",
+    "tenMonHoc": "Bơm, quạt, máy nén",
+    "soTinChi": 0,
+    "id": "17509"
+  },
+  {
+    "maMonHoc": "ME2123",
+    "tenMonHoc": "Kỹ thuật hệ thống",
+    "soTinChi": 0,
+    "id": "17519"
+  },
+  {
+    "maMonHoc": "ME2129",
+    "tenMonHoc": "Cở sở thiết kế máy",
+    "soTinChi": 0,
+    "id": "18361"
+  },
+  {
+    "maMonHoc": "ME3001",
+    "tenMonHoc": "K/thuật thủy lực &kh;ínén",
+    "soTinChi": 0,
+    "id": "14485"
+  },
+  {
+    "maMonHoc": "ME3003",
+    "tenMonHoc": "Dung sai và kỹ thuật đo",
+    "soTinChi": 0,
+    "id": "14486"
+  },
+  {
+    "maMonHoc": "ME3005",
+    "tenMonHoc": "Thiếtkế hệthống cơđiệntử",
+    "soTinChi": 0,
+    "id": "14487"
+  },
+  {
+    "maMonHoc": "ME3007",
+    "tenMonHoc": "Vi điều khiển",
+    "soTinChi": 0,
+    "id": "14488"
+  },
+  {
+    "maMonHoc": "ME3011",
+    "tenMonHoc": "Động lực học &điều khiển",
+    "soTinChi": 0,
+    "id": "14645"
+  },
+  {
+    "maMonHoc": "ME3013",
+    "tenMonHoc": "Hệ thống PLC",
+    "soTinChi": 0,
+    "id": "14698"
+  },
+  {
+    "maMonHoc": "ME3015",
+    "tenMonHoc": "Kỹ thuật robot",
+    "soTinChi": 0,
+    "id": "14647"
+  },
+  {
+    "maMonHoc": "ME3027",
+    "tenMonHoc": "Mô hình hóa hình học ∓",
+    "soTinChi": 0,
+    "id": "14687"
+  },
+  {
+    "maMonHoc": "ME3031",
+    "tenMonHoc": "Kỹ thuật chế tạo 1",
+    "soTinChi": 0,
+    "id": "14678"
+  },
+  {
+    "maMonHoc": "ME3033",
+    "tenMonHoc": "Kỹ thuật chế tạo 2",
+    "soTinChi": 0,
+    "id": "14679"
+  },
+  {
+    "maMonHoc": "ME3035",
+    "tenMonHoc": "Kỹ thuật lạnh",
+    "soTinChi": 0,
+    "id": "14490"
+  },
+  {
+    "maMonHoc": "ME3043",
+    "tenMonHoc": "Lò hơi và thiết bị đốt",
+    "soTinChi": 0,
+    "id": "14691"
+  },
+  {
+    "maMonHoc": "ME3095",
+    "tenMonHoc": "K/thuật tr/trí trangphục",
+    "soTinChi": 0,
+    "id": "14502"
+  },
+  {
+    "maMonHoc": "ME3115",
+    "tenMonHoc": "Thiết kế trang phục 2",
+    "soTinChi": 0,
+    "id": "14650"
+  },
+  {
+    "maMonHoc": "ME3147",
+    "tenMonHoc": "Truyền nhiệt &tbtd; nhiệt",
+    "soTinChi": 0,
+    "id": "17510"
+  },
+  {
+    "maMonHoc": "ME3153",
+    "tenMonHoc": "Kỹ thuật điều hòa k/khí",
+    "soTinChi": 0,
+    "id": "17513"
+  },
+  {
+    "maMonHoc": "ME3161",
+    "tenMonHoc": "Quản lý vật tư & tồn kho",
+    "soTinChi": 0,
+    "id": "17523"
+  },
+  {
+    "maMonHoc": "ME3171",
+    "tenMonHoc": "Cấu trúc vải",
+    "soTinChi": 0,
+    "id": "17528"
+  },
+  {
+    "maMonHoc": "ME3181",
+    "tenMonHoc": "Trí tuệ nhân tạo ứngdụng",
+    "soTinChi": 0,
+    "id": "18339"
+  },
+  {
+    "maMonHoc": "ME3201",
+    "tenMonHoc": "Kỹ thuật chế tạo 3",
+    "soTinChi": 0,
+    "id": "16145"
+  },
+  {
+    "maMonHoc": "ME3203",
+    "tenMonHoc": "Các qt chế tạo tiên tiến",
+    "soTinChi": 0,
+    "id": "16146"
+  },
+  {
+    "maMonHoc": "ME3207",
+    "tenMonHoc": "C/nghệ vln & gc khuônmẫu",
+    "soTinChi": 0,
+    "id": "16148"
+  },
+  {
+    "maMonHoc": "ME3215",
+    "tenMonHoc": "Tối ưu hóa &quy; hoạch tn",
+    "soTinChi": 0,
+    "id": "16152"
+  },
+  {
+    "maMonHoc": "ME3223",
+    "tenMonHoc": "Quản lý dự án",
+    "soTinChi": 0,
+    "id": "14507"
+  },
+  {
+    "maMonHoc": "ME3225",
+    "tenMonHoc": "K/soát &qu;ảnlý chấtlượng",
+    "soTinChi": 0,
+    "id": "14508"
+  },
+  {
+    "maMonHoc": "ME3239",
+    "tenMonHoc": "Công nghệ CNC",
+    "soTinChi": 0,
+    "id": "16156"
+  },
+  {
+    "maMonHoc": "ME3245",
+    "tenMonHoc": "Thang máy",
+    "soTinChi": 0,
+    "id": "16159"
+  },
+  {
+    "maMonHoc": "ME3253",
+    "tenMonHoc": "Hoạch định mặt bằng",
+    "soTinChi": 0,
+    "id": "16416"
+  },
+  {
+    "maMonHoc": "ME4003",
+    "tenMonHoc": "Thiết kế hệ thống cơ khí",
+    "soTinChi": 0,
+    "id": "14686"
+  },
+  {
+    "maMonHoc": "ME4009",
+    "tenMonHoc": "Động lực học cơ hệ",
+    "soTinChi": 0,
+    "id": "15707"
+  },
+  {
+    "maMonHoc": "ME4015",
+    "tenMonHoc": "Trung tâm nhiệt điện",
+    "soTinChi": 0,
+    "id": "15710"
+  },
+  {
+    "maMonHoc": "ME4023",
+    "tenMonHoc": "Điềuđộ trong chuỗi c/ứng",
+    "soTinChi": 0,
+    "id": "15714"
+  },
+  {
+    "maMonHoc": "ME4031",
+    "tenMonHoc": "Kỹ thuật điềuđộ (cn-htcn",
+    "soTinChi": 0,
+    "id": "15718"
+  },
+  {
+    "maMonHoc": "ME4137",
+    "tenMonHoc": "Đlh & đk các ht robot",
+    "soTinChi": 0,
+    "id": "18411"
+  },
+  {
+    "maMonHoc": "ME4201",
+    "tenMonHoc": "Nhập môn thịgiác máytính",
+    "soTinChi": 0,
+    "id": "15747"
+  },
+  {
+    "maMonHoc": "ME4203",
+    "tenMonHoc": "Nhập môn điều khiển hđ",
+    "soTinChi": 0,
+    "id": "15748"
+  },
+  {
+    "maMonHoc": "ME4305",
+    "tenMonHoc": "Tuabin hơi và tuabin khí",
+    "soTinChi": 0,
+    "id": "15757"
+  },
+  {
+    "maMonHoc": "ME4511",
+    "tenMonHoc": "Tái chế vật liệu dệt",
+    "soTinChi": 0,
+    "id": "15803"
+  },
+  {
+    "maMonHoc": "ME4605",
+    "tenMonHoc": "Hoạch định nguồn lực sx",
+    "soTinChi": 0,
+    "id": "15816"
+  },
+  {
+    "maMonHoc": "ME4607",
+    "tenMonHoc": "Pt & thiếtkế httt quảnlý",
+    "soTinChi": 0,
+    "id": "15817"
+  },
+  {
+    "maMonHoc": "MT1003",
+    "tenMonHoc": "Giải tích 1",
+    "soTinChi": 0,
+    "id": "13946"
+  },
+  {
+    "maMonHoc": "MT1005",
+    "tenMonHoc": "Giải tích 2",
+    "soTinChi": 0,
+    "id": "14014"
+  },
+  {
+    "maMonHoc": "MT1013",
+    "tenMonHoc": "Giải tích 2",
+    "soTinChi": 0,
+    "id": "16777"
+  },
+  {
+    "maMonHoc": "MT1017",
+    "tenMonHoc": "Giải tích trog kinhdoanh",
+    "soTinChi": 0,
+    "id": "16779"
+  },
+  {
+    "maMonHoc": "MT1019",
+    "tenMonHoc": "Giải tích 1",
+    "soTinChi": 0,
+    "id": "16780"
+  },
+  {
+    "maMonHoc": "MT1021",
+    "tenMonHoc": "Giải tích 2",
+    "soTinChi": 0,
+    "id": "17029"
+  },
+  {
+    "maMonHoc": "MT1023",
+    "tenMonHoc": "Cơ sở phươngtrình viphân",
+    "soTinChi": 0,
+    "id": "17030"
+  },
+  {
+    "maMonHoc": "PH1003",
+    "tenMonHoc": "Vật lý 1",
+    "soTinChi": 0,
+    "id": "13952"
+  },
+  {
+    "maMonHoc": "PH1005",
+    "tenMonHoc": "Vật lý 2",
+    "soTinChi": 0,
+    "id": "14018"
+  },
+  {
+    "maMonHoc": "PH1009",
+    "tenMonHoc": "Vật lý 1",
+    "soTinChi": 0,
+    "id": "16785"
+  },
+  {
+    "maMonHoc": "SP1031",
+    "tenMonHoc": "Triết học Mác - Lênin",
+    "soTinChi": 0,
+    "id": "16729"
+  },
+  {
+    "maMonHoc": "TR1003",
+    "tenMonHoc": "Vẽ kỹ thuật giao thông",
+    "soTinChi": 0,
+    "id": "14021"
+  },
+  {
+    "maMonHoc": "TR2005",
+    "tenMonHoc": "Cơ học vật rắn biến dạng",
+    "soTinChi": 0,
+    "id": "14133"
+  },
+  {
+    "maMonHoc": "TR2007",
+    "tenMonHoc": "Kết cấu độngcơ đốt trong",
+    "soTinChi": 0,
+    "id": "14134"
+  },
+  {
+    "maMonHoc": "TR2011",
+    "tenMonHoc": "Khí động lực học 1",
+    "soTinChi": 0,
+    "id": "14306"
+  },
+  {
+    "maMonHoc": "TR2013",
+    "tenMonHoc": "Kết cấu ô tô",
+    "soTinChi": 0,
+    "id": "14307"
+  },
+  {
+    "maMonHoc": "TR2035",
+    "tenMonHoc": "Cơ kết cấu giao thông",
+    "soTinChi": 0,
+    "id": "17221"
+  },
+  {
+    "maMonHoc": "TR3005",
+    "tenMonHoc": "Lý thuyết tàuthủy 2- đlh",
+    "soTinChi": 0,
+    "id": "14511"
+  },
+  {
+    "maMonHoc": "TR3011",
+    "tenMonHoc": "Khí động lực học 2",
+    "soTinChi": 0,
+    "id": "14514"
+  },
+  {
+    "maMonHoc": "TR3019",
+    "tenMonHoc": "Thiếtbị n/lượng tàuthủy2",
+    "soTinChi": 0,
+    "id": "14518"
+  },
+  {
+    "maMonHoc": "TR3037",
+    "tenMonHoc": "Các ht trang thiếtbị tàu",
+    "soTinChi": 0,
+    "id": "14836"
+  },
+  {
+    "maMonHoc": "TR3039",
+    "tenMonHoc": "ổn định & điều khiển bay",
+    "soTinChi": 0,
+    "id": "14807"
+  },
+  {
+    "maMonHoc": "TR3057",
+    "tenMonHoc": "Pp phân tích kết cấu tàu",
+    "soTinChi": 0,
+    "id": "14830"
+  },
+  {
+    "maMonHoc": "TR3061",
+    "tenMonHoc": "C/nghệ đóng tàu và tcsx",
+    "soTinChi": 0,
+    "id": "14831"
+  },
+  {
+    "maMonHoc": "TR3121",
+    "tenMonHoc": "Hệ thống điện-điệntử ôtô",
+    "soTinChi": 0,
+    "id": "17092"
+  },
+  {
+    "maMonHoc": "TR3123",
+    "tenMonHoc": "Kt k/thác &bd; độngcơ-ôtô",
+    "soTinChi": 0,
+    "id": "17093"
+  },
+  {
+    "maMonHoc": "TR3135",
+    "tenMonHoc": "Phân tích kết cấu máybay",
+    "soTinChi": 0,
+    "id": "18266"
+  },
+  {
+    "maMonHoc": "TR3137",
+    "tenMonHoc": "Hệthống lực đẩy máy bay",
+    "soTinChi": 0,
+    "id": "18265"
+  },
+  {
+    "maMonHoc": "TR4001",
+    "tenMonHoc": "Kỹthuật chẩnđoán &bd; đc",
+    "soTinChi": 0,
+    "id": "15864"
+  },
+  {
+    "maMonHoc": "TR4021",
+    "tenMonHoc": "Kỹthuật chẩnđoán &bd; ôtô",
+    "soTinChi": 0,
+    "id": "15873"
+  },
+  {
+    "maMonHoc": "EE3313",
+    "tenMonHoc": "Thực tập tốt nghiệp",
+    "soTinChi": 0,
+    "id": "14806"
+  },
+  {
+    "maMonHoc": "EE4455",
+    "tenMonHoc": "Trí tuệ nhân tạo",
+    "soTinChi": 0,
+    "id": "18333"
+  },
+  {
+    "maMonHoc": "IM3033",
+    "tenMonHoc": "Tiếp thị giữa các tổchức",
+    "soTinChi": 0,
+    "id": "15155"
+  },
+  {
+    "maMonHoc": "LA2015",
+    "tenMonHoc": "Tiếng Việt 2",
+    "soTinChi": 0,
+    "id": "16397"
+  }
+]

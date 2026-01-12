@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Paper,
@@ -22,112 +22,162 @@ import {
   TableHead,
   TableRow,
   Chip,
+  CircularProgress,
+  Alert,
 } from '@mui/material';
 import {
   Person as TeachingIcon,
   Search as SearchIcon,
   Schedule as ScheduleIcon,
+  Email as EmailIcon,
+  Phone as PhoneIcon,
 } from '@mui/icons-material';
+
+const API_BASE = '/api';
+
+// Helper to convert day number to Vietnamese
+const dayNames = ['', 'CN', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7'];
 
 function TeachingScheduleTab() {
   const [searchTab, setSearchTab] = useState(0);
   const [courseCode, setCourseCode] = useState('');
-  const [courseName, setCourseName] = useState('');
-  const [selectedTeacher, setSelectedTeacher] = useState('');
-  const [teachers, setTeachers] = useState([]);
+  const [lecturerName, setLecturerName] = useState('');
   const [searchResults, setSearchResults] = useState([]);
-  const [courseSuggestions] = useState([
-    'Cấu trúc dữ liệu và giải thuật',
-    'Lập trình hướng đối tượng',
-    'Cơ sở dữ liệu',
-    'Mạng máy tính',
-    'Hệ điều hành',
-    'Trí tuệ nhân tạo',
-    'Học máy',
-    'Xử lý ảnh số',
-  ]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  // For autocomplete
+  const [allSubjects, setAllSubjects] = useState([]);
+  const [allLecturers, setAllLecturers] = useState([]);
+  const [loadingData, setLoadingData] = useState(true);
+
+  // Load subjects and lecturers on mount
+  useEffect(() => {
+    const loadData = async () => {
+      setLoadingData(true);
+      try {
+        // Load subjects
+        const subjectsRes = await fetch(`${API_BASE}/lecturer/subjects`);
+        if (subjectsRes.ok) {
+          const subjects = await subjectsRes.json();
+          setAllSubjects(subjects);
+        }
+
+        // Load lecturers
+        const lecturersRes = await fetch(`${API_BASE}/lecturer/list`);
+        if (lecturersRes.ok) {
+          const lecturers = await lecturersRes.json();
+          setAllLecturers(lecturers);
+        }
+      } catch (e) {
+        console.error('Error loading data:', e);
+      } finally {
+        setLoadingData(false);
+      }
+    };
+
+    loadData();
+  }, []);
 
   const handleSearchTabChange = (event, newValue) => {
     setSearchTab(newValue);
-    // Reset form when switching tabs
     setCourseCode('');
-    setCourseName('');
-    setSelectedTeacher('');
-    setTeachers([]);
+    setLecturerName('');
     setSearchResults([]);
+    setError(null);
   };
 
   const searchByCode = async () => {
     if (!courseCode.trim()) return;
 
-    // Simulate API call - replace with actual implementation
-    const mockResults = [
-      {
-        courseCode: courseCode,
-        courseName: 'Tên môn học mẫu',
-        teacher: 'GS. Nguyễn Văn A',
-        classGroup: 'L01',
-        schedule: [
-          { day: 'Thứ 2', periods: '1-3', room: 'H1-101' },
-          { day: 'Thứ 5', periods: '7-9', room: 'H1-102' },
-        ]
-      }
-    ];
+    setLoading(true);
+    setError(null);
 
-    setSearchResults(mockResults);
+    try {
+      // Extract just the course ID if user selected from autocomplete
+      // Input might be "CO3001 - Công nghệ phần mềm", we only want "CO3001"
+      let searchId = courseCode.trim();
+      if (searchId.includes(' - ')) {
+        searchId = searchId.split(' - ')[0].trim();
+      }
+
+      console.log('[TeachingSchedule] Searching for:', searchId);
+      const res = await fetch(`${API_BASE}/lecturer/search?id=${encodeURIComponent(searchId)}`);
+      const data = await res.json();
+
+      if (data.length === 0) {
+        setError('Không tìm thấy môn học');
+      }
+      setSearchResults(data);
+    } catch (e) {
+      setError('Lỗi kết nối server');
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const searchByName = async () => {
-    if (!courseName.trim()) return;
+  const searchByLecturer = async () => {
+    if (!lecturerName.trim()) return;
 
-    // Simulate API call - replace with actual implementation
-    const mockTeachers = [
-      'GS. Nguyễn Văn A',
-      'PGS. Trần Thị B',
-      'TS. Lê Văn C',
-    ];
+    setLoading(true);
+    setError(null);
 
-    setTeachers(mockTeachers);
+    try {
+      const res = await fetch(`${API_BASE}/lecturer/search?gv=${encodeURIComponent(lecturerName)}`);
+      const data = await res.json();
+
+      if (data.length === 0) {
+        setError('Không tìm thấy giảng viên');
+      }
+      setSearchResults(data);
+    } catch (e) {
+      setError('Lỗi kết nối server');
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const searchSchedule = async () => {
-    if (!selectedTeacher) return;
-
-    // Simulate API call - replace with actual implementation
-    const mockResults = [
-      {
-        courseCode: 'CS101',
-        courseName: courseName,
-        teacher: selectedTeacher,
-        classGroup: 'L01',
-        schedule: [
-          { day: 'Thứ 2', periods: '1-3', room: 'H1-101' },
-          { day: 'Thứ 5', periods: '7-9', room: 'H1-102' },
-        ]
-      }
-    ];
-
-    setSearchResults(mockResults);
+  const handleKeyPress = (e, searchFn) => {
+    if (e.key === 'Enter') {
+      searchFn();
+    }
   };
 
   const renderSearchByCode = () => (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} alignItems="center">
       <Grid item xs={12} md={8}>
-        <TextField
-          fullWidth
-          label="Mã Môn Học"
-          placeholder="Nhập mã môn học..."
-          value={courseCode}
-          onChange={(e) => setCourseCode(e.target.value)}
+        <Autocomplete
+          freeSolo
+          options={allSubjects}
+          getOptionLabel={(option) =>
+            typeof option === 'string' ? option : `${option.id} - ${option.name}`
+          }
+          inputValue={courseCode}
+          onInputChange={(event, newValue) => setCourseCode(newValue)}
+          onChange={(event, newValue) => {
+            if (newValue && typeof newValue === 'object') {
+              setCourseCode(newValue.id);
+            }
+          }}
+          loading={loadingData}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="Mã Môn Học"
+              placeholder="Nhập mã môn học (VD: CO3001)..."
+              onKeyPress={(e) => handleKeyPress(e, searchByCode)}
+            />
+          )}
         />
       </Grid>
       <Grid item xs={12} md={4}>
         <Button
           fullWidth
           variant="contained"
-          startIcon={<SearchIcon />}
+          startIcon={loading ? <CircularProgress size={20} color="inherit" /> : <SearchIcon />}
           onClick={searchByCode}
           sx={{ height: '56px' }}
+          disabled={loading || !courseCode.trim()}
         >
           Tìm Kiếm
         </Button>
@@ -135,65 +185,57 @@ function TeachingScheduleTab() {
     </Grid>
   );
 
-  const renderSearchByName = () => (
-    <Grid container spacing={2}>
-      <Grid item xs={12} md={6}>
+  const renderSearchByLecturer = () => (
+    <Grid container spacing={2} alignItems="center">
+      <Grid item xs={12} md={8}>
         <Autocomplete
-          options={courseSuggestions}
-          value={courseName}
-          onChange={(event, newValue) => setCourseName(newValue || '')}
-          onInputChange={(event, newInputValue) => setCourseName(newInputValue)}
+          freeSolo
+          options={allLecturers.map(l => l.name)}
+          inputValue={lecturerName}
+          onInputChange={(event, newValue) => setLecturerName(newValue)}
+          loading={loadingData}
           renderInput={(params) => (
             <TextField
               {...params}
-              label="Tên Môn Học"
-              placeholder="Nhập tên môn học..."
+              label="Tên Giảng Viên"
+              placeholder="Nhập tên giảng viên..."
+              onKeyPress={(e) => handleKeyPress(e, searchByLecturer)}
             />
           )}
         />
       </Grid>
-      <Grid item xs={12} md={3}>
-        <Button
-          fullWidth
-          variant="outlined"
-          onClick={searchByName}
-          sx={{ height: '56px' }}
-        >
-          Tìm Giảng Viên
-        </Button>
-      </Grid>
-      <Grid item xs={12} md={6}>
-        <FormControl fullWidth disabled={teachers.length === 0}>
-          <InputLabel>Giảng Viên</InputLabel>
-          <Select
-            value={selectedTeacher}
-            onChange={(e) => setSelectedTeacher(e.target.value)}
-            label="Giảng Viên"
-          >
-            {teachers.map((teacher, index) => (
-              <MenuItem key={index} value={teacher}>
-                {teacher}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Grid>
-      <Grid item xs={12} md={3}>
+      <Grid item xs={12} md={4}>
         <Button
           fullWidth
           variant="contained"
-          startIcon={<SearchIcon />}
-          onClick={searchSchedule}
-          disabled={!selectedTeacher}
+          startIcon={loading ? <CircularProgress size={20} color="inherit" /> : <SearchIcon />}
+          onClick={searchByLecturer}
           sx={{ height: '56px' }}
+          disabled={loading || !lecturerName.trim()}
         >
-          Tìm Lịch
+          Tìm Kiếm
         </Button>
       </Grid>
     </Grid>
   );
 
   const renderResults = () => {
+    if (loading) {
+      return (
+        <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
+          <CircularProgress />
+        </Box>
+      );
+    }
+
+    if (error) {
+      return (
+        <Alert severity="warning" sx={{ mt: 2 }}>
+          {error}
+        </Alert>
+      );
+    }
+
     if (searchResults.length === 0) {
       return (
         <Box
@@ -221,50 +263,109 @@ function TeachingScheduleTab() {
         {searchResults.map((result, index) => (
           <Card key={index} sx={{ mb: 2 }}>
             <CardContent>
-              <Grid container spacing={2}>
-                <Grid item xs={12} md={6}>
-                  <Typography variant="h6" gutterBottom>
-                    {result.courseCode} - {result.courseName}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Giảng viên: {result.teacher}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Nhóm lớp: {result.classGroup}
-                  </Typography>
-                </Grid>
-                <Grid item xs={12} md={6}>
-                  <Typography variant="subtitle2" gutterBottom>
-                    Lịch học:
-                  </Typography>
-                  <TableContainer>
-                    <Table size="small">
-                      <TableHead>
-                        <TableRow>
-                          <TableCell>Thứ</TableCell>
-                          <TableCell>Tiết</TableCell>
-                          <TableCell>Phòng</TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {result.schedule.map((schedule, scheduleIndex) => (
-                          <TableRow key={scheduleIndex}>
-                            <TableCell>{schedule.day}</TableCell>
-                            <TableCell>
-                              <Chip
-                                label={schedule.periods}
-                                size="small"
-                                color="primary"
-                              />
-                            </TableCell>
-                            <TableCell>{schedule.room}</TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                </Grid>
-              </Grid>
+              <Typography variant="h6" gutterBottom color="primary">
+                {result.maMonHoc} - {result.tenMonHoc}
+              </Typography>
+              {result.soTinChi > 0 && (
+                <Chip
+                  label={`${result.soTinChi} TC`}
+                  size="small"
+                  color="secondary"
+                  sx={{ mb: 2 }}
+                />
+              )}
+
+              {result.lichHoc.map((lh, lhIndex) => (
+                <Card key={lhIndex} variant="outlined" sx={{ mb: 2 }}>
+                  <CardContent>
+                    <Grid container spacing={2}>
+                      <Grid item xs={12} md={6}>
+                        <Typography variant="subtitle1" fontWeight="bold">
+                          Nhóm: {lh.group}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          Sĩ số: {lh.siso} | Ngôn ngữ: {lh.ngonNgu}
+                        </Typography>
+
+                        {/* Lecturer Info */}
+                        <Box sx={{ mt: 1 }}>
+                          <Typography variant="body2">
+                            <strong>Giảng viên LT:</strong> {lh.giangVien || 'Chưa phân công'}
+                          </Typography>
+                          {lh.email && (
+                            <Typography variant="body2" sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                              <EmailIcon fontSize="small" color="action" />
+                              {lh.email}
+                            </Typography>
+                          )}
+                          {lh.phone && (
+                            <Typography variant="body2" sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                              <PhoneIcon fontSize="small" color="action" />
+                              {lh.phone}
+                            </Typography>
+                          )}
+                        </Box>
+
+                        {lh.giangVienBT && lh.giangVienBT !== lh.giangVien && (
+                          <Box sx={{ mt: 1 }}>
+                            <Typography variant="body2">
+                              <strong>Giảng viên BT:</strong> {lh.giangVienBT}
+                            </Typography>
+                            {lh.emailBT && (
+                              <Typography variant="body2" sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                                <EmailIcon fontSize="small" color="action" />
+                                {lh.emailBT}
+                              </Typography>
+                            )}
+                          </Box>
+                        )}
+                      </Grid>
+
+                      <Grid item xs={12} md={6}>
+                        <Typography variant="subtitle2" gutterBottom>
+                          Lịch học:
+                        </Typography>
+                        {lh.classInfo && lh.classInfo.length > 0 ? (
+                          <TableContainer>
+                            <Table size="small">
+                              <TableHead>
+                                <TableRow>
+                                  <TableCell>Thứ</TableCell>
+                                  <TableCell>Tiết</TableCell>
+                                  <TableCell>Phòng</TableCell>
+                                  <TableCell>CS</TableCell>
+                                </TableRow>
+                              </TableHead>
+                              <TableBody>
+                                {lh.classInfo.map((ci, ciIndex) => (
+                                  <TableRow key={ciIndex}>
+                                    <TableCell>
+                                      {dayNames[ci.dayOfWeek] || ci.dayOfWeek}
+                                    </TableCell>
+                                    <TableCell>
+                                      <Chip
+                                        label={ci.tietHoc.join('-')}
+                                        size="small"
+                                        color="primary"
+                                      />
+                                    </TableCell>
+                                    <TableCell>{ci.phong}</TableCell>
+                                    <TableCell>{ci.coSo?.trim()}</TableCell>
+                                  </TableRow>
+                                ))}
+                              </TableBody>
+                            </Table>
+                          </TableContainer>
+                        ) : (
+                          <Typography variant="body2" color="text.secondary">
+                            Chưa có lịch học
+                          </Typography>
+                        )}
+                      </Grid>
+                    </Grid>
+                  </CardContent>
+                </Card>
+              ))}
             </CardContent>
           </Card>
         ))}
@@ -281,15 +382,21 @@ function TeachingScheduleTab() {
               Tìm Kiếm Lịch Giảng Dạy
             </Typography>
 
+            {loadingData && (
+              <Alert severity="info" sx={{ mb: 2 }}>
+                Đang tải dữ liệu môn học và giảng viên...
+              </Alert>
+            )}
+
             <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 3 }}>
               <Tabs value={searchTab} onChange={handleSearchTabChange}>
                 <Tab label="Tìm theo mã môn" />
-                <Tab label="Tìm theo tên môn" />
+                <Tab label="Tìm theo giảng viên" />
               </Tabs>
             </Box>
 
             <Box sx={{ mb: 3 }}>
-              {searchTab === 0 ? renderSearchByCode() : renderSearchByName()}
+              {searchTab === 0 ? renderSearchByCode() : renderSearchByLecturer()}
             </Box>
           </Paper>
         </Grid>
@@ -297,7 +404,7 @@ function TeachingScheduleTab() {
         <Grid item xs={12}>
           <Paper sx={{ p: 3 }}>
             <Typography variant="h6" gutterBottom>
-              Kết Quả Tìm Kiếm
+              Kết Quả Tìm Kiếm ({searchResults.length} môn học)
             </Typography>
             {renderResults()}
           </Paper>

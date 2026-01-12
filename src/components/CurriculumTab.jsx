@@ -1,20 +1,14 @@
 import React, { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import {
-  Box,
-  Paper,
-  Typography,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Grid,
-  Card,
-  CardContent,
-} from '@mui/material';
-import {
-  School as CurriculumIcon,
-  Description as PdfIcon,
-} from '@mui/icons-material';
+  GraduationCap,
+  FileText,
+  AlertCircle,
+  ExternalLink,
+  BookOpen
+} from 'lucide-react';
 
 const majors = [
   {
@@ -47,9 +41,9 @@ function CurriculumTab() {
   const [selectedMajor, setSelectedMajor] = useState('');
   const [pdfError, setPdfError] = useState(false);
 
-  const handleMajorChange = (event) => {
-    setSelectedMajor(event.target.value);
-    setPdfError(false); // Reset error when changing major
+  const handleMajorChange = (value) => {
+    setSelectedMajor(value);
+    setPdfError(false);
   };
 
   const selectedMajorInfo = majors.find(major => major.value === selectedMajor);
@@ -59,110 +53,113 @@ function CurriculumTab() {
   };
 
   return (
-    <Box sx={{ p: { xs: 2, sm: 3 } }}>
-      <Grid container spacing={{ xs: 2, sm: 3 }}>
-        <Grid item xs={12} md={6}>
-          <Card>
-            <CardContent>
-              <Typography variant="h6" gutterBottom>
-                Tra Cứu Chương Trình Đào Tạo
-              </Typography>
-              <FormControl fullWidth>
-                <InputLabel>Chọn ngành học</InputLabel>
-                <Select
-                  value={selectedMajor}
-                  onChange={handleMajorChange}
-                  label="Chọn ngành học"
-                >
-                  <MenuItem value="">
-                    <em>Chọn ngành học</em>
-                  </MenuItem>
-                  {majors.map((major) => (
-                    <MenuItem key={major.value} value={major.value}>
-                      {major.label}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </CardContent>
-          </Card>
-        </Grid>
+    <div className="p-3 md:p-6 max-w-[1600px] mx-auto space-y-4 md:space-y-6">
+      {/* Header */}
+      <div className="flex items-center gap-3">
+        <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
+          <GraduationCap className="h-5 w-5 text-primary" />
+        </div>
+        <div>
+          <h2 className="text-xl font-bold">Chương trình đào tạo</h2>
+          <p className="text-sm text-muted-foreground">Tra cứu CTĐT theo ngành học</p>
+        </div>
+      </div>
 
-        <Grid item xs={12}>
-          <Paper sx={{ p: 3 }}>
-            <Typography variant="h6" gutterBottom>
-              <PdfIcon sx={{ mr: 1, verticalAlign: 'middle' }} />
-              Tài Liệu Chương Trình Đào Tạo
-            </Typography>
-
-            {selectedMajorInfo ? (
-              pdfError || selectedMajorInfo.fileId === 'your_file_id_here' ? (
-                <Box
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    py: 8,
-                    color: 'text.secondary',
-                    backgroundColor: '#fff3cd',
-                    borderRadius: 1,
-                    border: '1px solid #ffeaa7',
-                  }}
-                >
-                  <PdfIcon sx={{ fontSize: 64, mb: 2, opacity: 0.5, color: '#f39c12' }} />
-                  <Typography variant="h6" color="#856404">
-                    Chưa có tài liệu cho ngành {selectedMajorInfo.label}
-                  </Typography>
-                  <Typography variant="body2" color="#856404" sx={{ textAlign: 'center', mt: 1 }}>
-                    Tài liệu chương trình đào tạo đang được cập nhật.<br />
-                    Vui lòng liên hệ phòng đào tạo để biết thêm chi tiết.
-                  </Typography>
-                </Box>
-              ) : (
-                <Box
-                  sx={{
-                    width: '100%',
-                    height: '800px',
-                    border: '1px solid #ddd',
-                    borderRadius: 1,
-                  }}
-                >
-                  <iframe
-                    src={selectedMajorInfo.pdfUrl}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      border: 'none',
-                    }}
-                    title={`Chương trình đào tạo ${selectedMajorInfo.label}`}
-                    allow="autoplay"
-                    onError={handlePdfError}
-                  />
-                </Box>
-              )
-            ) : (
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  py: 8,
-                  color: 'text.secondary',
-                }}
+      {/* Major Selection */}
+      <Card>
+        <CardHeader className="pb-3">
+          <CardTitle className="text-base flex items-center gap-2">
+            <BookOpen className="h-4 w-4" />
+            Chọn ngành học
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {majors.map((major) => (
+              <button
+                key={major.value}
+                onClick={() => handleMajorChange(major.value)}
+                className={`p-4 rounded-lg border-2 text-left transition-all hover:shadow-md ${selectedMajor === major.value
+                    ? 'border-primary bg-primary/5 shadow-sm'
+                    : 'border-border hover:border-primary/50'
+                  }`}
               >
-                <PdfIcon sx={{ fontSize: 64, mb: 2, opacity: 0.5 }} />
-                <Typography variant="h6">
-                  Chưa chọn ngành học
-                </Typography>
-                <Typography variant="body2">
-                  Vui lòng chọn ngành học để xem chương trình đào tạo
-                </Typography>
-              </Box>
+                <div className="flex items-center gap-2 mb-1">
+                  <Badge
+                    variant={selectedMajor === major.value ? 'default' : 'secondary'}
+                    className="text-xs"
+                  >
+                    {major.value}
+                  </Badge>
+                </div>
+                <p className={`text-sm font-medium ${selectedMajor === major.value ? 'text-primary' : 'text-foreground'
+                  }`}>
+                  {major.label}
+                </p>
+              </button>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* PDF Viewer */}
+      <Card>
+        <CardHeader className="pb-3">
+          <CardTitle className="text-base flex items-center gap-2">
+            <FileText className="h-4 w-4" />
+            Tài liệu chương trình đào tạo
+            {selectedMajorInfo && (
+              <Badge variant="outline" className="ml-auto">
+                {selectedMajorInfo.label}
+              </Badge>
             )}
-          </Paper>
-        </Grid>
-      </Grid>
-    </Box>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          {selectedMajorInfo ? (
+            pdfError || selectedMajorInfo.fileId === 'your_file_id_here' ? (
+              <div className="flex flex-col items-center justify-center py-16 text-center bg-amber-50 dark:bg-amber-900/10 rounded-lg border border-amber-200 dark:border-amber-900/30">
+                <AlertCircle className="h-16 w-16 text-amber-500 mb-4 opacity-70" />
+                <h3 className="text-lg font-semibold text-amber-800 dark:text-amber-400 mb-2">
+                  Chưa có tài liệu cho ngành {selectedMajorInfo.label}
+                </h3>
+                <p className="text-sm text-amber-700 dark:text-amber-500 max-w-md">
+                  Tài liệu chương trình đào tạo đang được cập nhật.
+                  <br />
+                  Vui lòng liên hệ phòng đào tạo để biết thêm chi tiết.
+                </p>
+                <Button variant="outline" className="mt-4" asChild>
+                  <a href="https://pdt.hcmut.edu.vn" target="_blank" rel="noopener noreferrer">
+                    <ExternalLink className="h-4 w-4 mr-2" />
+                    Truy cập phòng đào tạo
+                  </a>
+                </Button>
+              </div>
+            ) : (
+              <div className="w-full h-[600px] md:h-[800px] border rounded-lg overflow-hidden">
+                <iframe
+                  src={selectedMajorInfo.pdfUrl}
+                  className="w-full h-full border-none"
+                  title={`Chương trình đào tạo ${selectedMajorInfo.label}`}
+                  allow="autoplay"
+                  onError={handlePdfError}
+                />
+              </div>
+            )
+          ) : (
+            <div className="flex flex-col items-center justify-center py-16 text-center border-2 border-dashed rounded-lg bg-muted/30">
+              <FileText className="h-16 w-16 text-muted-foreground mb-4 opacity-50" />
+              <h3 className="text-lg font-semibold text-foreground mb-1">
+                Chưa chọn ngành học
+              </h3>
+              <p className="text-sm text-muted-foreground">
+                Vui lòng chọn ngành học ở trên để xem chương trình đào tạo
+              </p>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+    </div>
   );
 }
 

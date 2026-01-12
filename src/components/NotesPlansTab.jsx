@@ -1,68 +1,49 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import {
-  Box,
-  Paper,
-  Typography,
-  Button,
-  Grid,
-  Card,
-  CardContent,
-  CardActions,
-  IconButton,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  TextField,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Chip,
-  ToggleButton,
-  ToggleButtonGroup,
-  Alert,
-} from '@mui/material';
-import {
-  Note as NotesIcon,
-  Add as AddIcon,
-  Edit as EditIcon,
-  Delete as DeleteIcon,
-  CalendarToday as CalendarIcon,
-  List as ListIcon,
-  Notifications as NotificationIcon,
-} from '@mui/icons-material';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import dayjs from 'dayjs';
+  StickyNote,
+  Plus,
+  Edit2,
+  Trash2,
+  Calendar,
+  ListFilter,
+  Bell,
+  X,
+  Flag,
+  Clock,
+  Target
+} from 'lucide-react';
 
 function NotesPlansTab() {
-  const [viewMode, setViewMode] = useState('list');
   const [filterType, setFilterType] = useState('all');
   const [items, setItems] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
-  const [dialogType, setDialogType] = useState('note'); // 'note' or 'plan'
+  const [dialogType, setDialogType] = useState('note');
   const [editingItem, setEditingItem] = useState(null);
   const [notifications, setNotifications] = useState([]);
 
   // Form states
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [dueDate, setDueDate] = useState(null);
+  const [dueDate, setDueDate] = useState('');
   const [priority, setPriority] = useState('medium');
 
   const checkDeadlines = useCallback(() => {
-    const today = dayjs();
+    const today = new Date();
     const upcomingDeadlines = items.filter(item => {
       if (item.type === 'plan' && item.dueDate) {
-        const deadline = dayjs(item.dueDate);
-        const daysUntil = deadline.diff(today, 'day');
-        return daysUntil >= 0 && daysUntil <= 7; // Next 7 days
+        const deadline = new Date(item.dueDate);
+        const daysUntil = Math.ceil((deadline - today) / (1000 * 60 * 60 * 24));
+        return daysUntil >= 0 && daysUntil <= 7;
       }
       return false;
     });
-
     setNotifications(upcomingDeadlines);
   }, [items]);
 
@@ -77,12 +58,12 @@ function NotesPlansTab() {
     if (item) {
       setTitle(item.title);
       setContent(item.content);
-      setDueDate(item.dueDate ? dayjs(item.dueDate) : null);
+      setDueDate(item.dueDate ? item.dueDate.split('T')[0] : '');
       setPriority(item.priority || 'medium');
     } else {
       setTitle('');
       setContent('');
-      setDueDate(null);
+      setDueDate('');
       setPriority('medium');
     }
 
@@ -94,7 +75,7 @@ function NotesPlansTab() {
     setEditingItem(null);
     setTitle('');
     setContent('');
-    setDueDate(null);
+    setDueDate('');
     setPriority('medium');
   };
 
@@ -104,7 +85,7 @@ function NotesPlansTab() {
       type: dialogType,
       title,
       content,
-      dueDate: dueDate ? dueDate.toISOString() : null,
+      dueDate: dueDate ? new Date(dueDate).toISOString() : null,
       priority,
       createdAt: editingItem ? editingItem.createdAt : new Date().toISOString(),
       updatedAt: new Date().toISOString(),
@@ -123,22 +104,18 @@ function NotesPlansTab() {
     setItems(items.filter(item => item.id !== id));
   };
 
-  const getPriorityColor = (priority) => {
-    const colors = {
-      high: '#f44336',
-      medium: '#ff9800',
-      low: '#4caf50',
+  const getPriorityInfo = (priority) => {
+    const info = {
+      high: { label: 'Cao', color: 'bg-red-500', textColor: 'text-red-500' },
+      medium: { label: 'TB', color: 'bg-amber-500', textColor: 'text-amber-500' },
+      low: { label: 'Thấp', color: 'bg-green-500', textColor: 'text-green-500' },
     };
-    return colors[priority] || '#9e9e9e';
+    return info[priority] || info.medium;
   };
 
-  const getPriorityLabel = (priority) => {
-    const labels = {
-      high: 'Cao',
-      medium: 'Trung bình',
-      low: 'Thấp',
-    };
-    return labels[priority] || priority;
+  const formatDate = (dateStr) => {
+    if (!dateStr) return '';
+    return new Date(dateStr).toLocaleDateString('vi-VN');
   };
 
   const filteredItems = items.filter(item => {
@@ -148,232 +125,225 @@ function NotesPlansTab() {
     return true;
   });
 
-  const renderListView = () => (
-    <Grid container spacing={2}>
-      {filteredItems.map((item) => (
-        <Grid item xs={12} md={6} lg={4} key={item.id}>
-          <Card>
-            <CardContent>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 }}>
-                <Typography variant="h6" component="div" noWrap>
-                  {item.title}
-                </Typography>
-                <Chip
-                  label={item.type === 'note' ? 'Ghi chú' : 'Kế hoạch'}
-                  size="small"
-                  color={item.type === 'note' ? 'primary' : 'secondary'}
-                />
-              </Box>
-
-              <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                {item.content}
-              </Typography>
-
-              {item.dueDate && (
-                <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                  <CalendarIcon sx={{ fontSize: 16, mr: 1 }} />
-                  <Typography variant="caption">
-                    {dayjs(item.dueDate).format('DD/MM/YYYY')}
-                  </Typography>
-                </Box>
-              )}
-
-              <Chip
-                label={getPriorityLabel(item.priority)}
-                size="small"
-                sx={{
-                  backgroundColor: getPriorityColor(item.priority),
-                  color: 'white',
-                }}
-              />
-            </CardContent>
-
-            <CardActions>
-              <IconButton
-                size="small"
-                onClick={() => handleOpenDialog(item.type, item)}
-              >
-                <EditIcon />
-              </IconButton>
-              <IconButton
-                size="small"
-                color="error"
-                onClick={() => handleDelete(item.id)}
-              >
-                <DeleteIcon />
-              </IconButton>
-            </CardActions>
-          </Card>
-        </Grid>
-      ))}
-    </Grid>
-  );
-
-  const renderCalendarView = () => (
-    <Box sx={{ textAlign: 'center', py: 8 }}>
-      <CalendarIcon sx={{ fontSize: 64, color: 'text.secondary', mb: 2 }} />
-      <Typography variant="h6" color="text.secondary">
-        Chế độ xem lịch đang được phát triển
-      </Typography>
-      <Typography variant="body2" color="text.secondary">
-        Tính năng này sẽ được cập nhật trong phiên bản tới
-      </Typography>
-    </Box>
-  );
-
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <Box sx={{ p: { xs: 2, sm: 3 } }}>
-        {notifications.length > 0 && (
-          <Alert severity="warning" sx={{ mb: 3 }} icon={<NotificationIcon />}>
-            <Typography variant="subtitle2" gutterBottom>
-              Thông báo deadline sắp tới:
-            </Typography>
-            {notifications.map((item) => (
-              <Typography key={item.id} variant="body2">
-                • {item.title} - {dayjs(item.dueDate).format('DD/MM/YYYY')}
-              </Typography>
-            ))}
-          </Alert>
-        )}
+    <div className="p-3 md:p-6 max-w-[1600px] mx-auto space-y-4 md:space-y-6">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
+            <StickyNote className="h-5 w-5 text-primary" />
+          </div>
+          <div>
+            <h2 className="text-xl font-bold">Ghi chú & Kế hoạch</h2>
+            <p className="text-sm text-muted-foreground">Quản lý ghi chú và deadline</p>
+          </div>
+        </div>
+      </div>
 
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <Paper sx={{ p: 3 }}>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-                <Box sx={{ display: 'flex', gap: 2 }}>
-                  <Button
-                    variant="contained"
-                    startIcon={<AddIcon />}
-                    onClick={() => handleOpenDialog('note')}
-                  >
-                    Thêm Ghi Chú
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    startIcon={<AddIcon />}
-                    onClick={() => handleOpenDialog('plan')}
-                  >
-                    Thêm Kế Hoạch
-                  </Button>
-                </Box>
+      {/* Notifications */}
+      {notifications.length > 0 && (
+        <Alert className="bg-amber-50 border-amber-200 dark:bg-amber-900/10 dark:border-amber-900/30">
+          <Bell className="h-4 w-4 text-amber-600" />
+          <AlertDescription>
+            <span className="font-semibold text-amber-800 dark:text-amber-400">
+              Deadline sắp tới ({notifications.length}):
+            </span>
+            <div className="mt-1 space-y-0.5">
+              {notifications.map((item) => (
+                <div key={item.id} className="text-sm text-amber-700 dark:text-amber-500">
+                  • {item.title} - {formatDate(item.dueDate)}
+                </div>
+              ))}
+            </div>
+          </AlertDescription>
+        </Alert>
+      )}
 
-                <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-                  <FormControl size="small" sx={{ minWidth: 120 }}>
-                    <InputLabel>Hiển thị</InputLabel>
-                    <Select
-                      value={filterType}
-                      onChange={(e) => setFilterType(e.target.value)}
-                      label="Hiển thị"
-                    >
-                      <MenuItem value="all">Tất cả</MenuItem>
-                      <MenuItem value="notes">Chỉ ghi chú</MenuItem>
-                      <MenuItem value="plans">Chỉ kế hoạch</MenuItem>
-                    </Select>
-                  </FormControl>
+      {/* Actions & Filters */}
+      <Card>
+        <CardContent className="pt-4">
+          <div className="flex flex-col sm:flex-row gap-3 justify-between">
+            <div className="flex gap-2">
+              <Button onClick={() => handleOpenDialog('note')}>
+                <Plus className="h-4 w-4 mr-2" />
+                Thêm Ghi chú
+              </Button>
+              <Button variant="secondary" onClick={() => handleOpenDialog('plan')}>
+                <Target className="h-4 w-4 mr-2" />
+                Thêm Kế hoạch
+              </Button>
+            </div>
 
-                  <ToggleButtonGroup
-                    value={viewMode}
-                    exclusive
-                    onChange={(e, newMode) => newMode && setViewMode(newMode)}
-                    size="small"
-                  >
-                    <ToggleButton value="list">
-                      <ListIcon />
-                    </ToggleButton>
-                    <ToggleButton value="calendar">
-                      <CalendarIcon />
-                    </ToggleButton>
-                  </ToggleButtonGroup>
-                </Box>
-              </Box>
-
-              {filteredItems.length === 0 ? (
-                <Box
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    py: 8,
-                    color: 'text.secondary',
-                  }}
+            <div className="flex gap-2">
+              {['all', 'notes', 'plans'].map((type) => (
+                <Button
+                  key={type}
+                  variant={filterType === type ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setFilterType(type)}
                 >
-                  <NotesIcon sx={{ fontSize: 64, mb: 2, opacity: 0.5 }} />
-                  <Typography variant="h6">
-                    Chưa có ghi chú hoặc kế hoạch nào
-                  </Typography>
-                  <Typography variant="body2">
-                    Nhấn "Thêm Ghi Chú" hoặc "Thêm Kế Hoạch" để bắt đầu
-                  </Typography>
-                </Box>
-              ) : (
-                viewMode === 'list' ? renderListView() : renderCalendarView()
-              )}
-            </Paper>
-          </Grid>
-        </Grid>
+                  <ListFilter className="h-4 w-4 mr-1" />
+                  {type === 'all' ? 'Tất cả' : type === 'notes' ? 'Ghi chú' : 'Kế hoạch'}
+                </Button>
+              ))}
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
-        {/* Dialog for adding/editing notes and plans */}
-        <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
-          <DialogTitle>
-            {editingItem
-              ? `Chỉnh sửa ${dialogType === 'note' ? 'ghi chú' : 'kế hoạch'}`
-              : `Thêm ${dialogType === 'note' ? 'ghi chú' : 'kế hoạch'} mới`
-            }
-          </DialogTitle>
-          <DialogContent>
-            <TextField
-              autoFocus
-              margin="dense"
-              label="Tiêu đề"
-              fullWidth
-              variant="outlined"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              sx={{ mb: 2 }}
-            />
-            <TextField
-              margin="dense"
-              label="Nội dung"
-              fullWidth
-              multiline
-              rows={4}
-              variant="outlined"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              sx={{ mb: 2 }}
-            />
-            {dialogType === 'plan' && (
-              <DatePicker
-                label="Ngày hết hạn"
-                value={dueDate}
-                onChange={(newValue) => setDueDate(newValue)}
-                renderInput={(params) => <TextField {...params} fullWidth sx={{ mb: 2 }} />}
-              />
-            )}
-            <FormControl fullWidth sx={{ mb: 2 }}>
-              <InputLabel>Mức độ ưu tiên</InputLabel>
-              <Select
-                value={priority}
-                onChange={(e) => setPriority(e.target.value)}
-                label="Mức độ ưu tiên"
-              >
-                <MenuItem value="low">Thấp</MenuItem>
-                <MenuItem value="medium">Trung bình</MenuItem>
-                <MenuItem value="high">Cao</MenuItem>
-              </Select>
-            </FormControl>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleCloseDialog}>Hủy</Button>
-            <Button onClick={handleSave} variant="contained">
-              Lưu
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </Box>
-    </LocalizationProvider>
+      {/* Items Grid */}
+      {filteredItems.length === 0 ? (
+        <Card>
+          <CardContent className="py-16">
+            <div className="flex flex-col items-center justify-center text-center">
+              <StickyNote className="h-16 w-16 text-muted-foreground mb-4 opacity-50" />
+              <h3 className="text-lg font-semibold text-foreground mb-1">
+                Chưa có ghi chú hoặc kế hoạch nào
+              </h3>
+              <p className="text-sm text-muted-foreground mb-4">
+                Nhấn "Thêm Ghi chú" hoặc "Thêm Kế hoạch" để bắt đầu
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {filteredItems.map((item) => {
+            const priorityInfo = getPriorityInfo(item.priority);
+            return (
+              <Card key={item.id} className="group hover:shadow-md transition-shadow">
+                <CardHeader className="pb-2">
+                  <div className="flex items-start justify-between gap-2">
+                    <CardTitle className="text-base line-clamp-1">{item.title}</CardTitle>
+                    <Badge variant={item.type === 'note' ? 'default' : 'secondary'}>
+                      {item.type === 'note' ? 'Ghi chú' : 'Kế hoạch'}
+                    </Badge>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground mb-3 line-clamp-3">
+                    {item.content}
+                  </p>
+
+                  <div className="flex flex-wrap gap-2 mb-3">
+                    {item.dueDate && (
+                      <div className="flex items-center gap-1 text-xs text-muted-foreground bg-muted/50 px-2 py-1 rounded">
+                        <Calendar className="h-3 w-3" />
+                        <span>{formatDate(item.dueDate)}</span>
+                      </div>
+                    )}
+                    <div className={`flex items-center gap-1 text-xs px-2 py-1 rounded text-white ${priorityInfo.color}`}>
+                      <Flag className="h-3 w-3" />
+                      <span>{priorityInfo.label}</span>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleOpenDialog(item.type, item)}
+                    >
+                      <Edit2 className="h-3 w-3 mr-1" />
+                      Sửa
+                    </Button>
+                    <Button
+                      variant="destructive"
+                      size="sm"
+                      onClick={() => handleDelete(item.id)}
+                    >
+                      <Trash2 className="h-3 w-3 mr-1" />
+                      Xóa
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Dialog */}
+      {openDialog && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <Card className="w-full max-w-lg mx-4 shadow-xl">
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <CardTitle>
+                  {editingItem
+                    ? `Chỉnh sửa ${dialogType === 'note' ? 'ghi chú' : 'kế hoạch'}`
+                    : `Thêm ${dialogType === 'note' ? 'ghi chú' : 'kế hoạch'} mới`
+                  }
+                </CardTitle>
+                <Button variant="ghost" size="icon" onClick={handleCloseDialog}>
+                  <X className="h-4 w-4" />
+                </Button>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div>
+                <label className="text-sm font-medium mb-1.5 block">Tiêu đề</label>
+                <Input
+                  placeholder="Nhập tiêu đề..."
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+              </div>
+
+              <div>
+                <label className="text-sm font-medium mb-1.5 block">Nội dung</label>
+                <Textarea
+                  placeholder="Nhập nội dung..."
+                  rows={4}
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                />
+              </div>
+
+              {dialogType === 'plan' && (
+                <div>
+                  <label className="text-sm font-medium mb-1.5 block">Ngày hết hạn</label>
+                  <Input
+                    type="date"
+                    value={dueDate}
+                    onChange={(e) => setDueDate(e.target.value)}
+                  />
+                </div>
+              )}
+
+              <div>
+                <label className="text-sm font-medium mb-1.5 block">Mức độ ưu tiên</label>
+                <div className="flex gap-2">
+                  {['low', 'medium', 'high'].map((p) => {
+                    const info = getPriorityInfo(p);
+                    return (
+                      <Button
+                        key={p}
+                        variant={priority === p ? 'default' : 'outline'}
+                        size="sm"
+                        onClick={() => setPriority(p)}
+                        className={priority === p ? info.color : ''}
+                      >
+                        {info.label}
+                      </Button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="flex gap-2 pt-2">
+                <Button variant="outline" onClick={handleCloseDialog} className="flex-1">
+                  Hủy
+                </Button>
+                <Button onClick={handleSave} className="flex-1" disabled={!title}>
+                  Lưu
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+    </div>
   );
 }
 

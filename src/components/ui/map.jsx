@@ -1,0 +1,1105 @@
+"use client";;
+import MapLibreGL from "maplibre-gl";
+import "maplibre-gl/dist/maplibre-gl.css";
+import { useTheme } from "next-themes";
+import {
+  createContext,
+  forwardRef,
+  useCallback,
+  useContext,
+  useEffect,
+  useId,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import { createPortal } from "react-dom";
+import { X, Minus, Plus, Locate, Maximize, Loader2 } from "lucide-react";
+
+import { cn } from "@/lib/utils";
+
+const MapContext = createContext(null);
+
+function useMap() {
+  const context = useContext(MapContext);
+  if (!context) {
+    throw new Error("useMap must be used within a Map component");
+  }
+  return context;
+}
+
+const defaultStyles = {
+  dark: "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json",
+  light: "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json",
+};
+
+const DefaultLoader = () => (
+  <div className="absolute inset-0 flex items-center justify-center">
+    <div className="flex gap-1">
+      <span className="size-1.5 rounded-full bg-muted-foreground/60 animate-pulse" />
+      <span
+        className="size-1.5 rounded-full bg-muted-foreground/60 animate-pulse [animation-delay:150ms]" />
+      <span
+        className="size-1.5 rounded-full bg-muted-foreground/60 animate-pulse [animation-delay:300ms]" />
+    </div>
+  </div>
+);
+
+const Map = forwardRef(function Map(
+  { children, styles, projection, ...props },
+  ref
+) {
+  const containerRef = useRef(null);
+  const [mapInstance, setMapInstance] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [isStyleLoaded, setIsStyleLoaded] = useState(false);
+  const { resolvedTheme } = useTheme();
+  const currentStyleRef = useRef(null);
+  const styleTimeoutRef = useRef(null);
+
+  const mapStyles = useMemo(() => ({
+    dark: styles?.dark ?? defaultStyles.dark,
+    light: styles?.light ?? defaultStyles.light,
+  }), [styles]);
+
+  useImperativeHandle(ref, () => mapInstance, [mapInstance]);
+
+  const clearStyleTimeout = useCallback(() => {
+    if (styleTimeoutRef.current) {
+      clearTimeout(styleTimeoutRef.current);
+      styleTimeoutRef.current = null;
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    const initialStyle =
+      resolvedTheme === "dark" ? mapStyles.dark : mapStyles.light;
+    currentStyleRef.current = initialStyle;
+
+    const map = new MapLibreGL.Map({
+      container: containerRef.current,
+      style: initialStyle,
+      renderWorldCopies: false,
+      attributionControl: {
+        compact: true,
+      },
+      ...props,
+    });
+
+    const styleDataHandler = () => {
+      clearStyleTimeout();
+      // Delay to ensure style is fully processed before allowing layer operations
+      // This is a workaround to avoid race conditions with the style loading
+      styleTimeoutRef.current = setTimeout(() => {
+        setIsStyleLoaded(true);
+        if (projection) {
+          map.setProjection(projection);
+        }
+      }, 150);
+    };
+    const loadHandler = () => setIsLoaded(true);
+
+    map.on("load", loadHandler);
+    map.on("styledata", styleDataHandler);
+    setMapInstance(map);
+
+    return () => {
+      clearStyleTimeout();
+      map.off("load", loadHandler);
+      map.off("styledata", styleDataHandler);
+      map.remove();
+      setIsLoaded(false);
+      setIsStyleLoaded(false);
+      setMapInstance(null);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (!mapInstance || !resolvedTheme) return;
+
+    const newStyle =
+      resolvedTheme === "dark" ? mapStyles.dark : mapStyles.light;
+
+    if (currentStyleRef.current === newStyle) return;
+
+    clearStyleTimeout();
+    currentStyleRef.current = newStyle;
+    setIsStyleLoaded(false);
+
+    mapInstance.setStyle(newStyle, { diff: true });
+  }, [mapInstance, resolvedTheme, mapStyles, clearStyleTimeout]);
+
+  const isLoading = !isLoaded || !isStyleLoaded;
+
+  const contextValue = useMemo(() => ({
+    map: mapInstance,
+    isLoaded: isLoaded && isStyleLoaded,
+  }), [mapInstance, isLoaded, isStyleLoaded]);
+
+  return (
+    <MapContext.Provider value={contextValue}>
+      <div ref={containerRef} className="relative w-full h-full">
+        {isLoading && <DefaultLoader />}
+        {/* SSR-safe: children render only when map is loaded on client */}
+        {mapInstance && children}
+      </div>
+    </MapContext.Provider>
+  );
+});
+
+const MarkerContext = createContext(null);
+
+function useMarkerContext() {
+  const context = useContext(MarkerContext);
+  if (!context) {
+    throw new Error("Marker components must be used within MapMarker");
+  }
+  return context;
+}
+
+function MapMarker({
+  longitude,
+  latitude,
+  children,
+  onClick,
+  onMouseEnter,
+  onMouseLeave,
+  onDragStart,
+  onDrag,
+  onDragEnd,
+  draggable = false,
+  ...markerOptions
+}) {
+  const { map } = useMap();
+
+  const marker = useMemo(() => {
+    const markerInstance = new MapLibreGL.Marker({
+      ...markerOptions,
+      element: document.createElement("div"),
+      draggable,
+    }).setLngLat([longitude, latitude]);
+
+    const handleClick = (e) => onClick?.(e);
+    const handleMouseEnter = (e) => onMouseEnter?.(e);
+    const handleMouseLeave = (e) => onMouseLeave?.(e);
+
+    markerInstance.getElement()?.addEventListener("click", handleClick);
+    markerInstance
+      .getElement()
+      ?.addEventListener("mouseenter", handleMouseEnter);
+    markerInstance
+      .getElement()
+      ?.addEventListener("mouseleave", handleMouseLeave);
+
+    const handleDragStart = () => {
+      const lngLat = markerInstance.getLngLat();
+      onDragStart?.({ lng: lngLat.lng, lat: lngLat.lat });
+    };
+    const handleDrag = () => {
+      const lngLat = markerInstance.getLngLat();
+      onDrag?.({ lng: lngLat.lng, lat: lngLat.lat });
+    };
+    const handleDragEnd = () => {
+      const lngLat = markerInstance.getLngLat();
+      onDragEnd?.({ lng: lngLat.lng, lat: lngLat.lat });
+    };
+
+    markerInstance.on("dragstart", handleDragStart);
+    markerInstance.on("drag", handleDrag);
+    markerInstance.on("dragend", handleDragEnd);
+
+    return markerInstance;
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (!map) return;
+
+    marker.addTo(map);
+
+    return () => {
+      marker.remove();
+    };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [map]);
+
+  if (
+    marker.getLngLat().lng !== longitude ||
+    marker.getLngLat().lat !== latitude
+  ) {
+    marker.setLngLat([longitude, latitude]);
+  }
+  if (marker.isDraggable() !== draggable) {
+    marker.setDraggable(draggable);
+  }
+
+  const currentOffset = marker.getOffset();
+  const newOffset = markerOptions.offset ?? [0, 0];
+  const [newOffsetX, newOffsetY] = Array.isArray(newOffset)
+    ? newOffset
+    : [newOffset.x, newOffset.y];
+  if (currentOffset.x !== newOffsetX || currentOffset.y !== newOffsetY) {
+    marker.setOffset(newOffset);
+  }
+
+  if (marker.getRotation() !== markerOptions.rotation) {
+    marker.setRotation(markerOptions.rotation ?? 0);
+  }
+  if (marker.getRotationAlignment() !== markerOptions.rotationAlignment) {
+    marker.setRotationAlignment(markerOptions.rotationAlignment ?? "auto");
+  }
+  if (marker.getPitchAlignment() !== markerOptions.pitchAlignment) {
+    marker.setPitchAlignment(markerOptions.pitchAlignment ?? "auto");
+  }
+
+  return (
+    <MarkerContext.Provider value={{ marker, map }}>
+      {children}
+    </MarkerContext.Provider>
+  );
+}
+
+function MarkerContent({
+  children,
+  className
+}) {
+  const { marker } = useMarkerContext();
+
+  return createPortal(<div className={cn("relative cursor-pointer", className)}>
+    {children || <DefaultMarkerIcon />}
+  </div>, marker.getElement());
+}
+
+function DefaultMarkerIcon() {
+  return (
+    <div
+      className="relative h-4 w-4 rounded-full border-2 border-white bg-blue-500 shadow-lg" />
+  );
+}
+
+function MarkerPopup({
+  children,
+  className,
+  closeButton = false,
+  ...popupOptions
+}) {
+  const { marker, map } = useMarkerContext();
+  const container = useMemo(() => document.createElement("div"), []);
+  const prevPopupOptions = useRef(popupOptions);
+
+  const popup = useMemo(() => {
+    const popupInstance = new MapLibreGL.Popup({
+      offset: 16,
+      ...popupOptions,
+      closeButton: false,
+    })
+      .setMaxWidth("none")
+      .setDOMContent(container);
+
+    return popupInstance;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (!map) return;
+
+    popup.setDOMContent(container);
+    marker.setPopup(popup);
+
+    return () => {
+      marker.setPopup(null);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [map]);
+
+  if (popup.isOpen()) {
+    const prev = prevPopupOptions.current;
+
+    if (prev.offset !== popupOptions.offset) {
+      popup.setOffset(popupOptions.offset ?? 16);
+    }
+    if (prev.maxWidth !== popupOptions.maxWidth && popupOptions.maxWidth) {
+      popup.setMaxWidth(popupOptions.maxWidth ?? "none");
+    }
+
+    prevPopupOptions.current = popupOptions;
+  }
+
+  const handleClose = () => popup.remove();
+
+  return createPortal(<div
+    className={cn(
+      "relative rounded-md border bg-popover p-3 text-popover-foreground shadow-md animate-in fade-in-0 zoom-in-95",
+      className
+    )}>
+    {closeButton && (
+      <button
+        type="button"
+        onClick={handleClose}
+        className="absolute top-1 right-1 z-10 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+        aria-label="Close popup">
+        <X className="h-4 w-4" />
+        <span className="sr-only">Close</span>
+      </button>
+    )}
+    {children}
+  </div>, container);
+}
+
+function MarkerTooltip({
+  children,
+  className,
+  ...popupOptions
+}) {
+  const { marker, map } = useMarkerContext();
+  const container = useMemo(() => document.createElement("div"), []);
+  const prevTooltipOptions = useRef(popupOptions);
+
+  const tooltip = useMemo(() => {
+    const tooltipInstance = new MapLibreGL.Popup({
+      offset: 16,
+      ...popupOptions,
+      closeOnClick: true,
+      closeButton: false,
+    }).setMaxWidth("none");
+
+    return tooltipInstance;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (!map) return;
+
+    tooltip.setDOMContent(container);
+
+    const handleMouseEnter = () => {
+      tooltip.setLngLat(marker.getLngLat()).addTo(map);
+    };
+    const handleMouseLeave = () => tooltip.remove();
+
+    marker.getElement()?.addEventListener("mouseenter", handleMouseEnter);
+    marker.getElement()?.addEventListener("mouseleave", handleMouseLeave);
+
+    return () => {
+      marker.getElement()?.removeEventListener("mouseenter", handleMouseEnter);
+      marker.getElement()?.removeEventListener("mouseleave", handleMouseLeave);
+      tooltip.remove();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [map]);
+
+  if (tooltip.isOpen()) {
+    const prev = prevTooltipOptions.current;
+
+    if (prev.offset !== popupOptions.offset) {
+      tooltip.setOffset(popupOptions.offset ?? 16);
+    }
+    if (prev.maxWidth !== popupOptions.maxWidth && popupOptions.maxWidth) {
+      tooltip.setMaxWidth(popupOptions.maxWidth ?? "none");
+    }
+
+    prevTooltipOptions.current = popupOptions;
+  }
+
+  return createPortal(<div
+    className={cn(
+      "rounded-md bg-foreground px-2 py-1 text-xs text-background shadow-md animate-in fade-in-0 zoom-in-95",
+      className
+    )}>
+    {children}
+  </div>, container);
+}
+
+function MarkerLabel({
+  children,
+  className,
+  position = "top"
+}) {
+  const positionClasses = {
+    top: "bottom-full mb-1",
+    bottom: "top-full mt-1",
+  };
+
+  return (
+    <div
+      className={cn(
+        "absolute left-1/2 -translate-x-1/2 whitespace-nowrap",
+        "text-[10px] font-medium text-foreground",
+        positionClasses[position],
+        className
+      )}>
+      {children}
+    </div>
+  );
+}
+
+const positionClasses = {
+  "top-left": "top-2 left-2",
+  "top-right": "top-2 right-2",
+  "bottom-left": "bottom-2 left-2",
+  "bottom-right": "bottom-10 right-2",
+};
+
+function ControlGroup({
+  children
+}) {
+  return (
+    <div
+      className="flex flex-col rounded-md border border-border bg-background shadow-sm overflow-hidden [&>button:not(:last-child)]:border-b [&>button:not(:last-child)]:border-border">
+      {children}
+    </div>
+  );
+}
+
+function ControlButton({
+  onClick,
+  label,
+  children,
+  disabled = false
+}) {
+  return (
+    <button
+      onClick={onClick}
+      aria-label={label}
+      type="button"
+      className={cn(
+        "flex items-center justify-center size-8 hover:bg-accent dark:hover:bg-accent/40 transition-colors",
+        disabled && "opacity-50 pointer-events-none cursor-not-allowed"
+      )}
+      disabled={disabled}>
+      {children}
+    </button>
+  );
+}
+
+function MapControls({
+  position = "bottom-right",
+  showZoom = true,
+  showCompass = false,
+  showLocate = false,
+  showFullscreen = false,
+  className,
+  onLocate
+}) {
+  const { map, isLoaded } = useMap();
+  const [waitingForLocation, setWaitingForLocation] = useState(false);
+
+  const handleZoomIn = useCallback(() => {
+    map?.zoomTo(map.getZoom() + 1, { duration: 300 });
+  }, [map]);
+
+  const handleZoomOut = useCallback(() => {
+    map?.zoomTo(map.getZoom() - 1, { duration: 300 });
+  }, [map]);
+
+  const handleResetBearing = useCallback(() => {
+    map?.resetNorthPitch({ duration: 300 });
+  }, [map]);
+
+  const handleLocate = useCallback(() => {
+    setWaitingForLocation(true);
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition((pos) => {
+        const coords = {
+          longitude: pos.coords.longitude,
+          latitude: pos.coords.latitude,
+        };
+        map?.flyTo({
+          center: [coords.longitude, coords.latitude],
+          zoom: 14,
+          duration: 1500,
+        });
+        onLocate?.(coords);
+        setWaitingForLocation(false);
+      }, (error) => {
+        console.error("Error getting location:", error);
+        setWaitingForLocation(false);
+      });
+    }
+  }, [map, onLocate]);
+
+  const handleFullscreen = useCallback(() => {
+    const container = map?.getContainer();
+    if (!container) return;
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+    } else {
+      container.requestFullscreen();
+    }
+  }, [map]);
+
+  if (!isLoaded) return null;
+
+  return (
+    <div
+      className={cn(
+        "absolute z-10 flex flex-col gap-1.5",
+        positionClasses[position],
+        className
+      )}>
+      {showZoom && (
+        <ControlGroup>
+          <ControlButton onClick={handleZoomIn} label="Zoom in">
+            <Plus className="size-4" />
+          </ControlButton>
+          <ControlButton onClick={handleZoomOut} label="Zoom out">
+            <Minus className="size-4" />
+          </ControlButton>
+        </ControlGroup>
+      )}
+      {showCompass && (
+        <ControlGroup>
+          <CompassButton onClick={handleResetBearing} />
+        </ControlGroup>
+      )}
+      {showLocate && (
+        <ControlGroup>
+          <ControlButton
+            onClick={handleLocate}
+            label="Find my location"
+            disabled={waitingForLocation}>
+            {waitingForLocation ? (
+              <Loader2 className="size-4 animate-spin" />
+            ) : (
+              <Locate className="size-4" />
+            )}
+          </ControlButton>
+        </ControlGroup>
+      )}
+      {showFullscreen && (
+        <ControlGroup>
+          <ControlButton onClick={handleFullscreen} label="Toggle fullscreen">
+            <Maximize className="size-4" />
+          </ControlButton>
+        </ControlGroup>
+      )}
+    </div>
+  );
+}
+
+function CompassButton({
+  onClick
+}) {
+  const { isLoaded, map } = useMap();
+  const compassRef = useRef(null);
+
+  useEffect(() => {
+    if (!isLoaded || !map || !compassRef.current) return;
+
+    const compass = compassRef.current;
+
+    const updateRotation = () => {
+      const bearing = map.getBearing();
+      const pitch = map.getPitch();
+      compass.style.transform = `rotateX(${pitch}deg) rotateZ(${-bearing}deg)`;
+    };
+
+    map.on("rotate", updateRotation);
+    map.on("pitch", updateRotation);
+    updateRotation();
+
+    return () => {
+      map.off("rotate", updateRotation);
+      map.off("pitch", updateRotation);
+    };
+  }, [isLoaded, map]);
+
+  return (
+    <ControlButton onClick={onClick} label="Reset bearing to north">
+      <svg
+        ref={compassRef}
+        viewBox="0 0 24 24"
+        className="size-5 transition-transform duration-200"
+        style={{ transformStyle: "preserve-3d" }}>
+        <path d="M12 2L16 12H12V2Z" className="fill-red-500" />
+        <path d="M12 2L8 12H12V2Z" className="fill-red-300" />
+        <path d="M12 22L16 12H12V22Z" className="fill-muted-foreground/60" />
+        <path d="M12 22L8 12H12V22Z" className="fill-muted-foreground/30" />
+      </svg>
+    </ControlButton>
+  );
+}
+
+function MapPopup({
+  longitude,
+  latitude,
+  onClose,
+  children,
+  className,
+  closeButton = false,
+  ...popupOptions
+}) {
+  const { map } = useMap();
+  const popupOptionsRef = useRef(popupOptions);
+  const container = useMemo(() => document.createElement("div"), []);
+
+  const popup = useMemo(() => {
+    const popupInstance = new MapLibreGL.Popup({
+      offset: 16,
+      ...popupOptions,
+      closeButton: false,
+    })
+      .setMaxWidth("none")
+      .setLngLat([longitude, latitude]);
+
+    return popupInstance;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (!map) return;
+
+    const onCloseProp = () => onClose?.();
+    popup.on("close", onCloseProp);
+
+    popup.setDOMContent(container);
+    popup.addTo(map);
+
+    return () => {
+      popup.off("close", onCloseProp);
+      if (popup.isOpen()) {
+        popup.remove();
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [map]);
+
+  if (popup.isOpen()) {
+    const prev = popupOptionsRef.current;
+
+    if (
+      popup.getLngLat().lng !== longitude ||
+      popup.getLngLat().lat !== latitude
+    ) {
+      popup.setLngLat([longitude, latitude]);
+    }
+
+    if (prev.offset !== popupOptions.offset) {
+      popup.setOffset(popupOptions.offset ?? 16);
+    }
+    if (prev.maxWidth !== popupOptions.maxWidth && popupOptions.maxWidth) {
+      popup.setMaxWidth(popupOptions.maxWidth ?? "none");
+    }
+    popupOptionsRef.current = popupOptions;
+  }
+
+  const handleClose = () => {
+    popup.remove();
+    onClose?.();
+  };
+
+  return createPortal(<div
+    className={cn(
+      "relative rounded-md border bg-popover p-3 text-popover-foreground shadow-md animate-in fade-in-0 zoom-in-95",
+      className
+    )}>
+    {closeButton && (
+      <button
+        type="button"
+        onClick={handleClose}
+        className="absolute top-1 right-1 z-10 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+        aria-label="Close popup">
+        <X className="h-4 w-4" />
+        <span className="sr-only">Close</span>
+      </button>
+    )}
+    {children}
+  </div>, container);
+}
+
+function MapRoute({
+  id: propId,
+  coordinates,
+  color = "#4285F4",
+  width = 3,
+  opacity = 0.8,
+  dashArray,
+  onClick,
+  onMouseEnter,
+  onMouseLeave,
+  interactive = true
+}) {
+  const { map, isLoaded } = useMap();
+  const autoId = useId();
+  const id = propId ?? autoId;
+  const sourceId = `route-source-${id}`;
+  const layerId = `route-layer-${id}`;
+
+  // Add source and layer on mount
+  useEffect(() => {
+    if (!isLoaded || !map) return;
+
+    map.addSource(sourceId, {
+      type: "geojson",
+      data: {
+        type: "Feature",
+        properties: {},
+        geometry: { type: "LineString", coordinates: [] },
+      },
+    });
+
+    map.addLayer({
+      id: layerId,
+      type: "line",
+      source: sourceId,
+      layout: { "line-join": "round", "line-cap": "round" },
+      paint: {
+        "line-color": color,
+        "line-width": width,
+        "line-opacity": opacity,
+        ...(dashArray && { "line-dasharray": dashArray }),
+      },
+    });
+
+    return () => {
+      try {
+        if (map.getLayer(layerId)) map.removeLayer(layerId);
+        if (map.getSource(sourceId)) map.removeSource(sourceId);
+      } catch {
+        // ignore
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoaded, map]);
+
+  // When coordinates change, update the source data
+  useEffect(() => {
+    if (!isLoaded || !map || coordinates.length < 2) return;
+
+    const source = map.getSource(sourceId);
+    if (source) {
+      source.setData({
+        type: "Feature",
+        properties: {},
+        geometry: { type: "LineString", coordinates },
+      });
+    }
+  }, [isLoaded, map, coordinates, sourceId]);
+
+  useEffect(() => {
+    if (!isLoaded || !map || !map.getLayer(layerId)) return;
+
+    map.setPaintProperty(layerId, "line-color", color);
+    map.setPaintProperty(layerId, "line-width", width);
+    map.setPaintProperty(layerId, "line-opacity", opacity);
+    if (dashArray) {
+      map.setPaintProperty(layerId, "line-dasharray", dashArray);
+    }
+  }, [isLoaded, map, layerId, color, width, opacity, dashArray]);
+
+  // Handle click and hover events
+  useEffect(() => {
+    if (!isLoaded || !map || !interactive) return;
+
+    const handleClick = () => {
+      onClick?.();
+    };
+    const handleMouseEnter = () => {
+      map.getCanvas().style.cursor = "pointer";
+      onMouseEnter?.();
+    };
+    const handleMouseLeave = () => {
+      map.getCanvas().style.cursor = "";
+      onMouseLeave?.();
+    };
+
+    map.on("click", layerId, handleClick);
+    map.on("mouseenter", layerId, handleMouseEnter);
+    map.on("mouseleave", layerId, handleMouseLeave);
+
+    return () => {
+      map.off("click", layerId, handleClick);
+      map.off("mouseenter", layerId, handleMouseEnter);
+      map.off("mouseleave", layerId, handleMouseLeave);
+    };
+  }, [
+    isLoaded,
+    map,
+    layerId,
+    onClick,
+    onMouseEnter,
+    onMouseLeave,
+    interactive,
+  ]);
+
+  return null;
+}
+
+function MapClusterLayer(
+  {
+    data,
+    clusterMaxZoom = 14,
+    clusterRadius = 50,
+    clusterColors = ["#51bbd6", "#f1f075", "#f28cb1"],
+    clusterThresholds = [100, 750],
+    pointColor = "#3b82f6",
+    onPointClick,
+    onClusterClick
+  }
+) {
+  const { map, isLoaded } = useMap();
+  const id = useId();
+  const sourceId = `cluster-source-${id}`;
+  const clusterLayerId = `clusters-${id}`;
+  const clusterCountLayerId = `cluster-count-${id}`;
+  const unclusteredLayerId = `unclustered-point-${id}`;
+
+  const stylePropsRef = useRef({
+    clusterColors,
+    clusterThresholds,
+    pointColor,
+  });
+
+  // Add source and layers on mount
+  useEffect(() => {
+    if (!isLoaded || !map) return;
+
+    // Add clustered GeoJSON source
+    map.addSource(sourceId, {
+      type: "geojson",
+      data,
+      cluster: true,
+      clusterMaxZoom,
+      clusterRadius,
+    });
+
+    // Add cluster circles layer
+    map.addLayer({
+      id: clusterLayerId,
+      type: "circle",
+      source: sourceId,
+      filter: ["has", "point_count"],
+      paint: {
+        "circle-color": [
+          "step",
+          ["get", "point_count"],
+          clusterColors[0],
+          clusterThresholds[0],
+          clusterColors[1],
+          clusterThresholds[1],
+          clusterColors[2],
+        ],
+        "circle-radius": [
+          "step",
+          ["get", "point_count"],
+          20,
+          clusterThresholds[0],
+          30,
+          clusterThresholds[1],
+          40,
+        ],
+      },
+    });
+
+    // Add cluster count text layer
+    map.addLayer({
+      id: clusterCountLayerId,
+      type: "symbol",
+      source: sourceId,
+      filter: ["has", "point_count"],
+      layout: {
+        "text-field": "{point_count_abbreviated}",
+        "text-size": 12,
+      },
+      paint: {
+        "text-color": "#fff",
+      },
+    });
+
+    // Add unclustered point layer
+    map.addLayer({
+      id: unclusteredLayerId,
+      type: "circle",
+      source: sourceId,
+      filter: ["!", ["has", "point_count"]],
+      paint: {
+        "circle-color": pointColor,
+        "circle-radius": 6,
+      },
+    });
+
+    return () => {
+      try {
+        if (map.getLayer(clusterCountLayerId))
+          map.removeLayer(clusterCountLayerId);
+        if (map.getLayer(unclusteredLayerId))
+          map.removeLayer(unclusteredLayerId);
+        if (map.getLayer(clusterLayerId)) map.removeLayer(clusterLayerId);
+        if (map.getSource(sourceId)) map.removeSource(sourceId);
+      } catch {
+        // ignore
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoaded, map, sourceId]);
+
+  // Update source data when data prop changes (only for non-URL data)
+  useEffect(() => {
+    if (!isLoaded || !map || typeof data === "string") return;
+
+    const source = map.getSource(sourceId);
+    if (source) {
+      source.setData(data);
+    }
+  }, [isLoaded, map, data, sourceId]);
+
+  // Update layer styles when props change
+  useEffect(() => {
+    if (!isLoaded || !map) return;
+
+    const prev = stylePropsRef.current;
+    const colorsChanged =
+      prev.clusterColors !== clusterColors ||
+      prev.clusterThresholds !== clusterThresholds;
+
+    // Update cluster layer colors and sizes
+    if (map.getLayer(clusterLayerId) && colorsChanged) {
+      map.setPaintProperty(clusterLayerId, "circle-color", [
+        "step",
+        ["get", "point_count"],
+        clusterColors[0],
+        clusterThresholds[0],
+        clusterColors[1],
+        clusterThresholds[1],
+        clusterColors[2],
+      ]);
+      map.setPaintProperty(clusterLayerId, "circle-radius", [
+        "step",
+        ["get", "point_count"],
+        20,
+        clusterThresholds[0],
+        30,
+        clusterThresholds[1],
+        40,
+      ]);
+    }
+
+    // Update unclustered point layer color
+    if (map.getLayer(unclusteredLayerId) && prev.pointColor !== pointColor) {
+      map.setPaintProperty(unclusteredLayerId, "circle-color", pointColor);
+    }
+
+    stylePropsRef.current = { clusterColors, clusterThresholds, pointColor };
+  }, [
+    isLoaded,
+    map,
+    clusterLayerId,
+    unclusteredLayerId,
+    clusterColors,
+    clusterThresholds,
+    pointColor,
+  ]);
+
+  // Handle click events
+  useEffect(() => {
+    if (!isLoaded || !map) return;
+
+    // Cluster click handler - zoom into cluster
+    const handleClusterClick = async (
+      e
+    ) => {
+      const features = map.queryRenderedFeatures(e.point, {
+        layers: [clusterLayerId],
+      });
+      if (!features.length) return;
+
+      const feature = features[0];
+      const clusterId = feature.properties?.cluster_id;
+      const pointCount = feature.properties?.point_count;
+      const coordinates = feature.geometry.coordinates;
+
+      if (onClusterClick) {
+        onClusterClick(clusterId, coordinates, pointCount);
+      } else {
+        // Default behavior: zoom to cluster expansion zoom
+        const source = map.getSource(sourceId);
+        const zoom = await source.getClusterExpansionZoom(clusterId);
+        map.easeTo({
+          center: coordinates,
+          zoom,
+        });
+      }
+    };
+
+    // Unclustered point click handler
+    const handlePointClick = (
+      e
+    ) => {
+      if (!onPointClick || !e.features?.length) return;
+
+      const feature = e.features[0];
+      const coordinates = (
+        feature.geometry
+      ).coordinates.slice();
+
+      // Handle world copies
+      while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+      }
+
+      onPointClick(feature, coordinates);
+    };
+
+    // Cursor style handlers
+    const handleMouseEnterCluster = () => {
+      map.getCanvas().style.cursor = "pointer";
+    };
+    const handleMouseLeaveCluster = () => {
+      map.getCanvas().style.cursor = "";
+    };
+    const handleMouseEnterPoint = () => {
+      if (onPointClick) {
+        map.getCanvas().style.cursor = "pointer";
+      }
+    };
+    const handleMouseLeavePoint = () => {
+      map.getCanvas().style.cursor = "";
+    };
+
+    map.on("click", clusterLayerId, handleClusterClick);
+    map.on("click", unclusteredLayerId, handlePointClick);
+    map.on("mouseenter", clusterLayerId, handleMouseEnterCluster);
+    map.on("mouseleave", clusterLayerId, handleMouseLeaveCluster);
+    map.on("mouseenter", unclusteredLayerId, handleMouseEnterPoint);
+    map.on("mouseleave", unclusteredLayerId, handleMouseLeavePoint);
+
+    return () => {
+      map.off("click", clusterLayerId, handleClusterClick);
+      map.off("click", unclusteredLayerId, handlePointClick);
+      map.off("mouseenter", clusterLayerId, handleMouseEnterCluster);
+      map.off("mouseleave", clusterLayerId, handleMouseLeaveCluster);
+      map.off("mouseenter", unclusteredLayerId, handleMouseEnterPoint);
+      map.off("mouseleave", unclusteredLayerId, handleMouseLeavePoint);
+    };
+  }, [
+    isLoaded,
+    map,
+    clusterLayerId,
+    unclusteredLayerId,
+    sourceId,
+    onClusterClick,
+    onPointClick,
+  ]);
+
+  return null;
+}
+
+export {
+  Map,
+  useMap,
+  MapMarker,
+  MarkerContent,
+  MarkerPopup,
+  MarkerTooltip,
+  MarkerLabel,
+  MapPopup,
+  MapControls,
+  MapRoute,
+  MapClusterLayer,
+};

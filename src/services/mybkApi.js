@@ -115,7 +115,10 @@ export async function getStudentInfo() {
         const data = await response.json();
 
         if (response.ok) {
-            return { success: true, data: data.data || data };
+            const studentData = data.data || data;
+            // Save to localStorage so other components can access
+            localStorage.setItem(USER_KEY, JSON.stringify(studentData));
+            return { success: true, data: studentData };
         }
 
         return { success: false, error: data.error || 'Không thể lấy thông tin sinh viên' };
@@ -162,6 +165,48 @@ export async function getSchedule(studentId, semesterYear) {
         return { success: false, error: data.error || 'Không thể lấy thời khóa biểu' };
     } catch (error) {
         console.error('Get schedule error:', error);
+        return { success: false, error: 'Không thể kết nối đến server' };
+    }
+}
+
+/**
+ * Get student exam schedule
+ * @param {string|number} studentId - Student ID (MSSV)
+ * @param {number} namhoc - Academic year (e.g., 2025)
+ * @param {number} hocky - Semester (1 or 2)
+ * @returns {Promise<{success: boolean, data?: array, error?: string}>}
+ */
+export async function getExamSchedule(studentId, namhoc, hocky) {
+    const token = getAuthToken();
+
+    if (!token) {
+        return { success: false, error: 'Chưa đăng nhập' };
+    }
+
+    try {
+        const response = await fetch(
+            `${API_BASE}/student/exam-schedule?studentId=${studentId}&namhoc=${namhoc}&hocky=${hocky}`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            }
+        );
+
+        if (response.status === 401) {
+            logout();
+            return { success: false, error: 'Phiên đăng nhập đã hết hạn' };
+        }
+
+        const data = await response.json();
+
+        if (response.ok && (data.code === '200' || data.code === 200)) {
+            return { success: true, data: data.data?.data || [] };
+        }
+
+        return { success: false, error: data.msg || 'Không thể lấy lịch thi' };
+    } catch (error) {
+        console.error('Get exam schedule error:', error);
         return { success: false, error: 'Không thể kết nối đến server' };
     }
 }
@@ -231,27 +276,39 @@ export function transformScheduleData(mybkData) {
     }
 
     return mybkData.map(item => {
-        // Parse period string like "1 - 3" 
-        const startPeriod = item.startPeriod || 1;
-        const endPeriod = item.endPeriod || startPeriod;
+        // Parse period: API uses startLesson (1-indexed lesson number) and numOfLesson
+        const startPeriod = item.startLesson || item.startPeriod || 1;
+        const numOfLessons = item.numOfLesson || item.numOfPeriod || 1;
+        const endPeriod = startPeriod + numOfLessons - 1;
 
-        // Parse weeks from semesterWeek or weekStudy
-        const weeks = parseWeeksFromString(item.weekStudy || item.semesterWeek || '');
+        // Parse weeks from weekSeriesDisplay or semesterWeek or weekStudy
+        const weeksStr = item.weekSeriesDisplay || item.weekStudy || item.semesterWeek || '';
+        const weeks = parseWeeksFromString(weeksStr);
+
+        // dayOfWeek: API uses same numbering as our calendar
+        // API dayOfWeek: 2=Thứ 2 (Monday), 3=Thứ 3, 4=Thứ 4, 5=Thứ 5, 6=Thứ 6, 7=Thứ 7
+        // dayOfWeek: 0 means not scheduled (like SA0002 with startTime 0:00)
+        let day = item.dayOfWeek;
+        if (day === undefined) {
+            day = item.day || 2;
+        }
+        // If day is 0, it's not scheduled - skip or hide
+        // Keep day as is since API uses same numbering
 
         return {
             code: item.subject?.code || item.subjectCode || '',
             name: item.subject?.nameVi || item.subjectName || '',
-            day: item.dayOfWeek || item.day || 2,
+            day: day,
             startPeriod: startPeriod,
             endPeriod: endPeriod,
             room: item.room?.code || item.roomCode || '',
             credits: item.subject?.numOfCredits || item.credits || 0,
-            time: item.time || '',
+            time: item.startTime && item.endTime ? `${item.startTime} - ${item.endTime}` : (item.time || ''),
             group: item.subjectClassGroup?.classGroup || item.classGroup || '',
             location: item.room?.building?.campus?.nameVi || item.campus || '',
             weeks: weeks,
             teacher: item.employee ?
-                `${item.employee.lastName} ${item.employee.firstName}` :
+                `${item.employee.lastName || ''} ${item.employee.firstName || ''}`.trim() :
                 item.teacherName || '',
             // Original data for reference
             _raw: item
@@ -417,6 +474,73 @@ export async function getPeriodDetails(periodId) {
     }
 }
 
+/**
+ * Search courses for registration
+ * @param {string} periodId - Registration period ID
+ * @param {string} query - Course code or name to search
+ * @param {boolean} forceMode - (Hidden) Skip validation for force registration
+ */
+export async function searchCourses(periodId, query, forceMode = false) {
+    const token = getAuthToken();
+    if (!token) return { success: false, error: 'Chưa đăng nhập' };
+
+    try {
+        const response = await fetch(`${API_BASE}/dkmh/search-courses`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ periodId, query, forceMode })
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            // Pass forceMode flag to response for UI to know
+            data.forceMode = forceMode;
+            return data;
+        }
+
+        const errorData = await response.json();
+        return { success: false, error: errorData.error };
+    } catch (e) {
+        console.error('Search courses error:', e);
+        return { success: false, error: e.message };
+    }
+}
+
+/**
+ * Get class groups for a course
+ * @param {string} periodId - Registration period ID
+ * @param {string} monHocId - Course ID
+ */
+export async function getClassGroups(periodId, monHocId) {
+    const token = getAuthToken();
+    if (!token) return { success: false, error: 'Chưa đăng nhập' };
+
+    try {
+        const response = await fetch(`${API_BASE}/dkmh/class-groups`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ periodId, monHocId })
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+        }
+
+        const errorData = await response.json();
+        return { success: false, error: errorData.error };
+    } catch (e) {
+        console.error('Get class groups error:', e);
+        return { success: false, error: e.message };
+    }
+}
+
 export default {
     login,
     logout,
@@ -427,6 +551,7 @@ export default {
     getGpaSummary,
     getGpaDetail,
     getSchedule,
+    getExamSchedule,
     transformScheduleData,
     // DKMH
     checkDkmhStatus,
@@ -434,4 +559,97 @@ export default {
     getDkmhPage,
     getRegistrationPeriods,
     getPeriodDetails,
+    searchCourses,
+    getClassGroups,
+    registerCourse,
+    getRegistrationResult,
+    cancelCourseRegistration,
 };
+
+/**
+ * Register for a class group
+ * @param {string} periodId - Registration period ID
+ * @param {string} nlmhId - Class group ID (NLMHId)
+ * @param {string} monHocId - Course ID
+ * @param {boolean} forceMode - (Hidden) Force registration bypassing validation
+ */
+export async function registerCourse(periodId, nlmhId, monHocId, forceMode = false) {
+    const token = getAuthToken();
+    if (!token) return { success: false, error: 'Chưa đăng nhập' };
+
+    try {
+        const response = await fetch(`${API_BASE}/dkmh/register`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ periodId, nlmhId, monHocId, forceMode })
+        });
+
+        const data = await response.json();
+        return data;
+    } catch (e) {
+        console.error('Register course error:', e);
+        return { success: false, error: e.message };
+    }
+}
+
+/**
+ * Get registration result (updated list after registration)
+ * @param {string} periodId - Registration period ID
+ */
+export async function getRegistrationResult(periodId) {
+    const token = getAuthToken();
+    if (!token) return { success: false, error: 'Chưa đăng nhập' };
+
+    try {
+        const response = await fetch(`${API_BASE}/dkmh/registration-result`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ periodId })
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+        }
+
+        const errorData = await response.json();
+        return { success: false, error: errorData.error };
+    } catch (e) {
+        console.error('Get registration result error:', e);
+        return { success: false, error: e.message };
+    }
+}
+
+/**
+ * Cancel registration for a course
+ * @param {string} periodId - Registration period ID
+ * @param {string} ketquaId - Registration result ID
+ * @param {string} monHocMa - Course code
+ */
+export async function cancelCourseRegistration(periodId, ketquaId, monHocMa) {
+    const token = getAuthToken();
+    if (!token) return { success: false, error: 'Chưa đăng nhập' };
+
+    try {
+        const response = await fetch(`${API_BASE}/dkmh/cancel`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ periodId, ketquaId, monHocMa })
+        });
+
+        const data = await response.json();
+        return data;
+    } catch (e) {
+        console.error('Cancel course registration error:', e);
+        return { success: false, error: e.message };
+    }
+}

@@ -1,0 +1,45 @@
+<div class="box box-primary">
+
+    <div class="box-header with-border">
+        <h3 class="box-title">Lịch đăng ký</h3>
+    </div>
+
+    <div class="box-body no-padding">
+
+        <input type="hidden" value="749" id="hdDotDKId" />
+
+        <table class="table table-striped">
+            <tr>
+                <th class='header_item_list '># </th>
+                <th class='header_item_list '>Từ ngày</th>
+                <th class='header_item_list '>Đến ngày</th>
+
+            </tr>
+            <tr class=" 
+	odd 
+ ">
+                <td class='item_list'>
+
+                    <label class='text-blue'><i class="fa fa-check" aria-hidden="true"></i></label>
+                </td>
+                <td class='item_list'>
+
+                    06/01/2026 10:00
+
+                </td>
+                <td class='item_list'>
+
+                    08/01/2026 07:00
+                </td>
+
+            </tr>
+        </table>
+        <input type="hidden" id="hdTrongHanDK" value="true" />
+
+    </div>
+</div>
+<script>
+    jQuery(document).ready(function () {
+        getMonHocDangKyByDotDKId(749);
+    });
+</script>

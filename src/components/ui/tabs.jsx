@@ -28,7 +28,7 @@ TabsTrigger.displayName = TabsPrimitive.Trigger.displayName;
 const TabsContent = ({ className, ...props }) => (
   <TabsPrimitive.Content
     className={cn(
-      "mt-4 rounded-xl border border-dashed border-border/60 bg-card/60 p-4 shadow-sm",
+      "mt-4 rounded-xl border-[1.5px] border-dashed border-border/60 bg-card/60 p-4 shadow-sm",
       className
     )}
     {...props}

@@ -5,10 +5,10 @@
 export const parseWeeks = (weeksStr) => {
   const weeks = [];
   const parts = weeksStr.split('|');
-  
+
   parts.forEach(part => {
     if (part === '--') return;
-    
+
     if (part.includes('-')) {
       const [start, end] = part.split('-').map(w => parseInt(w));
       for (let i = start; i <= end; i++) {
@@ -18,7 +18,7 @@ export const parseWeeks = (weeksStr) => {
       weeks.push(parseInt(part));
     }
   });
-  
+
   return weeks;
 };
 
@@ -29,12 +29,12 @@ export const parseScheduleData = (input) => {
 
   const scheduleData = [];
   const lines = input.trim().split('\n');
-  
+
   lines.forEach(line => {
     const columns = line.split('\t');
     if (columns.length >= 12) {
       const [_semester, code, name, credits, _feeCredits, group, day, periods, time, room, location, weeks] = columns;
-      
+
       // Bỏ qua các môn không có thời gian học cụ thể (theo logic code cũ)
       if (day === '--' || periods === '--') {
         return;
@@ -42,12 +42,12 @@ export const parseScheduleData = (input) => {
 
       // Xử lý thông tin tiết học
       const [startPeriod] = periods.split(' - ').map(p => parseInt(p));
-      
+
       // Xử lý thời gian học
       const timeMatch = time.match(/(\d{1,2}):(\d{2})\s*-\s*(\d{1,2}):(\d{2})/);
       if (timeMatch) {
         const [_, startHour, startMin, endHour, endMin] = timeMatch;
-        
+
         // Tính số tiết dựa trên thời gian thực tế (theo logic code cũ)
         const startMinutes = parseInt(startHour) * 60 + parseInt(startMin);
         const endMinutes = parseInt(endHour) * 60 + parseInt(endMin);
@@ -56,7 +56,7 @@ export const parseScheduleData = (input) => {
 
         // Xử lý tuần học
         const weekList = parseWeeks(weeks);
-        
+
         scheduleData.push({
           code: code,
           name: name,
@@ -72,7 +72,7 @@ export const parseScheduleData = (input) => {
           // Thêm schedule array để tương thích với component
           schedule: [{
             day: parseInt(day),
-            periods: Array.from({length: numberOfPeriods}, (_, i) => startPeriod + i),
+            periods: Array.from({ length: numberOfPeriods }, (_, i) => startPeriod + i),
             room: room,
             time: time,
             campus: location,
@@ -83,7 +83,7 @@ export const parseScheduleData = (input) => {
       }
     }
   });
-  
+
   return scheduleData;
 };
 
@@ -94,24 +94,24 @@ export const parseExamData = (input) => {
 
   const examData = [];
   const lines = input.trim().split('\n');
-  
+
   lines.forEach(line => {
     const columns = line.split('\t');
     if (columns.length >= 11) {
       // Format: HỌC KỲ | MÔN HỌC | NHÓM | NGÀY THI | LOẠI THI | ĐỊA ĐIỂM | PHÒNG | THỨ | GIỜ | THỜI LƯỢNG | CẬP NHẬT
       const [semester, subject, group, examDate, examType, location, room, day, startTime, duration, _lastUpdate] = columns;
-      
+
       // Tách mã môn và tên môn
       const subjectParts = subject.split(' - ');
       const code = subjectParts[0];
       const name = subjectParts.length > 1 ? subjectParts[1] : subject;
-      
+
       // Định dạng lại thời gian (từ 07g00 thành 07:00)
       const formattedTime = startTime.replace('g', ':');
-      
+
       // Chuyển đổi ngày thi sang đối tượng Date để sắp xếp
       const date = new Date(examDate);
-      
+
       examData.push({
         code: code,
         name: name,
@@ -136,17 +136,17 @@ export const parseExamData = (input) => {
       });
     }
   });
-  
+
   // Sắp xếp theo ngày thi và thời gian (theo logic code cũ)
   examData.sort((a, b) => {
     // So sánh ngày trước
     const dateCompare = new Date(a.rawDate) - new Date(b.rawDate);
     if (dateCompare !== 0) return dateCompare;
-    
+
     // Nếu cùng ngày, so sánh giờ
     return a.time.localeCompare(b.time);
   });
-  
+
   return examData;
 };
 
@@ -168,7 +168,7 @@ export const parseRegistrationData = (input) => {
       if (currentSubject) {
         subjects.push(currentSubject);
       }
-      
+
       currentSubject = {
         code: subjectMatch[1],
         name: subjectMatch[2],
@@ -217,13 +217,14 @@ export const parseRegistrationData = (input) => {
   return subjects;
 };
 
-// Helper function to get current week number
+// Helper function to get current week number (semester week)
 export const getCurrentWeek = () => {
   const now = new Date();
   const start = new Date(now.getFullYear(), 0, 1);
   const diff = now - start;
   const oneWeek = 1000 * 60 * 60 * 24 * 7;
-  return Math.ceil(diff / oneWeek);
+  // Add 1 to match school's semester week numbering
+  return Math.ceil(diff / oneWeek) + 1;
 };
 
 // Map lưu trữ màu sắc cho mỗi mã môn học (theo logic code cũ)
@@ -274,6 +275,6 @@ export const formatTimeSlot = (period) => {
     15: '19:40 - 20:30',
     16: '20:30 - 21:10'
   };
-  
+
   return timeSlots[period] || `Tiết ${period}`;
 };

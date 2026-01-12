@@ -3,6 +3,12 @@ import cors from 'cors';
 import nodeFetch from 'node-fetch';
 import { CookieJar } from 'tough-cookie';
 import fetchCookie from 'fetch-cookie';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = 3001;
@@ -15,6 +21,9 @@ app.use(express.json());
 
 // Store sessions in memory
 const sessions = new Map();
+
+// Store active period cookie jars per session (for DKMH search to work)
+const activePeriodJars = new Map();
 
 /**
  * Creates a cookie-aware fetch instance
@@ -316,6 +325,41 @@ app.get('/api/student/schedule', async (req, res) => {
     }
 });
 
+// New Endpoint: Get Exam Schedule
+app.get('/api/student/exam-schedule', async (req, res) => {
+    const token = req.headers.authorization?.replace('Bearer ', '');
+    const session = sessions.get(token);
+
+    if (!session) return res.status(401).json({ error: 'Unauthorized' });
+
+    const { studentId, namhoc, hocky } = req.query;
+    console.log(`[API] Proxying exam schedule for ${studentId}, namhoc=${namhoc}, hocky=${hocky}...`);
+
+    try {
+        const headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+            'Accept': 'application/json',
+            'Referer': 'https://mybk.hcmut.edu.vn/app/he-thong-quan-ly/sinh-vien/lich-thi',
+            'Origin': 'https://mybk.hcmut.edu.vn',
+            'Cookie': session.cookie,
+            'Content-Type': 'application/json'
+        };
+        if (session.jwtToken) headers['Authorization'] = session.jwtToken;
+
+        const url = `https://mybk.hcmut.edu.vn/api/thoi-khoa-bieu/lich-thi-sinh-vien/v1?masv=${studentId}&namhoc=${namhoc}&hocky=${hocky}&null`;
+        console.log('[API] Exam schedule URL:', url);
+
+        const response = await nodeFetch(url, { headers });
+        const data = await response.json();
+
+        console.log(`[API] Exam schedule response: ${data.code}, exams count: ${data.data?.data?.length || 0}`);
+        res.json(data);
+    } catch (e) {
+        console.error('[API] Exam Schedule Error:', e);
+        res.status(500).json({ error: e.message });
+    }
+});
+
 // New Endpoint: Get Transcript Summary (GPA, Credits, Info)
 app.post('/api/student/gpa/summary', async (req, res) => {
     const token = req.headers.authorization?.replace('Bearer ', '');
@@ -535,13 +579,18 @@ async function performDKMHLogin(username, password) {
         const mybkCookies = await jar.getCookies('https://mybk.hcmut.edu.vn');
         const dkmhCookies = await jar.getCookies('https://mybk.hcmut.edu.vn/dkmh');
 
+        console.log('[DKMH] SSO Cookies:', ssoCookies.map(c => c.key).join(', '));
+        console.log('[DKMH] MyBK Cookies:', mybkCookies.map(c => c.key).join(', '));
+        console.log('[DKMH] DKMH Cookies:', dkmhCookies.map(c => c.key).join(', '));
+
         const allCookiesMap = new Map();
         [...ssoCookies, ...mybkCookies, ...dkmhCookies].forEach(c => {
             allCookiesMap.set(c.key, c.cookieString());
         });
         const cookieString = Array.from(allCookiesMap.values()).join('; ');
 
-        console.log('[DKMH] Cookies collected:', cookieString.substring(0, 100) + '...');
+        console.log('[DKMH] All cookie keys:', Array.from(allCookiesMap.keys()).join(', '));
+        console.log('[DKMH] Full cookie string length:', cookieString.length);
 
         // Check if page contains expected content
         const isLoggedIn = dkmhHtml.includes('Đăng ký môn học') ||
@@ -861,11 +910,19 @@ app.post('/api/dkmh/period-details', async (req, res) => {
         }
 
         const baseHeaders = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36',
             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
             'X-Requested-With': 'XMLHttpRequest',
+            'Origin': 'https://mybk.hcmut.edu.vn',
             'Referer': 'https://mybk.hcmut.edu.vn/dkmh/dangKyMonHocForm.action',
-            'Accept': '*/*'
+            'Accept': '*/*',
+            'Accept-Language': 'en-US,en;q=0.9',
+            'sec-ch-ua': '"Chromium";v="128", "Not;A=Brand";v="24", "Google Chrome";v="128"',
+            'sec-ch-ua-mobile': '?0',
+            'sec-ch-ua-platform': '"Windows"',
+            'sec-fetch-dest': 'empty',
+            'sec-fetch-mode': 'cors',
+            'sec-fetch-site': 'same-origin'
         };
 
         // Step 1: ketQuaDangKyView.action - This returns the actual course HTML!
@@ -879,26 +936,61 @@ app.post('/api/dkmh/period-details', async (req, res) => {
         const ketQuaHtml = await ketQuaResponse.text();
         console.log('[DKMH] ketQuaDangKyView response length:', ketQuaHtml.length);
 
-        // Step 2: getDanhSachDotDK.action
-        console.log('[DKMH] Step 2: getDanhSachDotDK.action...');
-        await fetch('https://mybk.hcmut.edu.vn/dkmh/getDanhSachDotDK.action', {
+        // Step 2: getDanhSachDotDK.action - Get actual dotDKId
+        console.log('[DKMH] Step 2: getDanhSachDotDK.action with hocKyId=' + periodId);
+        const dotDKResponse = await fetch('https://mybk.hcmut.edu.vn/dkmh/getDanhSachDotDK.action', {
+            method: 'POST',
+            headers: baseHeaders,
+            body: `hocKyId=${periodId}`
+        });
+        const dotDKHtml = await dotDKResponse.text();
+        console.log('[DKMH] getDanhSachDotDK response length:', dotDKHtml.length);
+        console.log('[DKMH] getDanhSachDotDK response preview:', dotDKHtml.substring(0, 200));
+
+        // Parse actual dotDKId from response
+        // Pattern: onclick="getLichDangKyByDotDKId(this, 749, 749, false, ' ');"
+        const dotDKMatch = dotDKHtml.match(/getLichDangKyByDotDKId\s*\(\s*this\s*,\s*(\d+)\s*,\s*(\d+)/);
+        const dotDKHocVienId = dotDKMatch ? dotDKMatch[1] : periodId;
+        const dotDKId = dotDKMatch ? dotDKMatch[2] : periodId;
+        console.log(`[DKMH] Parsed dotDKHocVienId=${dotDKHocVienId}, dotDKId=${dotDKId}`);
+
+        // Step 3: getLichDangKy.action with correct dotDKId
+        console.log('[DKMH] Step 3: getLichDangKy.action with dotDKId=' + dotDKId);
+        const lichResponse = await fetch('https://mybk.hcmut.edu.vn/dkmh/getLichDangKy.action', {
+            method: 'POST',
+            headers: baseHeaders,
+            body: `dotDKId=${dotDKId}&dotDKHocVienId=${dotDKHocVienId}`
+        });
+        const lichHtml = await lichResponse.text();
+
+        // Step 4: getDanhSachMonHocDangKy.action with dotDKId
+        console.log('[DKMH] Step 4: getDanhSachMonHocDangKy.action with dotDKId=' + dotDKId);
+        await fetch('https://mybk.hcmut.edu.vn/dkmh/getDanhSachMonHocDangKy.action', {
+            method: 'POST',
+            headers: baseHeaders,
+            body: `dotDKId=${dotDKId}`
+        });
+
+        // Step 5: getKetQuaDangKy.action to get registration results with ketquaId
+        // This is needed for delete functionality - it returns the ketquaId for each course
+        console.log('[DKMH] Step 5: getKetQuaDangKy.action');
+        const ketQuaDangKyResponse = await fetch('https://mybk.hcmut.edu.vn/dkmh/getKetQuaDangKy.action', {
             method: 'POST',
             headers: baseHeaders,
             body: ''
         });
+        const ketQuaDangKyHtml = await ketQuaDangKyResponse.text();
+        console.log('[DKMH] getKetQuaDangKy response length:', ketQuaDangKyHtml.length);
 
-        // Step 3: getLichDangKy.action
-        console.log('[DKMH] Step 3: getLichDangKy.action...');
-        const lichResponse = await fetch('https://mybk.hcmut.edu.vn/dkmh/getLichDangKy.action', {
-            method: 'POST',
-            headers: baseHeaders,
-            body: `dotDKId=${periodId}`
-        });
-        const lichHtml = await lichResponse.text();
-
-        // Parse courses from ketQuaDangKyView HTML (not getKetQuaDangKy)
-        const courses = parsePeriodDetailsHtml(ketQuaHtml);
+        // Parse courses from getKetQuaDangKy HTML (contains ketquaId for delete)
+        const courses = parsePeriodDetailsHtml(ketQuaDangKyHtml);
         const schedule = parseScheduleHtml(lichHtml);
+
+        // IMPORTANT: Store jar and fetch for this session+period for later search operations
+        // Also store dotDKId for search
+        const jarKey = `${token}_${periodId}`;
+        activePeriodJars.set(jarKey, { fetch, jar, baseHeaders, periodId, dotDKId, dotDKHocVienId });
+        console.log(`[DKMH] Stored jar for key: ${jarKey} with dotDKId=${dotDKId}`);
 
         res.json({
             success: true,
@@ -906,6 +998,7 @@ app.post('/api/dkmh/period-details', async (req, res) => {
                 courses,
                 schedule,
                 periodId,
+                dotDKId,
                 rawHtml: ketQuaHtml.substring(0, 500) + '...'
             }
         });
@@ -915,6 +1008,270 @@ app.post('/api/dkmh/period-details', async (req, res) => {
         res.status(500).json({ error: e.message });
     }
 });
+
+// Search courses for registration
+app.post('/api/dkmh/search-courses', async (req, res) => {
+    const token = req.headers.authorization?.replace('Bearer ', '');
+    const session = sessions.get(token);
+    const { periodId, query } = req.body;
+
+    if (!session) {
+        return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    if (!periodId || !query) {
+        return res.status(400).json({ error: 'periodId and query are required' });
+    }
+
+    console.log(`[DKMH] Searching courses for period ${periodId}, query: ${query}`);
+
+    // Try to use stored jar from period details
+    const jarKey = `${token}_${periodId}`;
+    const storedData = activePeriodJars.get(jarKey);
+
+    if (!storedData) {
+        console.log('[DKMH] No stored jar found, need to load period details first');
+        return res.status(400).json({
+            error: 'Vui lòng tải lại trang chi tiết đợt đăng ký trước khi tìm kiếm'
+        });
+    }
+
+    const { fetch, baseHeaders } = storedData;
+    console.log('[DKMH] Using stored jar for search');
+
+    // Check for force mode (skip session state setup to bypass validation)
+    const forceMode = req.body.forceMode === true;
+    if (forceMode) {
+        console.log('[DKMH] 🔓 FORCE MODE: Skipping getKetQuaDangKy.action (easter egg activated!)');
+    }
+
+    try {
+        // Call getKetQuaDangKy.action to set session state (skip in force mode)
+        if (!forceMode) {
+            console.log('[DKMH] Calling getKetQuaDangKy.action to set session state');
+            await fetch('https://mybk.hcmut.edu.vn/dkmh/getKetQuaDangKy.action', {
+                method: 'POST',
+                headers: baseHeaders,
+                body: ''
+            });
+        }
+
+        // Now call search
+        console.log('[DKMH] Calling searchMonHocDangKy with msmh=' + query);
+        const response = await fetch('https://mybk.hcmut.edu.vn/dkmh/searchMonHocDangKy.action', {
+            method: 'POST',
+            headers: baseHeaders,
+            body: `msmh=${encodeURIComponent(query)}`
+        });
+
+        const html = await response.text();
+        console.log('[DKMH] Search response length:', html.length);
+        console.log('[DKMH] Search response preview:', html.substring(0, 300));
+
+        // Save for debugging
+        import('fs').then(fs => {
+            fs.writeFileSync('debug_search_results.html', html);
+            console.log('[DKMH] Saved search response to server/debug_search_results.html');
+        });
+
+        // Parse search results
+        const courses = parseSearchResultsHtml(html);
+
+        res.json({
+            success: true,
+            data: courses,
+            query
+        });
+
+    } catch (e) {
+        console.error('[DKMH] Error searching courses:', e);
+        res.status(500).json({ error: e.message });
+    }
+});
+
+// Get class groups for a course
+app.post('/api/dkmh/class-groups', async (req, res) => {
+    const token = req.headers.authorization?.replace('Bearer ', '');
+    const session = sessions.get(token);
+    const { periodId, monHocId } = req.body;
+
+    if (!session) {
+        return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    if (!periodId || !monHocId) {
+        return res.status(400).json({ error: 'periodId and monHocId are required' });
+    }
+
+    console.log(`[DKMH] Getting class groups for monHocId=${monHocId}`);
+
+    // Get stored jar
+    const jarKey = `${token}_${periodId}`;
+    const storedData = activePeriodJars.get(jarKey);
+
+    if (!storedData) {
+        return res.status(400).json({
+            error: 'Vui lòng tải lại trang chi tiết đợt đăng ký'
+        });
+    }
+
+    const { fetch, baseHeaders } = storedData;
+
+    try {
+        const response = await fetch('https://mybk.hcmut.edu.vn/dkmh/getThongTinNhomLopMonHoc.action', {
+            method: 'POST',
+            headers: baseHeaders,
+            body: `monHocId=${monHocId}`
+        });
+
+        const html = await response.text();
+        console.log('[DKMH] Class groups response length:', html.length);
+
+        // Parse class groups
+        const classGroups = parseClassGroupsHtml(html);
+
+        res.json({
+            success: true,
+            data: classGroups,
+            monHocId
+        });
+
+    } catch (e) {
+        console.error('[DKMH] Error getting class groups:', e);
+        res.status(500).json({ error: e.message });
+    }
+});
+
+// Parse class groups from getThongTinNhomLopMonHoc HTML
+function parseClassGroupsHtml(html) {
+    const groups = [];
+    console.log('[DKMH] Parsing class groups, total length: ' + html.length);
+
+    // Split by <hr /> tags which separate each class group section
+    // Use a regex that handles various HR formats and context
+    const sections = html.split(/<hr\s*\/?>/i);
+    console.log(`[DKMH] Found ${sections.length} potential sections`);
+
+    for (const section of sections) {
+        // Find header row with group info: <tr style="border-bottom:2px #ccc  solid;">
+        const headerMatch = section.match(/<tr[^>]*style="border-bottom:2px #ccc\s+solid;"[^>]*>([\s\S]*?)<\/tr>/i);
+        if (!headerMatch) continue;
+
+        // Parse header cells
+        const tdRegex = /<td class='item_list'[^>]*>([\s\S]*?)<\/td>/gi;
+        const tdValues = [];
+        let tdMatch;
+        while ((tdMatch = tdRegex.exec(headerMatch[1])) !== null) {
+            tdValues.push(tdMatch[1].trim());
+        }
+
+        // Valid group header must have at least 9 columns
+        if (tdValues.length < 9) continue;
+
+        const groupCode = tdValues[0];
+        const slotsMatch = tdValues[1].match(/(\d+)\/(\d+)/);
+        if (!slotsMatch) continue;
+
+        const registered = parseInt(slotsMatch[1]);
+        const capacity = parseInt(slotsMatch[2]);
+        const actionHtml = tdValues[8];
+        const buttonMatch = actionHtml.match(/dangKyNhomLopMonHoc\s*\(\s*this\s*,\s*(\d+)\s*,\s*(\d+)\s*\)/);
+
+        // Find schedule table in section - look for <table...class='table'>
+        const schedules = [];
+        const tableMatch = section.match(/<table[^>]*class=['"]table['"][^>]*>([\s\S]*?)<\/table>/i);
+
+        if (tableMatch) {
+            const tableContent = tableMatch[1];
+            // Find all <tr>...</tr> inside the table
+            const allRows = tableContent.match(/<tr[^>]*>([\s\S]*?)<\/tr>/gi) || [];
+
+            for (const row of allRows) {
+                // Skip header row (has <th> or style with border)
+                if (row.includes('<th') || row.includes('border-bottom:2px')) continue;
+
+                // Extract td values
+                const schTdRegex = /<td class='item_list'[^>]*>([\s\S]*?)<\/td>/gi;
+                const schValues = [];
+                let schMatch;
+                while ((schMatch = schTdRegex.exec(row)) !== null) {
+                    schValues.push(schMatch[1].trim());
+                }
+
+                // Check if this is a schedule row
+                // Must have at least 6 columns: Day, Time, Room, Campus, BTTN, Weeks
+                if (schValues.length >= 6) {
+                    const day = schValues[0];
+                    const timeRaw = schValues[1];
+                    const room = schValues[2];
+
+                    // Validate: Time column usually has digits or '-'
+                    // Or Day column is not empty (length > 2 to avoid garbage)
+                    if ((day.trim().length > 0) || (timeRaw.match(/\d/))) {
+                        const tietNumbers = timeRaw.match(/\d+/g) || [];
+                        const tietDisplay = tietNumbers.length > 0 ? tietNumbers.join(', ') : '-';
+
+                        schedules.push({
+                            day: day.replace(/<[^>]*>/g, '').trim(), // Cleanup HTML tags if any
+                            timeSlots: tietDisplay,
+                            room: room.trim(),
+                            campus: schValues[3].trim(),
+                            bttn: schValues[4].trim(),
+                            weeks: schValues[5].replace(/<[^>]*>/g, '').trim()
+                        });
+                    }
+                }
+            }
+        }
+
+        groups.push({
+            groupCode: groupCode,
+            registered: registered,
+            capacity: capacity,
+            language: tdValues[2] || 'V',
+            ltGroup: tdValues[3] || '',
+            lecturer: tdValues[4] || '',
+            btGroup: tdValues[5] || '',
+            btLecturer: tdValues[6] || '',
+            maxLT: parseInt(tdValues[7]) || 0,
+            canRegister: !!buttonMatch,
+            nlmhId: buttonMatch ? buttonMatch[1] : null,
+            monHocId: buttonMatch ? buttonMatch[2] : null,
+            isFull: registered >= capacity,
+            schedules: schedules
+        });
+    }
+
+    console.log(`[DKMH] Parsed ${groups.length} class groups`);
+    if (groups.length > 0) {
+        console.log(`[DKMH] Sample schedule for first group: ${JSON.stringify(groups[0].schedules)}`);
+    }
+    return groups;
+}
+
+// Parse course search results from HTML
+function parseSearchResultsHtml(html) {
+    const courses = [];
+
+    // Match pattern: <tr id='monHoc14425' onclick='getThongTinNhomLopMonHoc(this, 14425)'>
+    // Then: <td class="item_list">1</td>...<td class='item_list'>CO3005</td><td class='item_list'>Ng/lý ngôn ngữ lập trình</td><td class='item_list'>4.0</td>
+    const rowRegex = /<tr\s+id='monHoc(\d+)'[^>]*onclick='getThongTinNhomLopMonHoc\([^,]+,\s*(\d+)\)'[^>]*>[\s\S]*?<td class="item_list">(\d+)\s*<\/td>[\s\S]*?<td class='item_list'\s*>([A-Z0-9]+)\s*<\/td>\s*<td class='item_list'\s*>([^<]+)<\/td>\s*<td class='item_list'\s*>([\d.]+)<\/td>/g;
+
+    let match;
+    while ((match = rowRegex.exec(html)) !== null) {
+        courses.push({
+            monHocId: match[1],
+            nhomLopId: match[2],
+            stt: parseInt(match[3]),
+            code: match[4].trim(),
+            name: match[5].trim(),
+            credits: parseFloat(match[6])
+        });
+    }
+
+    console.log(`[DKMH] Parsed ${courses.length} courses from search results`);
+    return courses;
+}
 
 // Parse course details from ketQuaDangKyView HTML
 function parsePeriodDetailsHtml(html) {
@@ -927,17 +1284,30 @@ function parsePeriodDetailsHtml(html) {
     });
 
     // Match each panel (course) block - handle newlines with [\s\S]
-    // Structure: <div class='col-md-1'>1</div>\n<div class='col-md-8'>\nSA0004 - Name\n</div>\n<div class='col-md-1'>\n0.0\n</div>
-    const panelRegex = /<div class='col-md-1'>(\d+)<\/div>[\s\S]*?<div class='col-md-8'>[\s\S]*?([A-Z]{2}\d{4})\s*-\s*([\s\S]*?)<\/div>[\s\S]*?<div class='col-md-1'>[\s\S]*?([\d.]+)[\s\S]*?<\/div>/g;
+    // This regex matches BOTH locked and unlocked courses:
+    // Structure: <div class='col-md-1'>1</div>...<div class='col-md-8'>...(CODE - Name)...</div>...<div class='col-md-1'>credits</div>
+    const panelRegex = /<div class='col-md-1'>(\d+)<\/div>[\s\S]*?<div class='col-md-8'>([\s\S]*?)<\/div>[\s\S]*?<div class='col-md-1'>[\s\S]*?([\d.]+)[\s\S]*?<\/div>/g;
 
     let match;
     let count = 0;
     while ((match = panelRegex.exec(html)) !== null) {
-        count++;
         const stt = parseInt(match[1]);
-        const code = match[2].trim();
-        const name = match[3].replace(/<[^>]+>/g, '').trim();
-        const credits = parseFloat(match[4]);
+        const col8Content = match[2];
+        const credits = parseFloat(match[3]);
+
+        // Extract course code and name from col-md-8 content
+        // Pattern: "CO3005 - Course Name" or "<a href=...>CO3005 - Course Name</a>"
+        const courseMatch = col8Content.match(/([A-Z]{2}\d{4})\s*-\s*([^<]+)/);
+        if (!courseMatch) continue;
+
+        const code = courseMatch[1].trim();
+        const name = courseMatch[2].trim();
+
+        // Extract ketquaId if available (from hieuChinhKetQuaDangKyForm or xoaKetQuaDangKy)
+        const ketquaMatch = col8Content.match(/hieuChinhKetQuaDangKyForm\((\d+)\)|xoaKetQuaDangKy\((\d+)/);
+        const ketquaId = ketquaMatch ? (ketquaMatch[1] || ketquaMatch[2]) : null;
+
+        count++;
 
         // Try to find schedule info for this course
         const scheduleInfo = extractCourseSchedule(html, code);
@@ -950,12 +1320,17 @@ function parsePeriodDetailsHtml(html) {
             : html.substring(courseIdx, courseIdx + 2000);
         const isLocked = courseSection.includes('fa-lock');
 
+        // Can delete if not locked and has ketquaId
+        const canDelete = !isLocked && !!ketquaId;
+
         courses.push({
             stt,
             code,
             name,
             credits,
             isLocked,
+            ketquaId,
+            canDelete,
             ...scheduleInfo
         });
     }
@@ -973,7 +1348,7 @@ function parsePeriodDetailsHtml(html) {
     };
 }
 
-// Extract schedule info for a specific course
+// Extract detailed class and schedule info for a specific course
 function extractCourseSchedule(html, courseCode) {
     // Find the section for this course
     const codeIdx = html.indexOf(courseCode);
@@ -983,25 +1358,90 @@ function extractCourseSchedule(html, courseCode) {
     const nextPanelIdx = html.indexOf('<div class="panel panel-default">', codeIdx + 1);
     const courseSection = nextPanelIdx > 0
         ? html.substring(codeIdx, nextPanelIdx)
-        : html.substring(codeIdx, codeIdx + 3000);
+        : html.substring(codeIdx, codeIdx + 4000);
 
-    // Extract group (first item_list after the table headers)
-    const groupMatch = courseSection.match(/<td class='item_list'>\s*\n?\s*([A-Z0-9_]+)\s*\n?\s*<\/td>/);
+    // Extract class info from the main row: Nhóm lớp, DK/Sĩ số, Ngôn ngữ, Nhóm LT, Giảng viên, Nhóm BT, GV BT/TN, Sĩ số
+    // Pattern: <tr style="border-bottom:2px..."> followed by 8 <td class='item_list'> cells
+    const classRowMatch = courseSection.match(/<tr style="border-bottom:2px[^"]*">([\s\S]*?)<\/tr>/);
 
-    // Extract slots (DK/Sĩ số format: 800/800)
-    const slotsMatch = courseSection.match(/<td class='item_list'>(\d+\/\d+)/);
+    let classInfo = {
+        groupCode: '',     // CC01
+        registered: '',    // 52/60
+        language: '',      // V or E
+        groupLT: '',       // CC01
+        lecturer: '',      // Giảng viên
+        groupBT: '',       // Nhóm BT
+        lecturerBT: '',    // Giảng viên BT/TN
+        capacity: ''       // Sĩ số LT (60)
+    };
 
-    // Extract day (Thứ X or Chưa biết)
-    const dayMatch = courseSection.match(/<td class='item_list'>(Thứ \d|Chưa biết)/);
+    if (classRowMatch) {
+        const cells = [];
+        const cellRegex = /<td class='item_list'[^>]*>([\s\S]*?)<\/td>/g;
+        let cellMatch;
+        while ((cellMatch = cellRegex.exec(classRowMatch[1])) !== null) {
+            cells.push(cellMatch[1].trim());
+        }
 
-    // Extract room (pattern like A5-HTA5, B4-402)
-    const roomMatch = courseSection.match(/<td class='item_list'>([A-Z]\d+-[A-Z0-9]+)/);
+        if (cells.length >= 8) {
+            classInfo.groupCode = cells[0].trim();
+            classInfo.registered = cells[1].trim();
+            classInfo.language = cells[2].trim();
+            classInfo.groupLT = cells[3].trim();
+            classInfo.lecturer = cells[4].trim() || 'Chưa phân công';
+            classInfo.groupBT = cells[5].trim();
+            classInfo.lecturerBT = cells[6].trim();
+            classInfo.capacity = cells[7].trim();
+        }
+    }
+
+    // Extract schedule rows: Thứ, Tiết, Phòng, CS, BT/TN, Tuần học
+    const schedules = [];
+    const scheduleTableMatch = courseSection.match(/<table width="100%" class='table'>([\s\S]*?)<\/table>/);
+
+    if (scheduleTableMatch) {
+        const scheduleRowRegex = /<tr>[\s\S]*?<td class='item_list'[^>]*>([\s\S]*?)<\/td>[\s\S]*?<td class='item_list'[^>]*>([\s\S]*?)<\/td>[\s\S]*?<td class='item_list'[^>]*>([\s\S]*?)<\/td>[\s\S]*?<td class='item_list'[^>]*>([\s\S]*?)<\/td>[\s\S]*?<td class='item_list'[^>]*>([\s\S]*?)<\/td>[\s\S]*?<td class='item_list'[^>]*>([\s\S]*?)<\/td>[\s\S]*?<\/tr>/g;
+        let scheduleMatch;
+
+        while ((scheduleMatch = scheduleRowRegex.exec(scheduleTableMatch[1])) !== null) {
+            const day = scheduleMatch[1].trim();
+            const timeSlots = scheduleMatch[2].replace(/\s+/g, ' ').trim();
+            const room = scheduleMatch[3].trim();
+            const campus = scheduleMatch[4].trim();
+            const bttn = scheduleMatch[5].trim();
+            const weeks = scheduleMatch[6].trim();
+
+            if (day && day !== 'Thứ') { // Skip header
+                schedules.push({
+                    day,
+                    timeSlots,
+                    room,
+                    campus,
+                    bttn,
+                    weeks
+                });
+            }
+        }
+    }
+
+    // Old format compatibility
+    const firstSchedule = schedules[0] || {};
 
     return {
-        group: groupMatch ? groupMatch[1].trim() : '',
-        slots: slotsMatch ? slotsMatch[1] : '',
-        day: dayMatch ? dayMatch[1] : '',
-        room: roomMatch ? roomMatch[1] : ''
+        group: classInfo.groupCode,
+        slots: classInfo.registered,
+        capacity: classInfo.capacity,
+        language: classInfo.language,
+        groupLT: classInfo.groupLT,
+        lecturer: classInfo.lecturer,
+        groupBT: classInfo.groupBT,
+        lecturerBT: classInfo.lecturerBT,
+        day: firstSchedule.day || '',
+        room: firstSchedule.room || '',
+        campus: firstSchedule.campus || '',
+        timeSlots: firstSchedule.timeSlots || '',
+        weeks: firstSchedule.weeks || '',
+        schedules // Full schedule array
     };
 }
 
@@ -1033,6 +1473,417 @@ function parseVietnameseDate(dateStr) {
         return null;
     }
 }
+
+// Register for a class group
+app.post('/api/dkmh/register', async (req, res) => {
+    const token = req.headers.authorization?.replace('Bearer ', '');
+    const session = sessions.get(token);
+    const { periodId, nlmhId, monHocId, forceMode } = req.body;
+
+    if (!session) {
+        return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    if (!periodId || !nlmhId) {
+        return res.status(400).json({ error: 'periodId and nlmhId are required' });
+    }
+
+    if (forceMode) {
+        console.log(`[DKMH] 🔓 FORCE MODE: Registering for class NLMHId=${nlmhId} (bypassing validation)`);
+    } else {
+        console.log(`[DKMH] Registering for class NLMHId=${nlmhId}, monHocId=${monHocId}`);
+    }
+
+    // Get stored jar
+    const jarKey = `${token}_${periodId}`;
+    const storedData = activePeriodJars.get(jarKey);
+
+    if (!storedData) {
+        return res.status(400).json({
+            error: 'Session expired, vui lòng tải lại trang chi tiết đợt đăng ký'
+        });
+    }
+
+    const { fetch, jar, baseHeaders } = storedData;
+
+    try {
+        // Get current cookies from jar for debugging
+        const cookies = await jar.getCookies('https://mybk.hcmut.edu.vn');
+        const cookieString = cookies.map(c => `${c.key}=${c.value}`).join('; ');
+        console.log('[DKMH] Full cookies:', cookieString);
+
+        // In Force Mode: Skip priming to replicate original bug behavior
+        // This causes server to return empty error messages but still process registration
+        if (monHocId && !forceMode) {
+            console.log('[DKMH] Priming session with getThongTinNhomLopMonHoc for monHocId:', monHocId);
+            const primeResponse = await fetch('https://mybk.hcmut.edu.vn/dkmh/getThongTinNhomLopMonHoc.action', {
+                method: 'POST',
+                headers: baseHeaders,
+                body: `monHocId=${monHocId}`
+            });
+            console.log('[DKMH] Prime response status:', primeResponse.status);
+        } else if (forceMode) {
+            console.log('[DKMH] 🔓 Skipping priming call (Force Mode)');
+        }
+
+        // Prepare request details
+        const requestBody = `NLMHId=${nlmhId}`;
+
+        // Call dangKy.action
+        const response = await fetch('https://mybk.hcmut.edu.vn/dkmh/dangKy.action', {
+            method: 'POST',
+            headers: baseHeaders,
+            body: requestBody
+        });
+
+        console.log('[DKMH] Register response status:', response.status);
+        console.log('[DKMH] Response headers:', JSON.stringify(Object.fromEntries(response.headers.entries()), null, 2));
+
+        // Get response text
+        let text = await response.text();
+        console.log('[DKMH] Register raw response:', text);
+
+        // Strip UTF-8 BOM if present (server sometimes adds it)
+        if (text.charCodeAt(0) === 0xFEFF) {
+            text = text.slice(1);
+            console.log('[DKMH] Stripped BOM from response');
+        }
+
+        // Parse JSON response from dangKy.action
+        let rawResult = null;
+        try {
+            rawResult = JSON.parse(text);
+            console.log('[DKMH] Parsed JSON result:', rawResult);
+        } catch (e) {
+            console.log('[DKMH] Response is not valid JSON:', e.message);
+        }
+
+        // If the response says SUCCESS, trust it
+        if (rawResult && rawResult.code === 'SUCCESS') {
+            console.log(`[DKMH] Registration confirmed SUCCESS: ${rawResult.msg}`);
+
+            // Also call getKetQuaDangKy to refresh the list
+            await fetch('https://mybk.hcmut.edu.vn/dkmh/getKetQuaDangKy.action', {
+                method: 'POST',
+                headers: baseHeaders,
+                body: ''
+            });
+
+            return res.json({
+                success: true,
+                message: rawResult.msg || 'Đã gửi đăng ký',
+                nlmhId,
+                monHocId
+            });
+        }
+
+        // Handle ERROR response
+        if (rawResult && rawResult.code === 'ERROR') {
+            // If message has content and NOT in Force Mode, it's a real error
+            if (rawResult.msg && rawResult.msg.trim() !== '' && !forceMode) {
+                console.log(`[DKMH] Registration failed with message: ${rawResult.msg}`);
+                return res.json({
+                    success: false,
+                    error: rawResult.msg,
+                    code: rawResult.code,
+                    nlmhId,
+                    monHocId
+                });
+            }
+
+            // In Force Mode OR empty message: treat as potential success!
+            // The "bug" that allows bypassing validation
+            if (forceMode) {
+                console.log('[DKMH] 🔓 Force Mode: Treating ERROR as SUCCESS (bypass validation)');
+            } else {
+                console.log('[DKMH] ERROR with empty message - treating as SUCCESS based on testing');
+            }
+
+            // Call getKetQuaDangKy to refresh the list
+            // SKIP this in Force Mode to keep session in "unvalidated" state for multiple registrations
+            if (!forceMode) {
+                await fetch('https://mybk.hcmut.edu.vn/dkmh/getKetQuaDangKy.action', {
+                    method: 'POST',
+                    headers: baseHeaders,
+                    body: ''
+                });
+            } else {
+                console.log('[DKMH] 🔓 Skipping getKetQuaDangKy (keeping session for multi-bypass)');
+            }
+
+            return res.json({
+                success: true,
+                message: forceMode
+                    ? '🔓 Force ĐK thành công! Đã bypass validation.'
+                    : 'Đã gửi đăng ký (vui lòng kiểm tra lại)',
+                nlmhId,
+                monHocId,
+                forceMode: forceMode || false,
+                note: forceMode
+                    ? 'Đăng ký bypass validation - có thể trùng lịch hoặc trùng môn'
+                    : 'Server trả về phản hồi không rõ ràng, nhưng đăng ký có thể đã thành công'
+            });
+        }
+
+        // If response is not parseable or unknown format
+        console.log('[DKMH] Unknown response format');
+        res.json({
+            success: false,
+            error: 'Phản hồi từ server không hợp lệ',
+            rawResponse: text.substring(0, 200),
+            nlmhId,
+            monHocId
+        });
+
+    } catch (e) {
+        console.error('[DKMH] Error registering:', e);
+        res.status(500).json({ error: e.message });
+    }
+});
+
+// Get registration result (updated list after registration)
+app.post('/api/dkmh/registration-result', async (req, res) => {
+    const token = req.headers.authorization?.replace('Bearer ', '');
+    const session = sessions.get(token);
+    const { periodId } = req.body;
+
+    if (!session) {
+        return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    if (!periodId) {
+        return res.status(400).json({ error: 'periodId is required' });
+    }
+
+    console.log(`[DKMH] Getting registration result for periodId=${periodId}`);
+
+    // Get stored jar
+    const jarKey = `${token}_${periodId}`;
+    const storedData = activePeriodJars.get(jarKey);
+
+    if (!storedData) {
+        return res.status(400).json({
+            error: 'Session expired, vui lòng tải lại trang chi tiết đợt đăng ký'
+        });
+    }
+
+    const { fetch, baseHeaders } = storedData;
+
+    try {
+        // Call getKetQuaDangKy.action
+        const response = await fetch('https://mybk.hcmut.edu.vn/dkmh/getKetQuaDangKy.action', {
+            method: 'POST',
+            headers: baseHeaders,
+            body: ''  // No body required
+        });
+
+        const html = await response.text();
+        console.log('[DKMH] Registration result response length:', html.length);
+
+        // Parse the HTML to extract registered courses
+        const result = parsePeriodDetailsHtml(html);
+
+        res.json({
+            success: true,
+            data: result
+        });
+
+    } catch (e) {
+        console.error('[DKMH] Error getting registration result:', e);
+        res.status(500).json({ error: e.message });
+    }
+});
+
+// Cancel registration for a course
+app.post('/api/dkmh/cancel', async (req, res) => {
+    const token = req.headers.authorization?.replace('Bearer ', '');
+    const session = sessions.get(token);
+    const { periodId, ketquaId, monHocMa } = req.body;
+
+    if (!session) {
+        return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    if (!periodId || !ketquaId) {
+        return res.status(400).json({ error: 'periodId and ketquaId are required' });
+    }
+
+    console.log(`[DKMH] Canceling registration ketquaId=${ketquaId}, monHocMa=${monHocMa}`);
+
+    // Get stored jar
+    const jarKey = `${token}_${periodId}`;
+    const storedData = activePeriodJars.get(jarKey);
+
+    if (!storedData) {
+        return res.status(400).json({
+            error: 'Session expired, vui lòng tải lại trang chi tiết đợt đăng ký'
+        });
+    }
+
+    const { fetch, baseHeaders } = storedData;
+
+    try {
+        // Call xoaKetQuaDangKy.action
+        const response = await fetch('https://mybk.hcmut.edu.vn/dkmh/xoaKetQuaDangKy.action', {
+            method: 'POST',
+            headers: baseHeaders,
+            body: `ketquaId=${ketquaId}`
+        });
+
+        const text = await response.text();
+        console.log('[DKMH] Cancel registration response:', text.substring(0, 300));
+
+        // Typically returns empty or success
+        res.json({
+            success: true,
+            message: `Đã hủy đăng ký ${monHocMa || ''}`.trim(),
+            ketquaId
+        });
+
+    } catch (e) {
+        console.error('[DKMH] Error canceling registration:', e);
+        res.status(500).json({ error: e.message });
+    }
+});
+
+// ===============================================
+// Lecturer Schedule API (from hcmut_lecturer_schedule)
+// ===============================================
+
+// Load lecturer schedule data
+let subjectData = [];
+let lecturerData = [];
+
+try {
+    const subjectPath = path.join(__dirname, 'data_subject.json');
+    const lecturerPath = path.join(__dirname, 'data_lecturer.json');
+
+    if (fs.existsSync(subjectPath)) {
+        subjectData = JSON.parse(fs.readFileSync(subjectPath, 'utf8'));
+        console.log(`[LECTURER] Loaded ${subjectData.length} subjects`);
+    }
+
+    if (fs.existsSync(lecturerPath)) {
+        lecturerData = JSON.parse(fs.readFileSync(lecturerPath, 'utf8'));
+        console.log(`[LECTURER] Loaded ${lecturerData.length} lecturers`);
+    }
+} catch (e) {
+    console.error('[LECTURER] Error loading data files:', e.message);
+}
+
+// Helper: Remove Vietnamese accents for search
+function removeVietnameseAccents(str) {
+    if (!str) return '';
+    return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        .replace(/đ/g, 'd').replace(/Đ/g, 'D').toLowerCase();
+}
+
+// Helper: Search lecturer info
+function searchLecturerInfo(name) {
+    const nameNorm = removeVietnameseAccents(name);
+    for (const lecturer of lecturerData) {
+        if (removeVietnameseAccents(lecturer.name) === nameNorm) {
+            return lecturer;
+        }
+    }
+    return { name, phone: '', email: '' };
+}
+
+// API: Search by subject ID
+app.get('/api/lecturer/search', (req, res) => {
+    const { id, gv } = req.query;
+    console.log(`[LECTURER] Search: id=${id}, gv=${gv}`);
+
+    let results = [];
+
+    if (id) {
+        // Search by subject code
+        const idLower = id.toLowerCase();
+        for (const subject of subjectData) {
+            if (subject.maMonHoc.toLowerCase() === idLower) {
+                // Add lecturer info to each schedule
+                const enrichedSubject = { ...subject };
+                enrichedSubject.lichHoc = subject.lichHoc.map(lh => {
+                    const lecturerInfo = searchLecturerInfo(lh.giangVien);
+                    const lecturerInfoBT = searchLecturerInfo(lh.giangVienBT);
+                    return {
+                        ...lh,
+                        email: lecturerInfo.email || '',
+                        phone: lecturerInfo.phone || '',
+                        emailBT: lecturerInfoBT.email || '',
+                        phoneBT: lecturerInfoBT.phone || ''
+                    };
+                });
+                results.push(enrichedSubject);
+                break;
+            }
+        }
+    }
+
+    if (gv) {
+        // Search by lecturer name
+        const gvNorm = removeVietnameseAccents(gv);
+        const sourceData = results.length > 0 ? results : subjectData;
+
+        const lecturerResults = [];
+        for (const subject of sourceData) {
+            const matchingSchedules = [];
+            for (const lh of subject.lichHoc) {
+                const teacherNorm = removeVietnameseAccents(lh.giangVien);
+                const teacherBTNorm = removeVietnameseAccents(lh.giangVienBT);
+
+                if (teacherNorm === gvNorm || teacherBTNorm === gvNorm) {
+                    const lecturerInfo = searchLecturerInfo(lh.giangVien);
+                    const lecturerInfoBT = searchLecturerInfo(lh.giangVienBT);
+                    matchingSchedules.push({
+                        ...lh,
+                        email: lecturerInfo.email || '',
+                        phone: lecturerInfo.phone || '',
+                        emailBT: lecturerInfoBT.email || '',
+                        phoneBT: lecturerInfoBT.phone || ''
+                    });
+                }
+            }
+
+            if (matchingSchedules.length > 0) {
+                lecturerResults.push({
+                    ...subject,
+                    lichHoc: matchingSchedules
+                });
+            }
+        }
+        results = lecturerResults;
+    }
+
+    res.json(results);
+});
+
+// API: Get all lecturers
+app.get('/api/lecturer/list', (req, res) => {
+    console.log('[LECTURER] Get all lecturers');
+    res.json(lecturerData);
+});
+
+// API: Get lecturer info by name
+app.get('/api/lecturer/info', (req, res) => {
+    const { gv } = req.query;
+    if (gv) {
+        console.log(`[LECTURER] Get info for: ${gv}`);
+        res.json(searchLecturerInfo(gv));
+    } else {
+        res.json(lecturerData);
+    }
+});
+
+// API: Get all subjects (for autocomplete)
+app.get('/api/lecturer/subjects', (req, res) => {
+    console.log('[LECTURER] Get all subjects');
+    const subjects = subjectData.map(s => ({
+        id: s.maMonHoc,
+        name: s.tenMonHoc
+    }));
+    res.json(subjects);
+});
 
 app.listen(PORT, () => {
     console.log(`🚀 Advanced MyBK Proxy running on http://localhost:${PORT}`);

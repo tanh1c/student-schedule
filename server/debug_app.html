@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="robots" content="noindex">
+<meta http-equiv="REFRESH" content="1800" />
+<title>Phòng Đào tạo | Academic Affairs Office</title>
+<!-- Tell the browser to be responsive to screen width -->
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<meta name="description" content="Đại học Bách khoa Thành Phố Hồ Chí Minh - Phòng Đào tạo" />
+<meta name="keywords" content="Ho Chi Minh University Technology, Academic Affairs Office" />
+<meta name="author" content="Bui Thanh Dung - btdung@hcmut.edu.vn" />
+<!-- Favicon -->
+<link href="/app/images/favicon.ico" rel="shortcut icon" />
+<!-- Bootstrap 3.3.7 -->
+<link rel="stylesheet" href="/app/css/bootstrap.min.css">
+<!-- Font Awesome -->
+<!-- [2023-07-06 Long] upgrade lên version 6.4.0, vẫn đảm bảo tương thích ngược với các icon v4 đang sử dụng trước đây -->
+<link rel="stylesheet" href="/app/css/font-awesome-v6_4_0.min.css">
+<!-- Ionicons -->
+<link rel="stylesheet" href="/app/css/ionicons.min.css">
+<!-- Select2 -->
+<link rel="stylesheet" href="/app/css/select2.min.css">
+<!-- Theme style -->
+<link rel="stylesheet" href="/app/css/AdminLTE.min.css">
+<!-- bootstrap wysihtml5 - text editor -->
+<link rel="stylesheet" href="/app/css/bootstrap3-wysihtml5.min.css">
+<!--bootstrap treeview-->
+<!-- <link rel="stylesheet" th:href="@{/css/bootstrap-treeview.min.css}"> -->
+<!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+<link rel="stylesheet" href="/app/css/skins/_all-skins.min.css">
+<link rel="stylesheet" href="/app/css/sweetalert2.min.css">
+<link rel="stylesheet" href="/app/css/loading.css">
+<link rel="stylesheet" href="/app/css/flag-icon/css/flag-icon.min.css">
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+<!-- Google Font -->
+<link rel="stylesheet"
+  href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,700,300italic,400italic">
+<style>
+  .error {
+    color: red;
+  }
+
+  .full-modal-dialog {
+    width: 98% !important;
+    height: 92% !important;
+    min-width: 98% !important;
+    min-height: 92% !important;
+    max-width: 98% !important;
+    max-height: 92% !important;
+    padding: 0 !important;
+  }
+
+  .full-modal-content {
+    height: 99% !important;
+    min-height: 99% !important;
+    max-height: 99% !important;
+  }
+
+  .midle-modal-dialog {
+    width: 70% !important;
+    min-width: 70% !important;
+    max-width: 70% !important;
+    height: auto !important;
+    padding: 0 !important;
+  }
+
+  .midle-modal-content {
+    height: auto !important;
+  }
+
+  .pointer {
+    cursor: pointer;
+  }
+
+  /* Cho tiêu đề menu xuống dòng khi quá dài */
+  .sidebar-menu ul.treeview-menu > li {
+      overflow: hidden;
+      white-space: normal;
+  }
+
+  .swal2-container .swal2-content {
+      font-size: 14px;
+  }
+</style>
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+    <div id="preloder" class="loading">Loading&#8230;</div>
+    <div class="wrapper">
+        <header class="main-header">
+    <!-- Logo -->
+    <a href="https://mybk.hcmut.edu.vn/app" class="logo">
+        <!-- mini logo for sidebar mini 50x50 pixels -->
+        <span class="logo-mini"><b>B</b>k</span>
+        <!-- logo for regular state and mobile devices -->
+        <span class="logo-lg"><b>myBk</b>/app</span>
+    </a>
+    <!-- Header Navbar: style can be found in header.less -->
+    <nav class="navbar navbar-static-top">
+        <!-- Sidebar toggle button-->
+        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+            <span class="sr-only">Toggle navigation</span>
+        </a>
+
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav" style="display: flex; align-items: center;">
+                <!-- User Account: style can be found in dropdown.less -->
+                <li class="dropdown user user-menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <img src="/app/asset/img/bk_logo.jpg" class="user-image" alt="User Image">
+                        <span class="hidden-xs fullName">CHU NGUYỄN TUẤN ANH</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <!-- User image -->
+                        <li class="user-header">
+                            <img src="/app/asset/img/bk_logo.jpg" class="img-circle" alt="User Image">
+                            <p class="fullName1">CHU NGUYỄN TUẤN ANH</p>
+                            
+                        </li>
+                        <!-- Menu Footer-->
+                        <li class="user-footer">
+                            
+                            <div class="pull-right">
+                                <a class="btn btn-default btn-flat bntLogout" id="bntLogout" href="/app/logout?type=cas"
+                                    data-i18n="header-tieu-de-nut-dang-xuat">Đăng xuất</a>
+<!--                                <a class="btn btn-default btn-flat bntLogout" id="bntLogoutBK"-->
+<!--                                    th:href="@{/logout/bkcas}" data-i18n="header-tieu-de-nut-dang-xuat"-->
+<!--                                    style="display: none;">Đăng xuất</a>-->
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                <li style="margin-right: 5px;">
+                    <span data-lang="vi" class="switch-locale flag-icon flag-icon-vn languagevn"></span>
+                </li>
+                <li style="margin-right: 5px;">
+                    <span data-lang="vi" class="switch-locale flag-icon flag-icon-gb languageen"></span>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+        <aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+        <!-- Sidebar user panel -->
+        <div class="user-panel">
+            <div class="pull-left image">
+                <img alt="User Image" class="img-circle" src="/app/asset/img/bk_logo.png">
+            </div>
+            <div class="pull-left info">
+                <p class="fullName" style="white-space: normal;">CHU NGUYỄN TUẤN ANH</p>
+                <a href="#" style="white-space: normal;"><i class="fa fa-circle text-success"></i>
+                    Khoa Khoa học và Kỹ thuật Máy tính
+                </a>
+            </div>
+        </div>
+        <!-- search form -->
+        <form action="#" class="sidebar-form" method="get" style="display: none">
+            <div class="input-group">
+                <input class="form-control" name="q" placeholder="Search..." type="text">
+                <span class="input-group-btn">
+                    <button class="btn btn-flat" id="search-btn" name="search" type="submit"><i
+                            class="fa fa-search"></i>
+                    </button>
+                </span>
+            </div>
+        </form>
+        <!-- /.search form -->
+        <!-- sidebar menu: : style can be found in sidebar.less -->
+        <ul class="sidebar-menu" data-widget="tree" id="menu-dcmh">
+            <li><a href="https://adminlte.io/docs"><i class="fa fa-book"></i> <span
+                        data-i18n="sidebar-tieu-de-menu-tai-lieu-huong-dan">Tài liệu hướng dẫn</span></a></li>
+        </ul>
+    </section>
+    <!-- /.sidebar -->
+</aside>
+        <div class="content-wrapper">
+            <section class="content-header">
+  <h1>
+    <span data-i18n="breadcrumb-pageName"></span>
+    <small data-i18n="breadcrumb-applicationName">...</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-home"></i> <span data-i18n="breadcrumb-applicationName"></span></a></li>
+    <li data-i18n="breadcrumb-moduleName" class="active">...</li>
+  </ol>
+</section>
+            <section class="content">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="box box-primary">
+                            <div class="box-header with-border">
+                                <h3 class="box-title" data-i18n="htql-analytic-signin-count">Thống kê sử dụng</h3>
+                            </div>
+                            <div class="box-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div id="divSignIn" style="width: 95%;"></div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div id="divUsedService" style="width: 95%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="info-box bg-aqua">
+                            <span class="info-box-icon"><i class="ion ion-ios-pricetag-outline"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">LƯỢT ĐĂNG NHẬP GẦN NHẤT</span>
+                                <span class="info-box-number" id="lblLanDangNhapGanNhat">...</span>
+                                <span class="progress-description" id="lblTongLuotDangNhap">...</span>
+                            </div>
+                        </div>
+                        <!-- <div class="info-box bg-green">
+                            <span class="info-box-icon"><i class="ion ion-ios-heart-outline"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Mentions</span>
+                                <span class="info-box-number">92,050</span>
+
+                                <div class="progress">
+                                    <div class="progress-bar" style="width: 20%"></div>
+                                </div>
+                                <span class="progress-description">
+                                    20% Increase in 30 Days
+                                </span>
+                            </div>
+                        </div>
+                        <div class="info-box bg-red">
+                            <span class="info-box-icon"><i class="ion ion-ios-cloud-download-outline"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">Downloads</span>
+                                <span class="info-box-number">114,381</span>
+
+                                <div class="progress">
+                                    <div class="progress-bar" style="width: 70%"></div>
+                                </div>
+                                <span class="progress-description">
+                                    70% Increase in 30 Days
+                                </span>
+                            </div>
+                        </div> -->
+                    </div>
+            </section>
+        </div>
+        <footer class="main-footer">
+  <div class="modal fade" id="frmSwitchUser">
+    <div class="modal-dialog">
+      <form method="POST" action="/app/switchuserto" class="form">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Chuyển người dùng
+            </h4>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="usernameField">Mã số Cán bộ/Sinh viên:</label>
+                  <input type="text" name="username" id="usernameField" class="form-control" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <input type="submit" class="btn btn-primary" value="Xác nhận" />
+            <button type="button" class="btn btn-default" data-dismiss="modal">Đóng
+              lại</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="pull-right hidden-xs">
+    <b>Version</b> 2.4.0
+  </div>
+  <strong>Copyright &copy;
+    <script>document.write(new Date().getFullYear());</script> <a href="http://www.aao.hcmut.edu.vn/"
+      title="Academic Affairs Office" target="_blank">Academic Affairs Office</a>.
+  </strong> All rights
+  reserved.
+  <input type="hidden" id="hid_Token" value="eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyMzUyMDIyIiwiaWF0IjoxNzY4MjMwMDQ3LCJleHAiOjE3NjgyMzM2NDd9.cY0lLSpFrQYidIwNoakVb0s9OlmGiLamNyf7WJWxKG00WH2qPlBtdkUOqYZuB7nGGNQZ79MPp0B5fBtU94NHgQ">
+  <input type="hidden" id="hid_APiUrl" value="https://mybk.hcmut.edu.vn/api/">
+  <input type="hidden" id="root_URL" value="https://mybk.hcmut.edu.vn/app">
+  <input type="hidden" id="hid_Language" value="vi">
+  
+</footer>
+    </div>
+    
+<!-- jQuery 3 -->
+<script src="/app/js/jquery.min.js"></script>
+<!--Hot key-->
+<script src="/app/js/jquery.key.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="/app/js/jquery-ui.min.js"></script>
+<script src="/app/js/jquery.validate.min.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+    $.widget.bridge('uibutton', $.ui.button);
+</script>
+<!-- Bootstrap 3.3.7 -->
+<script src="/app/js/bootstrap.min.js"></script>
+<!-- Slimscroll -->
+<script src="/app/js/jquery.slimscroll.min.js"></script>
+<!-- FastClick -->
+<script src="/app/js/fastclick.min.js"></script>
+<!-- Sweetalert2-->
+<script src="/app/js/sweetalert2.all.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/app/js/adminlte.min.js"></script>
+<!--wysihtml5-->
+<script src="/app/js/bootstrap3-wysihtml5.all.min.js"></script>
+<!-- Base 64 -->
+<script src="/app/js/jquery.base64.min.js"></script>
+<!--Cookie-->
+<script src="/app/js/js.cookie.min.js"></script>
+<!--i18n-->
+<script src="/app/js/i18n/CLDRPluralRuleParser.min.js"></script>
+<script src="/app/js/i18n/jquery.i18n.min.js"></script>
+<script src="/app/js/i18n/jquery.i18n.messagestore.min.js"></script>
+<script src="/app/js/i18n/jquery.i18n.fallbacks.min.js"></script>
+<script src="/app/js/i18n/jquery.i18n.language.min.js"></script>
+<script src="/app/js/i18n/jquery.i18n.parser.min.js"></script>
+<script src="/app/js/i18n/jquery.i18n.emitter.min.js"></script>
+<script src="/app/js/i18n/jquery.i18n.emitter.bidi.min.js"></script>
+<script src="/app/js/i18n/jquery.history.min.js"></script>
+<script src="/app/js/i18n/url.min.js"></script>
+<!--Public lib-->
+<script src="/app/js/main.js"></script>
+<!--Xử lý menu-->
+<script src="/app/js/_sidebar.js"></script>
+    <script src="/app/js/home/i18n/global.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="/app/js/home/index.js?updated=2022021001"></script>
+</body>
+
+</html>

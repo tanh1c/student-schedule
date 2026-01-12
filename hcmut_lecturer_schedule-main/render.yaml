@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: bkschedule
+    env: python
+    plan: free
+
+    # 1) install your requirements
+    buildCommand: pip install -r requirements.txt
+
+    # 2) cd into app/ and start gunicorn
+    startCommand: cd app && gunicorn main:app 
