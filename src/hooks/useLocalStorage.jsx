@@ -28,23 +28,50 @@ export const useLocalStorage = (key, initialValue) => {
   return [storedValue, setValue];
 };
 
+// Helper to calculate current semester week
+const getCurrentSemesterWeek = () => {
+  const now = new Date();
+  const start = new Date(now.getFullYear(), 0, 1);
+  const diff = now - start;
+  const oneWeek = 1000 * 60 * 60 * 24 * 7;
+  return Math.ceil(diff / oneWeek) + 1;
+};
+
 // Hook for managing schedule data
 export const useScheduleData = () => {
   const [scheduleData, setScheduleData] = useLocalStorage('scheduleData', []);
-  const [selectedWeek, setSelectedWeek] = useLocalStorage('selectedWeek', 1);
-  
+  const currentWeek = getCurrentSemesterWeek();
+
+  // Initialize selectedWeek with current week if not set or invalid
+  const [selectedWeek, setSelectedWeek] = useLocalStorage('selectedWeek', currentWeek);
+
+  // Wrapper to auto-set current week when schedule data is loaded/updated
+  const setScheduleDataWithWeek = (data) => {
+    setScheduleData(data);
+    // If data is being loaded (not empty), ensure we show current week
+    if (data && data.length > 0) {
+      // Only reset to current week if the current selectedWeek is 1 (default)
+      // This preserves user's week selection after they change it
+      const storedWeek = JSON.parse(localStorage.getItem('selectedWeek') || '1');
+      if (storedWeek === 1) {
+        setSelectedWeek(currentWeek);
+      }
+    }
+  };
+
   return {
     scheduleData,
-    setScheduleData,
+    setScheduleData: setScheduleDataWithWeek,
     selectedWeek,
-    setSelectedWeek
+    setSelectedWeek,
+    currentWeek
   };
 };
 
 // Hook for managing exam data
 export const useExamData = () => {
   const [examData, setExamData] = useLocalStorage('examData', []);
-  
+
   return {
     examData,
     setExamData
@@ -54,7 +81,7 @@ export const useExamData = () => {
 // Hook for managing GPA data
 export const useGpaData = () => {
   const [courses, setCourses] = useLocalStorage('gpaCourses', []);
-  
+
   return {
     courses,
     setCourses
@@ -64,7 +91,7 @@ export const useGpaData = () => {
 // Hook for managing notes and plans
 export const useNotesPlans = () => {
   const [items, setItems] = useLocalStorage('notesPlans', []);
-  
+
   const addItem = (item) => {
     const newItem = {
       ...item,
@@ -77,8 +104,8 @@ export const useNotesPlans = () => {
   };
 
   const updateItem = (id, updates) => {
-    setItems(prev => prev.map(item => 
-      item.id === id 
+    setItems(prev => prev.map(item =>
+      item.id === id
         ? { ...item, ...updates, updatedAt: new Date().toISOString() }
         : item
     ));

@@ -16,8 +16,7 @@ import {
 } from "lucide-react";
 import {
   parseScheduleData,
-  getSubjectColor,
-  getCurrentWeek
+  getSubjectColor
 } from '../utils/scheduleParser';
 import { useScheduleData } from '../hooks/useLocalStorage';
 import MyBKLoginCard from './MyBKLoginCard';
@@ -59,7 +58,6 @@ const daysOfWeek = [
 
 function ScheduleTab() {
   const [scheduleInput, setScheduleInput] = useState('');
-  const [currentWeek, setCurrentWeek] = useState(1);
   const [selectedDay, setSelectedDay] = useState(2); // Default to Monday (Thứ 2)
   const [showManualInput, setShowManualInput] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -67,10 +65,9 @@ function ScheduleTab() {
   const [inputMethod, setInputMethod] = useState("sync");
   const [isInputExpanded, setIsInputExpanded] = useState(true);
 
-  const { scheduleData, setScheduleData, selectedWeek, setSelectedWeek } = useScheduleData();
+  const { scheduleData, setScheduleData, selectedWeek, setSelectedWeek, currentWeek } = useScheduleData();
 
   useEffect(() => {
-    setCurrentWeek(getCurrentWeek());
     // Set default day to current day
     const today = new Date().getDay();
     const dayId = today === 0 ? 2 : today + 1; // Convert to our day format (2-7)
