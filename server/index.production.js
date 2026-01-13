@@ -362,6 +362,76 @@ app.get('/api/student/exam-schedule', requireAuth, async (req, res) => {
     }
 });
 
+// GPA Summary endpoint
+app.post('/api/student/gpa/summary', requireAuth, async (req, res) => {
+    const { studentId } = req.body;
+
+    if (!studentId) {
+        return res.status(400).json({ error: 'Missing studentId' });
+    }
+
+    try {
+        const headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+            'Accept': 'application/json',
+            'Referer': 'https://mybk.hcmut.edu.vn/app/sinh-vien/ket-qua-hoc-tap/chuong-trinh-dao-tao',
+            'Origin': 'https://mybk.hcmut.edu.vn',
+            'Cookie': req.session.cookie,
+            'Content-Type': 'application/json'
+        };
+        if (req.session.jwtToken) headers['Authorization'] = req.session.jwtToken;
+
+        const url = 'https://mybk.hcmut.edu.vn/api/share/ket-qua-hoc-tap/thong-tin-mo-ta-ctdt/v2?tuychon=VIEWONLINE';
+
+        const response = await nodeFetch(url, {
+            method: 'POST',
+            headers,
+            body: JSON.stringify(studentId)
+        });
+
+        const data = await response.json();
+        res.json(data);
+    } catch (e) {
+        console.error('[API] GPA Summary Error:', e.message);
+        res.status(500).json({ error: 'Lỗi kết nối' });
+    }
+});
+
+// GPA Detail endpoint
+app.post('/api/student/gpa/detail', requireAuth, async (req, res) => {
+    const { studentId } = req.body;
+
+    if (!studentId) {
+        return res.status(400).json({ error: 'Missing studentId' });
+    }
+
+    try {
+        const headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+            'Accept': 'application/json',
+            'Referer': 'https://mybk.hcmut.edu.vn/app/sinh-vien/ket-qua-hoc-tap/chuong-trinh-dao-tao',
+            'Origin': 'https://mybk.hcmut.edu.vn',
+            'Cookie': req.session.cookie,
+            'Content-Type': 'application/json'
+        };
+        if (req.session.jwtToken) headers['Authorization'] = req.session.jwtToken;
+
+        const url = 'https://mybk.hcmut.edu.vn/api/share/ket-qua-hoc-tap/danh-sach-mon-hoc-ctdt/v2';
+
+        const response = await nodeFetch(url, {
+            method: 'POST',
+            headers,
+            body: JSON.stringify(studentId)
+        });
+
+        const data = await response.json();
+        res.json(data);
+    } catch (e) {
+        console.error('[API] GPA Detail Error:', e.message);
+        res.status(500).json({ error: 'Lỗi kết nối' });
+    }
+});
+
 // ========================
 // ERROR HANDLING & SPA FALLBACK
 // ========================
