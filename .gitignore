@@ -1,4 +1,39 @@
+# ========================
+# Dependencies
+# ========================
+node_modules
+.pnp
+.pnp.js
+
+# ========================
+# Build outputs
+# ========================
+dist
+dist-ssr
+build
+*.local
+
+# ========================
+# Environment variables
+# ========================
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.production
+
+# ========================
+# Debug files (IMPORTANT - contains sensitive data)
+# ========================
+server/debug_*.html
+server/debug_*.json
+debug_*.html
+debug_*.json
+
+# ========================
 # Logs
+# ========================
 logs
 *.log
 npm-debug.log*
@@ -7,18 +42,58 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
-
-# Editor directories and files
+# ========================
+# IDE / Editor
+# ========================
 .vscode/*
 !.vscode/extensions.json
+!.vscode/settings.json
 .idea
-.DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+
+# ========================
+# OS files
+# ========================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# ========================
+# Testing
+# ========================
+coverage
+.nyc_output
+
+# ========================
+# Misc
+# ========================
+*.pem
+*.key
+*.cert
+.cache
+.temp
+.tmp
+
+# ========================
+# Python (nếu có scripts Python)
+# ========================
+__pycache__
+*.pyc
+*.pyo
+.Python
+venv
+.venv
+
+# ========================
+# Render / Deployment
+# ========================
+# Không commit các file secrets
+.render-buildcache

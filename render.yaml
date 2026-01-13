@@ -1,0 +1,20 @@
+# Render Blueprint for Full-stack Deployment
+# https://render.com/docs/blueprint-spec
+
+services:
+  - type: web
+    name: student-schedule
+    runtime: node
+    region: singapore  # Gần Việt Nam nhất
+    plan: free
+    buildCommand: npm install --include=dev && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3001
+      - key: SESSION_SECRET
+        generateValue: true  # Auto-generate random secret
+    healthCheckPath: /api/health
+    autoDeploy: true  # Auto deploy on git push
