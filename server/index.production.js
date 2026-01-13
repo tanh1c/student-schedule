@@ -8,6 +8,7 @@ import helmet from 'helmet';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import crypto from 'crypto';
 
 // ES Module __dirname equivalent
 const __filename = fileURLToPath(import.meta.url);
@@ -21,6 +22,11 @@ const PORT = process.env.PORT || 3001;
 const isProduction = process.env.NODE_ENV === 'production';
 const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN || 'http://localhost:3000';
 const SESSION_SECRET = process.env.SESSION_SECRET || 'dev-secret-change-in-production';
+
+// Trust proxy - Required for Render/Heroku/etc (behind load balancer)
+if (isProduction) {
+    app.set('trust proxy', 1);
+}
 
 // ========================
 // SECURITY MIDDLEWARE
@@ -104,7 +110,6 @@ function createCookieFetch() {
 
 // Secure session token generation
 function generateSessionToken() {
-    const crypto = require('crypto');
     return crypto.randomBytes(32).toString('hex');
 }
 
