@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   CalendarClock,
   GraduationCap,
@@ -13,12 +13,14 @@ import {
   LayoutDashboard,
   BadgePercent,
   X,
-  ChevronRight
+  ChevronRight,
+  Home
 } from "lucide-react";
 import { Button } from "./components/ui/button";
 import { Switch } from "./components/ui/switch";
 import { useThemeMode } from "./contexts/ThemeContext";
 
+import LandingPage from "./components/LandingPage";
 import ScheduleTab from "./components/ScheduleTab";
 import ExamTab from "./components/ExamTab";
 import CurriculumTab from "./components/CurriculumTab";
@@ -42,10 +44,28 @@ const menuItems = [
 ];
 
 function App() {
+  // Check if user has visited before
+  const [showLanding, setShowLanding] = useState(() => {
+    return !localStorage.getItem('hasVisitedApp');
+  });
   const [activeTab, setActiveTab] = useState("schedule");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const { darkMode, toggleDarkMode } = useThemeMode();
+
+  const handleEnterApp = () => {
+    localStorage.setItem('hasVisitedApp', 'true');
+    setShowLanding(false);
+  };
+
+  const handleGoToLanding = () => {
+    setShowLanding(true);
+  };
+
+  // Show landing page
+  if (showLanding) {
+    return <LandingPage onEnterApp={handleEnterApp} />;
+  }
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -136,6 +156,16 @@ function App() {
 
           {/* Bottom Controls */}
           <div className={`border-t p-3 ${sidebarCollapsed ? 'flex flex-col items-center gap-2' : 'space-y-3'}`}>
+            {/* Home Button */}
+            <button
+              onClick={handleGoToLanding}
+              className={`flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground ${sidebarCollapsed ? 'justify-center px-2' : ''}`}
+              title="Về trang chủ"
+            >
+              <Home className="h-4 w-4" />
+              {!sidebarCollapsed && <span>Trang chủ</span>}
+            </button>
+
             {/* Theme Toggle */}
             <div className={`flex items-center ${sidebarCollapsed ? 'justify-center' : 'justify-between'} rounded-lg bg-accent/50 px-3 py-2`}>
               {!sidebarCollapsed && (
@@ -213,8 +243,18 @@ function App() {
             </div>
           </nav>
 
-          {/* Theme Toggle */}
-          <div className="border-t p-4">
+          {/* Bottom Controls */}
+          <div className="border-t p-4 space-y-3">
+            {/* Home Button */}
+            <button
+              onClick={handleGoToLanding}
+              className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-muted-foreground transition-all hover:bg-accent hover:text-accent-foreground"
+            >
+              <Home className="h-5 w-5" />
+              <span>Về trang chủ</span>
+            </button>
+
+            {/* Theme Toggle */}
             <div className="flex items-center justify-between rounded-lg bg-accent/50 px-4 py-3">
               <div className="flex items-center gap-2">
                 {darkMode ? <Moon className="h-4 w-4" /> : <SunMedium className="h-4 w-4" />}

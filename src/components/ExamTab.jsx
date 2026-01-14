@@ -23,12 +23,27 @@ import { Badge } from "./ui/badge";
 import mybkApi from "../services/mybkApi";
 
 export default function ExamTab() {
-  const [exams, setExams] = useState([]);
+  // Load cached data from localStorage
+  const [exams, setExams] = useState(() => {
+    try {
+      const cached = localStorage.getItem('examSchedule');
+      return cached ? JSON.parse(cached) : [];
+    } catch { return []; }
+  });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [selectedYear, setSelectedYear] = useState(2025);
-  const [selectedSemester, setSelectedSemester] = useState(1);
+  const [selectedYear, setSelectedYear] = useState(() => {
+    const cached = localStorage.getItem('examSelectedYear');
+    return cached ? parseInt(cached) : new Date().getFullYear();
+  });
+  const [selectedSemester, setSelectedSemester] = useState(() => {
+    const cached = localStorage.getItem('examSelectedSemester');
+    return cached ? parseInt(cached) : 1;
+  });
   const [studentId, setStudentId] = useState('');
+  const [lastFetchKey, setLastFetchKey] = useState(() => {
+    return localStorage.getItem('examLastFetchKey') || '';
+  });
 
   // Generate year options (current year and 2 years back)
   const currentYear = new Date().getFullYear();
@@ -76,13 +91,25 @@ export default function ExamTab() {
     initStudentId();
   }, []);
 
+  // Save year/semester selection to localStorage
+  useEffect(() => {
+    localStorage.setItem('examSelectedYear', selectedYear.toString());
+    localStorage.setItem('examSelectedSemester', selectedSemester.toString());
+  }, [selectedYear, selectedSemester]);
+
   useEffect(() => {
     if (studentId) {
-      fetchExamSchedule();
+      // Create a key to check if we need to refetch
+      const fetchKey = `${studentId}-${selectedYear}-${selectedSemester}`;
+
+      // Only fetch if the key changed or we have no cached data
+      if (fetchKey !== lastFetchKey || exams.length === 0) {
+        fetchExamSchedule(fetchKey);
+      }
     }
   }, [studentId, selectedYear, selectedSemester]);
 
-  const fetchExamSchedule = async () => {
+  const fetchExamSchedule = async (fetchKey) => {
     if (!studentId) {
       setError('Không tìm thấy thông tin sinh viên. Vui lòng đăng nhập!');
       return;
@@ -100,6 +127,13 @@ export default function ExamTab() {
           new Date(a.NGAYTHI) - new Date(b.NGAYTHI)
         );
         setExams(sortedExams);
+
+        // Save to localStorage
+        localStorage.setItem('examSchedule', JSON.stringify(sortedExams));
+        if (fetchKey) {
+          localStorage.setItem('examLastFetchKey', fetchKey);
+          setLastFetchKey(fetchKey);
+        }
       } else {
         setError(result.error || 'Không thể lấy lịch thi');
       }
@@ -198,14 +232,16 @@ export default function ExamTab() {
         </div>
 
         <div className="flex items-center gap-2">
-          {/* Year Selector */}
+          {/* Academic Year Selector */}
           <select
             value={selectedYear}
             onChange={(e) => setSelectedYear(parseInt(e.target.value))}
             className="h-9 rounded-md border border-input bg-background px-3 py-1 text-sm"
           >
             {yearOptions.map(year => (
-              <option key={year} value={year}>Năm {year}</option>
+              <option key={year} value={year}>
+                {year}-{String(year + 1).slice(-2)}
+              </option>
             ))}
           </select>
 
@@ -223,8 +259,9 @@ export default function ExamTab() {
           <Button
             variant="outline"
             size="sm"
-            onClick={fetchExamSchedule}
+            onClick={() => fetchExamSchedule(`${studentId}-${selectedYear}-${selectedSemester}`)}
             disabled={loading}
+            title="Làm mới dữ liệu"
           >
             {loading ? (
               <Loader2 className="h-4 w-4 animate-spin" />

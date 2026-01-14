@@ -9,6 +9,7 @@ import { fileURLToPath } from 'url';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import dotenv from 'dotenv';
+import crypto from 'crypto';
 
 // Load environment variables
 dotenv.config();
@@ -73,6 +74,25 @@ const sessions = new Map();
 // Store active period cookie jars per session (for DKMH search to work)
 const activePeriodJars = new Map();
 
+// Session configuration
+const SESSION_MAX_AGE = 60 * 60 * 1000; // 1 hour
+
+// Cleanup expired sessions every 10 minutes
+setInterval(() => {
+    const now = Date.now();
+    let cleaned = 0;
+    for (const [token, session] of sessions.entries()) {
+        if (now - session.createdAt > SESSION_MAX_AGE) {
+            sessions.delete(token);
+            activePeriodJars.delete(token);
+            cleaned++;
+        }
+    }
+    if (cleaned > 0 && isProduction) {
+        console.log(`[Security] Cleaned ${cleaned} expired sessions`);
+    }
+}, 10 * 60 * 1000);
+
 
 /**
  * Creates a cookie-aware fetch instance
@@ -91,7 +111,7 @@ async function performCASLogin(username, password) {
     const serviceUrl = 'https://mybk.hcmut.edu.vn/app/login/cas';
 
     try {
-        console.log('[CAS] Step 1: Getting login form...');
+        if (!isProduction) console.log('[CAS] Step 1: Getting login form...');
         // Step 1: Get the login form to extract execution flow and lt
         const loginPageUrl = `https://sso.hcmut.edu.vn/cas/login?service=${encodeURIComponent(serviceUrl)}`;
         const formResponse = await fetch(loginPageUrl);
@@ -101,16 +121,16 @@ async function performCASLogin(username, password) {
         const ltMatch = html.match(/name="lt"\s+value="([^"]+)"/);
 
         if (!executionMatch || !ltMatch) {
-            console.log('[CAS] Failed to parse login form. HTML length:', html.length);
+            console.error('[CAS] Failed to parse login form');
             return { success: false, error: 'Không thể tải form đăng nhập SSO' };
         }
 
         const execution = executionMatch[1];
         const lt = ltMatch[1];
-        console.log('[CAS] Got tokens. execution:', execution.substring(0, 10) + '...');
+        if (!isProduction) console.log('[CAS] Got login form tokens');
 
         // Step 2: Submit login form
-        console.log('[CAS] Step 2: Submitting credentials...');
+        if (!isProduction) console.log('[CAS] Step 2: Submitting credentials...');
         const loginParams = new URLSearchParams({
             username: username,
             password: password,
@@ -131,7 +151,7 @@ async function performCASLogin(username, password) {
         });
 
         const finalUrl = loginResponse.url;
-        console.log('[CAS] Final URL after login:', finalUrl);
+        if (!isProduction) console.log('[CAS] Login redirect complete');
 
         if (finalUrl.includes('sso.hcmut.edu.vn/cas/login')) {
             return { success: false, error: 'Sai thông tin đăng nhập' };
@@ -140,10 +160,14 @@ async function performCASLogin(username, password) {
         // Search for tokens in HTML
         const pageHtml = await loginResponse.text();
 
-        // DEBUG: Save HTML to file for analysis
-        const fs = await import('fs');
-        fs.writeFileSync('debug_app.html', pageHtml);
-        console.log('[DEBUG] Saved login HTML to server/debug_app.html');
+        // DEBUG: Only save HTML in development (NEVER in production)
+        if (!isProduction) {
+            try {
+                const fsModule = await import('fs');
+                fsModule.writeFileSync('debug_app.html', pageHtml);
+                console.log('[DEBUG] Saved login HTML to server/debug_app.html');
+            } catch (e) { /* ignore */ }
+        }
 
         let jwtToken = null;
 
@@ -239,37 +263,43 @@ async function performCASLogin(username, password) {
 
 app.post('/api/auth/login', loginLimiter, async (req, res) => {
     const { username, password } = req.body;
-    console.log(`[API] Login request for ${username}`);
+
+    // Input validation
+    if (!username || !password || typeof username !== 'string' || typeof password !== 'string') {
+        return res.status(400).json({ error: 'Username và password là bắt buộc' });
+    }
+
+    // Sanitize username for logging (don't log full username)
+    const maskedUsername = username.substring(0, 3) + '***';
+    if (!isProduction) console.log(`[API] Login request for ${maskedUsername}`);
 
     const result = await performCASLogin(username, password);
 
     if (result.success) {
-        const sessionToken = Buffer.from(`${username}:${Date.now()}`).toString('base64');
+        // Generate cryptographically secure token
+        const sessionToken = crypto.randomBytes(32).toString('hex');
 
         const sessionData = {
             username,
-            password, // Store temporarily for DKMH login (consider security implications)
             cookie: result.cookieString,
             jwtToken: result.jwtToken,
             user: result.user,
             createdAt: Date.now(),
-            // DKMH will be populated below
             dkmhCookie: null,
             dkmhLoggedIn: false
         };
 
-        // Also login to DKMH in parallel (non-blocking)
-        console.log('[API] Also logging into DKMH...');
+        // Login to DKMH with password, then DELETE password immediately
+        if (!isProduction) console.log('[API] Also logging into DKMH...');
         performDKMHLogin(username, password).then(dkmhResult => {
             if (dkmhResult.success) {
                 sessionData.dkmhCookie = dkmhResult.cookieString;
                 sessionData.dkmhLoggedIn = true;
-                console.log('[API] DKMH login successful! Session updated.');
-            } else {
-                console.log('[API] DKMH login failed:', dkmhResult.error);
+                if (!isProduction) console.log('[API] DKMH login successful!');
             }
+            // Password is NOT stored - DKMH login is done, we only keep the cookie
         }).catch(err => {
-            console.error('[API] DKMH login error:', err);
+            console.error('[API] DKMH login error');
         });
 
         sessions.set(sessionToken, sessionData);
