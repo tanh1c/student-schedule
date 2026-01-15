@@ -64,6 +64,17 @@ const tietGroups = [
   { label: 'Tối', tiets: [13, 14, 15, 16], timeRange: '18:00 - 21:10' },
 ];
 
+// Helper: Lấy khung giờ từ danh sách tiết
+const getTietTimeRange = (tietArray) => {
+  if (!tietArray || tietArray.length === 0) return '';
+  const sortedTiets = [...tietArray].sort((a, b) => a - b);
+  const firstTiet = sortedTiets[0];
+  const lastTiet = sortedTiets[sortedTiets.length - 1];
+  const startTime = tietTimeMap[firstTiet]?.start || '';
+  const endTime = tietTimeMap[lastTiet]?.end || '';
+  return startTime && endTime ? `${startTime}-${endTime}` : '';
+};
+
 // ===== Vietnamese Smart Search Helpers =====
 /**
  * Remove Vietnamese diacritics for search matching
@@ -184,17 +195,9 @@ function TeachingScheduleTab() {
 
   const handleTabChange = (tab) => {
     setSearchTab(tab);
-    setCourseCode('');
-    setLecturerName('');
-    setSearchResults([]);
-    setTimeResults([]);
+    // Chỉ reset error và suggestions, giữ nguyên các input và kết quả
     setError(null);
     setShowSuggestions(false);
-    // Reset time search
-    if (tab !== 'time') {
-      setSelectedDay(null);
-      setSelectedTiet([]);
-    }
   };
 
   const searchByCode = async () => {
@@ -730,6 +733,9 @@ function TeachingScheduleTab() {
                       <Badge key={ciIdx} variant="secondary" className="text-xs">
                         <Clock className="h-3 w-3 mr-1" />
                         Tiết {ci.tietHoc.join('-')}
+                        <span className="text-primary font-medium ml-1">
+                          ({getTietTimeRange(ci.tietHoc)})
+                        </span>
                         <span className="mx-1">•</span>
                         <MapPin className="h-3 w-3 mr-1" />
                         {ci.phong}
@@ -851,7 +857,7 @@ function TeachingScheduleTab() {
                                     {lh.classInfo.map((ci, ciIndex) => (
                                       <div
                                         key={ciIndex}
-                                        className="flex items-center gap-2 text-sm bg-background rounded px-2 py-1.5"
+                                        className="flex flex-wrap items-center gap-2 text-sm bg-background rounded px-2 py-1.5"
                                       >
                                         <Badge variant="default" className="text-xs">
                                           {dayNames[ci.dayOfWeek] || ci.dayOfWeek}
@@ -859,6 +865,9 @@ function TeachingScheduleTab() {
                                         <span className="flex items-center gap-1 text-muted-foreground">
                                           <Clock className="h-3 w-3" />
                                           Tiết {ci.tietHoc.join('-')}
+                                          <span className="text-primary font-medium">
+                                            ({getTietTimeRange(ci.tietHoc)})
+                                          </span>
                                         </span>
                                         <span className="flex items-center gap-1 text-muted-foreground">
                                           <MapPin className="h-3 w-3" />
