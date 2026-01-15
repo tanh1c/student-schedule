@@ -1778,6 +1778,58 @@ function removeVietnameseAccents(str) {
         .replace(/đ/g, 'd').replace(/Đ/g, 'D').toLowerCase();
 }
 
+/**
+ * Smart Vietnamese search - hỗ trợ:
+ * 1. Tìm không dấu (VD: "nguyen" match "Nguyễn")
+ * 2. Tìm một phần tên (VD: "trung" match "Mai Đức Trung")
+ * 3. Tìm viết tắt (VD: "mdt" match "Mai Đức Trung")
+ * 4. Tìm phonetic (VD: "zuyen" match "Duyên")
+ */
+function smartVietnameseMatch(text, query) {
+    if (!text || !query) return false;
+
+    const textNorm = removeVietnameseAccents(text);
+    const queryNorm = removeVietnameseAccents(query.trim());
+
+    if (!queryNorm) return false;
+
+    // 1. Direct substring match (không dấu)
+    if (textNorm.includes(queryNorm)) return true;
+
+    // 2. Match từ đầu mỗi từ (acronym search)
+    // VD: "MDT" hoặc "mdt" match "Mai Đức Trung"
+    const words = textNorm.split(/\s+/);
+    const acronym = words.map(w => w[0] || '').join('');
+    if (acronym.includes(queryNorm)) return true;
+
+    // 3. Match từng từ riêng lẻ
+    // VD: "trung" match "Mai Đức Trung"
+    const queryWords = queryNorm.split(/\s+/);
+    const allWordsMatch = queryWords.every(qw =>
+        words.some(w => w.startsWith(qw))
+    );
+    if (allWordsMatch && queryWords.length > 0) return true;
+
+    // 4. Phonetic matching cho tiếng Việt
+    const phoneticMappings = [
+        ['z', 'd'], ['gi', 'd'], ['r', 'z'],
+        ['k', 'c'], ['q', 'k'],
+        ['f', 'ph'], ['ph', 'f'],
+        ['kh', 'h'],
+    ];
+
+    let phoneticQuery = queryNorm;
+    for (const [from, to] of phoneticMappings) {
+        phoneticQuery = phoneticQuery.replace(new RegExp(from, 'g'), to);
+    }
+
+    if (phoneticQuery !== queryNorm && textNorm.includes(phoneticQuery)) {
+        return true;
+    }
+
+    return false;
+}
+
 // Helper: Search lecturer info
 function searchLecturerInfo(name) {
     const nameNorm = removeVietnameseAccents(name);
@@ -1789,7 +1841,7 @@ function searchLecturerInfo(name) {
     return { name, phone: '', email: '' };
 }
 
-// API: Search by subject ID
+// API: Search by subject ID or lecturer name
 app.get('/api/lecturer/search', (req, res) => {
     const { id, gv } = req.query;
     console.log(`[LECTURER] Search: id=${id}, gv=${gv}`);
@@ -1821,18 +1873,18 @@ app.get('/api/lecturer/search', (req, res) => {
     }
 
     if (gv) {
-        // Search by lecturer name
-        const gvNorm = removeVietnameseAccents(gv);
+        // Search by lecturer name với smart Vietnamese matching
         const sourceData = results.length > 0 ? results : subjectData;
 
         const lecturerResults = [];
         for (const subject of sourceData) {
             const matchingSchedules = [];
             for (const lh of subject.lichHoc) {
-                const teacherNorm = removeVietnameseAccents(lh.giangVien);
-                const teacherBTNorm = removeVietnameseAccents(lh.giangVienBT);
+                // Sử dụng smartVietnameseMatch thay vì exact match
+                const matchLT = smartVietnameseMatch(lh.giangVien, gv);
+                const matchBT = smartVietnameseMatch(lh.giangVienBT, gv);
 
-                if (teacherNorm === gvNorm || teacherBTNorm === gvNorm) {
+                if (matchLT || matchBT) {
                     const lecturerInfo = searchLecturerInfo(lh.giangVien);
                     const lecturerInfoBT = searchLecturerInfo(lh.giangVienBT);
                     matchingSchedules.push({
@@ -1855,6 +1907,100 @@ app.get('/api/lecturer/search', (req, res) => {
         results = lecturerResults;
     }
 
+    res.json(results);
+});
+
+// API: Browse classes by day and time slot
+// VD: /api/lecturer/browse-schedule?day=2&tiet=6,7,8&campus=1
+
+/**
+ * Detect campus from room name
+ * CS1: A1-A5, B1-B12, C1-C6
+ * CS2: H1-H6
+ */
+function detectCampusFromRoom(room) {
+    if (!room) return '';
+    const roomUpper = room.toUpperCase().trim();
+    // CS1: Toa A, B, C
+    if (/^[ABC]\d+/.test(roomUpper)) return '1';
+    // CS2: Toa H
+    if (/^H\d+/.test(roomUpper)) return '2';
+    return '';
+}
+
+app.get('/api/lecturer/browse-schedule', (req, res) => {
+    const { day, tiet, campus, strict } = req.query;
+    console.log(`[LECTURER] Browse schedule: day=${day}, tiet=${tiet}, campus=${campus}, strict=${strict}`);
+
+    if (!day) {
+        return res.status(400).json({ error: 'Vui lòng chọn ngày trong tuần' });
+    }
+
+    const dayNum = parseInt(day);
+    const tietList = tiet ? tiet.split(',').map(t => parseInt(t.trim())) : null;
+    const campusFilter = campus ? campus.trim() : null;
+    const strictMode = strict === 'true';
+
+    const results = [];
+
+    for (const subject of subjectData) {
+        for (const lh of subject.lichHoc) {
+            if (!lh.classInfo || lh.classInfo.length === 0) continue;
+
+            // Filter classInfo by day, tiet, and campus
+            const matchingClasses = lh.classInfo.filter(ci => {
+                // Check day match
+                if (ci.dayOfWeek !== dayNum) return false;
+
+                // Check tiet match (if specified)
+                if (tietList && tietList.length > 0) {
+                    if (strictMode) {
+                        // Strict mode: TẤT CẢ các tiết của lớp phải nằm trong range đã chọn
+                        const allTietInRange = ci.tietHoc.every(t => tietList.includes(t));
+                        if (!allTietInRange) return false;
+                    } else {
+                        // Normal mode: Chỉ cần có BẤT KỲ tiết nào overlap
+                        const hasOverlap = ci.tietHoc.some(t => tietList.includes(t));
+                        if (!hasOverlap) return false;
+                    }
+                }
+
+                // Check campus match based on room name
+                if (campusFilter) {
+                    const roomCampus = detectCampusFromRoom(ci.phong);
+                    if (roomCampus !== campusFilter) return false;
+                }
+
+                return true;
+            });
+
+            if (matchingClasses.length > 0) {
+                // Get lecturer info
+                const lecturerInfo = searchLecturerInfo(lh.giangVien);
+
+                results.push({
+                    maMonHoc: subject.maMonHoc,
+                    tenMonHoc: subject.tenMonHoc,
+                    group: lh.group,
+                    giangVien: lh.giangVien || 'Chưa phân công',
+                    email: lecturerInfo.email || '',
+                    phone: lecturerInfo.phone || '',
+                    siso: lh.siso,
+                    ngonNgu: lh.ngonNgu,
+                    classInfo: matchingClasses
+                });
+            }
+        }
+    }
+
+    // Sort by tiết học
+    results.sort((a, b) => {
+        const tietA = a.classInfo[0]?.tietHoc[0] || 0;
+        const tietB = b.classInfo[0]?.tietHoc[0] || 0;
+        return tietA - tietB;
+    });
+
+    console.log(`[LECTURER] Found ${results.length} classes for day=${day}`);
     res.json(results);
 });
 
