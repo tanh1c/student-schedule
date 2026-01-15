@@ -1,4 +1,0 @@
-.venv
-auth.json
-.env
-flask_session

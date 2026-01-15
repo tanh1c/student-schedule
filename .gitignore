@@ -97,3 +97,9 @@ venv
 # ========================
 # Không commit các file secrets
 .render-buildcache
+
+# ========================
+# Crawl data folders (chứa SSO credentials)
+# ========================
+crawl_data_dkmh-main/
+hcmut_lecturer_schedule-main/
