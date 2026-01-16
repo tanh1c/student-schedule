@@ -19,7 +19,8 @@ import {
     KeyRound,
     RefreshCw,
     Rocket,
-    ChevronRight
+    ChevronRight,
+    Users
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -60,6 +61,13 @@ const features = [
         description: 'Xem vị trí các tòa nhà trong khuôn viên trường',
         color: 'bg-cyan-500',
         iconColor: 'text-cyan-500'
+    },
+    {
+        icon: Users,
+        title: 'Lịch giảng dạy',
+        description: 'Tra cứu lịch dạy của giảng viên, tìm lớp theo thời gian',
+        color: 'bg-rose-500',
+        iconColor: 'text-rose-500'
     }
 ];
 
@@ -89,8 +97,8 @@ const securityPoints = [
 function LandingPage({ onEnterApp }) {
     return (
         <div className="min-h-screen bg-background">
-            {/* Hero Section */}
-            <div className="relative overflow-hidden">
+            {/* Hero Section - Full viewport */}
+            <div className="relative overflow-hidden min-h-screen flex flex-col">
                 {/* Animated gradient background */}
                 <div className="absolute inset-0 overflow-hidden pointer-events-none">
                     {/* Base gradient */}
@@ -117,9 +125,9 @@ function LandingPage({ onEnterApp }) {
                     />
                 </div>
 
-                <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-16 sm:pt-16 sm:pb-24">
+                <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-8 sm:pt-10 sm:pb-12 flex-1 flex flex-col">
                     {/* Header */}
-                    <div className="flex items-center justify-between mb-12 sm:mb-16">
+                    <div className="flex items-center justify-between mb-8 sm:mb-10">
                         <div className="flex items-center gap-3">
                             <div className="h-10 w-10 rounded-xl bg-primary flex items-center justify-center shadow-lg shadow-primary/25">
                                 <CalendarClock className="h-5 w-5 text-primary-foreground" />
@@ -137,45 +145,108 @@ function LandingPage({ onEnterApp }) {
                         </a>
                     </div>
 
-                    {/* Hero Content */}
-                    <div className="text-center max-w-3xl mx-auto">
-                        <Badge variant="secondary" className="mb-4 px-4 py-1.5 bg-primary/10 text-primary border-0">
-                            <Sparkles className="h-3 w-3 mr-1" />
-                            Miễn phí & Mã nguồn mở
-                        </Badge>
+                    {/* Main Content - Centered vertically */}
+                    <div className="flex-1 flex flex-col justify-center">
+                        {/* Hero Content */}
+                        <div className="text-center max-w-4xl mx-auto mb-8 sm:mb-10">
+                            <Badge variant="secondary" className="mb-4 px-4 py-1.5 bg-primary/10 text-primary border-0">
+                                <Sparkles className="h-3 w-3 mr-1" />
+                                Miễn phí & Mã nguồn mở
+                            </Badge>
 
-                        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight mb-6 text-foreground">
-                            Quản lý lịch học
-                            <span className="bg-gradient-to-r from-primary via-blue-500 to-violet-500 bg-clip-text text-transparent">
-                                {' '}thông minh{' '}
-                            </span>
-                            cho sinh viên BK
-                        </h1>
+                            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold tracking-tight mb-5 text-foreground">
+                                Quản lý lịch học
+                                <span className="bg-gradient-to-r from-primary via-blue-500 to-violet-500 bg-clip-text text-transparent">
+                                    {' '}thông minh{' '}
+                                </span>
+                                cho sinh viên BK
+                            </h1>
 
-                        <p className="text-base sm:text-lg text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
-                            Công cụ hỗ trợ sinh viên Đại học Bách Khoa TPHCM xem thời khóa biểu,
-                            tính GPA, đăng ký môn học và nhiều tính năng hữu ích khác.
-                        </p>
+                            <p className="text-base sm:text-lg lg:text-xl text-muted-foreground mb-6 max-w-3xl mx-auto leading-relaxed">
+                                Công cụ hỗ trợ sinh viên Đại học Bách Khoa TPHCM xem thời khóa biểu,
+                                tính GPA, đăng ký môn học và nhiều tính năng hữu ích khác.
+                            </p>
 
-                        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                            <Button
-                                size="lg"
-                                onClick={onEnterApp}
-                                className="w-full sm:w-auto text-base px-8 py-6 shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 transition-all"
-                            >
-                                Vào ứng dụng
-                                <ArrowRight className="ml-2 h-5 w-5" />
-                            </Button>
-                            <a
-                                href="https://github.com/tanh1c/student-schedule"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                <Button variant="outline" size="lg" className="w-full sm:w-auto text-base px-8 py-6">
-                                    <Code2 className="mr-2 h-5 w-5" />
-                                    Xem mã nguồn
+                            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-6">
+                                <Button
+                                    size="lg"
+                                    onClick={onEnterApp}
+                                    className="w-full sm:w-auto text-base px-8 py-6 shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 transition-all"
+                                >
+                                    Vào ứng dụng
+                                    <ArrowRight className="ml-2 h-5 w-5" />
                                 </Button>
-                            </a>
+                                <a
+                                    href="https://github.com/tanh1c/student-schedule"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    <Button
+                                        variant="outline"
+                                        size="lg"
+                                        className="w-full sm:w-auto text-base px-8 py-6 border-2 border-foreground/20 hover:border-foreground/40 bg-background/50 backdrop-blur-sm hover:bg-background/80 dark:border-white/30 dark:hover:border-white/50"
+                                    >
+                                        <Code2 className="mr-2 h-5 w-5" />
+                                        Xem mã nguồn
+                                    </Button>
+                                </a>
+                            </div>
+
+                            {/* Trust Badges */}
+                            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-xs sm:text-sm text-muted-foreground">
+                                <div className="flex items-center gap-1.5">
+                                    <Shield className="h-4 w-4 text-emerald-500" />
+                                    <span>Không lưu mật khẩu</span>
+                                </div>
+                                <div className="hidden sm:block w-px h-4 bg-border" />
+                                <div className="flex items-center gap-1.5">
+                                    <Lock className="h-4 w-4 text-blue-500" />
+                                    <span>HTTPS mã hóa</span>
+                                </div>
+                                <div className="hidden sm:block w-px h-4 bg-border" />
+                                <div className="flex items-center gap-1.5">
+                                    <Eye className="h-4 w-4 text-violet-500" />
+                                    <span>Không thu thập dữ liệu</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Feature Grid - 6 columns on desktop */}
+                        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 max-w-6xl mx-auto w-full">
+                            {[
+                                { icon: CalendarClock, label: 'Thời khóa biểu', desc: 'Xem theo tuần', color: 'text-blue-500', bg: 'bg-blue-500/10' },
+                                { icon: GraduationCap, label: 'Lịch thi', desc: 'Tra cứu nhanh', color: 'text-emerald-500', bg: 'bg-emerald-500/10' },
+                                { icon: BadgePercent, label: 'Tính GPA', desc: 'Tự động tính', color: 'text-violet-500', bg: 'bg-violet-500/10' },
+                                { icon: NotebookTabs, label: 'Đăng ký môn', desc: 'Hỗ trợ ĐKMH', color: 'text-amber-500', bg: 'bg-amber-500/10' },
+                                { icon: Map, label: 'Bản đồ', desc: 'Campus BK', color: 'text-cyan-500', bg: 'bg-cyan-500/10' },
+                                { icon: Users, label: 'Lịch giảng dạy', desc: 'Tra cứu GV', color: 'text-rose-500', bg: 'bg-rose-500/10' },
+                            ].map((item, index) => {
+                                const Icon = item.icon;
+                                return (
+                                    <div
+                                        key={index}
+                                        className="flex flex-col items-center gap-2 p-4 sm:p-5 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/30 hover:bg-card/80 transition-all cursor-default group"
+                                    >
+                                        <div className={`h-10 w-10 sm:h-12 sm:w-12 rounded-xl ${item.bg} flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                                            <Icon className={`h-5 w-5 sm:h-6 sm:w-6 ${item.color}`} />
+                                        </div>
+                                        <span className="text-xs sm:text-sm font-semibold text-foreground text-center">
+                                            {item.label}
+                                        </span>
+                                        <span className="text-[10px] sm:text-xs text-muted-foreground text-center hidden sm:block">
+                                            {item.desc}
+                                        </span>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+
+                    {/* Scroll Indicator */}
+                    <div className="flex justify-center pb-4 sm:pb-6 pt-6">
+                        <div className="flex flex-col items-center gap-1.5 text-muted-foreground/60 animate-bounce">
+                            <span className="text-xs hidden sm:block">Khám phá thêm</span>
+                            <ChevronRight className="h-5 w-5 rotate-90" />
                         </div>
                     </div>
                 </div>
