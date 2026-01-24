@@ -588,20 +588,40 @@ function MobileSummaryCard({ title, value, predictedValue, color, isCredits = fa
   const isImproved = predictedValue && parseFloat(predictedValue) > parseFloat(value || 0);
   const isDecreased = predictedValue && parseFloat(predictedValue) < parseFloat(value || 0);
 
-  const colorClasses = {
-    blue: 'border-t-blue-500',
-    green: 'border-t-green-500',
-    orange: 'border-t-orange-500'
+  const palette = {
+    blue: {
+      card: 'border-blue-200/60 bg-gradient-to-br from-blue-100/80 to-white dark:from-blue-950/55 dark:to-card',
+      title: 'text-blue-700/80 dark:text-blue-300/90',
+      value: 'text-blue-900 dark:text-blue-50',
+      subtle: 'text-blue-700/70 dark:text-blue-200/70',
+      aimBadge: 'bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-900/40 dark:text-blue-200 dark:border-blue-900/50',
+    },
+    green: {
+      card: 'border-green-200/60 bg-gradient-to-br from-green-100/80 to-white dark:from-green-950/55 dark:to-card',
+      title: 'text-green-700/80 dark:text-green-300/90',
+      value: 'text-green-900 dark:text-green-50',
+      subtle: 'text-green-700/70 dark:text-green-200/70',
+      aimBadge: 'bg-green-100 text-green-700 border-green-200 dark:bg-green-900/40 dark:text-green-200 dark:border-green-900/50',
+    },
+    orange: {
+      card: 'border-orange-200/60 bg-gradient-to-br from-orange-100/80 to-white dark:from-orange-950/55 dark:to-card',
+      title: 'text-orange-700/80 dark:text-orange-300/90',
+      value: 'text-orange-900 dark:text-orange-50',
+      subtle: 'text-orange-700/70 dark:text-orange-200/70',
+      aimBadge: 'bg-orange-100 text-orange-700 border-orange-200 dark:bg-orange-900/40 dark:text-orange-200 dark:border-orange-900/50',
+    },
   };
 
+  const p = palette[color] || palette.blue;
+
   return (
-    <Card className={`border-t-2 ${colorClasses[color]} relative overflow-hidden`}>
+    <Card className={`relative overflow-hidden border ${p.card}`}>
       <CardContent className="p-2.5 sm:p-4">
-        <p className="text-[10px] sm:text-xs text-muted-foreground font-medium truncate">{title}</p>
+        <p className={`text-[10px] sm:text-xs font-medium truncate ${p.title}`}>{title}</p>
 
         <div className="mt-1">
           <div className="flex items-baseline gap-1 flex-wrap">
-            <span className="text-lg sm:text-2xl font-bold leading-none">{formatPrecise(value) || formatValue(value)}</span>
+            <span className={`text-lg sm:text-2xl font-bold leading-none ${p.value}`}>{formatPrecise(value) || formatValue(value)}</span>
             {predictedValue && (
               <div className="flex items-center gap-0.5">
                 {isImproved ? (
@@ -617,14 +637,14 @@ function MobileSummaryCard({ title, value, predictedValue, color, isCredits = fa
             )}
           </div>
           {!isCredits && (
-            <p className="text-[9px] text-muted-foreground mt-0.5">
+            <p className={`text-[9px] mt-0.5 ${p.subtle}`}>
               ≈ {formatValue(predictedValue || value)}
             </p>
           )}
         </div>
 
         {predictedValue && (
-          <Badge className="absolute top-1 right-1 text-[8px] px-1.5 py-0 h-4 bg-blue-100 text-blue-700 border-0">
+          <Badge className={`absolute top-1 right-1 text-[8px] px-1.5 py-0 h-4 border ${p.aimBadge}`}>
             Aim
           </Badge>
         )}

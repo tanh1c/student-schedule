@@ -269,8 +269,9 @@ function RegistrationPeriodCard({ period, onClick }) {
     return (
         <Card
             className={`
+        relative overflow-hidden
         transition-all duration-200 hover:shadow-md cursor-pointer
-        ${isOpen ? 'border-l-4 border-l-green-500 bg-green-50/30 dark:bg-green-900/10' : ''}
+        ${isOpen ? 'border border-green-200/60 bg-gradient-to-br from-green-100/70 to-white dark:from-green-950/45 dark:to-card ring-1 ring-green-200/50 dark:ring-green-900/40' : ''}
         ${isClosed ? 'opacity-70' : ''}
       `}
             onClick={onClick}
@@ -977,3 +978,4 @@ function getStatusBadgeInline(status) {
             return null;
     }
 }
+

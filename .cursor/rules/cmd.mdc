@@ -1,0 +1,35 @@
+---
+description: These rules guide Cursor’s AI when generating terminal commands for a Windows-only environment. Due to execution problems with PowerShell, we need to ensure only CMD commands are used
+alwaysApply: false
+---
+# Terminal Command Rules for Windows Environment
+
+## Description
+These rules guide Cursor’s AI when generating terminal commands for a Windows-only environment. Due to execution problems with PowerShell, we need to ensure only CMD commands are used.
+
+## Rules
+NEVER use PowerShell commands in terminal suggestions.
+
+Always use Windows CMD commands (batch commands) for all operations.
+
+Use standard Windows CMD syntax with commands like “dir”, “type”, “copy”, “move”, “del”, etc.
+
+For package installation, use npm, yarn, or other package managers with their CMD-compatible syntax.
+
+Avoid commands that begin with “ps”, “pwsh”, or contain PowerShell syntax like “$_”, “-ErrorAction”, etc.
+
+Use Windows environment variables with %VARIABLE% syntax instead of PowerShell’s $env:VARIABLE.
+
+For file path references, use Windows-style paths with backslashes (C:\path\to\file).
+
+When suggesting command chaining, use “&” or “&&” instead of PowerShell’s pipe operator.
+
+For conditional operations, use “if” with CMD syntax instead of PowerShell conditionals.
+
+Use “for” loops with CMD syntax rather than PowerShell’s foreach.
+
+Use “findstr” instead of PowerShell’s Select-String for text searching.
+
+For redirecting output, use “>” and “>>” operators rather than PowerShell’s Out-File.
+
+When suggesting commands to manipulate JSON or perform complex operations, recommend using Node.js scripts or other command-line tools that work well in CMD.
