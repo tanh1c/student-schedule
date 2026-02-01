@@ -1,0 +1,1234 @@
+[
+  {
+    "id": "MT1003",
+    "code": "MT1003",
+    "name": "Giải tích 1",
+    "credits": "4",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "MT1005",
+    "code": "MT1005",
+    "name": "Giải tích 2",
+    "credits": "4",
+    "prerequisites": "MT1003(KN)",
+    "note": ""
+  },
+  {
+    "id": "MT1007",
+    "code": "MT1007",
+    "name": "Đại số Tuyến tính",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "MT2013",
+    "code": "MT2013",
+    "name": "Xác suất và Thống kê",
+    "credits": "4",
+    "prerequisites": "MT1007(KN)",
+    "note": ""
+  },
+  {
+    "id": "CH1003",
+    "code": "CH1003",
+    "name": "Hóa đại cương",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PH1003",
+    "code": "PH1003",
+    "name": "Vật lý 1",
+    "credits": "4",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PH1007",
+    "code": "PH1007",
+    "name": "Thí nghiệm Vật lý",
+    "credits": "1",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO1007",
+    "code": "CO1007",
+    "name": "Cấu trúc Rời rạc cho Khoa học Máy tính",
+    "credits": "4",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO2011",
+    "code": "CO2011",
+    "name": "Mô hình hóa Toán học",
+    "credits": "3",
+    "prerequisites": "CO1007(KN)",
+    "note": ""
+  },
+  {
+    "id": "SP1007",
+    "code": "SP1007",
+    "name": "Pháp luật Việt Nam Đại cương",
+    "credits": "2",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "SP1031",
+    "code": "SP1031",
+    "name": "Triết học Mác - Lênin",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "SP1033",
+    "code": "SP1033",
+    "name": "Kinh tế Chính trị Mác - Lênin",
+    "credits": "2",
+    "prerequisites": "SP1031(KN)",
+    "note": ""
+  },
+  {
+    "id": "SP1035",
+    "code": "SP1035",
+    "name": "Chủ nghĩa Xã hội Khoa học",
+    "credits": "2",
+    "prerequisites": "SP1033(KN)",
+    "note": ""
+  },
+  {
+    "id": "SP1037",
+    "code": "SP1037",
+    "name": "Tư tưởng Hồ Chí Minh",
+    "credits": "2",
+    "prerequisites": "SP1039(KN)",
+    "note": ""
+  },
+  {
+    "id": "SP1039",
+    "code": "SP1039",
+    "name": "Lịch sử Đảng Cộng sản Việt Nam",
+    "credits": "2",
+    "prerequisites": "SP1035(KN)",
+    "note": ""
+  },
+  {
+    "id": "CO1005",
+    "code": "CO1005",
+    "name": "Nhập môn Điện toán",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO2001",
+    "code": "CO2001",
+    "name": "Kỹ năng Chuyên nghiệp cho Kỹ sư",
+    "credits": "3",
+    "prerequisites": "CO1005(TQ)",
+    "note": ""
+  },
+  {
+    "id": "IM1013",
+    "code": "IM1013",
+    "name": "Kinh tế học Đại cương",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM1023",
+    "code": "IM1023",
+    "name": "Quản lý Sản xuất cho Kỹ sư",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM1025",
+    "code": "IM1025",
+    "name": "Quản lý Dự án cho Kỹ sư",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM1027",
+    "code": "IM1027",
+    "name": "Kinh tế Kỹ thuật",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM3001",
+    "code": "IM3001",
+    "name": "Quản trị Kinh doanh cho Kỹ sư",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM1031",
+    "code": "IM1031",
+    "name": "Khởi nghiệp và đổi mới sáng tạo",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "ME1019",
+    "code": "ME1019",
+    "name": "Quản lý năng suất và chất lượng",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "LA1003",
+    "code": "LA1003",
+    "name": "Anh văn 1",
+    "credits": "2",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "LA1005",
+    "code": "LA1005",
+    "name": "Anh văn 2",
+    "credits": "2",
+    "prerequisites": "LA1003(TQ)",
+    "note": ""
+  },
+  {
+    "id": "LA1007",
+    "code": "LA1007",
+    "name": "Anh văn 3",
+    "credits": "2",
+    "prerequisites": "LA1005(TQ)",
+    "note": ""
+  },
+  {
+    "id": "LA1009",
+    "code": "LA1009",
+    "name": "Anh văn 4",
+    "credits": "2",
+    "prerequisites": "LA1007(TQ)",
+    "note": ""
+  },
+  {
+    "id": "CO1023",
+    "code": "CO1023",
+    "name": "Hệ thống số",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO1027",
+    "code": "CO1027",
+    "name": "Kỹ thuật Lập trình",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO2003",
+    "code": "CO2003",
+    "name": "Cấu trúc Dữ liệu và Giải Thuật",
+    "credits": "4",
+    "prerequisites": "CO1027(KN) CO1007(KN) X",
+    "note": ""
+  },
+  {
+    "id": "CO2007",
+    "code": "CO2007",
+    "name": "Kiến trúc Máy tính",
+    "credits": "4",
+    "prerequisites": "CO1023(KN) CO1005(KN) X",
+    "note": ""
+  },
+  {
+    "id": "CO2013",
+    "code": "CO2013",
+    "name": "Hệ cơ sở Dữ liệu",
+    "credits": "4",
+    "prerequisites": "",
+    "note": "X"
+  },
+  {
+    "id": "CO2039",
+    "code": "CO2039",
+    "name": "Lập trình Nâng cao",
+    "credits": "3",
+    "prerequisites": "",
+    "note": "X"
+  },
+  {
+    "id": "CO2017",
+    "code": "CO2017",
+    "name": "Hệ điều hành",
+    "credits": "3",
+    "prerequisites": "",
+    "note": "X"
+  },
+  {
+    "id": "CO3001",
+    "code": "CO3001",
+    "name": "Công nghệ Phần mềm",
+    "credits": "3",
+    "prerequisites": "CO1027(KN)",
+    "note": "X"
+  },
+  {
+    "id": "CO3005",
+    "code": "CO3005",
+    "name": "Nguyên lý Ngôn ngữ Lập trình",
+    "credits": "4",
+    "prerequisites": "CO1027(TQ)",
+    "note": "X"
+  },
+  {
+    "id": "CO3093",
+    "code": "CO3093",
+    "name": "Mạng máy tính",
+    "credits": "3",
+    "prerequisites": "",
+    "note": "X"
+  },
+  {
+    "id": "CO3101",
+    "code": "CO3101",
+    "name": "Đồ án Tổng hợp - Hướng Trí tuệ Nhân tạo",
+    "credits": "1",
+    "prerequisites": "",
+    "note": "X"
+  },
+  {
+    "id": "CO3103",
+    "code": "CO3103",
+    "name": "Đồ án Tổng hợp - hướng Công nghệ Phần mềm",
+    "credits": "1",
+    "prerequisites": "",
+    "note": "X"
+  },
+  {
+    "id": "CO3105",
+    "code": "CO3105",
+    "name": "Đồ án Tổng hợp - Hướng Hệ thống Thông tin",
+    "credits": "1",
+    "prerequisites": "",
+    "note": "X"
+  },
+  {
+    "id": "CO3127",
+    "code": "CO3127",
+    "name": "Đồ án tổng hợp - hướng kỹ thuật dữ liệu",
+    "credits": "1",
+    "prerequisites": "",
+    "note": "X"
+  },
+  {
+    "id": "CO3119",
+    "code": "CO3119",
+    "name": "Đồ án Mạng máy tính",
+    "credits": "1",
+    "prerequisites": "",
+    "note": "X"
+  },
+  {
+    "id": "CO3107",
+    "code": "CO3107",
+    "name": "Thực tập Đồ án môn học Đa ngành - Hướng Trí tuệ Nhân tạo",
+    "credits": "1",
+    "prerequisites": "",
+    "note": "X"
+  },
+  {
+    "id": "CO3109",
+    "code": "CO3109",
+    "name": "Thực tập Đồ án môn học Đa ngành - Hướng công Nghệ phần mền",
+    "credits": "1",
+    "prerequisites": "",
+    "note": "X"
+  },
+  {
+    "id": "CO3111",
+    "code": "CO3111",
+    "name": "Thực tập Đồ án môn học Đa ngành - hướng Hệ thống Thông tin",
+    "credits": "1",
+    "prerequisites": "",
+    "note": "X"
+  },
+  {
+    "id": "CO3021",
+    "code": "CO3021",
+    "name": "Hệ Quản trị Cơ sở Dữ Liệu",
+    "credits": "3",
+    "prerequisites": "CO2013(KN)",
+    "note": ""
+  },
+  {
+    "id": "CO3027",
+    "code": "CO3027",
+    "name": "Thương mại Điện tử",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3029",
+    "code": "CO3029",
+    "name": "Khai phá Dữ liệu",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3033",
+    "code": "CO3033",
+    "name": "Bảo mật Hệ thống Thông tin",
+    "credits": "3",
+    "prerequisites": "CO2013(KN)",
+    "note": ""
+  },
+  {
+    "id": "CO3115",
+    "code": "CO3115",
+    "name": "Phân tích và Thiết kế Hệ thống",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO4031",
+    "code": "CO4031",
+    "name": "Kho dữ Liệu và Hệ hỗ trợ Quyết định",
+    "credits": "3",
+    "prerequisites": "CO2013(KN)",
+    "note": ""
+  },
+  {
+    "id": "CO4033",
+    "code": "CO4033",
+    "name": "Phân tích Dữ liệu lớn và Trí tuệ Kinh doanh",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO4035",
+    "code": "CO4035",
+    "name": "Hệ hoạch Định tài Nguyên tổ chức",
+    "credits": "3",
+    "prerequisites": "CO2013(KN)",
+    "note": ""
+  },
+  {
+    "id": "CO4037",
+    "code": "CO4037",
+    "name": "Hệ thống thông tin quản lý",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO4039",
+    "code": "CO4039",
+    "name": "Bảo mật sinh trắc",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3139",
+    "code": "CO3139",
+    "name": "Chuyển đổi số",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3137",
+    "code": "CO3137",
+    "name": "Dữ liệu lớn",
+    "credits": "3",
+    "prerequisites": "CO2017(KN)",
+    "note": ""
+  },
+  {
+    "id": "CO3011",
+    "code": "CO3011",
+    "name": "Quản lý Dự án Phần mềm",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3129",
+    "code": "CO3129",
+    "name": "Bảo mật Phần mềm",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3131",
+    "code": "CO3131",
+    "name": "Công nghệ Phần mềm thế hệ mới",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3015",
+    "code": "CO3015",
+    "name": "Kiểm tra Phần mềm",
+    "credits": "3",
+    "prerequisites": "CO3001(KN) CO1027(TQ)",
+    "note": ""
+  },
+  {
+    "id": "CO3017",
+    "code": "CO3017",
+    "name": "Kiến trúc Phần mềm",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3065",
+    "code": "CO3065",
+    "name": "Công nghệ Phần mềm Nâng cao",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3041",
+    "code": "CO3041",
+    "name": "Hệ thống Thông minh",
+    "credits": "3",
+    "prerequisites": "CO3001(TQ)",
+    "note": ""
+  },
+  {
+    "id": "CO3049",
+    "code": "CO3049",
+    "name": "Lập trình Web",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3135",
+    "code": "CO3135",
+    "name": "Lập trình cho Trí tuệ nhân tạo và Khoa học dữ liệu",
+    "credits": "3",
+    "prerequisites": "CO2003(TQ) CO1027(TQ)",
+    "note": ""
+  },
+  {
+    "id": "CO3021",
+    "code": "CO3021",
+    "name": "Hệ Quản trị Cơ sở Dữ Liệu",
+    "credits": "3",
+    "prerequisites": "CO2013(KN)",
+    "note": ""
+  },
+  {
+    "id": "CO3027",
+    "code": "CO3027",
+    "name": "Thương mại Điện tử",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3029",
+    "code": "CO3029",
+    "name": "Khai phá Dữ liệu",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3033",
+    "code": "CO3033",
+    "name": "Bảo mật Hệ thống Thông tin",
+    "credits": "3",
+    "prerequisites": "CO2013(KN)",
+    "note": ""
+  },
+  {
+    "id": "CO3115",
+    "code": "CO3115",
+    "name": "Phân tích và Thiết kế Hệ thống",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO4031",
+    "code": "CO4031",
+    "name": "Kho dữ Liệu và Hệ hỗ trợ Quyết định",
+    "credits": "3",
+    "prerequisites": "CO2013(KN)",
+    "note": ""
+  },
+  {
+    "id": "CO4033",
+    "code": "CO4033",
+    "name": "Phân tích Dữ liệu lớn và Trí tuệ Kinh doanh",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO4035",
+    "code": "CO4035",
+    "name": "Hệ hoạch Định tài Nguyên tổ chức",
+    "credits": "3",
+    "prerequisites": "CO2013(KN)",
+    "note": ""
+  },
+  {
+    "id": "CO4037",
+    "code": "CO4037",
+    "name": "Hệ thống thông tin quản lý",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO4039",
+    "code": "CO4039",
+    "name": "Bảo mật sinh trắc",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3139",
+    "code": "CO3139",
+    "name": "Chuyển đổi số",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3137",
+    "code": "CO3137",
+    "name": "Dữ liệu lớn",
+    "credits": "3",
+    "prerequisites": "CO2017(KN)",
+    "note": ""
+  },
+  {
+    "id": "CO3011",
+    "code": "CO3011",
+    "name": "Quản lý Dự án Phần mềm",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3129",
+    "code": "CO3129",
+    "name": "Bảo mật Phần mềm",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3131",
+    "code": "CO3131",
+    "name": "Công nghệ Phần mềm thế hệ mới",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3015",
+    "code": "CO3015",
+    "name": "Kiểm tra Phần mềm",
+    "credits": "3",
+    "prerequisites": "CO3001(KN) CO1027(TQ)",
+    "note": ""
+  },
+  {
+    "id": "CO3017",
+    "code": "CO3017",
+    "name": "Kiến trúc Phần mềm",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3065",
+    "code": "CO3065",
+    "name": "Công nghệ Phần mềm Nâng cao",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3041",
+    "code": "CO3041",
+    "name": "Hệ thống Thông minh",
+    "credits": "3",
+    "prerequisites": "CO3001(TQ)",
+    "note": ""
+  },
+  {
+    "id": "CO3089",
+    "code": "CO3089",
+    "name": "Những Chủ đề Nâng cao trong Khoa học Máy tính",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3049",
+    "code": "CO3049",
+    "name": "Lập trình Web",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3135",
+    "code": "CO3135",
+    "name": "Lập trình cho Trí tuệ nhân tạo và Khoa học dữ liệu",
+    "credits": "3",
+    "prerequisites": "CO2003(TQ) CO1027(TQ)",
+    "note": ""
+  },
+  {
+    "id": "CO3151",
+    "code": "CO3151",
+    "name": "Quản trị mạng",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3051",
+    "code": "CO3051",
+    "name": "Hệ thống thiết bị di động",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3069",
+    "code": "CO3069",
+    "name": "Mật mã và An ninh mạng",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3153",
+    "code": "CO3153",
+    "name": "Đánh giá an toàn mạng máy tính",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3061",
+    "code": "CO3061",
+    "name": "Nhập môn Trí tuệ Nhân tạo",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3117",
+    "code": "CO3117",
+    "name": "Học máy",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3133",
+    "code": "CO3133",
+    "name": "Học sâu và Ứng dụng",
+    "credits": "3",
+    "prerequisites": "CO3061(KN)",
+    "note": ""
+  },
+  {
+    "id": "CO3085",
+    "code": "CO3085",
+    "name": "Xử lý Ngôn ngữ Tự nhiên",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3057",
+    "code": "CO3057",
+    "name": "Xử lý Ảnh số và Thị giác Máy tính",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3045",
+    "code": "CO3045",
+    "name": "Lập trình Game",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3059",
+    "code": "CO3059",
+    "name": "Đồ họa Máy tính",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3067",
+    "code": "CO3067",
+    "name": "Tính toán Song song",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3037",
+    "code": "CO3037",
+    "name": "Phát triển Ứng dụng Internet of Things",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3043",
+    "code": "CO3043",
+    "name": "Phát triển Ứng dụng trên Thiết bị Di động",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3151",
+    "code": "CO3151",
+    "name": "Quản trị mạng",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3049",
+    "code": "CO3049",
+    "name": "Lập trình Web",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3051",
+    "code": "CO3051",
+    "name": "Hệ thống thiết bị di động",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3069",
+    "code": "CO3069",
+    "name": "Mật mã và An ninh mạng",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3153",
+    "code": "CO3153",
+    "name": "Đánh giá an toàn mạng máy tính",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3033",
+    "code": "CO3033",
+    "name": "Bảo mật Hệ thống Thông tin",
+    "credits": "3",
+    "prerequisites": "CO2013(KN)",
+    "note": ""
+  },
+  {
+    "id": "CO4039",
+    "code": "CO4039",
+    "name": "Bảo mật sinh trắc",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3117",
+    "code": "CO3117",
+    "name": "Học máy",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3137",
+    "code": "CO3137",
+    "name": "Dữ liệu lớn",
+    "credits": "3",
+    "prerequisites": "CO2017(KN)",
+    "note": ""
+  },
+  {
+    "id": "CO3067",
+    "code": "CO3067",
+    "name": "Tính toán Song song",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3061",
+    "code": "CO3061",
+    "name": "Nhập môn Trí tuệ Nhân tạo",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3135",
+    "code": "CO3135",
+    "name": "Lập trình cho Trí tuệ nhân tạo và Khoa học dữ liệu",
+    "credits": "3",
+    "prerequisites": "CO2003(TQ) CO1027(TQ)",
+    "note": ""
+  },
+  {
+    "id": "CO3117",
+    "code": "CO3117",
+    "name": "Học máy",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3133",
+    "code": "CO3133",
+    "name": "Học sâu và Ứng dụng",
+    "credits": "3",
+    "prerequisites": "CO3061(KN)",
+    "note": ""
+  },
+  {
+    "id": "CO3085",
+    "code": "CO3085",
+    "name": "Xử lý Ngôn ngữ Tự nhiên",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3057",
+    "code": "CO3057",
+    "name": "Xử lý Ảnh số và Thị giác Máy tính",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3041",
+    "code": "CO3041",
+    "name": "Hệ thống Thông minh",
+    "credits": "3",
+    "prerequisites": "CO3001(TQ)",
+    "note": ""
+  },
+  {
+    "id": "CO3029",
+    "code": "CO3029",
+    "name": "Khai phá Dữ liệu",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3045",
+    "code": "CO3045",
+    "name": "Lập trình Game",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3059",
+    "code": "CO3059",
+    "name": "Đồ họa Máy tính",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3037",
+    "code": "CO3037",
+    "name": "Phát triển Ứng dụng Internet of Things",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3043",
+    "code": "CO3043",
+    "name": "Phát triển Ứng dụng trên Thiết bị Di động",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3335",
+    "code": "CO3335",
+    "name": "Thực tập Ngoài trường",
+    "credits": "2",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO4029",
+    "code": "CO4029",
+    "name": "Đồ án Chuyên ngành",
+    "credits": "2",
+    "prerequisites": "CO3335(SHT)",
+    "note": "X"
+  },
+  {
+    "id": "CO4337",
+    "code": "CO4337",
+    "name": "Đồ án Tốt nghiệp (Khoa học Máy tính)",
+    "credits": "4",
+    "prerequisites": "CO3335(TQ) CO4029(TQ) X",
+    "note": ""
+  },
+  {
+    "id": "MI1003",
+    "code": "MI1003",
+    "name": "Giáo dục Quốc phòng",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1009",
+    "code": "PE1009",
+    "name": "Bóng đá (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1011",
+    "code": "PE1011",
+    "name": "Bóng chuyền (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1013",
+    "code": "PE1013",
+    "name": "Bóng bàn (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1015",
+    "code": "PE1015",
+    "name": "Bóng rổ (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1017",
+    "code": "PE1017",
+    "name": "Cầu lông (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1019",
+    "code": "PE1019",
+    "name": "Bơi (học Phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1021",
+    "code": "PE1021",
+    "name": "Aerobic (học Phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1025",
+    "code": "PE1025",
+    "name": "Điền kinh (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1027",
+    "code": "PE1027",
+    "name": "Quần vợt (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1053",
+    "code": "PE1053",
+    "name": "Cờ vua (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1057",
+    "code": "PE1057",
+    "name": "Bowling (học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1061",
+    "code": "PE1061",
+    "name": "Pickleball (học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1033",
+    "code": "PE1033",
+    "name": "Bóng đá (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1035",
+    "code": "PE1035",
+    "name": "Bóng chuyền (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1037",
+    "code": "PE1037",
+    "name": "Bóng bàn (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1039",
+    "code": "PE1039",
+    "name": "Bóng rổ (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1041",
+    "code": "PE1041",
+    "name": "Cầu lông (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1043",
+    "code": "PE1043",
+    "name": "Bơi (học Phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1045",
+    "code": "PE1045",
+    "name": "Aerobic (Học Phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1049",
+    "code": "PE1049",
+    "name": "Điền kinh (học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1051",
+    "code": "PE1051",
+    "name": "Quần vợt (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1055",
+    "code": "PE1055",
+    "name": "Cờ vua (học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1059",
+    "code": "PE1059",
+    "name": "Bowling (học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1063",
+    "code": "PE1063",
+    "name": "Pickleball (học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "SA4001",
+    "code": "SA4001",
+    "name": "Hoạt động sinh viên",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  }
+]

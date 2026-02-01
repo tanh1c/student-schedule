@@ -1,0 +1,642 @@
+[
+  {
+    "id": "MT1003",
+    "code": "MT1003",
+    "name": "Giải tích 1",
+    "credits": "4",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "MT1009",
+    "code": "MT1009",
+    "name": "Phương pháp tính",
+    "credits": "3",
+    "prerequisites": "MT1003(KN)",
+    "note": ""
+  },
+  {
+    "id": "MT1005",
+    "code": "MT1005",
+    "name": "Giải tích 2",
+    "credits": "4",
+    "prerequisites": "MT1003(KN)",
+    "note": ""
+  },
+  {
+    "id": "MT1007",
+    "code": "MT1007",
+    "name": "Đại số Tuyến tính",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "MT2013",
+    "code": "MT2013",
+    "name": "Xác suất và Thống kê",
+    "credits": "4",
+    "prerequisites": "MT1007(KN)",
+    "note": ""
+  },
+  {
+    "id": "PH1005",
+    "code": "PH1005",
+    "name": "Vật lý 2",
+    "credits": "4",
+    "prerequisites": "PH1003(KN)",
+    "note": ""
+  },
+  {
+    "id": "PH1007",
+    "code": "PH1007",
+    "name": "Thí nghiệm Vật lý",
+    "credits": "1",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PH1003",
+    "code": "PH1003",
+    "name": "Vật lý 1",
+    "credits": "4",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CH1003",
+    "code": "CH1003",
+    "name": "Hóa đại cương",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "SP1007",
+    "code": "SP1007",
+    "name": "Pháp luật Việt Nam Đại cương",
+    "credits": "2",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "SP1035",
+    "code": "SP1035",
+    "name": "Chủ nghĩa Xã hội Khoa học",
+    "credits": "2",
+    "prerequisites": "SP1033(KN)",
+    "note": ""
+  },
+  {
+    "id": "SP1033",
+    "code": "SP1033",
+    "name": "Kinh tế Chính trị Mác - Lênin",
+    "credits": "2",
+    "prerequisites": "SP1031(KN)",
+    "note": ""
+  },
+  {
+    "id": "SP1037",
+    "code": "SP1037",
+    "name": "Tư tưởng Hồ Chí Minh",
+    "credits": "2",
+    "prerequisites": "SP1039(KN)",
+    "note": ""
+  },
+  {
+    "id": "SP1031",
+    "code": "SP1031",
+    "name": "Triết học Mác - Lênin",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "SP1039",
+    "code": "SP1039",
+    "name": "Lịch sử Đảng Cộng sản Việt Nam",
+    "credits": "2",
+    "prerequisites": "SP1035(KN)",
+    "note": ""
+  },
+  {
+    "id": "TR1007",
+    "code": "TR1007",
+    "name": "Nhập môn kỹ thuật về kỹ thuật Đường sắt",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM3107",
+    "code": "IM3107",
+    "name": "Khởi nghiệp và đổi mới sáng tạo",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM3001",
+    "code": "IM3001",
+    "name": "Quản trị Kinh doanh cho Kỹ sư",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "ME1019",
+    "code": "ME1019",
+    "name": "Quản lý năng suất và chất lượng",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM1027",
+    "code": "IM1027",
+    "name": "Kinh tế Kỹ thuật",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM1025",
+    "code": "IM1025",
+    "name": "Quản lý Dự án cho Kỹ sư",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM1023",
+    "code": "IM1023",
+    "name": "Quản lý Sản xuất cho Kỹ sư",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM1013",
+    "code": "IM1013",
+    "name": "Kinh tế học Đại cương",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "TR2113",
+    "code": "TR2113",
+    "name": "An toàn lao động con người và môi trường trong lĩnh vực đường sắt",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "LA1007",
+    "code": "LA1007",
+    "name": "Anh văn 3",
+    "credits": "2",
+    "prerequisites": "LA1005(TQ)",
+    "note": ""
+  },
+  {
+    "id": "LA1005",
+    "code": "LA1005",
+    "name": "Anh văn 2",
+    "credits": "2",
+    "prerequisites": "LA1003(TQ)",
+    "note": ""
+  },
+  {
+    "id": "LA1003",
+    "code": "LA1003",
+    "name": "Anh văn 1",
+    "credits": "2",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "LA1009",
+    "code": "LA1009",
+    "name": "Anh văn 4",
+    "credits": "2",
+    "prerequisites": "LA1007(TQ)",
+    "note": ""
+  },
+  {
+    "id": "ME1023",
+    "code": "ME1023",
+    "name": "Thực tập Cơ khí",
+    "credits": "1",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "AS2071",
+    "code": "AS2071",
+    "name": "Cơ học kỹ thuật",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "EE3447",
+    "code": "EE3447",
+    "name": "Cơ sở cung cấp điện",
+    "credits": "3",
+    "prerequisites": "EE2011(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE2425",
+    "code": "EE2425",
+    "name": "Cơ sở Truyền động điện",
+    "credits": "3",
+    "prerequisites": "EE2011(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE2011",
+    "code": "EE2011",
+    "name": "Kỹ thuật Điện - Điện tử",
+    "credits": "3",
+    "prerequisites": "MT1005(KN) PH1005(KN)",
+    "note": ""
+  },
+  {
+    "id": "ME3811",
+    "code": "ME3811",
+    "name": "Đồ án Thiết kế Cơ khí",
+    "credits": "1",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CI2001",
+    "code": "CI2001",
+    "name": "Sức bền Vật liệu",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "ME2003",
+    "code": "ME2003",
+    "name": "Nguyên lý máy",
+    "credits": "3",
+    "prerequisites": "AS2071(SHT)",
+    "note": ""
+  },
+  {
+    "id": "TR1003",
+    "code": "TR1003",
+    "name": "Vẽ kỹ thuật Giao thông",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "EE3449",
+    "code": "EE3449",
+    "name": "Đồ án Kỹ thuật Điện",
+    "credits": "1",
+    "prerequisites": "EE2011(TQ) EE2425(KN) EE3447(KN)",
+    "note": ""
+  },
+  {
+    "id": "TR2041",
+    "code": "TR2041",
+    "name": "Kỹ thuật Cơ lưu chất - Nhiệt",
+    "credits": "4",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "ME2007",
+    "code": "ME2007",
+    "name": "Chi tiết máy",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "TR2111",
+    "code": "TR2111",
+    "name": "Kết cấu phương tiện đường sắt",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CI3503",
+    "code": "CI3503",
+    "name": "Hạ tầng đường sắt",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "EE3451",
+    "code": "EE3451",
+    "name": "Hệ thống thông tin và tín hiệu đường sắt",
+    "credits": "3",
+    "prerequisites": "EE2011(KN)",
+    "note": ""
+  },
+  {
+    "id": "TR3389",
+    "code": "TR3389",
+    "name": "Kỹ thuật bảo dưỡng và kiểm tra phương tiện đường sắt",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "TR3387",
+    "code": "TR3387",
+    "name": "Động lực học phương tiện đường sắt",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "TR4391",
+    "code": "TR4391",
+    "name": "Quản lý và tổ chức vận tải đường sắt",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "TR4389",
+    "code": "TR4389",
+    "name": "Tiêu chuẩn kỹ thuật và kiểm định phương tiện đường sắt",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "TR4387",
+    "code": "TR4387",
+    "name": "Thiết kế phương tiện đường sắt",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "TR4395",
+    "code": "TR4395",
+    "name": "Đồ án chuyên ngành",
+    "credits": "2",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "TR3391",
+    "code": "TR3391",
+    "name": "Thực tập ngoài trường",
+    "credits": "2",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "TR4397",
+    "code": "TR4397",
+    "name": "Đồ án tốt nghiệp",
+    "credits": "4",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "MI1003",
+    "code": "MI1003",
+    "name": "Giáo dục Quốc phòng",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1061",
+    "code": "PE1061",
+    "name": "Pickleball (học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1057",
+    "code": "PE1057",
+    "name": "Bowling (học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1053",
+    "code": "PE1053",
+    "name": "Cờ vua (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1027",
+    "code": "PE1027",
+    "name": "Quần vợt (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1019",
+    "code": "PE1019",
+    "name": "Bơi (học Phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1025",
+    "code": "PE1025",
+    "name": "Điền kinh (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1017",
+    "code": "PE1017",
+    "name": "Cầu lông (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1015",
+    "code": "PE1015",
+    "name": "Bóng rổ (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1021",
+    "code": "PE1021",
+    "name": "Aerobic (học Phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1013",
+    "code": "PE1013",
+    "name": "Bóng bàn (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1011",
+    "code": "PE1011",
+    "name": "Bóng chuyền (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1009",
+    "code": "PE1009",
+    "name": "Bóng đá (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1023",
+    "code": "PE1023",
+    "name": "Võ (Vovinam Karate Taewondo) (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1059",
+    "code": "PE1059",
+    "name": "Bowling (học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1063",
+    "code": "PE1063",
+    "name": "Pickleball (học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1055",
+    "code": "PE1055",
+    "name": "Cờ vua (học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1051",
+    "code": "PE1051",
+    "name": "Quần vợt (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1049",
+    "code": "PE1049",
+    "name": "Điền kinh (học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1035",
+    "code": "PE1035",
+    "name": "Bóng chuyền (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1039",
+    "code": "PE1039",
+    "name": "Bóng rổ (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1043",
+    "code": "PE1043",
+    "name": "Bơi (học Phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1045",
+    "code": "PE1045",
+    "name": "Aerobic (học Phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1033",
+    "code": "PE1033",
+    "name": "Bóng đá (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1041",
+    "code": "PE1041",
+    "name": "Cầu lông (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1047",
+    "code": "PE1047",
+    "name": "Võ (Vovinam Karate Taewondo) (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1037",
+    "code": "PE1037",
+    "name": "Bóng bàn (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "ENG_GC_600",
+    "code": "ENG_GC_600",
+    "name": "Đ/kiện tiếng Anh tốt nghiệp ĐH tiêu chuẩn VLVH",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "SA4001",
+    "code": "SA4001",
+    "name": "Hoạt động sinh viên",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  }
+]

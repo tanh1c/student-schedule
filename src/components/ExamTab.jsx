@@ -220,10 +220,6 @@ export default function ExamTab() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h2 className="text-2xl font-bold flex items-center gap-2">
-            <GraduationCap className="h-6 w-6 text-primary" />
-            Lịch Thi
-          </h2>
           {studentId && (
             <p className="text-muted-foreground text-sm mt-1">
               MSSV: {studentId}

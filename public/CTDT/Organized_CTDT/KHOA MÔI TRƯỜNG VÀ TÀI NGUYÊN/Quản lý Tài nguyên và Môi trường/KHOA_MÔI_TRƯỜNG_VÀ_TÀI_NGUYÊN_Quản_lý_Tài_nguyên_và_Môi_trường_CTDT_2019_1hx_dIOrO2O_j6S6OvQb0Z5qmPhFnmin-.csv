@@ -1,0 +1,166 @@
+﻿STT,Mã học phần,Tên học phần,Tín chỉ,Học phần tiên quyết/song hành,Ghi chú
+,,I. Các môn bắt buộc (Compulsary Courses),,,,
+1,MT1003,Giải tích 1,4,,Toán và KH Tự nhiên
+,,Calculus 1,,,
+2,MT1005,Giải tích 2,4,,Toán và KH Tự nhiên
+,,Calculus 2,,,
+3,MT1007,Đại số tuyến tính,3,,Toán và KH Tự nhiên
+,,Linear Algebra,,,
+4,MT2013,Xác suất và thống kê,4,,Toán và KH Tự nhiên
+,,Probability and Statistics,,,
+5,CH1003,Hóa đại cương,3,,Toán và KH Tự nhiên
+,,General Chemistry,,,
+6,PH1003,Vật lý 1,4,,Toán và KH Tự nhiên
+,,General Physics 1,,,
+7,PH1007,Thí nghiệm vật lý,1,,Toán và KH Tự nhiên
+,,General Physics Labs,,,
+8,CH2009,Hóa phân tích,3,,Toán và KH Tự nhiên
+,,Analytical Chemistry,,,
+9,EN1015,Vi sinh vật đại cương và thí nghiệm,4,,Toán và KH Tự nhiên
+,,Microbiology and Experiment,,,
+10,SP1007,Pháp luật Việt Nam đại cương,2,,Chính trị, Kinh tế, Văn hóa, Xã hội
+,,Introduction to Vietnamese Law,,,
+11,SP1031,Triết học Mác - Lênin,3,,Chính trị, Kinh tế, Văn hóa, Xã hội
+,,Marxist - Leninist Philosophy,,,
+12,SP1033,Kinh tế chính trị Mác - Lênin,2,,Chính trị, Kinh tế, Văn hóa, Xã hội
+,,Marxist - Leninist Political Economy,,,
+13,SP1035,Chủ nghĩa xã hội khoa học,2,,Chính trị, Kinh tế, Văn hóa, Xã hội
+,,Scientific Socialism,,,
+14,SP1037,Tư tưởng Hồ Chí Minh,2,,Chính trị, Kinh tế, Văn hóa, Xã hội
+,,Ho Chi Minh Ideology,,,
+15,SP1039,Lịch sử Đảng Cộng sản Việt Nam,2,,Chính trị, Kinh tế, Văn hóa, Xã hội
+,,History of Vietnamese Communist Party,,,
+16,EN1001,Nhập môn về kỹ thuật,3,,Nhập môn
+,,Introduction to Engineering Profession,,,
+17,EN4025,Nhập môn phương pháp nghiên cứu khoa học trong quản lý tài nguyên và môi trường,3,,Con người và môi trường
+,,Basic Scientific Research Methods in Natural Resources and Environmental Management,,,
+18,LA1003,Anh văn 1,2,,Ngoại ngữ
+,,English 1,,,
+19,LA1005,Anh văn 2,2,,Ngoại ngữ
+,,English 2,,,
+20,LA1007,Anh văn 3,2,,Ngoại ngữ
+,,English 3,,,
+21,LA1009,Anh văn 4,2,,Ngoại ngữ
+,,English 4,,,
+22,CI1003,Vẽ kỹ thuật,3,,Cơ sở ngành
+,,Engineering Drawing,,,
+23,EN1005,Sinh thái học,3,,Cơ sở ngành
+,,Ecology,,,
+24,EN2013,Kiểm soát ô nhiễm không khí,3,,Cơ sở ngành
+,,Air Pollution Control,,,
+25,EN2031,Hóa học trong kỹ thuật và khoa học môi trường,3,,Cơ sở ngành
+,,Chemistry for Environmental Engineering and Science,,,
+26,EN2033,Luật và chính sách môi trường,3,,Cơ sở ngành
+,,Environmental Law and Policy,,,
+27,EN2035,Thủy văn môi trường,3,,Cơ sở ngành
+,,Environmental Hydrology,,,
+28,EN2037,Các quá trình môi trường,3,,Cơ sở ngành
+,,Environmental Processes,,,
+29,EN2039,Thực tập tham quan,1,,Cơ sở ngành
+,,Study Tour,,,
+30,EN3069,Quản lý chất thải rắn và chất thải nguy hại,3,,Cơ sở ngành
+,,Solid and Hazardous Waste Management,,,
+31,EN3071,Phân tích hệ thống môi trường,3,,Cơ sở ngành
+,,Environmental Systems Analysis,,,
+32,EN3075,Kỹ thuật xử lý nước cấp, nước thải,4,,Cơ sở ngành
+,,Water and Wastewater Treatment Technology,,,
+,,II. Các môn bắt buộc và tự chọn của chuyên ngành,,,,
+,,Compulsory and Elective Major Courses,,,
+,,II.1 Chuyên ngành: Quản lý và Công nghệ Môi trường,,,,
+,,Speciality: Environmental Management and Technology,,,
+1,,Tự chọn tự do (Tối thiểu 9 TC),9,,
+,,Free Elective (Min 9 Credits),,,
+2,,Các môn tự chọn nhóm A (Tối thiểu 3 TC),3,,Quản lý
+,,Elective Courses - Group A (Min 3 Credits),,,Management for Engineers
+3,,Các môn tự chọn cơ sở ngành (Tối thiểu 3 TC),3,,Cơ sở ngành
+,,Elective Core Courses - Group (Min 3 Credits),,,Core Courses
+4,,Các môn tự chọn chuyên ngành (Tối thiểu 3 TC),3,,Chuyên ngành
+,,Elective Speciality Courses - Group (Min 3 Credits),,,Speciality Courses
+5,EN3003,Ứng dụng GIS và viễn thám trong quản lý tài nguyên và môi trường,3,,Chuyên ngành
+,,GIS and Remote Sensing for Natural Resources and Environmental Management,,,
+6,EN3037,Quản lý môi trường đô thị và khu công nghiệp,3,,Chuyên ngành
+,,Environmental Management In Urban & Industrial Park,,,
+7,EN3039,Quản lý tài nguyên nước,3,,Chuyên ngành
+,,Water Resources Management,,,
+8,EN3047,Đánh giá tác động và rủi ro môi trường,3,,Chuyên ngành
+,,Environmental Impact and Risk Assessment,,,
+9,EN3073,An toàn lao động và vệ sinh môi trường công nghiệp,3,,Chuyên ngành
+,,Industrial Safety and Environmental Hygiene,,,
+10,EN3335,Thực tập ngoài trường,2,,Tốt nghiệp
+,,Internship,,,
+11,EN4023,Đồ án chuyên ngành,2,,Tốt nghiệp
+,,Semester Paper,,,
+12,EN4337,Đồ án tốt nghiệp,4,,Tốt nghiệp
+,,Capstone Project,,,
+Các môn tự chọn nhóm (Elective Courses - Group) A,,,,
+1,IM1021,Khởi nghiệp,3,,
+,,Entrepreneurship,,,
+2,IM1025,Quản lý dự án cho kỹ sư,3,,
+,,Project Management for Engineers,,,
+3,IM1027,Kinh tế kỹ thuật,3,,
+,,Engineering Economics,,,
+Các môn tự chọn cơ sở ngành (Elective Core Courses - Group),,,,
+1,CI2001,Sức bền vật liệu,3,,
+,,Strength of Materials,,,
+2,CI2003,Cơ lưu chất,3,,
+,,Fluid Mechanics,,,
+3,CI3281,Kết cấu công trình xây dựng - môi trường,3,,
+,,Analysis and Design of Structures for Environmental Engineers,,,
+4,EN2017,Mô hình hóa môi trường,3,,
+,,Environmental Modelling,,,
+5,EN3011,Độc học môi trường,3,,
+,,Environmental Toxicology,,,
+6,EN3079,Các hệ thống quản lý môi trường,3,,
+,,Environmental Management Systems,,,
+7,EN3081,HSE đại cương,3,,
+,,General HSE,,,
+Các môn tự chọn chuyên ngành (Elective Speciality Courses - Group),,,,
+1,CI3283,Quản lý hệ thống cấp thoát nước đô thị,3,,
+,,Management of Urban Water Supply and Sewerage System,,,
+2,EN3023,Kỹ thuật sinh thái,3,,
+,,Ecological Engineering,,,
+3,EN3043,Kỹ thuật lò đốt chất thải,3,,
+,,Waste Incinerator Engineering,,,
+4,EN3083,Quan trắc môi trường,3,,
+,,Environmental Monitoring,,,
+5,EN3087,Biến đổi khí hậu,3,,
+,,Climate Change,,,
+6,EN3089,Quản lý vùng bờ,3,,
+,,Coastal Zone Management,,,
+7,EN3091,Quản lý tài nguyên rừng và đa dạng sinh học,3,,
+,,Forestry Management and Biodiversity,,,
+8,EN3093,Quản lý và kiểm soát ô nhiễm đất,3,,
+,,Soil Pollution Management and Control,,,
+9,EN3095,Kinh tế tài nguyên và môi trường,3,,
+,,Environmental Economics,,,
+10,EN3097,Lợi ích và nguy hại của vi tảo trong môi trường nước,3,,
+,,Micro-algae: Benefit and Risk Assessment,,,
+11,EN3099,Công nghệ xanh,3,,
+,,Green Technology,,,
+12,EN3101,Kỹ thuật an toàn hóa chất,3,,
+,,Chemical Safety Technology,,,
+13,EN3103,Kỹ thuật kiểm soát tiếng ồn,3,,
+,,Noise Control Technology,,,
+14,EN3105,Các tiêu chuẩn quốc tế về HSE,3,,
+,,HSE International Standards,,,
+15,EN3107,Quản lý an toàn dự án,3,,
+,,Project Safety Management,,,
+16,EN3109,Công thái học,3,,
+,,Ergonomics,,,
+17,EN3111,Các quá trình cơ học trong kỹ thuật môi trường,3,,
+,,Mechanical Process in Environmental Engineering,,,
+18,EN3117,Vận hành công trình xử lý môi trường,3,,
+,,Unit Operations in Environmental Engineering,,,
+19,EN3119,Quy hoạch môi trường,3,,
+,,Environmental Planning,,,
+20,EN3121,Quản lý mâu thuẩn, xung đột trong lĩnh vực tài nguyên môi trường,3,,
+,,Conflict Management,,,
+,,III. Chứng chỉ (Certification),,,,
+1,MI1003,Giáo dục quốc phòng,3,,
+,,Military Training,,,
+2,PE1003,Giáo dục thể chất 1,3,,
+,,Physical Education 1,,,
+3,PE1005,Giáo dục thể chất 2,3,,
+,,Physical Education 2,,,
+4,PE1007,Giáo dục thể chất 3,3,,
+,,Physical Education 3,,,

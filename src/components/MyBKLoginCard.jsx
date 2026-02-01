@@ -15,7 +15,12 @@ import {
     Building2,
     AlertCircle,
     ServerOff,
-    Loader2
+    Loader2,
+    Users,
+    Clock,
+    Timer,
+    RefreshCcw,
+    Coffee
 } from 'lucide-react';
 import * as mybkApi from '../services/mybkApi';
 import { Button } from "./ui/button";
@@ -100,6 +105,11 @@ function MyBKLoginCard({ onScheduleFetched, onError }) {
     const [rememberMe, setRememberMe] = useState(false);
     const [autoLoginAttempted, setAutoLoginAttempted] = useState(false);
 
+    // Server capacity states
+    const [serverBusy, setServerBusy] = useState(false);
+    const [serverStats, setServerStats] = useState(null);
+    const [retryCountdown, setRetryCountdown] = useState(0);
+
     const semesterOptions = getSemesterOptions();
 
     // Load saved credentials on mount
@@ -154,16 +164,50 @@ function MyBKLoginCard({ onScheduleFetched, onError }) {
 
     // Auto-login effect when credentials are loaded
     useEffect(() => {
-        if (autoLoginAttempted && username && password && serverStatus === 'online' && !isLoggedIn) {
+        if (autoLoginAttempted && username && password && serverStatus === 'online' && !isLoggedIn && !serverBusy) {
             handleLogin();
         }
     }, [autoLoginAttempted, username, password, serverStatus]);
+
+    // Countdown timer for retry - tự động thử lại khi countdown = 0
+    useEffect(() => {
+        if (retryCountdown > 0) {
+            const timer = setTimeout(() => {
+                setRetryCountdown(prev => prev - 1);
+            }, 1000);
+            return () => clearTimeout(timer);
+        } else if (retryCountdown === 0 && serverBusy && !loading) {
+            // Auto retry login when countdown reaches 0
+            console.log('[Auto-Retry] Countdown ended, attempting login...');
+            handleLogin();
+        }
+    }, [retryCountdown, serverBusy, loading]);
+
+    // Không cần auto refresh stats nữa vì handleLogin sẽ fetch stats nếu vẫn busy
+
+    const fetchServerStats = async () => {
+        try {
+            const response = await fetch('/api/stats');
+            if (response.ok) {
+                const stats = await response.json();
+                setServerStats(stats);
+                // Check if server has capacity
+                if (stats.sessions && stats.sessions.available > 0) {
+                    setServerBusy(false);
+                }
+            }
+        } catch (err) {
+            console.log('Could not fetch server stats');
+        }
+    };
 
     const checkServerStatus = async () => {
         try {
             const response = await fetch('/api/health');
             if (response.ok) {
                 setServerStatus('online');
+                // Also fetch server stats
+                fetchServerStats();
             } else {
                 setServerStatus('offline');
             }
@@ -183,12 +227,14 @@ function MyBKLoginCard({ onScheduleFetched, onError }) {
         e?.preventDefault();
         setError('');
         setLoading(true);
+        setServerBusy(false);
 
         try {
             const result = await mybkApi.login(username, password);
 
             if (result.success) {
                 setIsLoggedIn(true);
+                setServerBusy(false);
 
                 // Save credentials if Remember Me is checked
                 if (rememberMe) {
@@ -200,9 +246,17 @@ function MyBKLoginCard({ onScheduleFetched, onError }) {
                 setPassword('');
                 await loadStudentInfo();
             } else {
-                setError(result.error || 'Đăng nhập thất bại');
-                // Clear saved credentials if login fails
-                clearSavedCredentials();
+                // Check if it's a server capacity issue
+                if (result.code === 'MAX_SESSIONS_REACHED' || result.error?.includes('quá tải')) {
+                    setServerBusy(true);
+                    setRetryCountdown(30); // 30 seconds countdown
+                    await fetchServerStats(); // Get current stats
+                    setError(''); // Don't show error, show busy UI instead
+                } else {
+                    setError(result.error || 'Đăng nhập thất bại');
+                    // Clear saved credentials if login fails
+                    clearSavedCredentials();
+                }
             }
         } catch (err) {
             setError('Không thể kết nối đến server');
@@ -286,6 +340,117 @@ function MyBKLoginCard({ onScheduleFetched, onError }) {
             <div className="flex items-center gap-3 p-4">
                 <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
                 <span className="text-sm text-muted-foreground">Đang kiểm tra kết nối server...</span>
+            </div>
+        );
+    }
+
+    // Server Busy State - Premium UI
+    if (serverBusy) {
+        const sessionsActive = serverStats?.sessions?.active || 0;
+        const sessionsMax = serverStats?.sessions?.max || 40;
+        const sessionTimeout = serverStats?.config?.sessionTimeoutMinutes || 15;
+        const estimatedWaitMinutes = Math.ceil(sessionTimeout / 2); // Average wait time
+
+        return (
+            <div className="relative overflow-hidden rounded-xl border-2 border-amber-300 dark:border-amber-700/50 bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 dark:from-amber-950/30 dark:via-orange-950/20 dark:to-yellow-950/30 p-4 sm:p-6">
+                {/* Background decorations */}
+                <div className="absolute -top-10 -right-10 h-32 w-32 bg-amber-200/30 dark:bg-amber-900/20 rounded-full blur-2xl" />
+                <div className="absolute -bottom-10 -left-10 h-32 w-32 bg-orange-200/30 dark:bg-orange-900/20 rounded-full blur-2xl" />
+
+                <div className="relative">
+                    {/* Header */}
+                    <div className="flex items-center gap-3 mb-4">
+                        <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 dark:from-amber-600 dark:to-orange-700 flex items-center justify-center shadow-lg shadow-amber-200/50 dark:shadow-amber-950/40">
+                            <Coffee className="h-6 w-6 text-white" />
+                        </div>
+                        <div>
+                            <h3 className="font-bold text-lg text-amber-900 dark:text-amber-300">
+                                Server đang bận
+                            </h3>
+                            <p className="text-sm text-amber-700 dark:text-amber-400">
+                                Vui lòng đợi trong giây lát
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* Stats Cards */}
+                    <div className="grid grid-cols-2 gap-3 mb-4">
+                        <div className="rounded-lg bg-white/60 dark:bg-slate-900/40 border border-amber-200/50 dark:border-amber-800/30 p-3">
+                            <div className="flex items-center gap-2 mb-1">
+                                <Users className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+                                <span className="text-xs font-semibold text-amber-700 dark:text-amber-400">Đang online</span>
+                            </div>
+                            <div className="flex items-baseline gap-1">
+                                <span className="text-2xl font-black text-amber-900 dark:text-amber-300">{sessionsActive}</span>
+                                <span className="text-sm text-amber-600 dark:text-amber-500">/ {sessionsMax}</span>
+                            </div>
+                            {/* Progress bar */}
+                            <div className="mt-2 h-2 rounded-full bg-amber-200 dark:bg-amber-900/50 overflow-hidden">
+                                <div
+                                    className="h-full bg-gradient-to-r from-amber-500 to-orange-500 rounded-full transition-all duration-500"
+                                    style={{ width: `${(sessionsActive / sessionsMax) * 100}%` }}
+                                />
+                            </div>
+                        </div>
+
+                        <div className="rounded-lg bg-white/60 dark:bg-slate-900/40 border border-amber-200/50 dark:border-amber-800/30 p-3">
+                            <div className="flex items-center gap-2 mb-1">
+                                <Clock className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+                                <span className="text-xs font-semibold text-amber-700 dark:text-amber-400">Ước tính chờ</span>
+                            </div>
+                            <div className="flex items-baseline gap-1">
+                                <span className="text-2xl font-black text-amber-900 dark:text-amber-300">~{estimatedWaitMinutes}</span>
+                                <span className="text-sm text-amber-600 dark:text-amber-500">phút</span>
+                            </div>
+                            <p className="mt-1 text-[10px] text-amber-600 dark:text-amber-500">
+                                Session hết hạn sau {sessionTimeout} phút
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* Info message */}
+                    <div className="rounded-lg bg-amber-100/50 dark:bg-amber-900/20 border border-amber-200/50 dark:border-amber-800/30 p-3 mb-4">
+                        <p className="text-xs text-amber-700 dark:text-amber-400">
+                            💡 Server đang phục vụ tối đa <strong>{sessionsMax}</strong> người dùng cùng lúc.
+                            Khi có người đăng xuất hoặc session hết hạn, bạn sẽ tự động được đăng nhập.
+                        </p>
+                    </div>
+
+                    {/* Retry countdown */}
+                    <div className="flex items-center justify-between gap-3">
+                        <div className="flex items-center gap-2 text-sm text-amber-700 dark:text-amber-400">
+                            {retryCountdown > 0 ? (
+                                <>
+                                    <Timer className="h-4 w-4 animate-pulse" />
+                                    <span>Tự động thử lại sau <strong>{retryCountdown}s</strong></span>
+                                </>
+                            ) : (
+                                <>
+                                    <RefreshCcw className="h-4 w-4 animate-spin" />
+                                    <span>Đang kiểm tra...</span>
+                                </>
+                            )}
+                        </div>
+
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => {
+                                setRetryCountdown(0);
+                                handleLogin();
+                            }}
+                            disabled={loading}
+                            className="border-amber-300 dark:border-amber-700 text-amber-700 dark:text-amber-400 hover:bg-amber-100 dark:hover:bg-amber-900/30"
+                        >
+                            {loading ? (
+                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            ) : (
+                                <RefreshCw className="mr-2 h-4 w-4" />
+                            )}
+                            Thử ngay
+                        </Button>
+                    </div>
+                </div>
             </div>
         );
     }

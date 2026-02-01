@@ -103,3 +103,11 @@ venv
 # ========================
 crawl_data_dkmh-main/
 hcmut_lecturer_schedule-main/
+
+# ========================
+# Data processing folders (chỉ ở root)
+# ========================
+/CTDT/
+/pdfprocess/
+/scripts/
+/htmlSpecs/

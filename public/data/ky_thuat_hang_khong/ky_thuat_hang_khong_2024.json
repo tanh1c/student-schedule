@@ -1,0 +1,874 @@
+[
+  {
+    "id": "MT1007",
+    "code": "MT1007",
+    "name": "Đại số Tuyến tính",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "MT1003",
+    "code": "MT1003",
+    "name": "Giải tích 1",
+    "credits": "4",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "MT1005",
+    "code": "MT1005",
+    "name": "Giải tích 2",
+    "credits": "4",
+    "prerequisites": "MT1003(KN)",
+    "note": ""
+  },
+  {
+    "id": "MT2013",
+    "code": "MT2013",
+    "name": "Xác suất và Thống kê",
+    "credits": "4",
+    "prerequisites": "MT1007(KN)",
+    "note": ""
+  },
+  {
+    "id": "MT1009",
+    "code": "MT1009",
+    "name": "Phương pháp tính",
+    "credits": "3",
+    "prerequisites": "MT1003(KN)",
+    "note": ""
+  },
+  {
+    "id": "PH1003",
+    "code": "PH1003",
+    "name": "Vật lý 1",
+    "credits": "4",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PH1007",
+    "code": "PH1007",
+    "name": "Thí nghiệm Vật lý",
+    "credits": "1",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PH1005",
+    "code": "PH1005",
+    "name": "Vật lý 2",
+    "credits": "4",
+    "prerequisites": "PH1003(KN)",
+    "note": ""
+  },
+  {
+    "id": "CH1003",
+    "code": "CH1003",
+    "name": "Hóa đại cương",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "SP1007",
+    "code": "SP1007",
+    "name": "Pháp luật Việt Nam Đại cương",
+    "credits": "2",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "SP1031",
+    "code": "SP1031",
+    "name": "Triết học Mác - Lênin",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "SP1033",
+    "code": "SP1033",
+    "name": "Kinh tế Chính trị Mác - Lênin",
+    "credits": "2",
+    "prerequisites": "SP1031(KN)",
+    "note": ""
+  },
+  {
+    "id": "SP1035",
+    "code": "SP1035",
+    "name": "Chủ nghĩa Xã hội Khoa học",
+    "credits": "2",
+    "prerequisites": "SP1033(KN)",
+    "note": ""
+  },
+  {
+    "id": "SP1039",
+    "code": "SP1039",
+    "name": "Lịch sử Đảng Cộng sản Việt Nam",
+    "credits": "2",
+    "prerequisites": "SP1035(KN)",
+    "note": ""
+  },
+  {
+    "id": "SP1037",
+    "code": "SP1037",
+    "name": "Tư tưởng Hồ Chí Minh",
+    "credits": "2",
+    "prerequisites": "SP1039(KN)",
+    "note": ""
+  },
+  {
+    "id": "LA1003",
+    "code": "LA1003",
+    "name": "Anh văn 1",
+    "credits": "2",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "LA1005",
+    "code": "LA1005",
+    "name": "Anh văn 2",
+    "credits": "2",
+    "prerequisites": "LA1003(TQ)",
+    "note": ""
+  },
+  {
+    "id": "LA1007",
+    "code": "LA1007",
+    "name": "Anh văn 3",
+    "credits": "2",
+    "prerequisites": "LA1005(TQ)",
+    "note": ""
+  },
+  {
+    "id": "LA1009",
+    "code": "LA1009",
+    "name": "Anh văn 4",
+    "credits": "2",
+    "prerequisites": "LA1007(TQ)",
+    "note": ""
+  },
+  {
+    "id": "EN1003",
+    "code": "EN1003",
+    "name": "Con người và Môi trường",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "TR1001",
+    "code": "TR1001",
+    "name": "Nhập môn Về Kỹ thuật",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM1027",
+    "code": "IM1027",
+    "name": "Kinh tế Kỹ thuật",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM1025",
+    "code": "IM1025",
+    "name": "Quản lý Dự án cho Kỹ sư",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM3001",
+    "code": "IM3001",
+    "name": "Quản trị Kinh doanh cho Kỹ sư",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM1013",
+    "code": "IM1013",
+    "name": "Kinh tế học Đại cương",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM1023",
+    "code": "IM1023",
+    "name": "Quản lý Sản xuất cho Kỹ sư",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM1031",
+    "code": "IM1031",
+    "name": "Khởi nghiệp và đổi mới sáng tạo",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "ME1019",
+    "code": "ME1019",
+    "name": "Quản lý năng suất và chất lượng",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "MI1003",
+    "code": "MI1003",
+    "name": "Giáo dục Quốc phòng",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1009",
+    "code": "PE1009",
+    "name": "Bóng đá (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1011",
+    "code": "PE1011",
+    "name": "Bóng chuyền (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1013",
+    "code": "PE1013",
+    "name": "Bóng bàn (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1015",
+    "code": "PE1015",
+    "name": "Bóng rổ (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1017",
+    "code": "PE1017",
+    "name": "Cầu lông (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1019",
+    "code": "PE1019",
+    "name": "Bơi (học Phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1021",
+    "code": "PE1021",
+    "name": "Aerobic (học Phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1025",
+    "code": "PE1025",
+    "name": "Điền kinh (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1027",
+    "code": "PE1027",
+    "name": "Quần vợt (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1053",
+    "code": "PE1053",
+    "name": "Cờ vua (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1057",
+    "code": "PE1057",
+    "name": "Bowling (học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1061",
+    "code": "PE1061",
+    "name": "Pickleball (học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1033",
+    "code": "PE1033",
+    "name": "Bóng đá (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1035",
+    "code": "PE1035",
+    "name": "Bóng chuyền (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1037",
+    "code": "PE1037",
+    "name": "Bóng bàn (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1039",
+    "code": "PE1039",
+    "name": "Bóng rổ (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1041",
+    "code": "PE1041",
+    "name": "Cầu lông (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1043",
+    "code": "PE1043",
+    "name": "Bơi (học Phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1045",
+    "code": "PE1045",
+    "name": "Aerobic (học Phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1049",
+    "code": "PE1049",
+    "name": "Điền kinh (học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1047",
+    "code": "PE1047",
+    "name": "Võ (Vovinam Karate Taewondo) (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1051",
+    "code": "PE1051",
+    "name": "Quần vợt (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1053",
+    "code": "PE1053",
+    "name": "Cờ vua (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1055",
+    "code": "PE1055",
+    "name": "Cờ vua (học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1059",
+    "code": "PE1059",
+    "name": "Bowling (học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1063",
+    "code": "PE1063",
+    "name": "Pickleball (học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "ME2089",
+    "code": "ME2089",
+    "name": "Vẽ kỹ thuật Cơ khí",
+    "credits": "4",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "TR2039",
+    "code": "TR2039",
+    "name": "Cơ kỹ thuật",
+    "credits": "4",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "TR1005",
+    "code": "TR1005",
+    "name": "Cơ học Thủy khí",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO1003",
+    "code": "CO1003",
+    "name": "Nhập môn về Lập trình",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "TR2005",
+    "code": "TR2005",
+    "name": "Cơ học Vật rắn Biến dạng",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "EE2011",
+    "code": "EE2011",
+    "name": "Kỹ thuật Điện - Điện tử",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "ME2013",
+    "code": "ME2013",
+    "name": "Nhiệt động lực học và Truyền nhiệt",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "TR2011",
+    "code": "TR2011",
+    "name": "Khí động lực học 1",
+    "credits": "3",
+    "prerequisites": "TR1005(HT)",
+    "note": ""
+  },
+  {
+    "id": "TR3011",
+    "code": "TR3011",
+    "name": "Khí động lực học 2",
+    "credits": "3",
+    "prerequisites": "TR1005(TQ) TR2011(HT)",
+    "note": ""
+  },
+  {
+    "id": "TR3135",
+    "code": "TR3135",
+    "name": "Phân tích kết cấu Máy bay",
+    "credits": "3",
+    "prerequisites": "TR2011(HT)",
+    "note": ""
+  },
+  {
+    "id": "TR3001",
+    "code": "TR3001",
+    "name": "Cơ học bay",
+    "credits": "3",
+    "prerequisites": "TR2011(HT)",
+    "note": ""
+  },
+  {
+    "id": "TR3039",
+    "code": "TR3039",
+    "name": "Ổn định và Điều khiển bay",
+    "credits": "3",
+    "prerequisites": "TR3001(HT)",
+    "note": ""
+  },
+  {
+    "id": "TR3137",
+    "code": "TR3137",
+    "name": "Hệ thống lực đẩy Máy bay",
+    "credits": "3",
+    "prerequisites": "TR1005(TQ) ME2013(HT) TR2011(HT)",
+    "note": ""
+  },
+  {
+    "id": "TR4081",
+    "code": "TR4081",
+    "name": "Thiết kế Máy bay",
+    "credits": "3",
+    "prerequisites": "TR3001(HT) TR2011(HT)",
+    "note": ""
+  },
+  {
+    "id": "TR3077",
+    "code": "TR3077",
+    "name": "Thí nghiệm Kỹ thuật Hàng không 1",
+    "credits": "1",
+    "prerequisites": "TR1005(HT)",
+    "note": ""
+  },
+  {
+    "id": "TR3051",
+    "code": "TR3051",
+    "name": "Thí nghiệm Kỹ thuật Hàng không 2",
+    "credits": "1",
+    "prerequisites": "TR3077(HT)",
+    "note": ""
+  },
+  {
+    "id": "TR4015",
+    "code": "TR4015",
+    "name": "Thí nghiệm Kỹ thuật Hàng không 3",
+    "credits": "1",
+    "prerequisites": "TR3051(HT)",
+    "note": ""
+  },
+  {
+    "id": "TR3003",
+    "code": "TR3003",
+    "name": "Cơ học Vật liệu Hàng không",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "TR3087",
+    "code": "TR3087",
+    "name": "Khí đàn hồi",
+    "credits": "3",
+    "prerequisites": "TR2011(HT)",
+    "note": ""
+  },
+  {
+    "id": "TR4051",
+    "code": "TR4051",
+    "name": "Phương pháp Phần tử hữu hạn",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "TR4047",
+    "code": "TR4047",
+    "name": "Phương pháp số - Động lực học lưu chất",
+    "credits": "3",
+    "prerequisites": "TR1005(TQ)",
+    "note": ""
+  },
+  {
+    "id": "TR3083",
+    "code": "TR3083",
+    "name": "Máy Thủy khí",
+    "credits": "3",
+    "prerequisites": "TR1005(HT)",
+    "note": ""
+  },
+  {
+    "id": "TR3029",
+    "code": "TR3029",
+    "name": "Động cơ gió",
+    "credits": "3",
+    "prerequisites": "TR2011(KN) TR1005(HT)",
+    "note": ""
+  },
+  {
+    "id": "TR4095",
+    "code": "TR4095",
+    "name": "Máy bay Trực thăng",
+    "credits": "3",
+    "prerequisites": "TR2011(KN) TR1005(SHT)",
+    "note": ""
+  },
+  {
+    "id": "TR4083",
+    "code": "TR4083",
+    "name": "Động cơ Tuabin",
+    "credits": "3",
+    "prerequisites": "ME2013(KN) TR1005(KN)",
+    "note": ""
+  },
+  {
+    "id": "TR4097",
+    "code": "TR4097",
+    "name": "Cơ học rạn nứt và mỏi",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "TR4073",
+    "code": "TR4073",
+    "name": "Cơ học va chạm",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "TR4043",
+    "code": "TR4043",
+    "name": "Cảm biến và Tín hiệu",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "TR3055",
+    "code": "TR3055",
+    "name": "Các Hệ thời gian thực",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "TR3063",
+    "code": "TR3063",
+    "name": "Phân tích thiết kế hê điều khiển",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "TR4067",
+    "code": "TR4067",
+    "name": "Nhận dạng hệ thống máy bay",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "TR4071",
+    "code": "TR4071",
+    "name": "Thiết kế tối ưu",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "TR4057",
+    "code": "TR4057",
+    "name": "Hệ thống lực đẩy hỏa tiễn",
+    "credits": "3",
+    "prerequisites": "TR3137(HT) TR3011(HT)",
+    "note": ""
+  },
+  {
+    "id": "TR4047",
+    "code": "TR4047",
+    "name": "Phương pháp số - Động lực học lưu chất",
+    "credits": "3",
+    "prerequisites": "TR1005(TQ)",
+    "note": ""
+  },
+  {
+    "id": "TR4051",
+    "code": "TR4051",
+    "name": "Phương pháp Phần tử hữu hạn",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "TR3087",
+    "code": "TR3087",
+    "name": "Khí đàn hồi",
+    "credits": "3",
+    "prerequisites": "TR2011(HT)",
+    "note": ""
+  },
+  {
+    "id": "TR4057",
+    "code": "TR4057",
+    "name": "Hệ thống lực đẩy hỏa tiễn",
+    "credits": "3",
+    "prerequisites": "TR3137(HT) TR3011(HT)",
+    "note": ""
+  },
+  {
+    "id": "TR4083",
+    "code": "TR4083",
+    "name": "Động cơ Tuabin",
+    "credits": "3",
+    "prerequisites": "ME2013(KN) TR1005(KN)",
+    "note": ""
+  },
+  {
+    "id": "TR3029",
+    "code": "TR3029",
+    "name": "Động cơ gió",
+    "credits": "3",
+    "prerequisites": "TR2011(KN) TR1005(HT)",
+    "note": ""
+  },
+  {
+    "id": "TR3083",
+    "code": "TR3083",
+    "name": "Máy Thủy khí",
+    "credits": "3",
+    "prerequisites": "TR1005(HT)",
+    "note": ""
+  },
+  {
+    "id": "TR4095",
+    "code": "TR4095",
+    "name": "Máy bay Trực thăng",
+    "credits": "3",
+    "prerequisites": "TR2011(KN) TR1005(SHT)",
+    "note": ""
+  },
+  {
+    "id": "TR4097",
+    "code": "TR4097",
+    "name": "Cơ học rạn nứt và mỏi",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "TR4073",
+    "code": "TR4073",
+    "name": "Cơ học va chạm",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "TR3003",
+    "code": "TR3003",
+    "name": "Cơ học Vật liệu Hàng không",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "TR4043",
+    "code": "TR4043",
+    "name": "Cảm biến và Tín hiệu",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "TR3055",
+    "code": "TR3055",
+    "name": "Các Hệ thời gian thực",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "TR3063",
+    "code": "TR3063",
+    "name": "Phân tích thiết kế hệ điều khiển",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "TR4067",
+    "code": "TR4067",
+    "name": "Nhận dạng hệ thống máy bay",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "TR4071",
+    "code": "TR4071",
+    "name": "Thiết kế tối ưu",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "TR4079",
+    "code": "TR4079",
+    "name": "Đồ án Chuyên ngành Hàng không",
+    "credits": "2",
+    "prerequisites": "TR3365(HT) TR3137(HT) TR3001(HT) TR3135(HT) TR2011(HT)",
+    "note": ""
+  },
+  {
+    "id": "TR3365",
+    "code": "TR3365",
+    "name": "Thực tập Ngoài trường",
+    "credits": "2",
+    "prerequisites": "TR3001(HT) TR2005(HT) TR2011(HT)",
+    "note": ""
+  },
+  {
+    "id": "TR4367",
+    "code": "TR4367",
+    "name": "Đồ án Tốt nghiệp",
+    "credits": "4",
+    "prerequisites": "TR3365(TQ) TR4079(TQ)",
+    "note": ""
+  },
+  {
+    "id": "SA4001",
+    "code": "SA4001",
+    "name": "Hoạt động sinh viên",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "ENG_GE2",
+    "code": "ENG_GE2",
+    "name": "Điều kiện tiếng Anh tốt nghiệp dạy và học bằng tiếng Anh",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  }
+]

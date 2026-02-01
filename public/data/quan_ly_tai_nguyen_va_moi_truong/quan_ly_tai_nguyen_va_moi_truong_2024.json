@@ -1,0 +1,650 @@
+[
+  {
+    "id": "MT1003",
+    "code": "MT1003",
+    "name": "Giải tích 1",
+    "credits": "4",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "MT1005",
+    "code": "MT1005",
+    "name": "Giải tích 2",
+    "credits": "4",
+    "prerequisites": "MT1003(KN)",
+    "note": ""
+  },
+  {
+    "id": "MT1007",
+    "code": "MT1007",
+    "name": "Đại số Tuyến tính",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "MT2013",
+    "code": "MT2013",
+    "name": "Xác suất và Thống kê",
+    "credits": "4",
+    "prerequisites": "MT1007(KN)",
+    "note": ""
+  },
+  {
+    "id": "CH1003",
+    "code": "CH1003",
+    "name": "Hóa đại cương",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PH1003",
+    "code": "PH1003",
+    "name": "Vật lý 1",
+    "credits": "4",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PH1007",
+    "code": "PH1007",
+    "name": "Thí nghiệm Vật lý",
+    "credits": "1",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "EN1017",
+    "code": "EN1017",
+    "name": "Hóa Môi trường",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "EN1015",
+    "code": "EN1015",
+    "name": "Vi sinh Vật đại cương và Thí nghiệm",
+    "credits": "4",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "SP1007",
+    "code": "SP1007",
+    "name": "Pháp luật Việt Nam Đại cương",
+    "credits": "2",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "SP1031",
+    "code": "SP1031",
+    "name": "Triết học Mác - Lênin",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "SP1033",
+    "code": "SP1033",
+    "name": "Kinh tế Chính trị Mác - Lênin",
+    "credits": "2",
+    "prerequisites": "SP1031(KN)",
+    "note": ""
+  },
+  {
+    "id": "SP1035",
+    "code": "SP1035",
+    "name": "Chủ nghĩa Xã hội Khoa học",
+    "credits": "2",
+    "prerequisites": "SP1033(KN)",
+    "note": ""
+  },
+  {
+    "id": "SP1039",
+    "code": "SP1039",
+    "name": "Lịch sử Đảng Cộng sản Việt Nam",
+    "credits": "2",
+    "prerequisites": "SP1035(KN)",
+    "note": ""
+  },
+  {
+    "id": "SP1037",
+    "code": "SP1037",
+    "name": "Tư tưởng Hồ Chí Minh",
+    "credits": "2",
+    "prerequisites": "SP1039(KN)",
+    "note": ""
+  },
+  {
+    "id": "EN1001",
+    "code": "EN1001",
+    "name": "Nhập môn Về kỹ thuật",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM1025",
+    "code": "IM1025",
+    "name": "Quản lý Dự án cho Kỹ sư",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM1027",
+    "code": "IM1027",
+    "name": "Kinh tế Kỹ thuật",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM1031",
+    "code": "IM1031",
+    "name": "Khởi nghiệp và đổi mới sáng tạo",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "ME1019",
+    "code": "ME1019",
+    "name": "Quản lý năng suất và chất lượng",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "ME2173",
+    "code": "ME2173",
+    "name": "Các công nghệ 4.0 trong quản lý năng suất và chất lượng",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "EN3217",
+    "code": "EN3217",
+    "name": "Nhập môn phương pháp nghiên cứu khoa học trong lĩnh vực tài nguyên và môi trường",
+    "credits": "3",
+    "prerequisites": "EN1001(KN)",
+    "note": ""
+  },
+  {
+    "id": "LA1003",
+    "code": "LA1003",
+    "name": "Anh văn 1",
+    "credits": "2",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "LA1005",
+    "code": "LA1005",
+    "name": "Anh văn 2",
+    "credits": "2",
+    "prerequisites": "LA1003(TQ)",
+    "note": ""
+  },
+  {
+    "id": "LA1007",
+    "code": "LA1007",
+    "name": "Anh văn 3",
+    "credits": "2",
+    "prerequisites": "LA1005(TQ)",
+    "note": ""
+  },
+  {
+    "id": "LA1009",
+    "code": "LA1009",
+    "name": "Anh văn 4",
+    "credits": "2",
+    "prerequisites": "LA1007(TQ)",
+    "note": ""
+  },
+  {
+    "id": "CI1003",
+    "code": "CI1003",
+    "name": "Vẽ kỹ thuật",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CI2003",
+    "code": "CI2003",
+    "name": "Cơ lưu chất",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "EN2065",
+    "code": "EN2065",
+    "name": "Hóa phân tích trong môi trường",
+    "credits": "3",
+    "prerequisites": "CH1003(KN)",
+    "note": ""
+  },
+  {
+    "id": "EN1005",
+    "code": "EN1005",
+    "name": "Sinh thái học",
+    "credits": "3",
+    "prerequisites": "CH1003(KN)",
+    "note": ""
+  },
+  {
+    "id": "EN2003",
+    "code": "EN2003",
+    "name": "Các Quá trình Sinh học trong Kỹ thuật Môi trường",
+    "credits": "3",
+    "prerequisites": "CI2003(KN)",
+    "note": ""
+  },
+  {
+    "id": "EN2061",
+    "code": "EN2061",
+    "name": "Các quá trình Hoá học và Hoá lý trong kỹ thuật môi trường",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "EN2033",
+    "code": "EN2033",
+    "name": "Luật và Chính sách Môi trường",
+    "credits": "3",
+    "prerequisites": "SP1007(KN)",
+    "note": ""
+  },
+  {
+    "id": "EN2047",
+    "code": "EN2047",
+    "name": "Kinh tế Tài nguyên và Môi trường",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "EN2049",
+    "code": "EN2049",
+    "name": "Phân tích Hệ thống Môi trường",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "EN2051",
+    "code": "EN2051",
+    "name": "Độc học Môi trường",
+    "credits": "3",
+    "prerequisites": "CH1003(KN)",
+    "note": ""
+  },
+  {
+    "id": "EN2039",
+    "code": "EN2039",
+    "name": "Thực tập Tham quan",
+    "credits": "1",
+    "prerequisites": "EN1001(TQ)",
+    "note": ""
+  },
+  {
+    "id": "EN3003",
+    "code": "EN3003",
+    "name": "Ứng dụng GIS và Viễn Thám trong Quản lý Tài nguyên và Môi trường",
+    "credits": "3",
+    "prerequisites": "EN2033(KN)",
+    "note": ""
+  },
+  {
+    "id": "EN3205",
+    "code": "EN3205",
+    "name": "Thủy văn Môi trường",
+    "credits": "3",
+    "prerequisites": "MT2013(KN)",
+    "note": ""
+  },
+  {
+    "id": "EN3039",
+    "code": "EN3039",
+    "name": "Quản lý Tài nguyên nước",
+    "credits": "3",
+    "prerequisites": "EN1005(KN)",
+    "note": ""
+  },
+  {
+    "id": "EN3047",
+    "code": "EN3047",
+    "name": "Đánh giá Tác động và Rủi ro Môi trường",
+    "credits": "3",
+    "prerequisites": "EN2033(KN)",
+    "note": ""
+  },
+  {
+    "id": "EN3069",
+    "code": "EN3069",
+    "name": "Quản lý Chất thải Rắn và Chất thải Nguy hại",
+    "credits": "3",
+    "prerequisites": "EN1017(KN)",
+    "note": ""
+  },
+  {
+    "id": "EN3083",
+    "code": "EN3083",
+    "name": "Quan trắc Môi trường",
+    "credits": "3",
+    "prerequisites": "EN1017(KN)",
+    "note": ""
+  },
+  {
+    "id": "EN3099",
+    "code": "EN3099",
+    "name": "Công nghệ xanh",
+    "credits": "3",
+    "prerequisites": "CH1003(KN)",
+    "note": ""
+  },
+  {
+    "id": "EN3005",
+    "code": "EN3005",
+    "name": "Kỹ thuật Xử lý Nước cấp",
+    "credits": "4",
+    "prerequisites": "EN2061(KN)",
+    "note": ""
+  },
+  {
+    "id": "EN3013",
+    "code": "EN3013",
+    "name": "Kỹ thuật Xử lý Nước thải",
+    "credits": "4",
+    "prerequisites": "EN2003(KN)",
+    "note": ""
+  },
+  {
+    "id": "EN3087",
+    "code": "EN3087",
+    "name": "Biến đổi Khí hậu",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "EN3089",
+    "code": "EN3089",
+    "name": "Quản lý vùng bờ",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "EN3093",
+    "code": "EN3093",
+    "name": "Quản lý và kiểm soát ô nhiễm đất",
+    "credits": "3",
+    "prerequisites": "EN1017(KN)",
+    "note": ""
+  },
+  {
+    "id": "EN3127",
+    "code": "EN3127",
+    "name": "Sản xuất sạch hơn",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "EN3215",
+    "code": "EN3215",
+    "name": "Kiểm soát ô nhiễm không khí & tiếng ồn",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "EN3209",
+    "code": "EN3209",
+    "name": "Mô hình Hóa Môi trường",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "EN3335",
+    "code": "EN3335",
+    "name": "Thực tập Ngoài trường",
+    "credits": "2",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "EN4023",
+    "code": "EN4023",
+    "name": "Đồ án Chuyên ngành",
+    "credits": "2",
+    "prerequisites": "EN3335(SHT)",
+    "note": ""
+  },
+  {
+    "id": "EN4337",
+    "code": "EN4337",
+    "name": "Đồ án Tốt nghiệp",
+    "credits": "4",
+    "prerequisites": "EN4023(TQ) EN3335(TQ)",
+    "note": ""
+  },
+  {
+    "id": "MI1003",
+    "code": "MI1003",
+    "name": "Giáo dục Quốc phòng",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1009",
+    "code": "PE1009",
+    "name": "Bóng đá (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1011",
+    "code": "PE1011",
+    "name": "Bóng chuyền (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1013",
+    "code": "PE1013",
+    "name": "Bóng bàn (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1021",
+    "code": "PE1021",
+    "name": "Aerobic (học Phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1015",
+    "code": "PE1015",
+    "name": "Bóng rổ (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1017",
+    "code": "PE1017",
+    "name": "Cầu lông (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1025",
+    "code": "PE1025",
+    "name": "Điền kinh (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1019",
+    "code": "PE1019",
+    "name": "Bơi (học Phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1027",
+    "code": "PE1027",
+    "name": "Quần vợt (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1053",
+    "code": "PE1053",
+    "name": "Cờ vua (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1057",
+    "code": "PE1057",
+    "name": "Bowling (học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1061",
+    "code": "PE1061",
+    "name": "Pickleball (học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1037",
+    "code": "PE1037",
+    "name": "Bóng bàn (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1041",
+    "code": "PE1041",
+    "name": "Cầu lông (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1033",
+    "code": "PE1033",
+    "name": "Bóng đá (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1045",
+    "code": "PE1045",
+    "name": "Aerobic (học Phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1043",
+    "code": "PE1043",
+    "name": "Bơi (học Phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1039",
+    "code": "PE1039",
+    "name": "Bóng rổ (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1035",
+    "code": "PE1035",
+    "name": "Bóng chuyền (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1049",
+    "code": "PE1049",
+    "name": "Điền kinh (học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1051",
+    "code": "PE1051",
+    "name": "Quần vợt (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1055",
+    "code": "PE1055",
+    "name": "Cờ vua (học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1063",
+    "code": "PE1063",
+    "name": "Pickleball (học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1059",
+    "code": "PE1059",
+    "name": "Bowling (học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "SA4001",
+    "code": "SA4001",
+    "name": "Hoạt động sinh viên",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  }
+]

@@ -1,0 +1,602 @@
+[
+  {
+    "id": "MT1003",
+    "code": "MT1003",
+    "name": "Giải tích 1",
+    "credits": "4",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "MT1005",
+    "code": "MT1005",
+    "name": "Giải tích 2",
+    "credits": "4",
+    "prerequisites": "MT1003(KN)",
+    "note": ""
+  },
+  {
+    "id": "MT1007",
+    "code": "MT1007",
+    "name": "Đại số Tuyến tính",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "MT2013",
+    "code": "MT2013",
+    "name": "Xác suất và Thống kê",
+    "credits": "4",
+    "prerequisites": "MT1007(KN)",
+    "note": ""
+  },
+  {
+    "id": "CH1003",
+    "code": "CH1003",
+    "name": "Hóa đại cương",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PH1003",
+    "code": "PH1003",
+    "name": "Vật lý 1",
+    "credits": "4",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PH1007",
+    "code": "PH1007",
+    "name": "Thí nghiệm Vật lý",
+    "credits": "1",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "GE1013",
+    "code": "GE1013",
+    "name": "Khoa học Trái đất",
+    "credits": "4",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "GE1027",
+    "code": "GE1027",
+    "name": "Khoa học dữ liệu",
+    "credits": "3",
+    "prerequisites": "MT1007(HT)",
+    "note": ""
+  },
+  {
+    "id": "SP1007",
+    "code": "SP1007",
+    "name": "Pháp luật Việt Nam Đại cương",
+    "credits": "2",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "SP1031",
+    "code": "SP1031",
+    "name": "Triết học Mác - Lênin",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "SP1033",
+    "code": "SP1033",
+    "name": "Kinh tế Chính trị Mác - Lênin",
+    "credits": "2",
+    "prerequisites": "SP1031(KN)",
+    "note": ""
+  },
+  {
+    "id": "SP1035",
+    "code": "SP1035",
+    "name": "Chủ nghĩa Xã hội Khoa học",
+    "credits": "2",
+    "prerequisites": "SP1033(KN)",
+    "note": ""
+  },
+  {
+    "id": "SP1037",
+    "code": "SP1037",
+    "name": "Tư tưởng Hồ Chí Minh",
+    "credits": "2",
+    "prerequisites": "SP1039(KN)",
+    "note": ""
+  },
+  {
+    "id": "SP1039",
+    "code": "SP1039",
+    "name": "Lịch sử Đảng Cộng sản Việt Nam",
+    "credits": "2",
+    "prerequisites": "SP1035(KN)",
+    "note": ""
+  },
+  {
+    "id": "GE1001",
+    "code": "GE1001",
+    "name": "Nhập môn về Kỹ thuật",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "GE1025",
+    "code": "GE1025",
+    "name": "Kỹ thuật hệ thống và thực tiễn công nghiệp",
+    "credits": "3",
+    "prerequisites": "GE1001(HT)",
+    "note": ""
+  },
+  {
+    "id": "GE1029",
+    "code": "GE1029",
+    "name": "Sức khỏe An toàn Môi trường",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "LA1003",
+    "code": "LA1003",
+    "name": "Anh văn 1",
+    "credits": "2",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "LA1005",
+    "code": "LA1005",
+    "name": "Anh văn 2",
+    "credits": "2",
+    "prerequisites": "LA1003(TQ)",
+    "note": ""
+  },
+  {
+    "id": "LA1007",
+    "code": "LA1007",
+    "name": "Anh văn 3",
+    "credits": "2",
+    "prerequisites": "LA1005(TQ)",
+    "note": ""
+  },
+  {
+    "id": "LA1009",
+    "code": "LA1009",
+    "name": "Anh văn 4",
+    "credits": "2",
+    "prerequisites": "LA1007(TQ)",
+    "note": ""
+  },
+  {
+    "id": "GE2051",
+    "code": "GE2051",
+    "name": "Cơ sở khoa học địa chất dầu khí và ngành dầu khí",
+    "credits": "3",
+    "prerequisites": "GE1013(TQ) PH1003(KN)",
+    "note": ""
+  },
+  {
+    "id": "GE2001",
+    "code": "GE2001",
+    "name": "Cơ sở Kỹ thuật Dầu khí",
+    "credits": "3",
+    "prerequisites": "GE1001(KN) PH1003(KN)",
+    "note": ""
+  },
+  {
+    "id": "GE2053",
+    "code": "GE2053",
+    "name": "Nhiệt động học vỉa và tính chất chất lưu",
+    "credits": "3",
+    "prerequisites": "PH1003(KN) CH1003(KN)",
+    "note": ""
+  },
+  {
+    "id": "GE2061",
+    "code": "GE2061",
+    "name": "Trầm tích học và nhịp địa tầng",
+    "credits": "3",
+    "prerequisites": "GE2051(KN)",
+    "note": ""
+  },
+  {
+    "id": "GE2063",
+    "code": "GE2063",
+    "name": "Kỹ thuật khoan dầu khí",
+    "credits": "3",
+    "prerequisites": "GE2001(KN) GE2051(KN) MT1005(KN)",
+    "note": ""
+  },
+  {
+    "id": "GE2059",
+    "code": "GE2059",
+    "name": "Địa chất kiến trúc và các phương pháp địa chấn",
+    "credits": "3",
+    "prerequisites": "GE2051(KN)",
+    "note": ""
+  },
+  {
+    "id": "GE3017",
+    "code": "GE3017",
+    "name": "Kỹ thuật Vỉa dầu khí",
+    "credits": "3",
+    "prerequisites": "GE2053(KN) MT1005(KN) GE2001(KN)",
+    "note": ""
+  },
+  {
+    "id": "GE3205",
+    "code": "GE3205",
+    "name": "Cơ học đá Dầu khí",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "GE2055",
+    "code": "GE2055",
+    "name": "Địa vật lý dầu khí và đánh giá thành hệ",
+    "credits": "3",
+    "prerequisites": "GE2001(KN) GE2051(KN)",
+    "note": ""
+  },
+  {
+    "id": "GE2057",
+    "code": "GE2057",
+    "name": "Đồ án tổng quan về địa năng lượng",
+    "credits": "1",
+    "prerequisites": "GE2001(KN) GE2051(KN)",
+    "note": ""
+  },
+  {
+    "id": "GE3213",
+    "code": "GE3213",
+    "name": "Địa thống kê Ứng dụng trong Kỹ thuật Dầu khí",
+    "credits": "3",
+    "prerequisites": "MT2013(HT)",
+    "note": ""
+  },
+  {
+    "id": "GE3219",
+    "code": "GE3219",
+    "name": "Hoàn thiện và kích thích giếng",
+    "credits": "3",
+    "prerequisites": "CH1003(KN) PH1007(KN) GE2063(SHT)",
+    "note": ""
+  },
+  {
+    "id": "GE3217",
+    "code": "GE3217",
+    "name": "Kỹ thuật khai thác dầu khí",
+    "credits": "3",
+    "prerequisites": "GE3017(TQ)",
+    "note": ""
+  },
+  {
+    "id": "GE3105",
+    "code": "GE3105",
+    "name": "Đặc trưng Hóa và Mô hình Hóa vỉa",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "GE4091",
+    "code": "GE4091",
+    "name": "Mô phỏng Vỉa dầu khí",
+    "credits": "3",
+    "prerequisites": "MT2013(KN) GE3017(TQ)",
+    "note": ""
+  },
+  {
+    "id": "GE4145",
+    "code": "GE4145",
+    "name": "Thử vỉa và phân tích áp suất chuyển tiếp",
+    "credits": "3",
+    "prerequisites": "GE3017(TQ)",
+    "note": ""
+  },
+  {
+    "id": "GE4153",
+    "code": "GE4153",
+    "name": "Quản lý dự án và vỉa dầu khí tích hợp",
+    "credits": "3",
+    "prerequisites": "GE3217(TQ)",
+    "note": ""
+  },
+  {
+    "id": "GE3223",
+    "code": "GE3223",
+    "name": "Các quá trình vận chuyển và chế biến dầu khí",
+    "credits": "3",
+    "prerequisites": "GE2053(KN)",
+    "note": ""
+  },
+  {
+    "id": "GE3221",
+    "code": "GE3221",
+    "name": "Tổn hại thành hệ và cải thiện năng suất khai thác",
+    "credits": "3",
+    "prerequisites": "GE2055(KN) GE3217(KN)",
+    "note": ""
+  },
+  {
+    "id": "GE4147",
+    "code": "GE4147",
+    "name": "Các nguồn tài nguyên phi truyền thống và phương pháp khai thác",
+    "credits": "3",
+    "prerequisites": "GE3217(KN) GE3017(TQ) GE2063(KN)",
+    "note": ""
+  },
+  {
+    "id": "GE4149",
+    "code": "GE4149",
+    "name": "Thu hồi lưu trữ carbon trong thành hệ địa chất",
+    "credits": "3",
+    "prerequisites": "GE2051(KN) GE2001(KN) CH1003(KN)",
+    "note": ""
+  },
+  {
+    "id": "GE4151",
+    "code": "GE4151",
+    "name": "Năng lượng bền vững",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "ME1019",
+    "code": "ME1019",
+    "name": "Quản lý năng suất và chất lượng",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM1031",
+    "code": "IM1031",
+    "name": "Khởi nghiệp và đổi mới sáng tạo",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "GE3345",
+    "code": "GE3345",
+    "name": "Thực tập Ngoài trường",
+    "credits": "2",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "GE4141",
+    "code": "GE4141",
+    "name": "Đồ án Chuyên ngành",
+    "credits": "2",
+    "prerequisites": "GE3345(SHT)",
+    "note": "X"
+  },
+  {
+    "id": "GE4347",
+    "code": "GE4347",
+    "name": "Đồ án Tốt nghiệp",
+    "credits": "4",
+    "prerequisites": "GE3345(TQ) GE4141(TQ)",
+    "note": "X"
+  },
+  {
+    "id": "MI1003",
+    "code": "MI1003",
+    "name": "Giáo dục Quốc phòng",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1009",
+    "code": "PE1009",
+    "name": "Bóng đá",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1011",
+    "code": "PE1011",
+    "name": "Bóng chuyền",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1013",
+    "code": "PE1013",
+    "name": "Bóng bàn",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1021",
+    "code": "PE1021",
+    "name": "Aerobic",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1015",
+    "code": "PE1015",
+    "name": "Bóng rổ",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1017",
+    "code": "PE1017",
+    "name": "Cầu lông",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1025",
+    "code": "PE1025",
+    "name": "Điền kinh",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1019",
+    "code": "PE1019",
+    "name": "Bơi",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1027",
+    "code": "PE1027",
+    "name": "Quần vợt",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1053",
+    "code": "PE1053",
+    "name": "Cờ vua",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1057",
+    "code": "PE1057",
+    "name": "Bowling",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1061",
+    "code": "PE1061",
+    "name": "Pickleball",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1037",
+    "code": "PE1037",
+    "name": "Bóng bàn",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1041",
+    "code": "PE1041",
+    "name": "Cầu lông",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1033",
+    "code": "PE1033",
+    "name": "Bóng đá",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1045",
+    "code": "PE1045",
+    "name": "Aerobic",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1043",
+    "code": "PE1043",
+    "name": "Bơi",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1039",
+    "code": "PE1039",
+    "name": "Bóng rổ",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1035",
+    "code": "PE1035",
+    "name": "Bóng chuyền",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1049",
+    "code": "PE1049",
+    "name": "Điền kinh",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1051",
+    "code": "PE1051",
+    "name": "Quần vợt",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1055",
+    "code": "PE1055",
+    "name": "Cờ vua",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1063",
+    "code": "PE1063",
+    "name": "Pickleball",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1059",
+    "code": "PE1059",
+    "name": "Bowling",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "SA4001",
+    "code": "SA4001",
+    "name": "Hoạt động sinh viên",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  }
+]

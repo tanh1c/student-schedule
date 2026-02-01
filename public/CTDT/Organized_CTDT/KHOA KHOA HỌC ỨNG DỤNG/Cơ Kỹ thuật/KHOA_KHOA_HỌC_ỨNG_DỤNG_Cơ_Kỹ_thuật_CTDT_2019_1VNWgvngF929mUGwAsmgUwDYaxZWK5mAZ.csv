@@ -1,0 +1,148 @@
+﻿STT,Mã học phần,Tên học phần,Tín chỉ,Học phần tiên quyết/song hành,Ghi chú
+I,,Các môn bắt buộc (Compulsary Courses),87,,
+1,MT1003,Giải tích 1,4,,
+,,Calculus 1,,,
+2,MT1005,Giải tích 2,3,,
+,,Calculus 2,,,
+3,MT1007,Đại số tuyến tính,3,,
+,,Linear Algebra,,,
+4,MT2013,Xác suất và thống kê,4,,
+,,Probability and Statistics,,,
+5,CH1003,Hóa đại cương,3,,
+,,General Chemistry,,,
+6,PH1003,Vật lý 1,4,,
+,,General Physics 1,,,
+7,PH1007,Thí nghiệm vật lý,1,,
+,,General Physics Labs,,,
+8,MT1009,Phương pháp tính,3,,
+,,Numerical Methods,,,
+9,PH1005,Vật lý 2,4,,
+,,General Physics 2,,,
+10,SP1007,Pháp luật Việt Nam đại cương,2,,
+,,Introduction to Vietnamese Law,,,
+11,SP1031,Triết học Mác - Lênin,3,,
+,,Marxist - Leninist Philosophy,,,
+12,SP1033,Kinh tế chính trị Mác - Lênin,2,,
+,,Marxist - Leninist Political Economy,,,
+13,SP1035,Chủ nghĩa xã hội khoa học,2,,
+,,Scientific Socialism,,,
+14,SP1037,Tư tưởng Hồ Chí Minh,2,,
+,,Ho Chi Minh Ideology,,,
+15,SP1039,Lịch sử Đảng Cộng sản Việt Nam,2,,
+,,History of Vietnamese Communist Party,,,
+16,AS1001,Nhập môn về kỹ thuật,3,,
+,,Introduction to Engineering,,,
+17,EN1003,Con người và môi trường,3,,
+,,Humans and the Environment,,,
+18,LA1003,Anh văn 1,2,,
+,,English 1,,,
+19,LA1005,Anh văn 2,2,,
+,,English 2,,,
+20,LA1007,Anh văn 3,2,,
+,,English 3,,,
+21,LA1009,Anh văn 4,2,,
+,,English 4,,,
+22,AS1003,Cơ lý thuyết,3,,X
+,,Engineering Mechanics,,,
+23,AS2011,Lý thuyết đàn hồi,3,,
+,,Theory of Elasticity,,,
+24,AS2013,CAD ứng dụng,3,,X
+,,Applied CAD,,,
+25,AS3015,Phương pháp phần tử hữu hạn cơ kỹ thuật,3,,X
+,,Finite Element Method in Engineering Mechanics,,,
+26,AS3061,Dao động cơ sở,3,,X
+,,Fundamentals of Vibrations,,,
+27,CI1003,Vẽ kỹ thuật,3,,
+,,Engineering Drawing,,,
+28,CI2003,Cơ lưu chất,3,,X
+29,EE2011,Kỹ thuật điện-điện tử,3,,
+,,Electrical and Electronics Engineering,,,
+30,MA3077,Vật liệu kỹ thuật,3,,
+,,Materials Engineering,,,
+31,ME1003,Cơ khí đại cương,3,,
+,,General Mechanics,,,
+II,,Các môn bắt buộc và tự chọn của chuyên ngành (Compulsary and Elective Major Courses),42,,
+1,,,Tự chọn tự do (Free Elective) (Tối thiểu 9 TC),9,,
+2,,,Các môn tự chọn nhóm (Elective Courses - Group) A (Tối thiểu 3 TC),3,,
+3,,,Các môn tự chọn nhóm (Elective Courses - Group) B (Tối thiểu 3 TC),3,,
+4,,,Các môn tự chọn nhóm (Elective Courses - Group) C (Tối thiểu 3 TC),3,,
+5,AS2015,Thực tập cơ kỹ thuật 1,1,,
+,,Engineering Mechanics Workshop 1,,,
+6,AS2021,Thiết kế kỹ thuật,3,,
+,,Engineering Design,,,
+7,AS2031,Đồ án môn học - thiết kế kỹ thuật,2,,X
+,,Project of Engineering Design,,,
+8,AS3011,Thực tập cơ kỹ thuật 2,1,,
+,,Engineering Mechanics Workshop 2,,,
+9,AS3029,Lý thuyết dẻo kỹ thuật,3,,
+,,Theory of Engineering Plasticity,,,
+10,AS3031,Đo lường các đại lượng phi điện,3,,X
+,,Non- Electric Quantities Measurement,,,
+11,AS3147,Cơ học vật rắn biến dạng,3,,X
+,,Solid Mechanics,,,
+12,AS3335,Thực tập ngoài trường,2,,
+,,Internship,,,
+13,AS4007,Đồ án chuyên ngành cơ kỹ thuật,2,,X
+,,Coursework - Engineering Mechanics,,,
+14,AS4337,Đồ án tốt nghiệp,4,,X
+,,Capstone Project,,,
+,,Các môn tự chọn nhóm (Elective Courses - Group) A,,,
+1,AS2003,Kỹ thuật lập trình cơ kỹ thuật,3,,X
+,,Programming for Engineerings,,,
+2,CO1003,Nhập môn về lập trình,3,,X
+,,Introduction to Computer Programming,,,
+,,Các môn tự chọn nhóm (Elective Courses - Group) B,,,
+1,AS3085,Lập trình tính toán cơ kỹ thuật,3,,X
+,,Computational Programming in Engineering Mechanics,,,
+2,AS3093,Phương pháp phần tử hữu hạn ứng dụng,3,,X
+,,Applied Finite Element Method,,,
+3,AS3097,Ứng xử cơ học vật liệu,3,,X
+,,Mechanical Behavior of Materials,,,
+4,AS3149,Ứng dụng các phần mềm trong tính toán cơ học,3,,X
+,,Software Application in Computational Mechanics,,,
+5,CI3171,Cơ học môi trường rời,3,,X
+,,Mechanics of Granular Materials,,,
+6,CO2013,Hệ cơ sở dữ liệu,4,,X
+,,Database Systems,,,
+7,EE1009,Kỹ thuật số,3,,X
+,,Digital Designs,,,
+8,EE2019,Cơ sở điều khiển tự động,3,,X
+,,Fundamentals of Control Systems,,,
+9,ME2013,Nhiệt động lực học và truyền nhiệt,3,,X
+,,Thermodynamics and Heat Transfer,,,
+10,ME3237,Hệ thống điều khiển số,3,,X
+,,Numeric Control System,,,
+11,AS2005,Cơ lý thuyết nâng cao,3,,X
+,,Advanced Theoretical Mechanics,,,
+12,AS3001,Động học robot,3,,X
+,,Robot Dynamics,,,
+13,AS3003,Cơ học môi trường liên tục,3,,X
+,,Continuum Mechanics,,,
+14,AS3013,Tính toán kết cấu,3,,X
+,,Structural Analysis,,,
+15,AS3019,Phân tích số liệu thực nghiệm cơ học,3,,X
+,,Analysis of Experimental Data in Mechanics,,,
+16,AS3021,Động lực học hệ nhiều vật,3,,X
+,,Multibody Dynamics,,,
+17,AS3027,Dao động kỹ thuật,3,,X
+,,Engineering Vibration,,,
+18,AS3035,Tính toán động lực học lưu chất,3,,X
+,,Computational Fluid Dynamics,,,
+19,AS3039,Mô hình hóa động lực học cơ hệ,3,,X
+,,Modelling of Dynamic Systems,,,
+,,Các môn tự chọn nhóm (Elective Courses - Group) C,,,
+1,IM1013,Kinh tế học đại cương,3,,
+,,Economics,,,
+2,IM1021,Khởi nghiệp,3,,
+,,Entrepreneurship,,,
+3,IM1023,Quản lý sản xuất cho kỹ sư,3,,
+,,Production and Operations Management for Engineers,,,
+III,,Chứng chỉ (Certification),,
+1,MI1003,Giáo dục quốc phòng,3,,
+,,Military Training,,,
+2,PE1003,Giáo dục thể chất 1,2,,
+,,Physical Education 1,,,
+3,PE1005,Giáo dục thể chất 2,2,,
+,,Physical Education 2,,,
+4,PE1007,Giáo dục thể chất 3,2,,
+,,Physical Education 3,,,

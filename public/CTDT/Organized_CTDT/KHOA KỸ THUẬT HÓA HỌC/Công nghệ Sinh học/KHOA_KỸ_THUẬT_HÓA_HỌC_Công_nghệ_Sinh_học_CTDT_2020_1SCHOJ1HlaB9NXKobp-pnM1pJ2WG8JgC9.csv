@@ -1,0 +1,119 @@
+﻿STT,Mã học phần,Tên học phần,Tín chỉ,Học phần tiên quyết/song hành,Ghi chú
+,,I. Các môn bắt buộc,,,,
+,,Compulsary Courses,,,,
+1,MT1003,Giải tích 1,4,,Toán và KH Tự nhiên
+,,Calculus 1,,,,
+2,MT1005,Giải tích 2,4,,Toán và KH Tự nhiên
+,,Calculus 2,,,,
+3,MT1007,Đại số tuyến tính,3,,Toán và KH Tự nhiên
+,,Linear Algebra,,,,
+4,MT2013,Xác suất và thống kê,4,,Toán và KH Tự nhiên
+,,Probability and Statistics,,,,
+5,CH1003,Hóa đại cương,3,,Toán và KH Tự nhiên
+,,General Chemistry,,,,
+6,PH1003,Vật lý 1,4,,Toán và KH Tự nhiên
+,,General Physics 1,,,,
+7,PH1007,Thí nghiệm vật lý,1,,Toán và KH Tự nhiên
+,,General Physics Labs,,,,
+8,CH2021,Hóa hữu cơ,3,,Toán và KH Tự nhiên
+,,Organic Chemistry,,,,
+9,CH2027,Sinh học đại cương,3,,Toán và KH Tự nhiên
+,,General Biology,,,,
+10,CH2111,Thí nghiệm hóa hữu cơ cơ bản,1,,Toán và KH Tự nhiên
+,,Laboratory of Basic Organic Chemistry,,,,
+11,SP1007,Pháp luật Việt Nam đại cương,2,,Chính trị,Kinh tế, Văn hóa, Xã hội
+,,Introduction to Vietnamese Law,,,,
+12,SP1031,Triết học Mác - Lênin,3,,Chính trị, Kinh tế, Văn hóa,Xã hội
+,,Marxist - Leninist Philosophy,,,,
+13,SP1033,Kinh tế chính trị Mác - Lênin,2,,Chính trị, Kinh tế, Văn hóa,Xã hội
+,,Marxist - Leninist Political Economy,,,,
+14,SP1035,Chủ nghĩa xã hội khoa học,2,,Chính trị, Kinh tế, Văn hóa, Xã hội
+,,Scientific Socialism,,,,
+15,SP1037,Tư tưởng Hồ Chí Minh,2,,Chính trị, Kinh tế, Văn hóa,Xã hội
+,,Ho Chi Minh Ideology,,,,
+16,SP1039,Lịch sử Đảng Cộng sản Việt Nam,2,,Chính trị,Kinh tế, Văn hóa,Xã hội
+,,History of Vietnamese Communist Party,,,,
+17,CH1001,Nhập môn về kỹ thuật,3,,Nhập môn
+,,Introduction to Engineering,,,,
+18,CH4097,An toàn sinh học và an toàn thực phẩm,3,,Con người và môi trường
+,,Biosafety and Food Safety,,,,
+19,LA1003,Anh văn 1,2,,Ngoại ngữ
+,,English 1,,,,
+20,LA1005,Anh văn 2,2,,Ngoại ngữ
+,,English 2,,,,
+21,LA1007,Anh văn 3,2,,Ngoại ngữ
+,,English 3,,,,
+22,LA1009,Anh văn 4,2,,Ngoại ngữ
+,,English 4,,,,
+23,CH1005,Hóa lý hóa keo,3,,Cơ sở ngành
+,,Physical and Colloid Chemistry,,,,
+24,CH2019,Quá trình và thiết bị cơ học,3,,Cơ sở ngành
+,,Mechanical Processes and Equipments,,,,
+25,CH2033,Hóa sinh,4,,Cơ sở ngành
+,,Biochemistry,,,,
+26,CH2043,Quá trình và thiết bị truyền nhiệt,3,,Cơ sở ngành
+,,Heat Transfer Processes and Equipments,,,,
+27,CH2051,Quá trình và thiết bị truyền khối,3,,Cơ sở ngành
+,,Mass Transfer Processes and Equipments,,,,
+28,CH2113,Hóa phân tích,3,,Cơ sở ngành
+,,Analytical Chemistry,,,,
+29,CH2115,Thí nghiệm hóa phân tích,1,,Cơ sở ngành
+,,Analytical Chemistry Laboratory,,,,
+30,CH3003,Vi sinh vật (+TN),4,,Cơ sở ngành
+,,Microbiology (+Lab),,,,
+31,CH3015,Thí nghiệm quá trình thiết bị,2,,Cơ sở ngành
+,,Laboratory of Unit Operations,,,,
+32,CH4057,Đồ án công nghệ sinh học,2,,Cơ sở ngành
+,,Project of Biotechnology,,,,
+33,CI1003,Vẽ kỹ thuật,3,,Cơ sở ngành
+,,Engineering Drawing,,,,
+,,II. Các môn bắt buộc và tự chọn của chuyên ngành,,,,
+,,Compulsary and Elective Major Courses,,,,
+,,Tự chọn tự do (Free Elective) (Tối thiểu 9 TC),9,,,
+,,Các môn tự chọn nhóm (Elective Courses - Group) A (Tối thiểu 4 TC),4,,Cơ sở ngành
+,,Elective Courses - Group A (Minimum 4 Credits),,,,
+,,Các môn tự chọn nhóm (Elective Courses - Group) B (Tối thiểu 4 TC),4,,Cơ sở ngành
+,,Elective Courses - Group B (Minimum 4 Credits),,,,
+,,Các môn tự chọn nhóm (Elective Courses - Group) C (Tối thiểu 3 TC),3,,Quản lý
+,,Elective Courses - Group C (Minimum 3 Credits),,,Management for Engineers
+34,CH3019,Công nghệ tế bào (+TN),4,,Chuyên ngành
+,,Cell Technology (+Lab),,,,
+35,CH3021,Công nghệ protein - enzyme (+TN),4,,Chuyên ngành
+,,Protein - Enzyme Technology (+Lab),,,,
+36,CH3131,Công nghệ gen (+TN),4,,Chuyên ngành
+,,Gene Technology (+Lab),,,,
+37,CH3359,Công nghệ lên men vi sinh vật (+TN),4,,Chuyên ngành
+,,Microbial Fermentation (+Lab),,,,
+38,CH3375,Thực tập ngoài trường,2,,Tốt nghiệp
+,,Internship,,,,
+39,CH4095,Đồ án chuyên ngành,2,,Tốt nghiệp
+,,Specialized Projects,,,,
+40,CH4377,Đồ án tốt nghiệp,4,,Tốt nghiệp
+,,Capstone Project,,,,
+,,Các môn tự chọn nhóm (Elective Courses - Group) A,,,,
+41,CH3351,Sinh học tế bào (+TN),4,,
+,,Cell Biology (+Lab),,,,
+42,CH3357,Tế bào học (+TN),4,,
+,,Biology of Cells (+Lab),,,,
+,,Các môn tự chọn nhóm (Elective Courses - Group) B,,,,
+43,CH3361,Sinh học phân tử và di truyền,4,,
+,,Molecular Biology and Genetics,,,,
+44,CH3367,Di truyền học,4,,
+,,Genetics,,,,
+,,Các môn tự chọn nhóm (Elective Courses - Group) C,,,,
+45,IM1013,Kinh tế học đại cương,3,,
+,,Economics,,,,
+46,IM1021,Khởi nghiệp,3,,
+,,Entrepreneurship,,,,
+47,IM1023,Quản lý sản xuất cho kỹ sư,3,,
+,,Production and Operations Management for Engineers,,,,
+48,IM1025,Quản lý dự án cho kỹ sư,3,,
+,,Project Management for Engineers,,,,
+49,IM1027,Kinh tế kỹ thuật,3,,
+,,Engineering Economics,,,,
+,,III. Chứng chỉ (Certification),,,,
+,,Certification,,,,
+50,,Giáo dục quốc phòng,,,
+,,Military Training,,,,
+51,,Giáo dục thể chất,,,
+,,Physical Education,,,,

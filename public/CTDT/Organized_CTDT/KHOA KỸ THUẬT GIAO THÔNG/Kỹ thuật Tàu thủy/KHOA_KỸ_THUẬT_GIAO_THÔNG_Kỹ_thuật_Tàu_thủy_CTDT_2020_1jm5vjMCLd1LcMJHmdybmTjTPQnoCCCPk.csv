@@ -1,0 +1,107 @@
+﻿STT,Mã học phần,Tên học phần,Tín chỉ,Học phần tiên quyết/song hành,Ghi chú
+,,I. Các môn bắt buộc (Compulsory Courses),,,
+1,MT1003,Giải tích 1,4,,Toán và KH Tự nhiên
+,,Calculus 1,,,
+2,MT1005,Giải tích 2,4,,Toán và KH Tự nhiên
+,,Calculus 2,,,
+3,MT1007,Đại số tuyến tính,3,,Toán và KH Tự nhiên
+,,Linear Algebra,,,
+4,MT2013,Xác suất và thống kê,4,,Toán và KH Tự nhiên
+,,Probability and Statistics,,,
+5,CH1003,Hóa đại cương,3,,Toán và KH Tự nhiên
+,,General Chemistry,,,
+6,PH1003,Vật lý 1,4,,Toán và KH Tự nhiên
+,,General Physics 1,,,
+7,PH1007,Thí nghiệm vật lý,1,,Toán và KH Tự nhiên
+,,General Physics Labs,,,
+8,MT1009,Phương pháp tính,3,,Toán và KH Tự nhiên
+,,Numerical Methods,,,
+9,PH1005,Vật lý 2,4,,Toán và KH Tự nhiên
+,,General Physics 2,,,
+10,SP1007,Pháp luật Việt Nam đại cương,2,,Chính trị, Kinh tế, Văn hóa, Xã hội
+,,Introduction to Vietnamese Law,,,
+11,SP1031,Triết học Mác - Lênin,3,,Chính trị, Kinh tế, Văn hóa, Xã hội
+,,Marxist - Leninist Philosophy,,,
+12,SP1033,Kinh tế chính trị Mác - Lênin,2,,Chính trị, Kinh tế, Văn hóa, Xã hội
+,,Marxist - Leninist Political Economy,,,
+13,SP1035,Chủ nghĩa xã hội khoa học,2,,Chính trị, Kinh tế, Văn hóa, Xã hội
+,,Scientific Socialism,,,
+14,SP1037,Tư tưởng Hồ Chí Minh,2,,Chính trị, Kinh tế, Văn hóa, Xã hội
+,,Ho Chi Minh Ideology,,,
+15,SP1039,Lịch sử Đảng Cộng sản Việt Nam,2,,Chính trị, Kinh tế, Văn hóa,Xã hội
+,,History of Vietnamese Communist Party,,,
+16,TR1001,Nhập môn về kỹ thuật,3,,Nhập môn
+,,Introduction to Engineering,,,
+17,EN1003,Con người và môi trường,3,,Con người và môi trường
+,,Humans and the Environment,,,
+18,LA1003,Anh văn 1,2,,Ngoại ngữ
+,,English 1,,,
+19,LA1005,Anh văn 2,2,,Ngoại ngữ
+,,English 2,,,
+20,LA1007,Anh văn 3,2,,Ngoại ngữ
+,,English 3,,,
+21,LA1009,Anh văn 4,2,,Ngoại ngữ
+,,English 4,,,
+22,CO1003,Nhập môn về lập trình,3,,Cơ sở ngành
+,,Introduction to Computer Programming,,,
+23,EE2011,Kỹ thuật điện-điện tử,3,,Cơ sở ngành
+,,Electrical and Electronics Engineering,,,
+24,ME2013,Nhiệt động lực học và truyền nhiệt,3,,Cơ sở ngành
+,,Thermodynamics and Heat Transfer,,,
+25,TR1003,Vẽ kỹ thuật giao thông,3,,Cơ sở ngành
+,,Transportation Drafting,,,
+26,TR1005,Cơ học thủy khí,3,,Cơ sở ngành
+,,Fluid Mechanics,,,
+27,TR2033,Kỹ thuật chế tạo,3,,Cơ sở ngành
+,,Manufacturing Engineering,,,
+28,TR2035,Cơ kết cấu giao thông,3,,Cơ sở ngành
+,,Structural Mechanics,,,
+,,II. Các môn bắt buộc và tự chọn của chuyên ngành,,,
+,,1. Tự chọn tự do (Free Elective) (Tối thiểu 9 TC),9,,
+,,2. Các môn tự chọn nhóm (Elective Courses - Group) A (Tối thiểu 3 TC),3,,
+,,Quản lý,3,,Quản lý
+,,Management for Engineers,,,
+,,3. Các môn tự chọn nhóm (Elective Courses - Group) B (Tối thiểu 12 TC),12,,
+4,TR2017,Thiết bị năng lượng tàu thủy 1,3,,Chuyên ngành
+,,Ship Power Plants 1,,,
+5,TR2037,Lý thuyết tàu thủy 1 - tĩnh học,4,,Chuyên ngành
+,,Ship Theory 1 - Hydrostatic,,,
+6,TR3005,Lý thuyết tàu thủy 2 - động lực học,3,,Chuyên ngành
+,,Ship Theory 2 - Hydrodynamic,,,
+7,TR3017,Kết cấu và sức bền tàu,3,,Chuyên ngành
+,,Ship Structre and Strength,,,
+8,TR3037,Các hệ thống trang thiết bị tàu,3,,Chuyên ngành
+,,Outfitting,,,
+9,TR3057,Phương pháp phân tích kết cấu tàu,3,,Chuyên ngành
+,,Structural Analysis of Ship,,,
+10,TR3355,Thực tập ngoài trường,2,,Tốt nghiệp
+,,Internship,,,
+11,TR4093,Đồ án chuyên ngành (Kỹ thuật tàu thủy),2,,Tốt nghiệp
+,,Project,,,
+12,TR4357,Đồ án tốt nghiệp,4,,Tốt nghiệp
+,,Capstone Project,,,
+,,Các môn tự chọn nhóm (Elective Courses - Group) A,,,
+1,IM1025,Quản lý dự án cho kỹ sư,3,,
+,,Project Management for Engineers,,,
+2,IM1027,Kinh tế kỹ thuật,3,,
+,,Engineering Economics,,,
+3,IM3001,Quản trị kinh doanh cho kỹ sư,3,,
+,,Business Administration for Engineers,,,
+,,Các môn tự chọn nhóm (Elective Courses - Group) B,,,
+1,TR3019,Thiết bị năng lượng tàu thủy 2,3,,
+,,Ship Power Plants 2,,,
+2,TR3027,Thiết kế hệ thống động lực tàu thủy,3,,
+,,Marine System Design,,,
+3,TR3053,Thiết kế tàu thủy,3,,
+,,Ship Design,,,
+4,TR3061,Công nghệ đóng tàu và tổ chức sản xuất,3,,
+,,Ship Production & Shipyard Management,,,
+5,TR3085,Trang bị điện - điện tử tàu thủy,3,,
+,,Marine Electrical and Electronic Equipments,,,
+6,TR3133,Động lực học tàu thủy và công trình ngoài khơi,3,,
+,,Dynamics of Ship & Offshore Structures,,,
+,,III. Chứng chỉ (Certification),,,
+1,,Giáo dục quốc phòng,,,
+,,Military Trainning,,,
+2,,Giáo dục thể chất,,,
+,,Physical Education,,,

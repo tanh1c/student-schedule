@@ -1,0 +1,111 @@
+﻿STT,Mã học phần,Tên học phần,Tín chỉ,Học phần tiên quyết/song hành,Ghi chú
+,,I. Các môn bắt buộc (Compulsary Courses),,,
+1,MT1003,Giải tích 1,4,,Toán và KH Tự nhiên / Mathematics and Basic Sciences
+,,Calculus 1,,,
+2,MT1005,Giải tích 2,4,,Toán và KH Tự nhiên / Mathematics and Basic Sciences
+,,Calculus 2,,,
+3,MT1007,Đại số tuyến tính,3,,Toán và KH Tự nhiên / Mathematics and Basic Sciences
+,,Linear Algebra,,,
+4,MT2013,Xác suất và thống kê,4,,Toán và KH Tự nhiên / Mathematics and Basic Sciences
+,,Probability and Statistics,,,
+5,CH1003,Hóa đại cương,3,,Toán và KH Tự nhiên / Mathematics and Basic Sciences
+,,General Chemistry,,,
+6,PH1003,Vật lý 1,4,,Toán và KH Tự nhiên / Mathematics and Basic Sciences
+,,General Physics 1,,,
+7,PH1007,Thí nghiệm vật lý,1,,Toán và KH Tự nhiên / Mathematics and Basic Sciences
+,,General Physics Labs,,,
+8,MT1009,Phương pháp tính,3,,Toán và KH Tự nhiên / Mathematics and Basic Sciences
+,,Numerical Methods,,,
+9,PH1005,Vật lý 2,4,,Toán và KH Tự nhiên / Mathematics and Basic Sciences
+,,General Physics 2,,,
+10,SP1007,Pháp luật Việt Nam đại cương,2,,Chính trị, Kinh tế, Văn hóa, Xã hội / Socials and Economics
+,,Introduction to Vietnamese Law,,,
+11,SP1031,Triết học Mác - Lênin,3,,Chính trị, Kinh tế, Văn hóa, Xã hội / Socials and Economics
+,,Marxist - Leninist Philosophy,,,
+12,SP1033,Kinh tế chính trị Mác - Lênin,2,,Chính trị, Kinh tế, Văn hóa, Xã hội / Socials and Economics
+,,Marxist - Leninist Political Economy,,,
+13,SP1035,Chủ nghĩa xã hội khoa học,2,,Chính trị, Kinh tế, Văn hóa, Xã hội / Socials and Economics
+,,Scientific Socialism,,,
+14,SP1037,Tư tưởng Hồ Chí Minh,2,,Chính trị, Kinh tế, Văn hóa, Xã hội / Socials and Economics
+,,Ho Chi Minh Ideology,,,
+15,SP1039,Lịch sử Đảng Cộng sản Việt Nam,2,,Chính trị, Kinh tế, Văn hóa, Xã hội / Socials and Economics
+,,History of Vietnamese Communist Party,,,
+16,ME1001,Nhập môn về kỹ thuật,3,,Nhập môn / Introduction to Engineering
+,,Introduction to Engineering,,,
+17,ME2019,Môi trường và con người,3,,Con người và môi trường / Humans and Environment
+,,Environment and Human,,,
+18,LA1003,Anh văn 1,2,,Ngoại ngữ / Foreign Languages
+,,English 1,,,
+19,LA1005,Anh văn 2,2,,Ngoại ngữ / Foreign Languages
+,,English 2,,,
+20,LA1007,Anh văn 3,2,,Ngoại ngữ / Foreign Languages
+,,English 3,,,
+21,LA1009,Anh văn 4,2,,Ngoại ngữ / Foreign Languages
+,,English 4,,,
+22,ME1003,Cơ khí đại cương,3,,Cơ sở ngành / Core Courses
+,,General Mechanics,,,
+23,ME2059,Polymer dệt,3,,Cơ sở ngành / Core Courses
+,,Polymers in Textile,,,
+24,ME2101,Cơ học máy,3,,Cơ sở ngành / Core Courses
+,,Mechanics of Machines,,,
+25,ME2103,Khoa học vật liệu dệt,3,,Cơ sở ngành / Core Courses
+,,Science of Textile Materials,,,
+26,ME2107,Thí nghiệm kiểm tra phân tích vật liệu dệt,2,,Cơ sở ngành / Core Courses
+,,Testing and Experiments of Textile Materials,,,
+27,ME4105,CAD-CAM trong dệt may,3,,Cơ sở ngành / Core Courses
+,,Application of CAD-CAM in Textiles,,,
+28,ME4111,Kiểm định và đánh giá chất lượng hàng dệt may,3,,Cơ sở ngành / Core Courses
+,,Audit and Assessment of textiles products,,,
+29,ME4115,Công nghệ may mặc,3,,Cơ sở ngành / Core Courses
+,,Garment and Clothoing Technology,,,
+,,II. Các môn bắt buộc và tự chọn của chuyên ngành,,,
+1,,Tự chọn tự do (Tối thiểu 9 TC),9,,
+,,Free Elective,,,
+2,,Các môn tự chọn nhóm (Tối thiểu 3 TC),3,,Quản lý / Management for Engineers
+,,Elective Courses - Group A,,,
+3,ME2061,Công nghệ sợi 1,3,,Chuyên ngành / Speciality Courses
+,,Spinning Technology 1,,,
+4,ME2127,Công nghệ dệt thoi,3,,Chuyên ngành / Speciality Courses
+,,Weaving Technology,,,
+5,ME3047,Công nghệ không dệt,3,,Chuyên ngành / Speciality Courses
+,,Nonwoven Technology,,,
+6,ME3055,Công nghệ sợi 2,4,,Chuyên ngành / Speciality Courses
+,,Spinning Technology 2,,,
+7,ME3061,Hóa học thuốc nhuộm,3,,Chuyên ngành / Speciality Courses
+,,Dyestuff,,,
+8,ME3063,Công nghệ dệt kim,3,,Chuyên ngành / Speciality Courses
+,,Knitting Technology,,,
+9,ME3067,Công nghệ nhuộm hoàn tất vải,3,,Chuyên ngành / Speciality Courses
+,,Technology in Dyeing and Finishing Fabric,,,
+10,ME3081,Thiết bị sợi dệt,3,,Chuyên ngành / Speciality Courses
+,,Textile Machinery,,,
+11,ME3169,Thực tập kỹ thuật dệt,2,,Chuyên ngành / Speciality Courses
+,,Textile practices,,,
+12,ME3171,Cấu trúc vải,4,,Chuyên ngành / Speciality Courses
+,,Fabric Construction,,,
+13,ME3131,Thực tập ngoài trường,2,,Tốt nghiệp / Graduation Practice/Projects
+,,Internship,,,
+14,ME4113,Đồ án 1,2,,Tốt nghiệp / Graduation Practice/Projects
+,,Project 1,,,
+15,ME4347,Đồ án tốt nghiệp (kt dệt),4,,Tốt nghiệp / Graduation Practice/Projects
+,,Capstone Project,,,
+,,Các môn tự chọn nhóm (Elective Courses - Group) A,,,
+1,IM1013,Kinh tế học đại cương,3,,
+,,Economics,,,
+2,IM1023,Quản lý sản xuất cho kỹ sư,3,,
+,,Production and Operations Management for Engineers,,,
+3,IM1025,Quản lý dự án cho kỹ sư,3,,
+,,Project Management for Engineers,,,
+4,IM1027,Kinh tế kỹ thuật,3,,
+,,Engineering Economics,,,
+5,IM3001,Quản trị kinh doanh cho kỹ sư,3,,
+,,Business Administration for Engineers,,,
+,,III. Chứng chỉ (Certification),,,
+1,MI1003,Giáo dục quốc phòng,,,
+,,Military Trainning,,,
+2,PE1003,Giáo dục thể chất 1,,,
+,,Physical Education 1,,,
+3,PE1005,Giáo dục thể chất 2,,,
+,,Physical Education 2,,,
+4,PE1007,Giáo dục thể chất 3,,,
+,,Physical Education 3,,,

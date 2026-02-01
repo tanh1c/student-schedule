@@ -18,7 +18,9 @@ import {
     MapPin,
     GraduationCap,
     Search,
-    Trash2
+    Trash2,
+    FlaskConical,
+    X
 } from "lucide-react";
 import { Button } from "./ui/button";
 import {
@@ -31,12 +33,77 @@ import {
 import { Badge } from "./ui/badge";
 import mybkApi from "../services/mybkApi";
 
+// Beta Warning Banner Component - Dark mode optimized
+function BetaWarningBanner({ onDismiss }) {
+    return (
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-amber-50 via-orange-50 to-yellow-50 dark:from-amber-950/20 dark:via-orange-950/15 dark:to-yellow-950/20 border border-amber-200/60 dark:border-amber-900/50 p-4 sm:p-5 shadow-sm">
+            {/* Background decoration */}
+            <div className="absolute -top-10 -right-10 h-32 w-32 bg-amber-200/20 dark:bg-amber-900/20 rounded-full blur-2xl" />
+            <div className="absolute -bottom-10 -left-10 h-32 w-32 bg-orange-200/20 dark:bg-orange-900/20 rounded-full blur-2xl" />
+
+            <div className="relative flex items-start gap-4">
+                {/* Icon */}
+                <div className="flex-shrink-0 h-12 w-12 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 dark:from-amber-600 dark:to-orange-700 flex items-center justify-center shadow-lg shadow-amber-200/50 dark:shadow-amber-950/40">
+                    <FlaskConical className="h-6 w-6 text-white" />
+                </div>
+
+                {/* Content */}
+                <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap mb-2">
+                        <h3 className="font-bold text-amber-900 dark:text-amber-400/90 text-base sm:text-lg">
+                            Tính năng đang thử nghiệm
+                        </h3>
+                        <Badge className="bg-amber-500/20 text-amber-700 dark:text-amber-500 dark:bg-amber-900/40 border-none text-[10px] px-2 py-0.5 font-bold uppercase tracking-wider">
+                            Beta
+                        </Badge>
+                    </div>
+
+                    <p className="text-sm text-amber-800/80 dark:text-amber-400/70 leading-relaxed mb-3">
+                        Trang đăng ký môn học đang trong giai đoạn <strong>phát triển</strong>.
+                        Một số tính năng có thể <strong>chưa ổn định</strong> hoặc thay đổi trong tương lai.
+                    </p>
+
+                    <div className="flex flex-wrap gap-2 text-xs">
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-100/60 dark:bg-amber-950/50 text-amber-700 dark:text-amber-500/90 font-medium">
+                            <AlertCircle className="h-3 w-3" />
+                            Có thể gặp lỗi
+                        </span>
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-orange-100/60 dark:bg-orange-950/50 text-orange-700 dark:text-orange-500/90 font-medium">
+                            <Clock className="h-3 w-3" />
+                            Đang cải tiến
+                        </span>
+                    </div>
+                </div>
+
+                {/* Dismiss button */}
+                <button
+                    onClick={onDismiss}
+                    className="flex-shrink-0 h-8 w-8 rounded-full bg-amber-100 dark:bg-amber-950/60 hover:bg-amber-200 dark:hover:bg-amber-900/70 flex items-center justify-center text-amber-600 dark:text-amber-500 transition-colors"
+                    title="Ẩn thông báo này"
+                >
+                    <X className="h-4 w-4" />
+                </button>
+            </div>
+        </div>
+    );
+}
+
 export default function RegistrationTab() {
     const [periods, setPeriods] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [dkmhStatus, setDkmhStatus] = useState({ authenticated: false });
     const [filter, setFilter] = useState('all');
+
+    // Beta warning banner state
+    const [showBetaWarning, setShowBetaWarning] = useState(() => {
+        return localStorage.getItem('hideBetaWarning_registration') !== 'true';
+    });
+
+    const dismissBetaWarning = () => {
+        setShowBetaWarning(false);
+        localStorage.setItem('hideBetaWarning_registration', 'true');
+    };
 
     // Detail view state
     const [selectedPeriod, setSelectedPeriod] = useState(null);
@@ -63,12 +130,13 @@ export default function RegistrationTab() {
         }
     };
 
-    const loadPeriods = async () => {
+    // forceRefresh = true khi user click "Làm mới", false khi chuyển tab
+    const loadPeriods = async (forceRefresh = false) => {
         setLoading(true);
         setError(null);
 
         try {
-            const result = await mybkApi.getRegistrationPeriods();
+            const result = await mybkApi.getRegistrationPeriods(forceRefresh);
 
             if (result.success && result.data) {
                 setPeriods(result.data);
@@ -130,19 +198,28 @@ export default function RegistrationTab() {
 
     return (
         <div className="space-y-4 p-3 sm:p-6 pb-24">
-            {/* Header */}
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-                <div>
-                    <h2 className="text-lg sm:text-2xl font-bold text-foreground flex items-center gap-2">
-                        <CalendarPlus className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
-                        Đăng ký môn học
-                    </h2>
-                    <p className="text-sm text-muted-foreground">
-                        Danh sách các đợt đăng ký môn học
-                    </p>
-                </div>
+            {/* Beta Warning Banner */}
+            {showBetaWarning && (
+                <BetaWarningBanner onDismiss={dismissBetaWarning} />
+            )}
+
+            {/* Header with Status and Actions */}
+            <div className="flex flex-wrap items-center gap-3">
+                {/* DKMH Status Warning - Inline Badge */}
+                {!dkmhStatus.authenticated && !dkmhStatus.dkmhLoggedIn && (
+                    <div className="flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium bg-yellow-50 dark:bg-yellow-950/30 text-yellow-700 dark:text-yellow-400 border border-yellow-200 dark:border-yellow-800">
+                        <AlertCircle className="h-3.5 w-3.5 flex-shrink-0" />
+                        <span className="hidden sm:inline">Đang chờ kết nối DKMH... Vui lòng đăng nhập MyBK trước.</span>
+                        <span className="sm:hidden">Chờ đăng nhập MyBK</span>
+                    </div>
+                )}
+
+                {/* Spacer */}
+                <div className="flex-1" />
+
+                {/* Refresh Button - force refresh when clicked */}
                 <Button
-                    onClick={loadPeriods}
+                    onClick={() => loadPeriods(true)}
                     disabled={loading}
                     size="sm"
                     className="h-9 bg-blue-600 hover:bg-blue-700 text-white"
@@ -156,18 +233,6 @@ export default function RegistrationTab() {
                 </Button>
             </div>
 
-            {/* DKMH Status Warning */}
-            {!dkmhStatus.authenticated && !dkmhStatus.dkmhLoggedIn && (
-                <Card className="border-yellow-200 bg-yellow-50 dark:bg-yellow-900/10">
-                    <CardContent className="py-3 px-4">
-                        <p className="text-yellow-700 dark:text-yellow-400 flex items-center gap-2 text-sm">
-                            <AlertCircle className="h-4 w-4 shrink-0" />
-                            Đang chờ kết nối đến hệ thống DKMH... Vui lòng đăng nhập MyBK trước.
-                        </p>
-                    </CardContent>
-                </Card>
-            )}
-
             {/* Error */}
             {error && (
                 <Card className="border-red-200 bg-red-50 dark:bg-red-900/10">
@@ -180,43 +245,65 @@ export default function RegistrationTab() {
                 </Card>
             )}
 
-            {/* Stats & Filter */}
+            {/* Stats & Filter - Premium Tab Design */}
             {periods.length > 0 && (
-                <div className="flex flex-wrap gap-2">
-                    <Button
-                        variant={filter === 'all' ? 'default' : 'outline'}
-                        size="sm"
+                <div className="flex flex-wrap gap-1.5 p-1 bg-muted/50 dark:bg-muted/30 rounded-xl border">
+                    <button
                         onClick={() => setFilter('all')}
-                        className="h-8"
+                        className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${filter === 'all'
+                            ? 'bg-background dark:bg-background shadow-sm text-foreground'
+                            : 'text-muted-foreground hover:text-foreground hover:bg-background/50'
+                            }`}
                     >
-                        Tất cả ({periods.length})
-                    </Button>
-                    <Button
-                        variant={filter === 'open' ? 'default' : 'outline'}
-                        size="sm"
+                        <Calendar className="h-4 w-4" />
+                        <span>Tất cả</span>
+                        <Badge variant="secondary" className="ml-1 h-5 min-w-5 px-1.5 text-xs">
+                            {periods.length}
+                        </Badge>
+                    </button>
+
+                    <button
                         onClick={() => setFilter('open')}
-                        className={`h-8 ${filter === 'open' ? '' : 'border-green-200 text-green-700 hover:bg-green-50'}`}
+                        className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${filter === 'open'
+                            ? 'bg-emerald-100 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-400 shadow-sm'
+                            : 'text-muted-foreground hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/30'
+                            }`}
                     >
-                        <CheckCircle2 className="h-3 w-3 mr-1" />
-                        Đang mở ({openCount})
-                    </Button>
-                    <Button
-                        variant={filter === 'upcoming' ? 'default' : 'outline'}
-                        size="sm"
+                        <CheckCircle2 className="h-4 w-4" />
+                        <span>Đang mở</span>
+                        {openCount > 0 && (
+                            <Badge className="ml-1 h-5 min-w-5 px-1.5 text-xs bg-emerald-500 dark:bg-emerald-600 text-white border-0">
+                                {openCount}
+                            </Badge>
+                        )}
+                    </button>
+
+                    <button
                         onClick={() => setFilter('upcoming')}
-                        className={`h-8 ${filter === 'upcoming' ? '' : 'border-blue-200 text-blue-700 hover:bg-blue-50'}`}
+                        className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${filter === 'upcoming'
+                            ? 'bg-blue-100 dark:bg-blue-950/50 text-blue-700 dark:text-blue-400 shadow-sm'
+                            : 'text-muted-foreground hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/30'
+                            }`}
                     >
-                        <Clock className="h-3 w-3 mr-1" />
-                        Sắp mở ({upcomingCount})
-                    </Button>
-                    <Button
-                        variant={filter === 'closed' ? 'default' : 'outline'}
-                        size="sm"
+                        <Clock className="h-4 w-4" />
+                        <span>Sắp mở</span>
+                        {upcomingCount > 0 && (
+                            <Badge className="ml-1 h-5 min-w-5 px-1.5 text-xs bg-blue-500 dark:bg-blue-600 text-white border-0">
+                                {upcomingCount}
+                            </Badge>
+                        )}
+                    </button>
+
+                    <button
                         onClick={() => setFilter('closed')}
-                        className="h-8"
+                        className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${filter === 'closed'
+                            ? 'bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 shadow-sm'
+                            : 'text-muted-foreground hover:text-slate-600 dark:hover:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50'
+                            }`}
                     >
-                        Đã đóng
-                    </Button>
+                        <Lock className="h-4 w-4" />
+                        <span>Đã đóng</span>
+                    </button>
                 </div>
             )}
 
@@ -260,62 +347,121 @@ export default function RegistrationTab() {
     );
 }
 
-// Registration Period Card Component
+// Registration Period Card Component - Premium Style
 function RegistrationPeriodCard({ period, onClick }) {
     const isOpen = period.status === 'open';
+    const isUpcoming = period.status === 'upcoming';
     const isClosed = period.status === 'closed';
     const hasResult = period.hasResult;
 
+    // Color schemes based on status - Dark mode optimized for eye comfort
+    const colorScheme = {
+        open: {
+            gradient: 'from-emerald-50 via-green-50 to-teal-50 dark:from-emerald-950/20 dark:via-green-950/15 dark:to-teal-950/20',
+            border: 'border-emerald-200/60 dark:border-emerald-900/50',
+            iconBg: 'from-emerald-400 to-green-500 dark:from-emerald-600 dark:to-green-700',
+            iconShadow: 'shadow-emerald-200/50 dark:shadow-emerald-950/40',
+            decoration1: 'bg-emerald-200/30 dark:bg-emerald-900/20',
+            decoration2: 'bg-green-200/30 dark:bg-green-900/20',
+            codeColor: 'text-emerald-700 dark:text-emerald-400/90',
+            timeColor: 'text-emerald-600 dark:text-emerald-500/80',
+            arrowBg: 'bg-emerald-100 dark:bg-emerald-950/60',
+            arrowColor: 'text-emerald-600 dark:text-emerald-500'
+        },
+        upcoming: {
+            gradient: 'from-blue-50 via-indigo-50 to-violet-50 dark:from-blue-950/20 dark:via-indigo-950/15 dark:to-violet-950/20',
+            border: 'border-blue-200/60 dark:border-blue-900/50',
+            iconBg: 'from-blue-400 to-indigo-500 dark:from-blue-600 dark:to-indigo-700',
+            iconShadow: 'shadow-blue-200/50 dark:shadow-blue-950/40',
+            decoration1: 'bg-blue-200/30 dark:bg-blue-900/20',
+            decoration2: 'bg-indigo-200/30 dark:bg-indigo-900/20',
+            codeColor: 'text-blue-700 dark:text-blue-400/90',
+            timeColor: 'text-blue-600 dark:text-blue-500/80',
+            arrowBg: 'bg-blue-100 dark:bg-blue-950/60',
+            arrowColor: 'text-blue-600 dark:text-blue-500'
+        },
+        closed: {
+            gradient: 'from-zinc-50 via-gray-50 to-slate-50 dark:from-zinc-950/20 dark:via-gray-950/15 dark:to-slate-950/20',
+            border: 'border-zinc-200/60 dark:border-zinc-800/50',
+            iconBg: 'from-zinc-400 to-gray-500 dark:from-zinc-600 dark:to-gray-700',
+            iconShadow: 'shadow-zinc-200/50 dark:shadow-zinc-950/40',
+            decoration1: 'bg-zinc-200/20 dark:bg-zinc-900/15',
+            decoration2: 'bg-gray-200/20 dark:bg-gray-900/15',
+            codeColor: 'text-zinc-600 dark:text-zinc-500',
+            timeColor: 'text-zinc-500 dark:text-zinc-600',
+            arrowBg: 'bg-zinc-100 dark:bg-zinc-900/60',
+            arrowColor: 'text-zinc-500 dark:text-zinc-600'
+        }
+    };
+
+    const colors = isOpen ? colorScheme.open : (isUpcoming ? colorScheme.upcoming : colorScheme.closed);
+
+    // Status icon
+    const StatusIcon = isOpen ? CheckCircle2 : (isUpcoming ? Clock : Lock);
+
     return (
-        <Card
+        <div
             className={`
-        relative overflow-hidden
-        transition-all duration-200 hover:shadow-md cursor-pointer
-        ${isOpen ? 'border border-green-200/60 bg-gradient-to-br from-green-100/70 to-white dark:from-green-950/45 dark:to-card ring-1 ring-green-200/50 dark:ring-green-900/40' : ''}
-        ${isClosed ? 'opacity-70' : ''}
-      `}
+                relative overflow-hidden rounded-2xl
+                bg-gradient-to-r ${colors.gradient}
+                border ${colors.border}
+                p-4 sm:p-5 shadow-sm
+                transition-all duration-300 cursor-pointer
+                hover:shadow-lg hover:scale-[1.01]
+                ${isClosed ? 'opacity-75' : ''}
+            `}
             onClick={onClick}
         >
-            <CardContent className="p-4">
-                <div className="flex items-start justify-between gap-3">
-                    <div className="flex-1 min-w-0">
-                        {/* Code & Status */}
-                        <div className="flex items-center gap-2 flex-wrap mb-2">
-                            <span className="font-bold text-primary text-sm sm:text-base">
-                                {period.code}
-                            </span>
-                            {getStatusBadgeInline(period.status)}
-                            {hasResult && (
-                                <Badge variant="outline" className="text-xs border-orange-200 text-orange-600">
-                                    <FileCheck className="h-3 w-3 mr-1" />
-                                    Có kết quả
-                                </Badge>
-                            )}
-                        </div>
+            {/* Background decorations */}
+            <div className={`absolute -top-10 -right-10 h-32 w-32 ${colors.decoration1} rounded-full blur-2xl`} />
+            <div className={`absolute -bottom-10 -left-10 h-32 w-32 ${colors.decoration2} rounded-full blur-2xl`} />
 
-                        {/* Description */}
-                        <p className="text-sm text-foreground leading-relaxed mb-3 line-clamp-2">
-                            {period.description}
-                        </p>
+            <div className="relative flex items-start gap-4">
+                {/* Status Icon Container */}
+                <div className={`flex-shrink-0 h-12 w-12 rounded-2xl bg-gradient-to-br ${colors.iconBg} flex items-center justify-center shadow-lg ${colors.iconShadow}`}>
+                    <StatusIcon className="h-6 w-6 text-white" />
+                </div>
 
-                        {/* Time Info */}
-                        <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
-                            <span className="flex items-center gap-1">
-                                <Calendar className="h-3 w-3" />
-                                Bắt đầu: <span className="font-medium text-foreground">{period.startTime}</span>
-                            </span>
-                            <span className="flex items-center gap-1">
-                                <Clock className="h-3 w-3" />
-                                Kết thúc: <span className="font-medium text-foreground">{period.endTime}</span>
-                            </span>
-                        </div>
+                {/* Content */}
+                <div className="flex-1 min-w-0">
+                    {/* Code & Status Badges */}
+                    <div className="flex items-center gap-2 flex-wrap mb-2">
+                        <span className={`font-bold text-base sm:text-lg ${colors.codeColor}`}>
+                            {period.code}
+                        </span>
+                        {getStatusBadgeInline(period.status)}
+                        {hasResult && (
+                            <Badge className="bg-orange-500/20 text-orange-700 dark:text-orange-300 border-none text-[10px] px-2 py-0.5 font-bold">
+                                <FileCheck className="h-3 w-3 mr-1" />
+                                Có kết quả
+                            </Badge>
+                        )}
                     </div>
 
-                    {/* Action Arrow */}
-                    <ChevronRight className="h-5 w-5 text-muted-foreground shrink-0" />
+                    {/* Description */}
+                    <p className="text-sm text-foreground/80 dark:text-foreground/70 leading-relaxed mb-3 line-clamp-2">
+                        {period.description}
+                    </p>
+
+                    {/* Time Info */}
+                    <div className="flex flex-wrap gap-3 text-xs">
+                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/50 dark:bg-white/5 ${colors.timeColor} font-medium`}>
+                            <Calendar className="h-3 w-3" />
+                            {period.startTime}
+                        </span>
+                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/50 dark:bg-white/5 ${colors.timeColor} font-medium`}>
+                            <Clock className="h-3 w-3" />
+                            {period.endTime}
+                        </span>
+                    </div>
                 </div>
-            </CardContent>
-        </Card>
+
+                {/* Arrow Button */}
+                <div className={`flex-shrink-0 h-10 w-10 rounded-full ${colors.arrowBg} flex items-center justify-center ${colors.arrowColor} transition-transform group-hover:translate-x-1`}>
+                    <ChevronRight className="h-5 w-5" />
+                </div>
+            </div>
+        </div>
     );
 }
 

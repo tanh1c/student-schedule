@@ -1,0 +1,260 @@
+﻿STT,Mã học phần,Tên học phần,Tín chỉ,Học phần tiên quyết/song hành,Ghi chú
+,,I. Các môn bắt buộc (Compulsary Courses),,,
+1,MT1003,Giải tích 1,4,,Toán và KH Tự nhiên
+,,Calculus 1,,,
+2,MT1005,Giải tích 2,4,,Toán và KH Tự nhiên
+,,Calculus 2,,,
+3,MT1007,Đại số tuyến tính,3,,Toán và KH Tự nhiên
+,,Linear Algebra,,,
+4,MT2013,Xác suất và thống kê,4,,Toán và KH Tự nhiên
+,,Probability and Statistics,,,
+5,CH1003,Hóa đại cương,3,,Toán và KH Tự nhiên
+,,General Chemistry,,,
+6,PH1003,Vật lý 1,4,,Toán và KH Tự nhiên
+,,General Physics 1,,,
+7,PH1007,Thí nghiệm vật lý,1,,Toán và KH Tự nhiên
+,,General Physics Labs,,,
+8,GE1013,Khoa học trái đất,4,,Toán và KH Tự nhiên
+,,Earth Science,,,
+9,MT1009,Phương pháp tính,3,,Toán và KH Tự nhiên
+,,Numerical Methods,,,
+10,SP1007,Pháp luật Việt Nam đại cương,2,,Chính trị, Kinh tế, Văn hóa,Xã hội
+,,Introduction to Vietnamese Law,,,
+11,SP1031,Triết học Mác - Lênin,3,,Chính trị, Kinh tế, Văn hóa,Xã hội
+,,Marxist - Leninist Philosophy,,,
+12,SP1033,Kinh tế chính trị Mác - Lênin,2,,Chính trị, Kinh tế, Văn hóa,Xã hội
+,,Marxist - Leninist Political Economy,,,
+13,SP1035,Chủ nghĩa xã hội khoa học,2,,Chính trị, Kinh tế, Văn hóa,Xã hội
+,,Scientific Socialism,,,
+14,SP1037,Tư tưởng Hồ Chí Minh,2,,Chính trị, Kinh tế, Văn hóa,Xã hội
+,,Ho Chi Minh Ideology,,,
+15,SP1039,Lịch sử Đảng Cộng sản Việt Nam,2,,Chính trị, Kinh tế, Văn hóa,Xã hội
+,,History of Vietnamese Communist Party,,,
+16,GE1001,Nhập môn về kỹ thuật,3,,Nhập môn
+,,Introduction to Engineering,,,
+17,GE3151,Bảo vệ môi trường trong công nghiệp dầu khí + kiến tập,3,,Con người và môi trường
+,,Environment Conservation in Petroleum Industry + Field Trip,,,
+18,LA1003,Anh văn 1,2,,Ngoại ngữ
+,,English 1,,,
+19,LA1005,Anh văn 2,2,,Ngoại ngữ
+,,English 2,,,
+20,LA1007,Anh văn 3,2,,Ngoại ngữ
+,,English 3,,,
+21,LA1009,Anh văn 4,2,,Ngoại ngữ
+,,English 4,,,
+22,GE1011,Địa vật lý đại cương + kiến tập,3,,Cơ sở ngành
+,,Basic Geophysics,,,
+23,GE2033,Tinh thể - khoáng vật - thạch học + thực tập,3,,Cơ sở ngành
+,,Crystallography - Mineralogy - Petrography,,,
+24,GE2035,Địa chất kiến trúc và đo vẽ bản đồ địa chất,3,,Cơ sở ngành
+,,Structural Geology and Geological Mapping,,,
+25,GE2041,Địa vật lý dầu khí,3,,Cơ sở ngành
+,,Petrophysics,,,
+26,GE2043,Địa tin học đại cương,3,,Cơ sở ngành
+,,Fundamental of Geoinformatics,,,
+,,II. Các môn bắt buộc và tự chọn của chuyên ngành,,,
+,,Compulsary and Elective Major Courses,,,
+,,II.1 Chuyên ngành: Khoan và Khai thác dầu khí,,,
+,,Speciality: Drilling and Production Technology,,,
+,,Tự chọn tự do (Free Elective) (Tối thiểu 9 TC),9,,
+,,Các môn tự chọn nhóm (Elective Courses - Group) A (Tối thiểu 3 TC),3,,Cơ sở ngành
+,,Core Courses,,,
+,,Các môn tự chọn nhóm (Elective Courses - Group) B (Tối thiểu 3 TC),3,,Quản lý
+,,Management for Engineers,,,
+4,CH2089,Quá trình và thiết bị công nghệ 1,3,,Chuyên ngành
+,,Process Engineering 1,,,
+5,GE3015,Công nghệ khai thác dầu khí,3,,Chuyên ngành
+,,Petroleum Production Technology,,,
+6,GE3017,Kỹ thuật vỉa dầu khí,3,,Chuyên ngành
+,,Petroleum Reservoir Engineering,,,
+7,GE3105,Đặc trưng hóa và mô hình hóa vỉa,3,,Chuyên ngành
+,,Reservoir Characterization & Modelling,,,
+8,GE3141,Địa thống kê,3,,Chuyên ngành
+,,Geostatistics,,,
+9,GE3155,Đồ án tính toán ứng dụng trong kỹ thuật dầu khí,1,,Chuyên ngành
+,,Project: Applied Computing in Petroleum Engineering,,,
+10,GE3157,Đồ án kỹ thuật dầu khí 1,1,,Chuyên ngành
+,,Petroleum Engineering Project 1,,,
+11,GE3159,Đồ án kỹ thuật dầu khí 2,1,,Chuyên ngành
+,,Petroleum Engineering Project 2,,,
+12,GE3167,Công nghệ xử lý dầu khí,3,,Chuyên ngành
+,,Oil and Gas Field Processing,,,
+13,GE3175,Hoàn thiện giếng và kích thích vỉa,3,,Chuyên ngành
+,,Well Completion and Reservoir Stimulation,,,
+14,GE3205,Cơ học đá dầu khí,3,,Chuyên ngành
+,,Petroleum Rock Mechanics,,,
+15,GE3207,Công nghệ chế biến dầu khí phục vụ cho các ngành công nghiệp khác,3,,Chuyên ngành
+,,Petroleum Rafinery Technology to Create Input Products for Other Industries,,,
+16,GE4091,Mô phỏng vỉa dầu khí,3,,Chuyên ngành
+,,Reservoir Simulation,,,
+17,GE4093,Phân tích và dự báo khai thác dầu khí,3,,Chuyên ngành
+,,Petroleum Production Analysis and Forecast,,,
+18,GE3345,Thực tập ngoài trường,2,,Tốt nghiệp
+,,Internship,,,
+19,GE4141,Đồ án chuyên ngành,2,,Tốt nghiệp
+,,Project,,,
+20,GE4347,Đồ án tốt nghiệp,4,,Tốt nghiệp
+,,Capstone Project,,,
+,,Các môn tự chọn nhóm (Elective Courses - Group) A,,,
+1,GE2001,Cơ sở kỹ thuật dầu khí,3,,
+,,Introduction to Petroleum Engineering,,,
+2,GE2011,Cơ sở khoa học địa chất dầu khí,3,,
+,,Fundamental of Petroleum Geosciences,,,
+3,GE2045,Chuyên đề 1,3,,
+,,Project based course,,,
+,,Các môn tự chọn nhóm (Elective Courses - Group) B,,,
+1,GE3161,Quản lý dự án trong kỹ thuật tài nguyên trái đất,3,,
+,,Project Management in Earth Resources Engineering,,,
+2,GE4101,Chuyên đề quản lý 4,3,,
+,,Special Course in Management 4,,,
+3,GE4103,Chuyên đề quản lý 7,3,,
+,,Special Course in Management 7,,,
+4,IM1023,Quản lý sản xuất cho kỹ sư,3,,
+,,Production and Operations Management for Engineers,,,
+5,IM1027,Kinh tế kỹ thuật,3,,
+,,Engineering Economics,,,
+,,II.2 Chuyên ngành: Địa chất dầu khí,,,
+,,Speciality: Petroleum Geology,,,
+,,Tự chọn tự do (Free Elective) (Tối thiểu 9 TC),9,,
+,,Các môn tự chọn nhóm (Elective Courses - Group) A (Tối thiểu 3 TC),3,,Cơ sở ngành
+,,Core Courses,,,
+,,Các môn tự chọn nhóm (Elective Courses - Group) B (Tối thiểu 3 TC),3,,Quản lý
+,,Management for Engineers,,,
+4,CH2089,Quá trình và thiết bị công nghệ 1,3,,Chuyên ngành
+,,Process Engineering 1,,,
+5,GE3015,Công nghệ khai thác dầu khí,3,,Chuyên ngành
+,,Petroleum Production Technology,,,
+6,GE3017,Kỹ thuật vỉa dầu khí,3,,Chuyên ngành
+,,Petroleum Reservoir Engineering,,,
+7,GE3045,Phương pháp minh giải tài liệu địa chấn,3,,Chuyên ngành
+,,Seismic Data Interpretation Methods,,,
+8,GE3105,Đặc trưng hóa và mô hình hóa vỉa,3,,Chuyên ngành
+,,Reservoir Characterization & Modelling,,,
+9,GE3141,Địa thống kê,3,,Chuyên ngành
+,,Geostatistics,,,
+10,GE3155,Đồ án tính toán ứng dụng trong kỹ thuật dầu khí,1,,Chuyên ngành
+,,Project: Applied Computing in Petroleum Engineering,,,
+11,GE3157,Đồ án kỹ thuật dầu khí 1,1,,Chuyên ngành
+,,Petroleum Engineering Project 1,,,
+12,GE3159,Đồ án kỹ thuật dầu khí 2,1,,Chuyên ngành
+,,Petroleum Engineering Project 2,,,
+13,GE3207,Công nghệ chế biến dầu khí phục vụ cho các ngành công nghiệp khác,3,,Chuyên ngành
+,,Petroleum Rafinery Technology to Create Input Products for Other Industries,,,
+14,GE4091,Mô phỏng vỉa dầu khí,3,,Chuyên ngành
+,,Reservoir Simulation,,,
+15,GE4093,Phân tích và dự báo khai thác dầu khí,3,,Chuyên ngành
+,,Petroleum Production Analysis and Forecast,,,
+16,GE3163,Tầng chứa, tài nguyên và trữ lượng dầu khí,3,,Chuyên ngành (PBL)
+,,Oil and Gas Reservoir, Resources and Reserves,,,
+17,GE3177,Phương pháp tìm kiếm thăm dò thẩm lượng dầu khí,3,,Chuyên ngành (PBL)
+,,Fundamentals of Hydrocarbon Exploration and Appraisal,,,
+18,GE3345,Thực tập ngoài trường,2,,Tốt nghiệp
+,,Internship,,,
+,,II.3 Chuyên ngành: Kỹ thuật Dầu khí,,,
+,,Speciality: Petroleum Engineering,,,
+,,Tự chọn tự do (Free Elective) (Tối thiểu 9 TC),9,,
+,,Các môn tự chọn nhóm (Elective Courses - Group) A (Tối thiểu 3 TC),3,,Cơ sở ngành
+,,Core Courses,,,
+,,Các môn tự chọn nhóm (Elective Courses - Group) C (Tối thiểu 6 TC),6,,Chuyên ngành
+,,Speciality Courses,,,
+,,Các môn tự chọn nhóm (Elective Courses - Group) D (Tối thiểu 3 TC),3,,Chuyên ngành
+,,Speciality Courses,,,
+,,Các môn tự chọn nhóm (Elective Courses - Group) B (Tối thiểu 3 TC),3,,Quản lý
+,,Management for Engineers,,,
+6,CH2089,Quá trình và thiết bị công nghệ 1,3,,Chuyên ngành
+,,Process Engineering 1,,,
+7,GE3015,Công nghệ khai thác dầu khí,3,,Chuyên ngành
+,,Petroleum Production Technology,,,
+8,GE3017,Kỹ thuật vỉa dầu khí,3,,Chuyên ngành
+,,Petroleum Reservoir Engineering,,,
+9,GE3105,Đặc trưng hóa và mô hình hóa vỉa,3,,Chuyên ngành
+,,Reservoir Characterization & Modelling,,,
+10,GE3141,Địa thống kê,3,,Chuyên ngành
+,,Geostatistics,,,
+11,GE3155,Đồ án tính toán ứng dụng trong kỹ thuật dầu khí,1,,Chuyên ngành
+,,Project: Applied Computing in Petroleum Engineering,,,
+12,GE3157,Đồ án kỹ thuật dầu khí 1,1,,Chuyên ngành
+,,Petroleum Engineering Project 1,,,
+13,GE3159,Đồ án kỹ thuật dầu khí 2,1,,Chuyên ngành
+,,Petroleum Engineering Project 2,,,
+14,GE3207,Công nghệ chế biến dầu khí phục vụ cho các ngành công nghiệp khác,3,,Chuyên ngành
+,,Petroleum Rafinery Technology to Create Input Products for Other Industries,,,
+15,GE4091,Mô phỏng vỉa dầu khí,3,,Chuyên ngành
+,,Reservoir Simulation,,,
+16,GE4093,Phân tích và dự báo khai thác dầu khí,3,,Chuyên ngành
+,,Petroleum Production Analysis and Forecast,,,
+17,GE3345,Thực tập ngoài trường,2,,Tốt nghiệp
+,,Internship,,,
+18,GE4141,Đồ án chuyên ngành,2,,Tốt nghiệp
+,,Project,,,
+19,GE4347,Đồ án tốt nghiệp,4,,Tốt nghiệp
+,,Capstone Project,,,
+,,Các môn tự chọn nhóm (Elective Courses - Group) A,,,
+1,GE2001,Cơ sở kỹ thuật dầu khí,3,,
+,,Introduction to Petroleum Engineering,,,
+2,GE2011,Cơ sở khoa học địa chất dầu khí,3,,
+,,Fundamental of Petroleum Geosciences,,,
+3,GE2045,Chuyên đề 1,3,,
+,,Project based course,,,
+,,Các môn tự chọn nhóm (Elective Courses - Group) C,,,
+1,GE3045,Phương pháp minh giải tài liệu địa chấn,3,,
+,,Seismic Data Interpretation Methods,,,
+2,GE3163,Tầng chứa, tài nguyên và trữ lượng dầu khí,3,,
+,,Oil and Gas Reservoir, Resources and Reserves,,,
+3,GE3165,Trầm tích học và nhịp địa tầng,3,,
+,,Sedimentology and Stratigraphy for Petroleum Engineers,,,
+4,GE3167,Công nghệ xử lý dầu khí,3,,
+,,Oil and Gas Field Processing,,,
+5,GE3169,Địa chất biển,3,,
+,,Coastal and Marine Geology,,,
+6,GE3171,Chuyên đề 2,3,,
+,,Project based course,,,
+7,GE3173,Chuyên đề 3,3,,
+,,Project based course,,,
+8,GE3179,Thu gom và vận chuyển dầu khí,3,,
+,,Oil and Gas Gathering and Transportation,,,
+9,GE3205,Cơ học đá dầu khí,3,,
+,,Petroleum Rock Mechanics,,,
+,,Các môn tự chọn nhóm (Elective Courses - Group) D,,,
+1,GE2029,Địa chất môi trường,3,,
+,,Environmental Geology,,,
+2,GE3079,Phương pháp viễn thám và GIS,3,,
+,,Remote Sensing and Geographic Information System,,,
+3,GE3175,Hoàn thiện giếng và kích thích vỉa,3,,
+,,Well Completion and Reservoir Stimulation,,,
+4,GE3177,Phương pháp tìm kiếm thăm dò thẩm lượng dầu khí,3,,
+,,Fundamentals of Hydrocarbon Exploration and Appraisal,,,
+5,GE3181,Công nghệ khoan dầu khí,3,,
+,,Drilling Engineering,,,
+6,GE3183,Địa chất và tài nguyên dầu khí Việt Nam,3,,
+,,Vietnam Geology and Petroleum Resources,,,
+7,GE3185,Khảo sát giếng,3,,
+,,Well Testing and Pressure Transient Analysis,,,
+8,GE3187,Chuyên đề 4,3,,
+,,Project based course,,,
+9,GE3189,Chuyên đề 5,3,,
+,,Project based course,,,
+10,GE3191,Chuyên đề 6,3,,
+,,Project based course,,,
+11,GE3199,Dung dịch khoan và xi măng,3,,
+,,Drilling Fluid and Cementing,,,
+,,Các môn tự chọn nhóm (Elective Courses - Group) B,,,
+1,GE3161,Quản lý dự án trong kỹ thuật tài nguyên trái đất,3,,
+,,Project Management in Earth Resources Engineering,,,
+2,GE4101,Chuyên đề quản lý 4,3,,
+,,Special Course in Management 4,,,
+3,GE4103,Chuyên đề quản lý 7,3,,
+,,Special Course in Management 7,,,
+4,IM1023,Quản lý sản xuất cho kỹ sư,3,,
+,,Production and Operations Management for Engineers,,,
+5,IM1027,Kinh tế kỹ thuật,3,,
+,,Engineering Economics,,,
+,,III. Chứng chỉ (Certification),,,
+1,MI1003,Giáo dục quốc phòng,,,
+,,Military Trainning,,,
+2,PE1003,Giáo dục thể chất 1,,,
+,,Physical Education 1,,,
+3,PE1005,Giáo dục thể chất 2,,,
+,,Physical Education 2,,,
+4,PE1007,Giáo dục thể chất 3,,,
+,,Physical Education 3,,,

@@ -1,0 +1,105 @@
+﻿STT,Mã học phần,Tên học phần,Tín chỉ,Học phần tiên quyết/song hành,Ghi chú
+,,I. Các môn bắt buộc,,,
+,,Compulsary Courses,,,
+1,MT1003,Giải tích 1,4,,Toán và KH Tự nhiên
+,,Calculus 1,,,,
+2,MT1005,Giải tích 2,4,,Toán và KH Tự nhiên
+,,Calculus 2,,,,
+3,MT1007,Đại số tuyến tính,3,,Toán và KH Tự nhiên
+,,Linear Algebra,,,,
+4,MT2013,Xác suất và thống kê,4,,Toán và KH Tự nhiên
+,,Probability and Statistics,,,,
+5,CH1003,Hóa đại cương,3,,Toán và KH Tự nhiên
+,,General Chemistry,,,,
+6,PH1003,Vật lý 1,4,,Toán và KH Tự nhiên
+,,General Physics 1,,,,
+7,PH1007,Thí nghiệm vật lý,1,,Toán và KH Tự nhiên
+,,General Physics Labs,,,,
+8,CI1069,Khoa học trái đất,4,,Toán và KH Tự nhiên
+,,Earth Science,,,,
+9,MT1009,Phương pháp tính,3,,Toán và KH Tự nhiên
+,,Numerical Methods,,,,
+10,SP1007,Pháp luật Việt Nam đại cương,2,,"Chính trị, Kinh tế, Văn hóa, Xã hội"
+,,Introduction to Vietnamese Law,,,,
+11,SP1031,Triết học Mác - Lênin,3,,"Chính trị, Kinh tế, Văn hóa, Xã hội"
+,,Marxist - Leninist Philosophy,,,,
+12,SP1033,Kinh tế chính trị Mác - Lênin,2,,"Chính trị, Kinh tế, Văn hóa, Xã hội"
+,,Marxist - Leninist Political Economy,,,,
+13,SP1035,Chủ nghĩa xã hội khoa học,2,,"Chính trị, Kinh tế, Văn hóa, Xã hội"
+,,Scientific Socialism,,,,
+14,SP1037,Tư tưởng Hồ Chí Minh,2,,"Chính trị, Kinh tế, Văn hóa, Xã hội"
+,,Ho Chi Minh Ideology,,,,
+15,SP1039,Lịch sử Đảng Cộng sản Việt Nam,2,,"Chính trị, Kinh tế, Văn hóa, Xã hội"
+,,History of Vietnamese Communist Party,,,,
+16,CI1001,Nhập môn về kỹ thuật (Vật liệu Xây dựng),3,,Nhập môn
+,,Introduction to Engineering,,,,
+17,EN1003,Con người và môi trường,3,,Con người và môi trường
+,,Humans and the Environment,,,,
+18,LA1003,Anh văn 1,2,,Ngoại ngữ
+,,English 1,,,,
+19,LA1005,Anh văn 2,2,,Ngoại ngữ
+,,English 2,,,,
+20,LA1007,Anh văn 3,2,,Ngoại ngữ
+,,English 3,,,,
+21,LA1009,Anh văn 4,2,,Ngoại ngữ
+,,English 4,,,,
+22,CI1007,Trắc địa đại cương,3,,Cơ sở ngành
+,,Basis of Surveying,,,,
+23,CI1033,Vẽ kỹ thuật xây dựng,3,,Cơ sở ngành
+,,Civil Engineering Drawing,,,,
+24,CI2003,Cơ lưu chất,3,,Cơ sở ngành
+,,Fluid Mechanics,,,,
+25,CI2007,Sức bền vật liệu,4,,Cơ sở ngành
+,,Strength of Materials,,,,
+26,CI2037,Vật liệu xây dựng,3,,Cơ sở ngành
+,,Construction Materials,,,,
+27,CI2095,Địa chất công trình,3,,Cơ sở ngành
+,,Engineering Geology,,,,
+28,CI3231,Kết cấu thép,3,,Cơ sở ngành
+,,Steel Structures,,,,
+29,CI3233,Cơ kết cấu,3,,Cơ sở ngành
+,,Mechanics of Structures,,,,
+30,CI3235,Cơ học đất,3,,Cơ sở ngành
+,,Soil Mechanics,,,,
+31,CI3237,Kết cấu bê tông cốt thép,3,,Cơ sở ngành
+,,Reinforced Concrete Structures,,,,
+32,CI3239,Nền móng,4,,Cơ sở ngành
+,,Foundation Engineering,,,,
+33,CI4011,Thí nghiệm công trình,1,,Cơ sở ngành
+,,Structural Testing,,,,
+34,CI4129,Kinh tế xây dựng,3,,Cơ sở ngành
+,,Construction Economics,,,,
+,,II. Các môn bắt buộc và tự chọn của chuyên ngành,,,
+,,Compulsary and Elective Major Courses,,,
+1,,Tự chọn tự do (Tối thiểu 9 TC),9,,
+,,Free Elective (Minimum 9 TC),,,
+2,,Các môn tự chọn nhóm A (Tối thiểu 3 TC),3,,Quản lý
+,,Elective Courses - Group A (Minimum 3 TC),,,
+3,CI3057,Kỹ thuật bê tông,3,,Chuyên ngành
+,,Concrete Technology,,,,
+4,CI3245,Kỹ thuật chất kết dính,3,,Chuyên ngành
+,,Cementitious Material Science,,,,
+5,CI4139,Thiết kế công nghệ sản xuất và lắp đặt cấu kiện bê tông đúc sẵn,3,,Chuyên ngành
+,,Design of Production Technology and Installation of Precast Concrete,,,,
+6,CI4153,Bê tông đặc biệt cho công trình,3,,Chuyên ngành
+,,Special Concretes in Construction,,,,
+7,CI4163,Ăn mòn bê tông và bê tông cốt thép,3,,Chuyên ngành
+,,Corrosion of Concrete and Reinforced Concrete,,,,
+8,CI3465,Thực tập ngoài trường,2,,Tốt nghiệp
+,,Internship,,,,
+9,CI4167,Đồ án chuyên ngành,2,,Tốt nghiệp
+,,Project,,,,
+10,CI4467,Đồ án tốt nghiệp,4,,Tốt nghiệp
+,,Capstone Project,,,,
+,,Các môn tự chọn nhóm A,,,
+,,Elective Courses - Group A,,,
+1,CI4181,Lãnh đạo và khởi nghiệp,3,,
+,,Leadership and Starup,,,,
+2,CI4183,Lãnh đạo và quản lý dự án,3,,
+,,Leadership and Management in Project,,,,
+,,III. Chứng chỉ,,,
+,,Certification,,,
+1,,Giáo dục quốc phòng,,,
+,,Military Trainning,,,,
+2,,Giáo dục thể chất,,,
+,,Physical Education,,,,

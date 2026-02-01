@@ -1,0 +1,111 @@
+id,code,name,credits,prerequisites,note
+CH1015,CH1015,Hóa đại cương,3,,
+MT1019,MT1019,Giải tích 1 (CT Tiên tiến),4,,
+PH1011,PH1011,Vật lý - Cơ Học,4,,
+MT1021,MT1021,Giải tích 2 (CT Tiên tiến),4,,
+MT1023,MT1023,Cơ sở Phương trình Vi phân,3,,
+PH1013,PH1013,Vật lý - Nhiệt Lượng tử,3,,
+MT1007,MT1007,Đại số Tuyến tính,3,,
+EE2401,EE2401,Vật lý: Điện và Từ học,3,MT1021(KN),MT1019(KN)
+MT2015,MT2015,Xác suất và Ứng dụng kỹ thuật,3,,
+SP1007,SP1007,Pháp luật Việt Nam Đại cương,2,,
+SP1031,SP1031,Triết học Mác - Lênin,3,,
+SP1033,SP1033,Kinh tế Chính trị Mác - Lênin,2,SP1031(KN),
+SP1035,SP1035,Chủ nghĩa Xã hội Khoa học,2,SP1033(KN),
+SP1037,SP1037,Tư tưởng Hồ Chí Minh,2,SP1039(KN),
+SP1039,SP1039,Lịch sử Đảng Cộng sản Việt Nam,2,SP1035(KN),
+EE1025,EE1025,Nhập môn Về kỹ Thuật,3,,
+EE1029,EE1029,Cơ sở Kỹ thuật Điện - Máy tính,4,,
+EE2405,EE2405,Xử lý Tín hiệu Tương tự,4,MT1023(KN),MT1007(KN)
+EE2407,EE2407,Nguyên lý Tự luận,3,,
+EE2411,EE2411,Linh kiện Bán dẫn,3,EE2401(KN),
+EE2415,EE2415,Hệ thống Máy tính và Ngôn ngữ Lập trình,4,EE2417(KN),
+EE2409,EE2409,Cơ sở Trường điện từ,3,EE2401(KN),
+EE3411,EE3411,Mạch điện tử,3,EE1029(TQ),EE2411(KN)
+EE2421,EE2421,Đồ án Cơ sở ngành,1,EE3407(KN),EE3431(KN)
+EE3413,EE3413,Vi xử lý,3,EE2417(TQ),EE2419(KN)
+EE2417,EE2417,Cơ sở Máy tính,3,EE1029(KN),
+EE2419,EE2419,Kỹ thuật số,3,EE2417(SHT),
+EE3417,EE3417,Cảm biến và Đo lường,3,EE3411(KN),
+EE3419,EE3419,Điện tử Công suất,3,EE2405(KN),
+EE4407,EE4407,Tự động Hóa Công nghiệp,3,EE2415(TQ),EE3417(KN)
+EE3419,EE3419,Điện tử Công suất,3,EE2405(KN),
+EE3421,EE3421,Máy điện,3,EE3405(KN),
+EE4413,EE4413,Giải tích hệ thống điện,3,EE3405(KN),
+EE3415,EE3415,Thông tin tương tự - số,3,EE2405(TQ),
+EE3423,EE3423,Mạch điện tử thông tin,3,EE3411(SHT),
+EE4403,EE4403,Mạng thông tin,3,EE2417(KN),EE2405(TQ)
+EE3425,EE3425,Thiết kế Vi mạch,3,EE2419(TQ),EE3411(KN)
+EE3427,EE3427,Thiết kế Hệ thống nhúng,3,EE3401(KN),EE3413(SHT)
+EE4423,EE4423,Cấu trúc Máy tính,3,EE3425(KN),EE2419(TQ)
+EE3375,EE3375,Thực tập Ngoài trường,2,EE3407(KN),EE3431(KN)
+EE4405,EE4405,Đồ án Chuyên ngành,2,EE3417(KN),EE3421(KN)
+EE4377,EE4377,Đồ án Tốt nghiệp,4,EE4405(TQ),EE3375(TQ)
+EE3403,EE3403,Cơ sở Hệ thống Điều khiển,3,EE2405(KN),
+EE3405,EE3405,Mạch công suất và Điện cơ,3,EE2409(KN),EE1029(TQ)
+EE3403,EE3403,Cơ sở Hệ thống Điều khiển,3,EE2405(KN),
+EE3405,EE3405,Mạch công suất và Điện cơ,3,EE2409(KN),EE1029(TQ)
+EE3407,EE3407,Trường và sóng điện từ,3,EE2409(SHT),
+EE3431,EE3431,Xử lý số Tín hiệu,3,EE2405(TQ),
+EE3431,EE3431,Xử lý số Tín hiệu,3,EE2405(TQ),
+EE3401,EE3401,Kỹ thuật Hệ thống Máy tính,3,EE2415(SHT),
+EE4441,EE4441,Cơ sở Người máy (Robot),3,EE3403(KN),
+EE4443,EE4443,Điều khiển Phi tuyến và Thích nghi,3,EE3403(TQ),
+EE4445,EE4445,Trí tuệ Nhân tạo trong Điều khiển,3,EE3403(KN),
+EE4447,EE4447,Hệ thống Điều khiển nhúng,3,EE3413(KN),EE3403(KN)
+EE4441,EE4441,Cơ sở Người máy (Robot),3,EE3403(KN),
+EE4443,EE4443,Điều khiển Phi tuyến và Thích nghi,3,EE3403(TQ),
+EE4445,EE4445,Trí tuệ Nhân tạo trong Điều khiển,3,EE3403(KN),
+EE4447,EE4447,Hệ thống Điều khiển nhúng,3,EE3413(KN),EE3403(KN)
+EE4425,EE4425,AI và IoT cho hệ thống năng lượng tái tạo,3,EE2415(KN),EE3413(KN)
+EE4427,EE4427,Lưới điện siêu nhỏ và lưới điện thông minh,3,EE3419(KN),EE3403(KN)
+EE4429,EE4429,Công nghệ xe điện,3,EE3421(KN),EE3419(KN)
+EE4431,EE4431,Điện tử công suất cho hệ thống năng lượng tái tạo và xe điện,3,EE3421(KN),EE3419(KN)
+EE4425,EE4425,AI và IoT cho hệ thống năng lượng tái tạo,3,EE2415(KN),EE3413(KN)
+EE4427,EE4427,Lưới điện siêu nhỏ và lưới điện thông minh,3,EE3419(KN),EE3403(KN)
+EE4429,EE4429,Công nghệ xe điện,3,EE3421(KN),EE3419(KN)
+EE4431,EE4431,Điện tử công suất cho hệ thống năng lượng tái tạo và xe điện,3,EE3421(KN),EE3419(KN)
+EE4433,EE4433,Thiết kế Ứng dụng IoT,3,EE4403(KN),EE3413(TQ)
+EE4435,EE4435,Máy học và ứng dụng,3,EE2415(TQ),EE3431(KN)
+EE4437,EE4437,Mạch và hệ thống siêu cao tần,3,EE3407(TQ),EE3423(KN)
+EE4439,EE4439,Hệ thống Viễn thông,3,EE2405(TQ),EE3415(KN)
+EE4433,EE4433,Thiết kế Ứng dụng IoT,3,EE4403(KN),EE3413(TQ)
+EE4435,EE4435,Máy học và ứng dụng,3,EE2415(TQ),EE3431(KN)
+EE4437,EE4437,Mạch và hệ thống siêu cao tần,3,EE3407(TQ),EE3423(KN)
+EE4439,EE4439,Hệ thống Viễn thông,3,EE2405(TQ),EE3415(KN)
+EE4449,EE4449,Kỹ thuật số Nâng Cao,3,EE2419(TQ),EE3425(KN)
+EE4451,EE4451,Thiết kế Vi mạch số,3,EE2411(TQ),EE3425(KN)
+EE4453,EE4453,Thiết kế Vi mạch Tương tự,3,EE3411(TQ),
+EE4455,EE4455,Trí tuệ nhân tạo,3,EE3413(TQ),EE3427(KN)
+EE4449,EE4449,Kỹ thuật số Nâng Cao,3,EE2419(TQ),EE3425(KN)
+EE4451,EE4451,Thiết kế Vi mạch số,3,EE2411(TQ),EE3425(KN)
+EE4453,EE4453,Thiết kế Vi mạch Tương tự,3,EE3411(TQ),
+EE4455,EE4455,Trí tuệ nhân tạo,3,EE3413(TQ),EE3427(KN)
+IM1013,IM1013,Kinh tế học Đại cương,3,,
+IM1019,IM1019,Tiếp thị Căn bản,3,,
+IM3063,IM3063,Quản lý Chất lượng,3,,
+IM1031,IM1031,Khởi nghiệp và đổi mới sáng tạo,3,,
+EN1003,EN1003,Con người và Môi trường,3,,
+ME1019,ME1019,Quản lý năng suất và chất lượng,3,,
+MI1003,MI1003,Giáo dục Quốc phòng,0,,
+PE1009,PE1009,Bóng đá (Học phần 1),0,,
+PE1011,PE1011,Bóng chuyền (Học phần 1),0,,
+PE1013,PE1013,Bóng bàn (Học phần 1),0,,
+PE1021,PE1021,Aerobic (học Phần 1),0,,
+PE1015,PE1015,Bóng rổ (Học phần 1),0,,
+PE1017,PE1017,Cầu lông (Học phần 1),0,,
+PE1025,PE1025,Điền kinh (Học phần 1),0,,
+PE1019,PE1019,Bơi (học Phần 1),0,,
+PE1027,PE1027,Quần vợt (Học phần 1),0,,
+PE1053,PE1053,Cờ vua (Học phần 1),0,,
+PE1037,PE1037,Bóng bàn (Học phần 2),0,,
+PE1041,PE1041,Cầu lông (Học phần 2),0,,
+PE1033,PE1033,Bóng đá (Học phần 2),0,,
+PE1045,PE1045,Aerobic (học Phần 2),0,,
+PE1043,PE1043,Bơi (học Phần 2),0,,
+PE1039,PE1039,Bóng rổ (Học phần 2),0,,
+PE1035,PE1035,Bóng chuyền (Học phần 2),0,,
+PE1049,PE1049,Điền kinh (học phần 2),0,,
+PE1051,PE1051,Quần vợt (Học phần 2),0,,
+PE1055,PE1055,Cờ vua (học phần 2),0,,
+SA4001,SA4001,Hoạt động sinh viên,0,,

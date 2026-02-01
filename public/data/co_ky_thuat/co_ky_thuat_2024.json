@@ -1,0 +1,714 @@
+[
+  {
+    "id": "MT1003",
+    "code": "MT1003",
+    "name": "Giải tích 1",
+    "credits": "4",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "MT1005",
+    "code": "MT1005",
+    "name": "Giải tích 2",
+    "credits": "4",
+    "prerequisites": "MT1003(KN)",
+    "note": ""
+  },
+  {
+    "id": "MT1007",
+    "code": "MT1007",
+    "name": "Đại số Tuyến tính",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "MT2013",
+    "code": "MT2013",
+    "name": "Xác suất và Thống kê",
+    "credits": "4",
+    "prerequisites": "MT1007(KN)",
+    "note": ""
+  },
+  {
+    "id": "PH1003",
+    "code": "PH1003",
+    "name": "Vật lý 1",
+    "credits": "4",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PH1005",
+    "code": "PH1005",
+    "name": "Vật lý 2",
+    "credits": "4",
+    "prerequisites": "PH1003(KN)",
+    "note": ""
+  },
+  {
+    "id": "PH1007",
+    "code": "PH1007",
+    "name": "Thí nghiệm Vật lý",
+    "credits": "1",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CH1003",
+    "code": "CH1003",
+    "name": "Hóa đại cương",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "MT1009",
+    "code": "MT1009",
+    "name": "Phương pháp tính",
+    "credits": "3",
+    "prerequisites": "MT1003(KN)",
+    "note": ""
+  },
+  {
+    "id": "SP1007",
+    "code": "SP1007",
+    "name": "Pháp luật Việt Nam Đại cương",
+    "credits": "2",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "SP1031",
+    "code": "SP1031",
+    "name": "Triết học Mác - Lênin",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "SP1033",
+    "code": "SP1033",
+    "name": "Kinh tế Chính trị Mác - Lênin",
+    "credits": "2",
+    "prerequisites": "SP1031(KN)",
+    "note": ""
+  },
+  {
+    "id": "SP1035",
+    "code": "SP1035",
+    "name": "Chủ nghĩa Xã hội Khoa học",
+    "credits": "2",
+    "prerequisites": "SP1033(KN)",
+    "note": ""
+  },
+  {
+    "id": "SP1037",
+    "code": "SP1037",
+    "name": "Tư tưởng Hồ Chí Minh",
+    "credits": "2",
+    "prerequisites": "SP1039(KN)",
+    "note": ""
+  },
+  {
+    "id": "SP1039",
+    "code": "SP1039",
+    "name": "Lịch sử Đảng Cộng sản Việt Nam",
+    "credits": "2",
+    "prerequisites": "SP1035(KN)",
+    "note": ""
+  },
+  {
+    "id": "AS1001",
+    "code": "AS1001",
+    "name": "Nhập môn Về kỹ thuật",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "EN1003",
+    "code": "EN1003",
+    "name": "Con người và Môi trường",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "MI1003",
+    "code": "MI1003",
+    "name": "Giáo dục Quốc phòng",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1009",
+    "code": "PE1009",
+    "name": "Bóng đá",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1011",
+    "code": "PE1011",
+    "name": "Bóng chuyền",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1013",
+    "code": "PE1013",
+    "name": "Bóng bàn",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1015",
+    "code": "PE1015",
+    "name": "Bóng rổ",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1017",
+    "code": "PE1017",
+    "name": "Cầu lông",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1019",
+    "code": "PE1019",
+    "name": "Bơi",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1021",
+    "code": "PE1021",
+    "name": "Aerobic",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1025",
+    "code": "PE1025",
+    "name": "Điền kinh",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1027",
+    "code": "PE1027",
+    "name": "Quần vợt",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1053",
+    "code": "PE1053",
+    "name": "Cờ vua",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1057",
+    "code": "PE1057",
+    "name": "Bowling",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1061",
+    "code": "PE1061",
+    "name": "Pickleball",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1033",
+    "code": "PE1033",
+    "name": "Bóng đá",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1035",
+    "code": "PE1035",
+    "name": "Bóng chuyền",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1037",
+    "code": "PE1037",
+    "name": "Bóng bàn",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1039",
+    "code": "PE1039",
+    "name": "Bóng rổ",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1041",
+    "code": "PE1041",
+    "name": "Cầu lông",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1043",
+    "code": "PE1043",
+    "name": "Bơi",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1045",
+    "code": "PE1045",
+    "name": "Aerobic",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1049",
+    "code": "PE1049",
+    "name": "Điền kinh",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1051",
+    "code": "PE1051",
+    "name": "Quần vợt",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1055",
+    "code": "PE1055",
+    "name": "Cờ vua",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1059",
+    "code": "PE1059",
+    "name": "Bowling",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1063",
+    "code": "PE1063",
+    "name": "Pickleball",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "LA1003",
+    "code": "LA1003",
+    "name": "Anh văn 1",
+    "credits": "2",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "LA1005",
+    "code": "LA1005",
+    "name": "Anh văn 2",
+    "credits": "2",
+    "prerequisites": "LA1003(TQ)",
+    "note": ""
+  },
+  {
+    "id": "LA1007",
+    "code": "LA1007",
+    "name": "Anh văn 3",
+    "credits": "2",
+    "prerequisites": "LA1005(TQ)",
+    "note": ""
+  },
+  {
+    "id": "LA1009",
+    "code": "LA1009",
+    "name": "Anh văn 4",
+    "credits": "2",
+    "prerequisites": "LA1007(TQ)",
+    "note": ""
+  },
+  {
+    "id": "CI1003",
+    "code": "CI1003",
+    "name": "Vẽ kỹ thuật",
+    "credits": "3",
+    "prerequisites": "",
+    "note": "X"
+  },
+  {
+    "id": "AS1003",
+    "code": "AS1003",
+    "name": "Cơ lý thuyết",
+    "credits": "3",
+    "prerequisites": "",
+    "note": "X"
+  },
+  {
+    "id": "AS2003",
+    "code": "AS2003",
+    "name": "Kỹ thuật Lập trình Cơ Kỹ thuật",
+    "credits": "3",
+    "prerequisites": "",
+    "note": "X"
+  },
+  {
+    "id": "AS2013",
+    "code": "AS2013",
+    "name": "CAD Ứng dụng",
+    "credits": "3",
+    "prerequisites": "",
+    "note": "X"
+  },
+  {
+    "id": "AS2011",
+    "code": "AS2011",
+    "name": "Lý Thuyết Đàn hồi",
+    "credits": "3",
+    "prerequisites": "",
+    "note": "X"
+  },
+  {
+    "id": "AS2055",
+    "code": "AS2055",
+    "name": "Cơ kỹ thuật đại cương",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CI2003",
+    "code": "CI2003",
+    "name": "Cơ lưu chất",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "ME2013",
+    "code": "ME2013",
+    "name": "Nhiệt động lực học và Truyền nhiệt",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "AS3147",
+    "code": "AS3147",
+    "name": "Cơ học Vật rắn Biến dạng",
+    "credits": "3",
+    "prerequisites": "",
+    "note": "X"
+  },
+  {
+    "id": "AS3061",
+    "code": "AS3061",
+    "name": "Dao động Cơ sở",
+    "credits": "3",
+    "prerequisites": "AS1003(KN)",
+    "note": "X"
+  },
+  {
+    "id": "AS3169",
+    "code": "AS3169",
+    "name": "Thiết kế kỹ thuật",
+    "credits": "3",
+    "prerequisites": "",
+    "note": "X"
+  },
+  {
+    "id": "AS3153",
+    "code": "AS3153",
+    "name": "Thực tập cơ kỹ thuật",
+    "credits": "2",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "AS3015",
+    "code": "AS3015",
+    "name": "Phương pháp Phần tử hữu hạn Cơ kỹ thuật",
+    "credits": "3",
+    "prerequisites": "AS2011(KN)",
+    "note": "X"
+  },
+  {
+    "id": "AS3171",
+    "code": "AS3171",
+    "name": "Đồ án môn học - thiết kế kỹ thuật",
+    "credits": "2",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "AS3149",
+    "code": "AS3149",
+    "name": "Ảnh dụng các phần mềm trong tính toán cơ học",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "AS3029",
+    "code": "AS3029",
+    "name": "Lý thuyết dẻo Kỹ thuật",
+    "credits": "3",
+    "prerequisites": "AS2011(KN)",
+    "note": "X"
+  },
+  {
+    "id": "AS3097",
+    "code": "AS3097",
+    "name": "Ứng xử Cơ học vật liệu",
+    "credits": "3",
+    "prerequisites": "AS2011(KN)",
+    "note": "X"
+  },
+  {
+    "id": "AS3035",
+    "code": "AS3035",
+    "name": "Tính toán Động lực học lưu chất",
+    "credits": "3",
+    "prerequisites": "",
+    "note": "X"
+  },
+  {
+    "id": "AS3335",
+    "code": "AS3335",
+    "name": "Thực tập Ngoài trường",
+    "credits": "2",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "AS4007",
+    "code": "AS4007",
+    "name": "Đồ án Chuyên ngành Cơ kỹ thuật",
+    "credits": "2",
+    "prerequisites": "",
+    "note": "X"
+  },
+  {
+    "id": "AS4337",
+    "code": "AS4337",
+    "name": "Đồ án Tốt nghiệp",
+    "credits": "4",
+    "prerequisites": "AS3335(TQ) AS4007(TQ)",
+    "note": "X"
+  },
+  {
+    "id": "AS3013",
+    "code": "AS3013",
+    "name": "Tính toán Kết cấu",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "AS3093",
+    "code": "AS3093",
+    "name": "Phương pháp Phần tử hữu hạn Ứng dụng",
+    "credits": "3",
+    "prerequisites": "AS3015(KN)",
+    "note": ""
+  },
+  {
+    "id": "AS3159",
+    "code": "AS3159",
+    "name": "Tối ưu hóa kỹ thuật",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CI3171",
+    "code": "CI3171",
+    "name": "Cơ học Môi trường rời",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "AS3003",
+    "code": "AS3003",
+    "name": "Cơ học Môi trường liên tục",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "AS4003",
+    "code": "AS4003",
+    "name": "Cơ học rạn nứt",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "AS3001",
+    "code": "AS3001",
+    "name": "Động học Robot",
+    "credits": "3",
+    "prerequisites": "AS1003(KN)",
+    "note": ""
+  },
+  {
+    "id": "AS3021",
+    "code": "AS3021",
+    "name": "Động lực học Hệ nhiều vật",
+    "credits": "3",
+    "prerequisites": "AS1003(KN)",
+    "note": ""
+  },
+  {
+    "id": "AS3155",
+    "code": "AS3155",
+    "name": "Động lực học vật rắn",
+    "credits": "3",
+    "prerequisites": "AS1003(KN)",
+    "note": ""
+  },
+  {
+    "id": "AS3039",
+    "code": "AS3039",
+    "name": "Mô hình Hóa động lực học Cơ hệ",
+    "credits": "3",
+    "prerequisites": "AS1003(KN) AS3061(KN)",
+    "note": ""
+  },
+  {
+    "id": "AS3031",
+    "code": "AS3031",
+    "name": "Đo lường các Đại lượng phi điện",
+    "credits": "3",
+    "prerequisites": "MT2013(KN)",
+    "note": ""
+  },
+  {
+    "id": "AS3019",
+    "code": "AS3019",
+    "name": "Phân tích Số liệu thực nghiệm Cơ học",
+    "credits": "3",
+    "prerequisites": "MT2013(KN)",
+    "note": ""
+  },
+  {
+    "id": "AS3161",
+    "code": "AS3161",
+    "name": "Kỹ thuật đo và xử lý số liệu",
+    "credits": "3",
+    "prerequisites": "AS3031(KN) MT2013(KN)",
+    "note": ""
+  },
+  {
+    "id": "AS3027",
+    "code": "AS3027",
+    "name": "Dao động kỹ thuật",
+    "credits": "3",
+    "prerequisites": "AS3147(KN) AS3061(KN)",
+    "note": ""
+  },
+  {
+    "id": "AS3157",
+    "code": "AS3157",
+    "name": "Động lực học máy",
+    "credits": "3",
+    "prerequisites": "AS3147(KN) AS3061(KN)",
+    "note": ""
+  },
+  {
+    "id": "AS3165",
+    "code": "AS3165",
+    "name": "Cơ lý thuyết nâng cao",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "AS3085",
+    "code": "AS3085",
+    "name": "Lập trình tính toán Cơ kỹ thuật",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM1031",
+    "code": "IM1031",
+    "name": "Khởi nghiệp và đổi mới sáng tạo",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "ME1019",
+    "code": "ME1019",
+    "name": "Quản lý năng suất và chất lượng",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM1013",
+    "code": "IM1013",
+    "name": "Kinh tế học Đại cương",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM1023",
+    "code": "IM1023",
+    "name": "Quản lý Sản xuất cho Kỹ sư",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "SA4001",
+    "code": "SA4001",
+    "name": "Hoạt động sinh viên",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  }
+]

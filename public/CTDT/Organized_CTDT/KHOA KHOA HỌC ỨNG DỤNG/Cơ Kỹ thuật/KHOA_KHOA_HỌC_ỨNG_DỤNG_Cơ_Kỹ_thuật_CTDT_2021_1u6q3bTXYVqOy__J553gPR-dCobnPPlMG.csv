@@ -1,0 +1,149 @@
+﻿STT,Mã học phần,Tên học phần,Tín chỉ,Học phần tiên quyết/song hành,Ghi chú
+,,1. Kiến thức giáo dục đại cương (General Knowledge),,,
+,,Toán (Mathematics),,,
+1,MT1003,Giải tích 1,4,,
+,,Calculus 1,,,
+2,MT1005,Giải tích 2,4,MT1003(KN),
+,,Calculus 2,,,
+3,MT1007,Đại số tuyến tính,3,,
+,,Linear Algebra,,,
+4,MT2013,Xác suất và thống kê,4,MT1003(KN) MT1007(KN),
+,,Probability and Statistics,,,
+,,Khoa học tự nhiên (Science),,,
+5,CH1003,Hóa đại cương,3,,
+,,General Chemistry,,,
+6,PH1003,Vật lý 1,4,,
+,,General Physics 1,,,
+7,PH1007,Thí nghiệm vật lý,1,,
+,,General Physics Labs,,,
+,,Toán và KH tự nhiên khác (Other Mathematics and Science),,,
+8,MT1009,Phương pháp tính,3,MT1003(KN) MT1007(KN),
+,,Numerical Methods,,,
+9,PH1005,Vật lý 2,4,PH1003(KN),
+,,General Physics 2,,,
+,,Kinh tế- Chính trị- Xã hội- Luật (Economics - Politics - Sociology - Law),,,
+10,SP1007,Pháp luật Việt Nam đại cương,2,,
+,,Introduction to Vietnamese Law,,,
+11,SP1031,Triết học Mác - Lênin,3,,
+,,Marxist - Leninist Philosophy,,,
+12,SP1033,Kinh tế chính trị Mác - Lênin,2,SP1031(KN),
+,,Marxist - Leninist Political Economy,,,
+13,SP1035,Chủ nghĩa xã hội khoa học,2,SP1033(KN),
+,,Scientific Socialism,,,
+14,SP1037,Tư tưởng Hồ Chí Minh,2,SP1039(KN),
+,,Ho Chi Minh Ideology,,,
+15,SP1039,Lịch sử Đảng Cộng sản Việt Nam,2,SP1035(KN),
+,,History of Vietnamese Communist Party,,,
+,,Giáo dục chung khác (Other Knowledge),,,
+16,AS1001,Nhập môn về kỹ thuật,3,,
+,,Introduction to Engineering,,,
+,,Nhóm Quản lý (chọn 3 tín chỉ trong các học phần sau),,,
+,,Elective Courses - Management for Engineers (Select 3 credits in the group of courses below),,,
+17.1,IM1013,Kinh tế học đại cương,3,,
+,,Economics,,,
+17.2,IM1021,Khởi nghiệp,3,,
+,,Entrepreneurship,,,
+17.3,IM1023,Quản lý sản xuất cho kỹ sư,3,,
+,,Production and Operations Management for Engineers,,,
+,,Con người và môi trường (Humans and Environment),,,
+18,EN1003,Con người và môi trường,3,,
+,,Humans and the Environment,,,
+,,Ngoại ngữ (Foreign Language),,,
+19,LA1003,Anh văn 1,2,,
+,,English 1,,,
+20,LA1005,Anh văn 2,2,LA1003(TQ),
+,,English 2,,,
+21,LA1007,Anh văn 3,2,LA1005(TQ),
+,,English 3,,,
+22,LA1009,Anh văn 4,2,LA1007(TQ),
+,,English 4,,,
+,,2. Kiến thức giáo dục chuyên nghiệp (Professional Knowledge),,,
+,,Cơ sở ngành (Core),,,
+1,AS1003,Cơ lý thuyết,3,,X
+,,Engineering Mechanics,,,
+2,AS2011,Lý thuyết đàn hồi,3,AS1003(KN),
+,,Theory of Elasticity,,,
+3,AS2013,CAD ứng dụng,3,CI1003(KN),X
+,,Applied CAD,,,
+4,CI1003,Vẽ kỹ thuật,3,,
+,,Engineering Drawing,,,
+5,CI2003,Cơ lưu chất,3,,X
+,,Fluid Mechanics,,,
+6,EE2011,Kỹ thuật điện-điện tử,3,,
+,,Electrical and Electronics Engineering,,,
+7,ME1003,Cơ khí đại cương,3,,
+,,General Mechanics,,,
+,,Nhóm tự chọn A (chọn 3 tín chỉ trong các học phần sau),,,
+,,Elective Courses - Group A (Select 3 credits in the group of courses below),,,
+8,AS2003,Kỹ thuật lập trình cơ kỹ thuật,3,,X
+,,Programming for Engineerings,,,
+9,CO1003,Nhập môn về lập trình,3,,X
+,,Introduction to Computer Programming,,,
+,,Chuyên ngành (Speciality),,,
+10,AS2015,Thực tập cơ kỹ thuật 1,1,,
+,,Engineering Mechanics Workshop 1,,,
+11,AS2021,Thiết kế kỹ thuật,3,AS2013(KN),
+,,Engineering Design,,,
+12,AS2031,Đồ án môn học - thiết kế kỹ thuật,2,,X
+,,Project of Engineering Design,,,
+13,AS3011,Thực tập cơ kỹ thuật 2,1,,
+,,Engineering Mechanics Workshop 2,,,
+14,AS3015,Phương pháp phần tử hữu hạn cơ kỹ thuật,3,"AS1003(KN) AS2011(KN) MT1003(KN) MT1005(KN) MT1007(KN)",X
+,,Finite Element Method in Engineering Mechanics,,,
+15,AS3029,Lý thuyết dẻo kỹ thuật,3,AS2011(KN),
+,,Theory of Engineering Plasticity,,,
+16,AS3031,Đo lường các đại lượng phi điện,3,"MT1003(KN) MT1005(KN) MT2013(KN)",X
+,,Non- Electric Quantities Measurement,,,
+17,AS3061,Dao động cơ sở,3,"AS1003(KN) MT1003(KN) MT1005(KN)",X
+,,Fundamentals of Vibrations,,,
+18,AS3147,Cơ học vật rắn biến dạng,3,,X
+,,Solid Mechanics,,,
+19,MA3077,Vật liệu kỹ thuật,3,,
+,,Materials Engineering,,,
+,,Nhóm tự chọn B (chọn 3 tín chỉ trong các học phần sau),,,
+,,Elective Courses - Group B (Select 3 credits in the group of courses below),,,
+20,AS3001,Động học robot,3,"AS1003(KN) MT1003(KN) MT1005(KN)",X
+,,Robot Dynamics,,,
+21,AS3003,Cơ học môi trường liên tục,3,,X
+,,Continuum Mechanics,,,
+22,AS3013,Tính toán kết cấu,3,AS3015(KN),X
+,,Structural Analysis,,,
+23,AS3019,Phân tích số liệu thực nghiệm cơ học,3,"AS1003(KN) MT2013(KN)",X
+,,Analysis of Experimental Data in Mechanics,,,
+24,AS3021,Động lực học hệ nhiều vật,3,"AS1003(KN) MT1003(KN) MT1007(KN)",X
+,,Multibody Dynamics,,,
+25,AS3027,Dao động kỹ thuật,3,"AS1003(KN) AS3061(KN) AS3147(KN)",X
+,,Engineering Vibration,,,
+26,AS3035,Tính toán động lực học lưu chất,3,,X
+,,Computational Fluid Dynamics,,,
+27,AS3039,Mô hình hóa động lực học cơ hệ,3,"AS1003(KN) AS3061(KN) CI2003(KN)",X
+,,Modelling of Dynamic Systems,,,
+28,AS3085,Lập trình tính toán cơ kỹ thuật,3,"AS1003(KN) MT1003(KN) MT1005(KN)",X
+,,Computational Programming in Engineering Mechanics,,,
+29,AS3093,Phương pháp phần tử hữu hạn ứng dụng,3,"AS2011(KN) AS3015(KN)",X
+,,Applied Finite Element Method,,,
+30,AS3097,Ứng xử cơ học vật liệu,3,"AS1003(KN) AS2011(KN)",X
+,,Mechanical Behavior of Materials,,,
+31,AS3149,Ứng dụng các phần mềm trong tính toán cơ học,3,,X
+,,Software Application in Computational Mechanics,,,
+32,AS2005,Cơ lý thuyết nâng cao,3,"AS1003(KN) MT1003(KN) MT1007(KN) PH1003(KN)",X
+,,Advanced Theoretical Mechanics,,,
+33,AS4003,Cơ học rạn nứt,3,,X
+,,Fracture Mechanics,,,
+34,CI3171,Cơ học môi trường rời,3,,X
+,,Mechanics of Granular Materials,,,
+35,ME3237,Hệ thống điều khiển số,3,,X
+,,Numeric Control System,,,
+,,Tốt nghiệp (Graduation),,,
+36,AS3335,Thực tập ngoài trường,2,,
+,,Internship,,,
+37,AS4007,Đồ án chuyên ngành cơ kỹ thuật,2,AS3335(SH),X
+,,Coursework - Engineering Mechanics,,,
+38,AS4337,Đồ án tốt nghiệp,4,"AS2031(TQ) AS3335(TQ) AS4007(TQ)",X
+,,Capstone Project,,,
+,,3. Tự chọn tự do: 9 tín chỉ (Free Electives: 9 Credits),,,
+,,4. Chứng chỉ (Certification),,,
+1,,Giáo dục quốc phòng,,,
+,,Military Trainning,,,
+2,,Giáo dục thể chất,,,
+,,Physical Education,,,

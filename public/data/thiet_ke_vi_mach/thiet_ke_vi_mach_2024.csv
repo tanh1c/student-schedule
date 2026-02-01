@@ -1,0 +1,83 @@
+id,code,name,credits,prerequisites,note
+MT1003,MT1003,Giải tích 1,4,,
+MT1005,MT1005,Giải tích 2,4,MT1003(KN),
+MT1007,MT1007,Đại số Tuyến tính,3,,
+MT2013,MT2013,Xác suất và Thống kê,4,MT1007(KN),
+CH1003,CH1003,Hóa đại cương,3,,
+PH1003,PH1003,Vật lý 1,4,,
+PH1007,PH1007,Thí nghiệm Vật lý,1,,
+EE1007,EE1007,Vật lý Bán dẫn,4,,
+MT1009,MT1009,Phương pháp tính,3,MT1003(KN),
+SP1007,SP1007,Pháp luật Việt Nam Đại cương,2,,
+SP1031,SP1031,Triết học Mác - Lênin,3,,
+SP1033,SP1033,Kinh tế Chính trị Mác - Lênin,2,SP1031(KN),
+SP1035,SP1035,Chủ nghĩa Xã hội Khoa học,2,SP1033(KN),
+SP1037,SP1037,Tư tưởng Hồ Chí Minh,2,SP1039(KN),
+SP1039,SP1039,Lịch sử Đảng Cộng sản Việt Nam,2,SP1035(KN),
+EE1001,EE1001,Nhập môn Về kỹ Thuật,3,,
+LA1003,LA1003,Anh văn 1,2,,
+LA1005,LA1005,Anh văn 2,2,LA1003(TQ),
+LA1007,LA1007,Anh văn 3,2,LA1005(TQ),
+LA1009,LA1009,Anh văn 4,2,LA1007(TQ),
+EE1009,EE1009,Kỹ thuật số,3,EE2031(KN) EE1007(KN),
+EE2003,EE2003,Trường điện từ,3,MT1013(KN) MT1005(KN),
+EE2081,EE2081,Ngôn ngữ lập trình,3,MT1009(KN),
+EE2005,EE2005,Tín hiệu và Hệ thống,3,EE2031(KN) EE2033(KN),
+EE2035,EE2035,Mạch điện tử,3,EE2033(TQ) EE1007(KN),
+EE2033,EE2033,Giải tích mạch,3,MT1005(KN),
+EE2015,EE2015,Xử lý số Tín hiệu,3,EE2005(SHT),x
+EE2039,EE2039,Vi xử lý,3,EE1009(SHT),x
+EE3201,EE3201,Cơ sở thiết kế vi mạch,3,EE1009(TQ) EE2035(KN),x
+EE2023,EE2023,Thực tập Điện tử 1,1,EE2033(KN),x
+EE2025,EE2025,Thực tập Điện 1,1,EE2033(KN),x
+EE3021,EE3021,Thực tập Điện tử 2,1,EE2023(KN),x
+EE3211,EE3211,Đồ án 1 (Thiết kế vi mạch),1,EE3205(KN) EE3203(KN) EE3201(KN) EE2039(KN) EE2035(TQ),
+EE3203,EE3203,Kiến trúc máy tính,3,EE2081(KN) EE1009(TQ),x
+EE3205,EE3205,Mạch điện tử nâng cao,3,EE2033(KN) EE2035(TQ),x
+EE3117,EE3117,Thiết kế Vi mạch số,3,EE3201(KN) EE3165(KN) EE4051(KN) EE1009(TQ),x
+EE3025,EE3025,Kỹ thuật Siêu cao tần,3,EE2035(TQ) EE2003(TQ),x
+EE3207,EE3207,Thiết kế vi mạch tương tự,3,EE3201(KN) EE2035(TQ),x
+EE3209,EE3209,Thực tập ngoài trường (Thiết kế vi mạch),2,EE3205(KN) EE3203(KN) EE3201(KN) EE3211(SHT),x
+EE4345,EE4345,Đồ án 2 (Thiết kế vi mạch),2,EE3207(KN) EE3117(KN) EE3211(TQ) EE3209(SHT) EE3201(TQ),x
+EE4349,EE4349,Đồ án tốt nghiệp (Thiết kế vi mạch),4,EE3209(TQ) EE4345(TQ),x
+EE3041,EE3041,Xử lý Tín hiệu số với FPGA,3,EE2015(TQ) EE1009(TQ),
+EE3213,EE3213,Thiết kế và kiểm định hệ thống số,3,EE3203(KN) EE1009(KN),
+EE3215,EE3215,Thiết kế hệ thống trên chip,3,EE3203(KN) EE2039(KN) EE1009(KN),
+EE3217,EE3217,Trí tuệ nhân tạo trong thiết kế vi mạch,3,EE3201(KN),
+EE3219,EE3219,Máy tính lượng tử,3,EE3201(KN),
+EE3221,EE3221,Thông tin số,3,EE2005(TQ),
+EE3223,EE3223,Vi mạch thông tin,3,EE3025(SHT) EE2035(KN),
+EE3225,EE3225,Tương thích điện từ,3,EE2003(KN),
+EE3227,EE3227,Chuyên đề thiết kế vi mạch,3,EE3201(KN),
+IM1023,IM1023,Quản lý Sản xuất cho Kỹ sư,3,,
+IM1025,IM1025,Quản lý Dự án cho Kỹ sư,3,,
+IM3001,IM3001,Quản trị Kinh doanh cho Kỹ sư,3,,
+IM1031,IM1031,Khởi nghiệp và đổi mới sáng tạo,3,,
+EN1003,EN1003,Con người và Môi trường,3,,
+ME1019,ME1019,Quản lý năng suất và chất lượng,3,,
+MI1003,MI1003,Giáo dục Quốc phòng,0,,
+PE1009,PE1009,Bóng đá (Học phần 1),0,,
+PE1011,PE1011,Bóng chuyền (Học phần 1),0,,
+PE1013,PE1013,Bóng bàn (Học phần 1),0,,
+PE1021,PE1021,Aerobic (học Phần 1),0,,
+PE1015,PE1015,Bóng rổ (Học phần 1),0,,
+PE1017,PE1017,Cầu lông (Học phần 1),0,,
+PE1025,PE1025,Điền kinh (Học phần 1),0,,
+PE1019,PE1019,Bơi (học Phần 1),0,,
+PE1027,PE1027,Quần vợt (Học phần 1),0,,
+PE1053,PE1053,Cờ vua (Học phần 1),0,,
+PE1057,PE1057,Bowling (học phần 1),0,,
+PE1061,PE1061,Pickleball (học phần 1),0,,
+PE1037,PE1037,Bóng bàn (Học phần 2),0,,
+PE1041,PE1041,Cầu lông (Học phần 2),0,,
+PE1033,PE1033,Bóng đá (Học phần 2),0,,
+PE1045,PE1045,Aerobic (học Phần 2),0,,
+PE1043,PE1043,Bơi (học Phần 2),0,,
+PE1039,PE1039,Bóng rổ (Học phần 2),0,,
+PE1035,PE1035,Bóng chuyền (Học phần 2),0,,
+PE1049,PE1049,Điền kinh (học phần 2),0,,
+PE1051,PE1051,Quần vợt (Học phần 2),0,,
+PE1055,PE1055,Cờ vua (học phần 2),0,,
+PE1063,PE1063,Pickleball (học phần 2),0,,
+PE1059,PE1059,Bowling (học phần 2),0,,
+SA4001,SA4001,Hoạt động sinh viên,0,,

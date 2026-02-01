@@ -1,0 +1,165 @@
+﻿STT,Mã học phần,Tên học phần,Tín chỉ,Học phần tiên quyết/song hành,Ghi chú
+,,I. Các môn bắt buộc (Compulsary Courses),,,,
+1,MT1003,Giải tích 1,4,,Toán và KH Tự nhiên
+,,Calculus 1,,,,
+2,MT1005,Giải tích 2,4,,Toán và KH Tự nhiên
+,,Calculus 2,,,,
+3,MT1007,Đại số tuyến tính,3,,Toán và KH Tự nhiên
+,,Linear Algebra,,,,
+4,MT2013,Xác suất và thống kê,4,,Toán và KH Tự nhiên
+,,Probability and Statistics,,,,
+5,CH1003,Hóa đại cương,3,,Toán và KH Tự nhiên
+,,General Chemistry,,,,
+6,PH1003,Vật lý 1,4,,Toán và KH Tự nhiên
+,,General Physics 1,,,,
+7,PH1007,Thí nghiệm vật lý,1,,Toán và KH Tự nhiên
+,,General Physics Labs,,,,
+8,EE1007,Vật lý bán dẫn,4,,Toán và KH Tự nhiên
+,,Semiconductor Physics,,,,
+9,MT1009,Phương pháp tính,3,,Toán và KH Tự nhiên
+,,Numerical Methods,,,,
+10,SP1007,Pháp luật Việt Nam đại cương,2,,Chính trị, Kinh tế, Văn hóa, Xã hội
+,,Introduction to Vietnamese Law,,,,
+11,SP1031,Triết học Mác - Lênin,3,,Chính trị, Kinh tế, Văn hóa, Xã hội
+,,Marxist - Leninist Philosophy,,,,
+12,SP1033,Kinh tế chính trị Mác - Lênin,2,,Chính trị, Kinh tế, Văn hóa, Xã hội
+,,Marxist - Leninist Political Economy,,,,
+13,SP1035,Chủ nghĩa xã hội khoa học,2,,Chính trị,Kinh tế, Văn hóa, Xã hội
+,,Scientific Socialism,,,,
+14,SP1037,Tư tưởng Hồ Chí Minh,2,,Chính trị, Kinh tế, Văn hóa, Xã hội
+,,Ho Chi Minh Ideology,,,,
+15,SP1039,Lịch sử Đảng Cộng sản Việt Nam,2,,Chính trị, Kinh tế, Văn hóa, Xã hội
+,,History of Vietnamese Communist Party,,,,
+16,EE1001,Nhập môn về kỹ thuật,3,,Nhập môn
+,,Introduction to Electrical and Electronics Engineering,,,,
+17,EN1003,Con người và môi trường,3,,Con người và môi trường
+,,Humans and the Environment,,,,
+18,LA1003,Anh văn 1,2,,Ngoại ngữ
+,,English 1,,,,
+19,LA1005,Anh văn 2,2,,Ngoại ngữ
+,,English 2,,,,
+20,LA1007,Anh văn 3,2,,Ngoại ngữ
+,,English 3,,,,
+21,LA1009,Anh văn 4,2,,Ngoại ngữ
+,,English 4,,,,
+22,EE1009,Kỹ thuật số,3,,Cơ sở ngành
+,,Digital Designs,,,,
+23,EE2003,Trường điện từ,3,,Cơ sở ngành
+,,Electromagnetic Field,,,,
+24,EE2009,Hệ thống máy tính và ngôn ngữ lập trình,3,,Cơ sở ngành
+,,Computer Systems and Programming Languages,,,,
+25,EE2023,Thực tập điện tử 1,1,,Cơ sở ngành
+,,Electronic Workshop 1,,,,
+26,EE2025,Thực tập điện 1,1,,Cơ sở ngành
+,,Electrical Workshop 1,,,,
+27,EE2033,Giải tích mạch,3,,Cơ sở ngành
+,,Electric Circuit Analysis,,,,
+28,EE2035,Mạch điện tử,3,,Cơ sở ngành
+,,Electronic Circuits,,,,
+29,EE2039,Vi xử lý,3,,Cơ sở ngành
+,,Microprocessor,,,,
+30,EE2053,Đồ án 1 (Kỹ thuật điện & KT Điện tử- Viễn thông),1,,Cơ sở ngành
+,,Project 1,,,,
+31,EE2017,Cơ sở kỹ thuật điện,3,,Cơ sở ngành 1
+,,Fundamentals of Power Engineering,,,,
+32,EE2019,Cơ sở điều khiển tự động,3,,Cơ sở ngành 1
+,,Fundamentals of Control Systems,,,,
+33,EE2021,Cơ sở điện tử công suất,3,,Cơ sở ngành 1
+,,Fundamental of Power Electronics,,,,
+34,EE2051,Thực tập điện 2,1,,Cơ sở ngành 1
+,,Electrical Workshop 2,,,,
+35,EE2005,Tín hiệu và hệ thống,3,,Cơ sở ngành 2
+,,Signals and Systems,,,,
+36,EE2015,Xử lý số tín hiệu,3,,Cơ sở ngành 2
+,,Digital Signal Processing,,,,
+37,EE2047,Truyền số liệu và mạng,3,,Cơ sở ngành 2
+,,Data Communications and Networking,,,,
+38,EE2049,Thực tập điện tử 2,1,,Cơ sở ngành 2
+,,Electronic Workshop 2,,,,
+,,II. Các môn bắt buộc và tự chọn của chuyên ngành Compulsary and Elective Major Courses,,,,
+1,,Tự chọn tự do (Tối thiểu 9 TC),9,,Chuyên ngành 1
+,,Free Elective,,,,
+2,,Các môn tự chọn nhóm A (Tối thiểu 9 TC),9,,Chuyên ngành 1
+,,Elective Courses - Group A,,,,
+3,,Các môn tự chọn nhóm B (Tối thiểu 6 TC),6,,Chuyên ngành 2
+,,Elective Courses - Group B,,,,
+4,,Các môn tự chọn nhóm C (Tối thiểu 3 TC),3,,Quản lý
+,,Elective Courses - Group C,,,,
+,,Các môn tự chọn nhóm (Elective Courses - Group) A,,,,
+1,EE3087,Bảo vệ rơle trong hệ thống điện,3,,Chuyên ngành 1
+,,Power System Protection,,,,
+2,EE3089,Kỹ thuật cao áp,3,,Chuyên ngành 1
+,,High Voltage Engineering,,,,
+3,EE3091,Vật liệu kỹ thuật điện,3,,Chuyên ngành 1
+,,Electrical Engineering Materials,,,,
+4,EE3093,Vận hành và điều khiển hệ thống điện,3,,Chuyên ngành 1
+,,Power System Operation and Control,,,,
+5,EE3095,Ổn định hệ thống điện,3,,Chuyên ngành 1
+,,Power System Stability,,,,
+6,EE3099,Kỹ thuật chiếu sáng,3,,Chuyên ngành 1
+,,Lighting Technology,,,,
+7,EE3101,Kỹ thuật tiết kiệm và sử dụng hiệu quả điện năng,3,,Chuyên ngành 1
+,,Energy Efficiency Technique,,,,
+8,EE3131,Hệ thống năng lượng xanh,3,,Chuyên ngành 1
+,,Green Power and Energy System,,,,
+9,EE3133,Thiết bị điện trong phân phối điện,3,,Chuyên ngành 1
+,,Electrical Distribution Equipment,,,,
+10,EE3135,Kỹ thuật nhiệt lạnh,3,,Chuyên ngành 1
+,,Heat and Refrigeration Engineering,,,,
+11,EE3139,Cảm biến và đo lường,3,,Chuyên ngành 1
+,,Sensors and Instrumentation,,,,
+12,EE3143,Điều khiển và ứng dụng các bộ biến đổi công suất,3,,Chuyên ngành 1
+,,Control and Applications of Power Electronic Converters,,,,
+13,EE3145,Kỹ thuật ra quyết định,3,,Chuyên ngành 1
+,,Techniques for Engineering Decisions,,,,
+14,EE3171,IoT trong công nghiệp và dân dụng,3,,Chuyên ngành 1
+,,IoT in Industrial and Civil Engineering,,,,
+15,EE3179,Truyền động điện,3,,Chuyên ngành 1
+,,Electric Drives,,,,
+,,Các môn tự chọn nhóm (Elective Courses - Group) B,,,,
+1,EE3031,Lập trình hệ thống nhúng,3,,Chuyên ngành 2
+,,Embedded System Programming,,,,
+2,EE3035,Xử lý ảnh,3,,Chuyên ngành 2
+,,Digital Image Processing,,,,
+3,EE3037,Điện tử y sinh,3,,Chuyên ngành 2
+,,Biomedical Electronics,,,,
+4,EE3041,Xử lý tín hiệu số với FPGA,3,,Chuyên ngành 2
+,,Digital Signal Processing on FPGA,,,,
+5,EE3043,Cấu trúc máy tính,3,,Chuyên ngành 2
+,,Computer Architecture,,,,
+6,EE3085,Mạng viễn thông,3,,Chuyên ngành 2
+,,Communication Networks,,,,
+7,EE3107,Thông tin di động,3,,Chuyên ngành 2
+,,Mobile Communications,,,,
+8,EE3111,Mạng máy tính,3,,Chuyên ngành 2
+,,Computer Network,,,,
+9,EE3117,Thiết kế vi mạch số,3,,Chuyên ngành 2
+,,Digital IC Design,,,,
+10,EE3121,Thiết kế vi mạch tương tự và hỗn hợp,3,,Chuyên ngành 2
+,,Analog and Mixed Signal IC Design,,,,
+11,EE3127,Anten - truyền sóng vô tuyến,3,,Chuyên ngành 2
+,,Antennas and Radio Wave Propagation,,,,
+12,EE3129,Điện tử ứng dụng,3,,Chuyên ngành 2
+,,Applied Electronics,,,,
+13,EE3167,Thiết kế và phát triển ứng dụng IoT,3,,Chuyên ngành 2
+,,Design and Development of IoT Applications,,,,
+14,EE3169,Máy học cơ bản và ứng dụng,3,,Chuyên ngành 2
+,,An Introduction to Machine Learning and Applications,,,,
+15,EE3177,Chuyên đề điện tử - viễn thông,3,,Chuyên ngành 2
+,,Special Topics in Electronics and Telecomunications,,,,
+,,Các môn tự chọn nhóm (Elective Courses - Group) C,,,,
+1,IM1013,Kinh tế học đại cương,3,,Quản lý
+,,Economics,,,,
+2,IM1023,Quản lý sản xuất cho kỹ sư,3,,Quản lý
+,,Production and Operations Management for Engineers,,,,
+3,IM1025,Quản lý dự án cho kỹ sư,3,,Quản lý
+,,Project Management for Engineers,,,,
+4,IM1027,Kinh tế kỹ thuật,3,,Quản lý
+,,Engineering Economics,,,,
+5,IM3001,Quản trị kinh doanh cho kỹ sư,3,,Quản lý
+,,Business Administration for Engineers,,,,
+,,III. Chứng chỉ (Certification),,,,
+1,,Giáo dục quốc phòng,,,
+,,Military Training,,,,
+2,,Giáo dục thể chất,,,
+,,Physical Education,,,,

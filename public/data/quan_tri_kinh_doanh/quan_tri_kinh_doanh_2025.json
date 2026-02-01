@@ -1,0 +1,770 @@
+[
+  {
+    "id": "IM1017",
+    "code": "IM1017",
+    "name": "Thống kê trong Kinh doanh",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "MT1007",
+    "code": "MT1007",
+    "name": "Đại số Tuyến tính",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "MT1017",
+    "code": "MT1017",
+    "name": "Giải tích trong Kinh doanh",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO2013",
+    "code": "CO2013",
+    "name": "Hệ cơ sở Dữ liệu",
+    "credits": "4",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PH1003",
+    "code": "PH1003",
+    "name": "Vật lý 1",
+    "credits": "4",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CH1017",
+    "code": "CH1017",
+    "name": "Sinh học đại cương",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "EN1015",
+    "code": "EN1015",
+    "name": "Vi sinh Vật đại cương và Thí nghiệm",
+    "credits": "4",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "GE1013",
+    "code": "GE1013",
+    "name": "Khoa học Trái đất",
+    "credits": "4",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "GE1011",
+    "code": "GE1011",
+    "name": "Địa vật Lý đại Cương + Kiến tập",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "SP1007",
+    "code": "SP1007",
+    "name": "Pháp luật Việt Nam Đại cương",
+    "credits": "2",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "SP1031",
+    "code": "SP1031",
+    "name": "Triết học Mác - Lênin",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "SP1033",
+    "code": "SP1033",
+    "name": "Kinh tế Chính trị Mác - Lênin",
+    "credits": "2",
+    "prerequisites": "SP1031(KN)",
+    "note": ""
+  },
+  {
+    "id": "SP1035",
+    "code": "SP1035",
+    "name": "Chủ nghĩa Xã hội Khoa học",
+    "credits": "2",
+    "prerequisites": "SP1033(KN)",
+    "note": ""
+  },
+  {
+    "id": "SP1037",
+    "code": "SP1037",
+    "name": "Tư tưởng Hồ Chí Minh",
+    "credits": "2",
+    "prerequisites": "SP1039(KN)",
+    "note": ""
+  },
+  {
+    "id": "SP1039",
+    "code": "SP1039",
+    "name": "Lịch sử Đảng Cộng sản Việt Nam",
+    "credits": "2",
+    "prerequisites": "SP1035(KN)",
+    "note": ""
+  },
+  {
+    "id": "IM1001",
+    "code": "IM1001",
+    "name": "Giới thiệu ngành",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM3051",
+    "code": "IM3051",
+    "name": "Đạo đức Kinh doanh và Trách nhiệm Xã hội",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "AS2069",
+    "code": "AS2069",
+    "name": "Phương pháp số cho khoa học dữ liệu",
+    "credits": "4",
+    "prerequisites": "MT1003(SHT) MT1007(SHT)",
+    "note": ""
+  },
+  {
+    "id": "CO1027",
+    "code": "CO1027",
+    "name": "Kỹ thuật Lập trình",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "LA1003",
+    "code": "LA1003",
+    "name": "Anh văn 1",
+    "credits": "2",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "LA1005",
+    "code": "LA1005",
+    "name": "Anh văn 2",
+    "credits": "2",
+    "prerequisites": "LA1003(TQ)",
+    "note": ""
+  },
+  {
+    "id": "LA1007",
+    "code": "LA1007",
+    "name": "Anh văn 3",
+    "credits": "2",
+    "prerequisites": "LA1005(TQ)",
+    "note": ""
+  },
+  {
+    "id": "LA1009",
+    "code": "LA1009",
+    "name": "Anh văn 4",
+    "credits": "2",
+    "prerequisites": "LA1007(TQ)",
+    "note": ""
+  },
+  {
+    "id": "MI1003",
+    "code": "MI1003",
+    "name": "Giáo dục Quốc phòng",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1009",
+    "code": "PE1009",
+    "name": "Bóng đá (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1011",
+    "code": "PE1011",
+    "name": "Bóng chuyền (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1013",
+    "code": "PE1013",
+    "name": "Bóng bàn (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1015",
+    "code": "PE1015",
+    "name": "Bóng rổ (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1017",
+    "code": "PE1017",
+    "name": "Cầu lông (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1019",
+    "code": "PE1019",
+    "name": "Bơi (học Phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1021",
+    "code": "PE1021",
+    "name": "Aerobic (học Phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1025",
+    "code": "PE1025",
+    "name": "Điền kinh (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1027",
+    "code": "PE1027",
+    "name": "Quần vợt (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1053",
+    "code": "PE1053",
+    "name": "Cờ vua (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1057",
+    "code": "PE1057",
+    "name": "Bowling (học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1061",
+    "code": "PE1061",
+    "name": "Pickleball (học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1033",
+    "code": "PE1033",
+    "name": "Bóng đá (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1035",
+    "code": "PE1035",
+    "name": "Bóng chuyền (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1037",
+    "code": "PE1037",
+    "name": "Bóng bàn (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1039",
+    "code": "PE1039",
+    "name": "Bóng rổ (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1041",
+    "code": "PE1041",
+    "name": "Cầu lông (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1043",
+    "code": "PE1043",
+    "name": "Bơi (học Phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1045",
+    "code": "PE1045",
+    "name": "Aerobic (học Phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1049",
+    "code": "PE1049",
+    "name": "Điền kinh (học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1051",
+    "code": "PE1051",
+    "name": "Quần vợt (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1055",
+    "code": "PE1055",
+    "name": "Cờ vua (học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1059",
+    "code": "PE1059",
+    "name": "Bowling (học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1063",
+    "code": "PE1063",
+    "name": "Pickleball (học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM1003",
+    "code": "IM1003",
+    "name": "Kinh tế học Vi mô",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM1007",
+    "code": "IM1007",
+    "name": "Quản trị Đại cương",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM1009",
+    "code": "IM1009",
+    "name": "Kinh tế học Vĩ mô",
+    "credits": "3",
+    "prerequisites": "IM1003(KN)",
+    "note": ""
+  },
+  {
+    "id": "IM1015",
+    "code": "IM1015",
+    "name": "Kế toán Tài chính",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM1019",
+    "code": "IM1019",
+    "name": "Tiếp thị Căn bản",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM2017",
+    "code": "IM2017",
+    "name": "Hành vi Tổ chức",
+    "credits": "3",
+    "prerequisites": "IM1007(KN)",
+    "note": ""
+  },
+  {
+    "id": "IM2019",
+    "code": "IM2019",
+    "name": "Kế toán Quản trị",
+    "credits": "3",
+    "prerequisites": "IM1015(KN)",
+    "note": ""
+  },
+  {
+    "id": "IM2031",
+    "code": "IM2031",
+    "name": "Quản lý Sản xuất",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM2035",
+    "code": "IM2035",
+    "name": "Phương pháp Định lượng",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM2029",
+    "code": "IM2029",
+    "name": "Thực tập Nhận Thức",
+    "credits": "2",
+    "prerequisites": "IM1001(TQ)",
+    "note": ""
+  },
+  {
+    "id": "IM2033",
+    "code": "IM2033",
+    "name": "Tài chính Doanh nghiệp",
+    "credits": "3",
+    "prerequisites": "IM1015(KN) IM1009(KN) IM1003(KN)",
+    "note": ""
+  },
+  {
+    "id": "IM3023",
+    "code": "IM3023",
+    "name": "Thương mại Điện tử",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM3115",
+    "code": "IM3115",
+    "name": "Chiến lược kinh doanh số",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM3081",
+    "code": "IM3081",
+    "name": "Quản trị Kinh doanh Quốc tế",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM3047",
+    "code": "IM3047",
+    "name": "Giao tiếp trong Kinh doanh",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM3087",
+    "code": "IM3087",
+    "name": "Hệ thống Thông tin Quản lý",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM3105",
+    "code": "IM3105",
+    "name": "Phương pháp nghiên cứu trong kinh doanh",
+    "credits": "3",
+    "prerequisites": "IM1019(TQ) IM1017(TQ)",
+    "note": ""
+  },
+  {
+    "id": "IM3063",
+    "code": "IM3063",
+    "name": "Quản lý Chất lượng",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM3107",
+    "code": "IM3107",
+    "name": "Khởi nghiệp và đổi mới sáng tạo",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM3083",
+    "code": "IM3083",
+    "name": "Hành vi Người tiêu dùng",
+    "credits": "3",
+    "prerequisites": "IM1019(KN)",
+    "note": ""
+  },
+  {
+    "id": "IM3035",
+    "code": "IM3035",
+    "name": "Quản lý Bảo trì",
+    "credits": "3",
+    "prerequisites": "IM1017(TQ) IM2031(TQ)",
+    "note": ""
+  },
+  {
+    "id": "IM3085",
+    "code": "IM3085",
+    "name": "Tài chính Quốc tế",
+    "credits": "3",
+    "prerequisites": "IM1009(TQ)",
+    "note": ""
+  },
+  {
+    "id": "CO3061",
+    "code": "CO3061",
+    "name": "Nhập môn Trí tuệ Nhân tạo",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM3325",
+    "code": "IM3325",
+    "name": "Thực tập Ngoài trường",
+    "credits": "2",
+    "prerequisites": "IM2029(KN)",
+    "note": ""
+  },
+  {
+    "id": "IM4033",
+    "code": "IM4033",
+    "name": "Đồ án Chuyên ngành",
+    "credits": "2",
+    "prerequisites": "IM3105(KN) IM3325(SHT)",
+    "note": ""
+  },
+  {
+    "id": "IM4327",
+    "code": "IM4327",
+    "name": "Khóa luận Tốt nghiệp",
+    "credits": "4",
+    "prerequisites": "IM3325(TQ) IM4033(TQ)",
+    "note": ""
+  },
+  {
+    "id": "IM3021",
+    "code": "IM3021",
+    "name": "Quản lý Chuỗi cung ứng",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM3055",
+    "code": "IM3055",
+    "name": "Quản lý Nhân sự",
+    "credits": "3",
+    "prerequisites": "IM1007(KN)",
+    "note": ""
+  },
+  {
+    "id": "IM3041",
+    "code": "IM3041",
+    "name": "Hệ Hỗ trợ Quyết định và Trí tuệ Kinh doanh",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM3033",
+    "code": "IM3033",
+    "name": "Tiếp thị giữa các Tổ chức",
+    "credits": "3",
+    "prerequisites": "IM1019(TQ)",
+    "note": ""
+  },
+  {
+    "id": "IM4007",
+    "code": "IM4007",
+    "name": "Kế hoạch Kinh doanh",
+    "credits": "3",
+    "prerequisites": "IM2033(TQ) IM1019(TQ)",
+    "note": ""
+  },
+  {
+    "id": "IM4019",
+    "code": "IM4019",
+    "name": "Khoa học Dữ liệu trong Kinh doanh",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM3097",
+    "code": "IM3097",
+    "name": "Chuyển đổi Cung ứng Kỹ thuật số",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM3109",
+    "code": "IM3109",
+    "name": "Tiếp thị số",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM3111",
+    "code": "IM3111",
+    "name": "Thị trường tài chính và Phát triển bền vững",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM3113",
+    "code": "IM3113",
+    "name": "Trí tuệ nhân tạo trong kinh doanh",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM4037",
+    "code": "IM4037",
+    "name": "Quản lý dự án linh hoạt",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO4035",
+    "code": "CO4035",
+    "name": "Hệ hoạch Định tài Nguyên tổ chức",
+    "credits": "3",
+    "prerequisites": "CO2013(KN)",
+    "note": ""
+  },
+  {
+    "id": "AS3189",
+    "code": "AS3189",
+    "name": "Nguyên lý khai phá dữ liệu",
+    "credits": "3",
+    "prerequisites": "MT2013(HT)",
+    "note": ""
+  },
+  {
+    "id": "CO3033",
+    "code": "CO3033",
+    "name": "Bảo mật Hệ thống Thông tin",
+    "credits": "3",
+    "prerequisites": "CO2013(KN)",
+    "note": ""
+  },
+  {
+    "id": "IM3097",
+    "code": "IM3097",
+    "name": "Chuyển đổi Cung ứng Kỹ thuật số",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM3113",
+    "code": "IM3113",
+    "name": "Trí tuệ nhân tạo trong kinh doanh",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM4037",
+    "code": "IM4037",
+    "name": "Quản lý dự án linh hoạt",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CO3033",
+    "code": "CO3033",
+    "name": "Bảo mật Hệ thống Thông tin",
+    "credits": "3",
+    "prerequisites": "CO2013(KN)",
+    "note": ""
+  },
+  {
+    "id": "CO4035",
+    "code": "CO4035",
+    "name": "Hệ hoạch Định tài Nguyên tổ chức",
+    "credits": "3",
+    "prerequisites": "CO2013(KN)",
+    "note": ""
+  },
+  {
+    "id": "IM3041",
+    "code": "IM3041",
+    "name": "Hệ Hỗ trợ Quyết định và Trí tuệ Kinh doanh",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM3109",
+    "code": "IM3109",
+    "name": "Tiếp thị số",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM4019",
+    "code": "IM4019",
+    "name": "Khoa học Dữ liệu trong Kinh doanh",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  }
+]

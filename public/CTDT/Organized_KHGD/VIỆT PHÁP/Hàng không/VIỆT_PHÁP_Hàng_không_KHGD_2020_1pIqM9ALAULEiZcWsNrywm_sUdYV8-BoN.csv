@@ -1,0 +1,254 @@
+﻿STT,Mã học phần,Tên học phần,Tín chỉ,Học phần tiên quyết/song hành,Ghi chú
+,,Học kỳ 1,,,
+,,Các môn bắt buộc,,,
+1,CH1003,Hóa đại cương,3,,
+,,General Chemistry,,,
+2,LA1011,Pháp văn 1,2,,
+,,French 1,,,
+3,LA1003,Anh văn 1,2,,
+,,English 1,,,
+4,MI1003,Giáo dục quốc phòng,0,,
+,,Military Training,,,
+5,MT1011,Giải tích 1,4,,
+,,Calculus 1,,,
+6,MT1015,Đại số tuyến tính,3,,
+,,Linear Algebra,,,
+7,PE1003,Giáo dục thể chất 1,0,,
+,,Physical Education 1,,,
+8,TR1001,Nhập môn về kỹ thuật,3,,
+,,Introduction to Engineering,,,
+,,Học kỳ 2,,,
+,,Các môn bắt buộc,,,
+1,EN1003,Con người và môi trường,3,,
+,,Humans and the Environment,,,
+2,LA1013,Pháp văn 2,2,,
+,,French 2,,,
+3,PH1009,Vật lý 1,4,,
+,,General Physics 1,,,
+4,LA1005,Anh văn 2,2,,
+,,English 2,,,
+5,MT1013,Giải tích 2,4,,
+,,Calculus 2,,,
+6,SP1007,Pháp luật Việt Nam đại cương,2,,
+,,Introduction to Vietnamese Law,,,
+7,PE1005,Giáo dục thể chất 2,0,,
+,,Physical Education 2,,,
+,,Học kỳ 3,,,
+,,Các môn bắt buộc,,,
+1,PH2005,Vật lý 2,4,,
+,,General Physics 2,,,
+2,PH2007,Thí nghiệm vật lý,1,,
+,,Labs of General Physics,,,
+3,MT2007,Giải tích 3,3,,
+,,Calculus 3,,,
+4,LA1015,Pháp văn 3,2,,
+,,French 3,,,
+5,LA1007,Anh văn 3,2,,
+,,English 3,,,
+6,MT2009,Xác suất và thống kê,4,,
+,,Probability and Statistics,,,
+7,PE1007,Giáo dục thể chất 3,0,,
+,,Physical Education 3,,,
+,,Học kỳ 4,,,
+,,Các môn bắt buộc,,,
+1,SP1031,Triết học Mác - Lênin,3,,
+,,Marxist - Leninist Philosophy,,,
+2,LA1017,Pháp văn 4,2,,
+,,French 4,,,
+3,EE2031,Điện - giải tích mạch,3,,
+,,Electrics - Circuit Analysis,,,
+4,AS2049,Cơ học vật rắn & sóng cơ,3,,
+,,Solid Mechanics and Wave,,,
+5,MT2011,Phương pháp tính,3,,
+,,Numerical Analysis,,,
+6,LA1009,Anh văn 4,2,,
+,,English 4,,,
+7,ME2119,Thực tập công nhân,2,,
+,,Workshop Practice,,,
+,,Học kỳ 5,,,
+,,Các môn bắt buộc,,,
+1,ME2089,Vẽ kỹ thuật cơ khí,4,,
+,,Mechanical Engineering Drawing,,,
+2,SP1033,Kinh tế chính trị Mác - Lênin,2,,
+,,Marxist - Leninist Political Economy,,,
+3,LA3021,Pháp văn 5,2,,
+,,French 5,,,
+4,TR2005,Cơ học vật rắn biến dạng,3,,
+,,Mechanics of Deformable Solids,,,
+5,TR1005,Cơ học thủy khí,3,,
+,,Fluid Mechanics,,,
+,,Các môn tự chọn tự do (chọn 3 tín chỉ),,,
+6,,Tự chọn tự do,3,,
+,,Free Elective,,,
+,,Học kỳ 6,,,
+,,Các môn bắt buộc,,,
+1,SP1035,Chủ nghĩa xã hội khoa học,2,,
+,,Scientific Socialism,,,
+2,LA3023,Pháp văn 6,2,,
+,,French 6,,,
+3,ME2013,Nhiệt động lực học và truyền nhiệt,3,,
+,,Thermodynamics and Heat Transfer,,,
+4,TR2011,Khí động lực học 1,3,,
+,,Aerodynamics 1 - Incompressible Aerodynamics,,,
+5,TR3077,Thí nghiệm kỹ thuật hàng không 1,1,,PBL: 1
+,,Aerospace Engineering Lab 1,,,
+6,IM1021,Khởi nghiệp,3,,
+,,Entrepreneurship,,,
+,,Học kỳ 6 (hè),,,
+,,Các môn bắt buộc,,,
+1,TR3385,Thực tập ngoài trường,2,,
+,,Internship,,,
+,,Học kỳ 7,,,
+,,Các môn bắt buộc,,,
+1,SP1039,Lịch sử Đảng Cộng sản Việt Nam,2,,
+,,History of Vietnamese Communist Party,,,
+2,TR3001,Cơ học bay,3,,
+,,Flight Mechanics,,,
+3,TR3137,Hệ thống lực đẩy máy bay,3,,
+,,Aircraft Propulsion Systems,,,
+4,TR3135,Phân tích kết cấu máy bay,3,,
+,,Aircraft Structures Analysis,,,
+5,TR3051,Thí nghiệm kỹ thuật hàng không 2,1,,PBL: 1
+,,Aerospace Engineering Lab 2,,,
+,,Các môn tự chọn tự do (chọn 3 tín chỉ),,,
+6,,Tự chọn tự do,3,,
+,,Free Elective,,,
+,,Học kỳ 8,,,
+,,Các môn bắt buộc,,,
+1,SP1037,Tư tưởng Hồ Chí Minh,2,,
+,,Ho Chi Minh Ideology,,,
+2,TR3039,Ổn định và điều khiển bay,3,,
+,,Aircraft Stability and Control,,,
+3,TR4081,Thiết kế máy bay,3,,
+,,Aircraft Design,,,
+4,TR4015,Thí nghiệm kỹ thuật hàng không 3,1,,PBL: 1
+,,Aerospace Engineering Lab 3,,,
+,,Các môn tự chọn tự do (chọn 3 tín chỉ),,,
+5,,Tự chọn tự do,3,,
+,,Free Elective,,,
+,,Các môn tự chọn nhóm B (chọn 3 tín chỉ trong các nhóm môn học sau),,,
+,,Nhóm môn học Tương tác lưu chất kết cấu,,,
+6,TR4047,Phương pháp số - động lực học lưu chất,3,,PBL: 1
+,,Computational Fluid Dynamics,,,
+7,TR4051,Phương pháp phần tử hữu hạn,3,,PBL: 1
+,,Finite Element Method,,,
+8,TR3087,Khí đàn hồi,3,,PBL: 1
+,,Aeroelasticity,,,
+9,TR4057,Hệ thống lực đẩy hỏa tiễn,3,,PBL: 1
+,,Rocket Engines,,,
+10,TR3029,Động cơ gió,3,,PBL: 1
+,,Wind Turbines,,,
+11,TR3083,Máy thủy khí,3,,PBL: 1
+,,Fluid Machinery,,,
+12,TR4083,Động cơ tuabin,3,,PBL: 1
+,,Turbine Engines,,,
+13,TR4095,Máy bay trực thăng,3,,PBL: 1
+,,Vertical Take-off and Landing Aircraft,,,
+14,TR4097,Cơ học rạn nứt và mỏi,3,,PBL: 1
+,,Fracture Mechanics and Fatigue,,,
+15,TR4073,Cơ học va chạm,3,,PBL: 1
+,,Impact Mechanics,,,
+16,TR3003,Cơ học vật liệu hàng không,3,,PBL: 1
+,,Mechanics of Aircraft Materials,,,
+,,Nhóm môn học Thiết kế và điều khiển,,,
+17,TR4043,Cảm biến và tín hiệu,3,,PBL: 1
+,,Sensors and Signals,,,
+18,TR3055,Các hệ thời gian thực,3,,PBL: 1
+,,Real-Time or Embedded Systems,,,
+19,TR3063,Phân tích thiết kế hệ điều khiển,3,,PBL: 1
+,,Control-Command Systems: Analysis and Design,,,
+20,TR4067,Nhận dạng hệ thống máy bay,3,,PBL: 1
+,,Aircraft System Identification,,,
+21,TR4069,Điện - điện tử hàng không,3,,PBL: 1
+,,Avionics,,,
+22,TR4071,Thiết kế tối ưu,3,,PBL: 1
+,,Học kỳ 8 (hè),,,
+,,Các môn bắt buộc,,,
+1,TR4385,Thực tập kỹ sư,2,,
+,,Engineering Internship,,,
+,,Học kỳ 9,,,
+,,Các môn bắt buộc,,,
+1,TR5001,Đồ án chuyên ngành,2,,
+,,Specialized Project,,,
+2,TR3011,Khí động lực học 2,3,,
+,,Aerodynamics 2 - Compressible Aerodynamics,,,
+3,TR5005,Cơ học môi trường liên tục,3,,
+,,Continuum Mechanics,,,
+,,Các môn tự chọn nhóm B (chọn 6 tín chỉ trong các nhóm môn học sau),,,
+,,Nhóm môn học Tương tác lưu chất kết cấu,,,
+4,TR4047,Phương pháp số - động lực học lưu chất,3,,PBL: 1
+,,Computational Fluid Dynamics,,,
+5,TR4051,Phương pháp phần tử hữu hạn,3,,PBL: 1
+,,Finite Element Method,,,
+6,TR3087,Khí đàn hồi,3,,PBL: 1
+,,Aeroelasticity,,,
+7,TR4057,Hệ thống lực đẩy hỏa tiễn,3,,PBL: 1
+,,Rocket Engines,,,
+8,TR3029,Động cơ gió,3,,PBL: 1
+,,Wind Turbines,,,
+9,TR3083,Máy thủy khí,3,,PBL: 1
+,,Fluid Machinery,,,
+10,TR4083,Động cơ tuabin,3,,PBL: 1
+,,Turbine Engines,,,
+11,TR4095,Máy bay trực thăng,3,,PBL: 1
+,,Vertical Take-off and Landing Aircraft,,,
+12,TR4097,Cơ học rạn nứt và mỏi,3,,PBL: 1
+,,Fracture Mechanics and Fatigue,,,
+13,TR4073,Cơ học va chạm,3,,PBL: 1
+,,Impact Mechanics,,,
+14,TR3003,Cơ học vật liệu hàng không,3,,PBL: 1
+,,Mechanics of Aircraft Materials,,,
+,,Nhóm môn học Thiết kế và điều khiển,,,
+15,TR4043,Cảm biến và tín hiệu,3,,PBL: 1
+,,Sensors and Signals,,,
+16,TR3055,Các hệ thời gian thực,3,,PBL: 1
+,,Real-Time or Embedded Systems,,,
+17,TR3063,Phân tích thiết kế hệ điều khiển,3,,PBL: 1
+,,Control-Command Systems: Analysis and Design,,,
+18,TR4067,Nhận dạng hệ thống máy bay,3,,PBL: 1
+,,Aircraft System Identification,,,
+19,TR4069,Điện - điện tử hàng không,3,,PBL: 1
+,,Avionics,,,
+20,TR4071,Thiết kế tối ưu,3,,PBL: 1
+,,Học kỳ 10,,,
+,,Các môn bắt buộc,,,
+1,TR5017,Luận văn tốt nghiệp,9,,
+,,Thesis,,,
+2,TR5003,Chuyên đề công nghiệp,4,,PBL: 4
+,,Industrical Project (PBL),,,
+,,Các môn tự chọn nhóm B (chọn 3 tín chỉ trong các nhóm môn học sau),,,
+,,Nhóm môn học Tương tác lưu chất kết cấu,,,
+3,TR4047,Phương pháp số - động lực học lưu chất,3,,PBL: 1
+,,Computational Fluid Dynamics,,,
+4,TR4051,Phương pháp phần tử hữu hạn,3,,PBL: 1
+,,Finite Element Method,,,
+5,TR3087,Khí đàn hồi,3,,PBL: 1
+,,Aeroelasticity,,,
+6,TR4057,Hệ thống lực đẩy hỏa tiễn,3,,PBL: 1
+,,Rocket Engines,,,
+7,TR3029,Động cơ gió,3,,PBL: 1
+,,Wind Turbines,,,
+8,TR3083,Máy thủy khí,3,,PBL: 1
+,,Fluid Machinery,,,
+9,TR4083,Động cơ tuabin,3,,PBL: 1
+,,Turbine Engines,,,
+10,TR4095,Máy bay trực thăng,3,,PBL: 1
+,,Vertical Take-off and Landing Aircraft,,,
+11,TR4097,Cơ học rạn nứt và mỏi,3,,PBL: 1
+,,Fracture Mechanics and Fatigue,,,
+12,TR4073,Cơ học va chạm,3,,PBL: 1
+,,Impact Mechanics,,,
+13,TR3003,Cơ học vật liệu hàng không,3,,PBL: 1
+,,Mechanics of Aircraft Materials,,,
+,,Nhóm môn học Thiết kế và điều khiển,,,
+14,TR4043,Cảm biến và tín hiệu,3,,PBL: 1
+,,Sensors and Signals,,,
+15,TR3055,Các hệ thời gian thực,3,,PBL: 1
+,,Real-Time or Embedded Systems,,,
+16,TR3063,Phân tích thiết kế hệ điều khiển,3,,PBL: 1
+,,Control-Command Systems: Analysis and Design,,,
+17,TR4067,Nhận dạng hệ thống máy bay,3,,PBL: 1
+,,Aircraft System Identification,,,
+18,TR4069,Điện - điện tử hàng không,3,,PBL: 1
+,,Avionics,,,
+19,TR4071,Thiết kế tối ưu,3,,PBL: 1

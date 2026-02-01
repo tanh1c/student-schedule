@@ -1,0 +1,88 @@
+id,code,name,credits,prerequisites,note
+MT1011,MT1011,Giải tích 1,4,,
+MT1013,MT1013,Giải tích 2,4,,
+MT1015,MT1015,Đại số Tuyến tính,3,,
+MT2007,MT2007,Giải tích 3,3,,
+MT2009,MT2009,Xác suất và Thống kê,4,,
+MT2011,MT2011,Phương pháp tính,3,,
+PH1009,PH1009,Vật lý 1,4,,
+PH2005,PH2005,Vật lý 2,4,,
+PH2007,PH2007,Thí nghiệm Vật lý,1,,
+AS2047,AS2047,Vật lý sóng,3,,
+CH1003,CH1003,Hóa đại cương,3,,
+SP1007,SP1007,Pháp luật Việt Nam Đại cương,2,,
+SP1031,SP1031,Triết học Mác - Lênin,3,,
+SP1033,SP1033,Kinh tế Chính trị Mác - Lênin,2,SP1031,(KN)
+SP1035,SP1035,Chủ nghĩa Xã hội Khoa học,2,SP1033,(KN)
+SP1039,SP1039,Lịch sử Đảng Cộng sản Việt Nam,2,SP1035,(KN)
+SP1037,SP1037,Tư tưởng Hồ Chí Minh,2,SP1039,(KN)
+EE1001,EE1001,Nhập môn Về kỹ Thuật,3,,
+EN1003,EN1003,Con người và Môi trường,3,,
+LA1003,LA1003,Anh văn 1,2,,
+LA1005,LA1005,Anh văn 2,2,LA1003,(TQ)
+LA1007,LA1007,Anh văn 3,2,LA1005,(TQ)
+LA1009,LA1009,Anh văn 4,2,LA1007,(TQ)
+LA1011,LA1011,Pháp văn 1,2,,
+LA1013,LA1013,Pháp văn 2,2,,
+LA1015,LA1015,Pháp văn 3,2,,
+LA1017,LA1017,Pháp văn 4,2,,
+LA3021,LA3021,Pháp văn 5,2,,
+LA3023,LA3023,Pháp văn 6,2,,
+CI1003,CI1003,Vẽ kỹ thuật,3,,
+EE1009,EE1009,Kỹ thuật số,3,EE2031,EE1007(KN)
+EE2003,EE2003,Trường điện từ,3,MT1013,MT1005(KN)
+EE2009,EE2009,Hệ thống Máy tính và Ngôn ngữ Lập trình,3,MT2011,(KN)
+EE2031,EE2031,Điện - Giải tích mạch,3,MT1013,(KN)
+EE3189,EE3189,Điện tử học Tương tự và Ứng dụng,3,EE2031,(TQ)
+EE2119,EE2119,Thực tập Công nhân,2,EE2031,(SHT)
+EE4213,EE4213,Đồ án cơ sở ngành (HTNL),1,EE2017(TQ),EE4055(KN)
+EE4091,EE4091,Thực tập điện tử,1,EE2031,(KN)
+EE2017,EE2017,Cơ sở Kỹ thuật điện,3,EE2003(KN),EE2031(KN)
+EE2019,EE2019,Cơ sở Điều khiển Tự động,3,EE2031(KN),EE2033(KN)
+EE3013,EE3013,Giải tích Hệ thống điện,3,EE2017(KN),MT2011(KN)
+EE4055,EE4055,Điện tử Công suất,3,EE2031,(KN)
+EE3097,EE3097,Kỹ thuật An toàn điện,3,EE2031(KN),EE2033(KN)
+EE4063,EE4063,Hệ thống Cung cấp điện (PBL),3,EE2017,(KN)
+EE4065,EE4065,Nhà máy Điện và Trạm biến áp (PBL),3,EE3013(KN),EE2017(KN)
+EE3009,EE3009,Máy điện,3,EE2017,(TQ)
+EE5005,EE5005,Thiết bị Điện trong Phân phối điện (PBL),3,EE2017(KN),EE2031(TQ)
+EE5007,EE5007,Kỹ thuật Cao áp (Pbl),3,EE3013,(KN)
+EE3395,EE3395,Thực tập Ngoài trường,2,EE2009(KN),EE3189(KN)
+EE4395,EE4395,Thực tập Kỹ sư,2,EE3097(KN),EE4065(KN)
+EE5003,EE5003,Đồ án Chuyên ngành,2,EE3097(KN),EE4065(KN)
+EE5027,EE5027,Luận văn Tốt nghiệp,9,EE5003(TQ),EE4395(TQ)
+IM1021,IM1021,Khởi nghiệp,3,,
+EE5031,EE5031,Điều khiển và ứng dụng các bộ biến đổi công suất (PBL),3,EE4055,(KN)
+EE4061,EE4061,Kỹ thuật Chiếu sáng (Pbl),3,EE2017,(KN)
+EE3093,EE3093,Vận hành và Điều khiển Hệ thống điện,3,EE3013(KN),EE3195(KN)
+EE3087,EE3087,Bảo vệ Rơle trong Hệ thống Điện,3,EE3013(KN),EE3195(KN)
+EE5009,EE5009,Điều khiển máy điện (PBL),3,EE2019(KN),EE3009(KN)
+EE5011,EE5011,Hệ thống Năng lượng xanh (PBL),3,EE4055(KN),EE2017(KN)
+EE5031,EE5031,Điều khiển và ứng dụng các bộ biến đổi công suất (PBL),3,EE4055,(KN)
+EE4061,EE4061,Kỹ thuật Chiếu sáng (Pbl),3,EE2017,(KN)
+EE3093,EE3093,Vận hành và Điều khiển Hệ thống điện,3,EE3013(KN),EE3195(KN)
+EE3087,EE3087,Bảo vệ Rơle trong Hệ thống Điện,3,EE3013(KN),EE3195(KN)
+EE5009,EE5009,Điều khiển máy điện (PBL),3,EE2019(KN),EE3009(KN)
+EE5011,EE5011,Hệ thống Năng lượng xanh (PBL),3,EE4055(KN),EE2017(KN)
+PE1009,PE1009,Bóng đá (Học phần 1),0,,
+PE1011,PE1011,Bóng chuyền (Học phần 1),0,,
+PE1013,PE1013,Bóng bàn (Học phần 1),0,,
+PE1021,PE1021,Aerobic (học Phần 1),0,,
+PE1015,PE1015,Bóng rổ (Học phần 1),0,,
+PE1017,PE1017,Cầu lông (Học phần 1),0,,
+PE1025,PE1025,Điền kinh (Học phần 1),0,,
+PE1019,PE1019,Bơi (học Phần 1),0,,
+PE1027,PE1027,Quần vợt (Học phần 1),0,,
+PE1053,PE1053,Cờ vua (Học phần 1),0,,
+PE1037,PE1037,Bóng bàn (Học phần 2),0,,
+PE1041,PE1041,Cầu lông (Học phần 2),0,,
+PE1033,PE1033,Bóng đá (Học phần 2),0,,
+PE1045,PE1045,Aerobic (học Phần 2),0,,
+PE1043,PE1043,Bơi (học Phần 2),0,,
+PE1039,PE1039,Bóng rổ (Học phần 2),0,,
+PE1035,PE1035,Bóng chuyền (Học phần 2),0,,
+PE1049,PE1049,Điền kinh (học phần 2),0,,
+PE1051,PE1051,Quần vợt (Học phần 2),0,,
+PE1055,PE1055,Cờ vua (học phần 2),0,,
+MI1003,MI1003,Giáo dục Quốc phòng,0,,
+SA4001,SA4001,Hoạt động sinh viên,0,,

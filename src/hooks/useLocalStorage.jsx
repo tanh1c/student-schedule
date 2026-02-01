@@ -28,13 +28,14 @@ export const useLocalStorage = (key, initialValue) => {
   return [storedValue, setValue];
 };
 
-// Helper to calculate current semester week
+// Helper to calculate current semester week (ISO week number)
 const getCurrentSemesterWeek = () => {
   const now = new Date();
   const start = new Date(now.getFullYear(), 0, 1);
   const diff = now - start;
   const oneWeek = 1000 * 60 * 60 * 24 * 7;
-  return Math.ceil(diff / oneWeek) + 1;
+  // Math.ceil already gives week 1 for day 1-7, week 2 for day 8-14, etc.
+  return Math.ceil(diff / oneWeek);
 };
 
 // Hook for managing schedule data
@@ -121,6 +122,72 @@ export const useNotesPlans = () => {
     addItem,
     updateItem,
     deleteItem
+  };
+};
+
+// Hook for managing Kanban tasks
+export const useKanbanTasks = () => {
+  const [tasks, setTasks] = useLocalStorage('kanbanTasks', []);
+
+  const addTask = (task) => {
+    const newTask = {
+      ...task,
+      id: Date.now(),
+      status: task.status || 'todo',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+    setTasks(prev => [...prev, newTask]);
+    return newTask;
+  };
+
+  const updateTask = (id, updates) => {
+    setTasks(prev => prev.map(task =>
+      task.id === id
+        ? { ...task, ...updates, updatedAt: new Date().toISOString() }
+        : task
+    ));
+  };
+
+  const deleteTask = (id) => {
+    setTasks(prev => prev.filter(task => task.id !== id));
+  };
+
+  const moveTask = (id, newStatus) => {
+    updateTask(id, { status: newStatus });
+  };
+
+  // Get tasks with deadline on specific date
+  const getTasksForDate = (date) => {
+    const targetDate = new Date(date).toDateString();
+    return tasks.filter(task => {
+      if (!task.dueDate) return false;
+      return new Date(task.dueDate).toDateString() === targetDate;
+    });
+  };
+
+  // Get tasks by week
+  const getTasksForWeek = (weekStartDate) => {
+    const start = new Date(weekStartDate);
+    const end = new Date(start);
+    end.setDate(end.getDate() + 6);
+
+    return tasks.filter(task => {
+      if (!task.dueDate) return false;
+      const taskDate = new Date(task.dueDate);
+      return taskDate >= start && taskDate <= end;
+    });
+  };
+
+  return {
+    tasks,
+    setTasks,
+    addTask,
+    updateTask,
+    deleteTask,
+    moveTask,
+    getTasksForDate,
+    getTasksForWeek
   };
 };
 

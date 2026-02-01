@@ -12,12 +12,15 @@ import {
   ClipboardPaste,
   CalendarDays,
   CheckCircle2,
-  Settings2
+  Settings2,
+  Download,
+  CalendarPlus
 } from "lucide-react";
 import {
   parseScheduleData,
   getSubjectColor
 } from '../utils/scheduleParser';
+import { exportToGoogleCalendar } from '../utils/calendarExport';
 import { useScheduleData } from '../hooks/useLocalStorage';
 import MyBKLoginCard from './MyBKLoginCard';
 import { Button } from "./ui/button";
@@ -60,7 +63,7 @@ function ScheduleTab() {
   const [scheduleInput, setScheduleInput] = useState('');
   const [selectedDay, setSelectedDay] = useState(2); // Default to Monday (Thứ 2)
   const [showManualInput, setShowManualInput] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [_loading, setLoading] = useState(false);
   // inputMethod: "sync" | "manual"
   const [inputMethod, setInputMethod] = useState("sync");
   const [isInputExpanded, setIsInputExpanded] = useState(true);
@@ -133,6 +136,21 @@ function ScheduleTab() {
   const goToNextWeek = () => setSelectedWeek(prev => Math.min(50, prev + 1));
   const goToCurrentWeek = () => setSelectedWeek(currentWeek);
 
+  // Export to Google Calendar
+  const handleExportToCalendar = () => {
+    if (!scheduleData || scheduleData.length === 0) {
+      alert('Chưa có dữ liệu thời khóa biểu để xuất!');
+      return;
+    }
+
+    const result = exportToGoogleCalendar(scheduleData);
+    if (result.success) {
+      alert(`✅ Đã tải file .ics thành công!\n\nHướng dẫn import vào Google Calendar:\n1. Mở Google Calendar (calendar.google.com)\n2. Click ⚙️ Settings > Import & Export\n3. Chọn file .ics vừa tải\n4. Click Import`);
+    } else {
+      alert(`❌ Lỗi: ${result.error}`);
+    }
+  };
+
   const getWeekLabel = (weekNum) => {
     return `Tuần ${String(weekNum).padStart(2, '0')}`;
   };
@@ -201,6 +219,7 @@ function ScheduleTab() {
           </div>
         ) : (
           <div className="space-y-3 pb-20">
+            {/* Course Classes */}
             {classesForDay.map((course, index) => {
               // Parse time from course.time or fallback to timeSlots
               let startTime = '', endTime = '';
@@ -341,8 +360,6 @@ function ScheduleTab() {
 
                   // Calculate left position based on day column (skip first column which is 80px)
                   // Each day column is (100% - 80px) / 6 = ~16.67% width
-                  const leftOffset = 80 + (dayIdx * (100 - 8) / 6) + '%';
-                  const width = `calc((100% - 80px) / 6 - 8px)`;
 
                   return (
                     <div
@@ -569,6 +586,30 @@ function ScheduleTab() {
                 disabled={selectedWeek >= 50}
               >
                 <ChevronRight className="h-5 w-5" />
+              </Button>
+
+              {/* Export to Google Calendar */}
+              <div className="h-5 w-px bg-primary-foreground/30 mx-1 hidden md:block" />
+              <Button
+                variant="outline"
+                size="sm"
+                className="hidden md:flex bg-transparent border-primary-foreground/50 text-primary-foreground hover:bg-primary-foreground/10 hover:text-white h-8 gap-1.5"
+                onClick={handleExportToCalendar}
+                title="Xuất lịch sang Google Calendar"
+              >
+                <CalendarPlus className="h-4 w-4" />
+                <span className="hidden lg:inline">Google Calendar</span>
+              </Button>
+
+              {/* Mobile export button */}
+              <Button
+                variant="ghost"
+                size="icon"
+                className="md:hidden h-8 w-8 text-primary-foreground hover:bg-primary-foreground/20 hover:text-white"
+                onClick={handleExportToCalendar}
+                title="Xuất lịch"
+              >
+                <Download className="h-5 w-5" />
               </Button>
             </div>
           </div>

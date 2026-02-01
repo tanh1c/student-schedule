@@ -19,11 +19,96 @@ app.use(cors({
 }));
 app.use(express.json());
 
+// ═══════════════════════════════════════════════════════
+// SESSION MANAGEMENT & OPTIMIZATION
+// ═══════════════════════════════════════════════════════
+
+// Configuration - 15 phút timeout để tăng throughput
+const SESSION_TIMEOUT_MS = 15 * 60 * 1000;  // 15 phút không hoạt động = tự động logout
+const CLEANUP_INTERVAL_MS = 3 * 60 * 1000;  // Chạy cleanup mỗi 3 phút
+const MAX_SESSIONS = 40;                     // Tính dựa trên: (512MB - 70MB base - 50MB buffer) / 8MB ≈ 40 sessions
+
 // Store sessions in memory
 const sessions = new Map();
 
 // Store active period cookie jars per session (for DKMH search to work)
 const activePeriodJars = new Map();
+
+/**
+ * Cleanup expired sessions to free up memory
+ * Runs automatically every CLEANUP_INTERVAL_MS
+ */
+function cleanupExpiredSessions() {
+    const now = Date.now();
+    let cleanedCount = 0;
+    let cleanedJars = 0;
+
+    // Cleanup main sessions
+    for (const [token, session] of sessions.entries()) {
+        const lastActivity = session.lastActivity || session.createdAt || 0;
+        const age = now - lastActivity;
+
+        if (age > SESSION_TIMEOUT_MS) {
+            sessions.delete(token);
+            cleanedCount++;
+
+            // Also cleanup associated period jars
+            if (activePeriodJars.has(token)) {
+                activePeriodJars.delete(token);
+                cleanedJars++;
+            }
+        }
+    }
+
+    // Cleanup orphaned period jars
+    for (const [token] of activePeriodJars.entries()) {
+        if (!sessions.has(token)) {
+            activePeriodJars.delete(token);
+            cleanedJars++;
+        }
+    }
+
+    if (cleanedCount > 0 || cleanedJars > 0) {
+        console.log(`[CLEANUP] Removed ${cleanedCount} expired sessions, ${cleanedJars} period jars. Active: ${sessions.size}`);
+    }
+
+    // Log memory usage after cleanup
+    const mem = process.memoryUsage();
+    console.log(`[MEMORY] Heap: ${(mem.heapUsed / 1024 / 1024).toFixed(1)}MB | RSS: ${(mem.rss / 1024 / 1024).toFixed(1)}MB | Sessions: ${sessions.size}`);
+}
+
+// Start automatic cleanup interval
+setInterval(cleanupExpiredSessions, CLEANUP_INTERVAL_MS);
+console.log(`[INIT] Session cleanup scheduled every ${CLEANUP_INTERVAL_MS / 60000} minutes (timeout: ${SESSION_TIMEOUT_MS / 60000} min)`);
+
+/**
+ * Middleware to update session activity timestamp
+ */
+function updateSessionActivity(req, res, next) {
+    const token = req.headers.authorization?.replace('Bearer ', '');
+    const session = sessions.get(token);
+
+    if (session) {
+        session.lastActivity = Date.now();
+    }
+
+    next();
+}
+
+// Apply activity tracking to all routes
+app.use(updateSessionActivity);
+
+/**
+ * Check if we can create new session (respects MAX_SESSIONS)
+ */
+function canCreateSession() {
+    if (sessions.size >= MAX_SESSIONS) {
+        // Try cleanup first before rejecting
+        cleanupExpiredSessions();
+        return sessions.size < MAX_SESSIONS;
+    }
+    return true;
+}
 
 /**
  * Creates a cookie-aware fetch instance
@@ -192,6 +277,15 @@ app.post('/api/auth/login', async (req, res) => {
     const { username, password } = req.body;
     console.log(`[API] Login request for ${username}`);
 
+    // Check if we can create new session (max sessions limit)
+    if (!canCreateSession()) {
+        console.log(`[API] Max sessions (${MAX_SESSIONS}) reached, rejecting login`);
+        return res.status(503).json({
+            error: 'Server đang quá tải, vui lòng thử lại sau ít phút',
+            code: 'MAX_SESSIONS_REACHED'
+        });
+    }
+
     const result = await performCASLogin(username, password);
 
     if (result.success) {
@@ -199,11 +293,12 @@ app.post('/api/auth/login', async (req, res) => {
 
         const sessionData = {
             username,
-            password, // Store temporarily for DKMH login (consider security implications)
+            // NOTE: Không lưu password để tiết kiệm RAM và bảo mật hơn
             cookie: result.cookieString,
             jwtToken: result.jwtToken,
             user: result.user,
             createdAt: Date.now(),
+            lastActivity: Date.now(),  // Track activity for cleanup
             // DKMH will be populated below
             dkmhCookie: null,
             dkmhLoggedIn: false
@@ -224,6 +319,7 @@ app.post('/api/auth/login', async (req, res) => {
         });
 
         sessions.set(sessionToken, sessionData);
+        console.log(`[API] Login successful. Active sessions: ${sessions.size}/${MAX_SESSIONS}`);
 
         res.json({
             success: true,
@@ -453,6 +549,44 @@ app.post('/api/student/gpa/detail', async (req, res) => {
 });
 
 app.get('/api/health', (req, res) => res.json({ status: 'ok' }));
+
+// Server stats for performance monitoring
+app.get('/api/stats', (req, res) => {
+    const memoryUsage = process.memoryUsage();
+    const sessionCount = sessions.size;
+
+    // Calculate estimated memory per session
+    const baseMemory = 50 * 1024 * 1024; // ~50MB base
+    const memoryPerSession = sessionCount > 0
+        ? Math.round((memoryUsage.rss - baseMemory) / sessionCount)
+        : 0;
+
+    res.json({
+        memory: {
+            heapUsed: memoryUsage.heapUsed,
+            heapTotal: memoryUsage.heapTotal,
+            rss: memoryUsage.rss,
+            external: memoryUsage.external,
+            heapUsedMB: (memoryUsage.heapUsed / 1024 / 1024).toFixed(2),
+            rssMB: (memoryUsage.rss / 1024 / 1024).toFixed(2),
+            memoryPerSessionMB: (memoryPerSession / 1024 / 1024).toFixed(2)
+        },
+        sessions: {
+            active: sessionCount,
+            max: MAX_SESSIONS,
+            available: MAX_SESSIONS - sessionCount,
+            periodJars: activePeriodJars.size
+        },
+        config: {
+            sessionTimeoutMinutes: SESSION_TIMEOUT_MS / 60000,
+            cleanupIntervalMinutes: CLEANUP_INTERVAL_MS / 60000,
+            maxSessions: MAX_SESSIONS
+        },
+        uptime: process.uptime(),
+        uptimeHuman: `${Math.floor(process.uptime() / 3600)}h ${Math.floor((process.uptime() % 3600) / 60)}m`,
+        timestamp: Date.now()
+    });
+});
 
 // ===============================================
 // DKMH (Đăng ký môn học) SSO Login

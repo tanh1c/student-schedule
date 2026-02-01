@@ -8,7 +8,7 @@ import {
     CalendarClock,
     GraduationCap,
     BadgePercent,
-    Map,
+    Route,
     NotebookTabs,
     CheckCircle2,
     ArrowRight,
@@ -25,6 +25,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import AppLogo from './AppLogo';
 
 const features = [
     {
@@ -56,9 +57,9 @@ const features = [
         iconColor: 'text-amber-500'
     },
     {
-        icon: Map,
-        title: 'Bản đồ campus',
-        description: 'Xem vị trí các tòa nhà trong khuôn viên trường',
+        icon: Route,
+        title: 'Roadmap học tập',
+        description: 'Lên kế hoạch và theo dõi tiến trình học tập theo kỳ',
         color: 'bg-cyan-500',
         iconColor: 'text-cyan-500'
     },
@@ -97,84 +98,130 @@ const securityPoints = [
 function LandingPage({ onEnterApp }) {
     return (
         <div className="min-h-screen bg-background">
-            {/* Hero Section - Full viewport */}
+            {/* Hero Section - Full viewport with stunning design */}
             <div className="relative overflow-hidden min-h-screen flex flex-col">
-                {/* Animated gradient background */}
+                {/* Animated gradient background - Enhanced for both modes */}
                 <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                    {/* Base gradient */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-violet-500/5 dark:from-primary/10 dark:to-violet-500/10" />
+                    {/* Base gradient - More vibrant in light mode */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-indigo-50/50 to-violet-50 dark:from-transparent dark:via-transparent dark:to-transparent" />
 
-                    {/* Animated orbs */}
-                    <div className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-gradient-to-br from-primary/20 to-blue-500/20 rounded-full blur-3xl animate-pulse" />
-                    <div className="absolute top-1/3 -left-32 w-[400px] h-[400px] bg-gradient-to-tr from-violet-500/15 to-pink-500/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-                    <div className="absolute -bottom-20 right-1/4 w-[350px] h-[350px] bg-gradient-to-tl from-cyan-500/15 to-emerald-500/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
+                    {/* Primary gradient mesh - Stronger in light mode */}
+                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(99,102,241,0.25),rgba(255,255,255,0))] dark:bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.2),rgba(0,0,0,0))]" />
+
+                    {/* Secondary accent gradient - Bottom right */}
+                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_60%_at_80%_80%,rgba(236,72,153,0.12),rgba(255,255,255,0))] dark:bg-[radial-gradient(ellipse_60%_60%_at_80%_80%,rgba(236,72,153,0.08),rgba(0,0,0,0))]" />
+
+                    {/* Animated gradient orbs - More visible in light mode */}
+                    <div className="absolute -top-40 -right-40 w-[600px] h-[600px] bg-gradient-to-br from-blue-400/40 via-indigo-400/30 to-violet-400/40 dark:from-primary/30 dark:via-blue-500/20 dark:to-violet-500/30 rounded-full blur-3xl animate-pulse" />
+                    <div className="absolute top-1/2 -left-32 w-[500px] h-[500px] bg-gradient-to-tr from-purple-400/30 via-pink-400/25 to-rose-400/30 dark:from-indigo-500/20 dark:via-purple-500/15 dark:to-pink-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s', animationDuration: '4s' }} />
+                    <div className="absolute -bottom-20 right-1/4 w-[450px] h-[450px] bg-gradient-to-tl from-cyan-400/30 via-teal-400/25 to-emerald-400/30 dark:from-cyan-500/20 dark:via-teal-500/15 dark:to-emerald-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s', animationDuration: '5s' }} />
+
+                    {/* Extra light mode accent - center glow */}
+                    <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-r from-transparent via-primary/10 to-transparent dark:via-primary/5 rounded-full blur-3xl" />
+
+                    {/* Floating particles effect - More colorful */}
+                    <div className="absolute inset-0">
+                        {[
+                            { color: 'bg-blue-400/40 dark:bg-primary/30', size: 'w-3 h-3' },
+                            { color: 'bg-violet-400/40 dark:bg-violet-500/30', size: 'w-2 h-2' },
+                            { color: 'bg-pink-400/40 dark:bg-pink-500/30', size: 'w-2.5 h-2.5' },
+                            { color: 'bg-indigo-400/40 dark:bg-indigo-500/30', size: 'w-2 h-2' },
+                            { color: 'bg-cyan-400/40 dark:bg-cyan-500/30', size: 'w-3 h-3' },
+                            { color: 'bg-emerald-400/40 dark:bg-emerald-500/30', size: 'w-2 h-2' },
+                        ].map((particle, i) => (
+                            <div
+                                key={i}
+                                className={`absolute ${particle.size} ${particle.color} rounded-full animate-bounce`}
+                                style={{
+                                    left: `${15 + i * 15}%`,
+                                    top: `${20 + (i % 3) * 25}%`,
+                                    animationDelay: `${i * 0.3}s`,
+                                    animationDuration: `${2 + i * 0.5}s`
+                                }}
+                            />
+                        ))}
+                    </div>
 
                     {/* Grid pattern overlay */}
                     <div
-                        className="absolute inset-0 opacity-[0.015] dark:opacity-[0.03]"
+                        className="absolute inset-0 opacity-[0.03] dark:opacity-[0.04]"
                         style={{
-                            backgroundImage: `linear-gradient(hsl(var(--foreground)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)`,
-                            backgroundSize: '60px 60px'
+                            backgroundImage: `linear-gradient(hsl(var(--primary)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--primary)) 1px, transparent 1px)`,
+                            backgroundSize: '80px 80px'
                         }}
                     />
 
-                    {/* Radial fade to background */}
+                    {/* Radial fade to background - Softer in light mode */}
                     <div
                         className="absolute inset-0"
-                        style={{ background: 'radial-gradient(circle at center, transparent 0%, hsl(var(--background)) 70%)' }}
+                        style={{ background: 'radial-gradient(circle at center, transparent 0%, hsl(var(--background)) 80%)' }}
                     />
                 </div>
 
                 <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-8 sm:pt-10 sm:pb-12 flex-1 flex flex-col">
-                    {/* Header */}
-                    <div className="flex items-center justify-between mb-8 sm:mb-10">
+                    {/* Header with glassmorphism */}
+                    <div className="flex items-center justify-between mb-8 sm:mb-12">
                         <div className="flex items-center gap-3">
-                            <div className="h-10 w-10 rounded-xl bg-primary flex items-center justify-center shadow-lg shadow-primary/25">
-                                <CalendarClock className="h-5 w-5 text-primary-foreground" />
+                            <AppLogo size={44} className="shadow-xl shadow-primary/30 ring-2 ring-white/20 rounded-2xl" />
+                            <div>
+                                <span className="text-xl font-bold text-foreground">TKB Smart</span>
+                                <span className="hidden sm:inline text-xs text-muted-foreground ml-2 bg-muted px-2 py-0.5 rounded-full">v2.0</span>
                             </div>
-                            <span className="text-xl font-bold text-foreground">TKB Smart</span>
                         </div>
                         <a
                             href="https://github.com/tanh1c/student-schedule"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                            className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-all px-4 py-2 rounded-full border border-border/50 hover:border-primary/50 hover:bg-primary/5"
                         >
                             <Github className="h-4 w-4" />
-                            <span className="hidden sm:inline">Open Source</span>
+                            <span className="hidden sm:inline">Star on GitHub</span>
                         </a>
                     </div>
 
-                    {/* Main Content - Centered vertically */}
+                    {/* Main Content - Centered */}
                     <div className="flex-1 flex flex-col justify-center">
                         {/* Hero Content */}
-                        <div className="text-center max-w-4xl mx-auto mb-8 sm:mb-10">
-                            <Badge variant="secondary" className="mb-4 px-4 py-1.5 bg-primary/10 text-primary border-0">
-                                <Sparkles className="h-3 w-3 mr-1" />
-                                Miễn phí & Mã nguồn mở
-                            </Badge>
-
-                            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold tracking-tight mb-5 text-foreground">
-                                Quản lý lịch học
-                                <span className="bg-gradient-to-r from-primary via-blue-500 to-violet-500 bg-clip-text text-transparent">
-                                    {' '}thông minh{' '}
+                        <div className="text-center max-w-5xl mx-auto mb-10 sm:mb-14">
+                            {/* Animated Badge */}
+                            <div className="inline-flex items-center gap-2 mb-6 px-5 py-2 bg-gradient-to-r from-primary/10 via-primary/5 to-violet-500/10 border border-primary/20 rounded-full shadow-lg shadow-primary/10 animate-pulse">
+                                <Sparkles className="h-4 w-4 text-primary animate-spin" style={{ animationDuration: '3s' }} />
+                                <span className="text-sm font-semibold bg-gradient-to-r from-primary to-violet-500 bg-clip-text text-transparent">
+                                    Miễn phí • Mã nguồn mở • Bảo mật
                                 </span>
-                                cho sinh viên BK
+                            </div>
+
+                            {/* Main Headline with enhanced typography */}
+                            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold tracking-tight mb-6 text-foreground leading-[1.1]">
+                                <span className="block">Quản lý lịch học</span>
+                                <span className="relative inline-block mt-2">
+                                    <span className="bg-gradient-to-r from-primary via-blue-500 to-violet-500 bg-clip-text text-transparent animate-gradient bg-[length:200%_auto]">
+                                        thông minh
+                                    </span>
+                                    <svg className="absolute -bottom-2 left-0 w-full h-3 text-primary/30" viewBox="0 0 100 10" preserveAspectRatio="none">
+                                        <path d="M0 5 Q 25 0, 50 5 T 100 5" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" />
+                                    </svg>
+                                </span>
                             </h1>
 
-                            <p className="text-base sm:text-lg lg:text-xl text-muted-foreground mb-6 max-w-3xl mx-auto leading-relaxed">
-                                Công cụ hỗ trợ sinh viên Đại học Bách Khoa TPHCM xem thời khóa biểu,
-                                tính GPA, đăng ký môn học và nhiều tính năng hữu ích khác.
+                            {/* Subheadline */}
+                            <p className="text-lg sm:text-xl lg:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed font-medium">
+                                Công cụ <span className="text-foreground font-semibold">all-in-one</span> cho sinh viên
+                                <span className="inline-flex items-center mx-2 px-2 py-0.5 bg-blue-500/10 text-blue-600 dark:text-blue-400 rounded-md text-base font-bold">
+                                    ĐH Bách Khoa TPHCM
+                                </span>
                             </p>
 
-                            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-6">
+                            {/* CTA Buttons with enhanced styling */}
+                            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
                                 <Button
                                     size="lg"
                                     onClick={onEnterApp}
-                                    className="w-full sm:w-auto text-base px-8 py-6 shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 transition-all"
+                                    className="w-full sm:w-auto text-base px-10 py-7 shadow-2xl shadow-primary/30 hover:shadow-primary/40 hover:scale-105 transition-all duration-300 bg-gradient-to-r from-primary to-blue-600 border-0 rounded-2xl font-semibold"
                                 >
-                                    Vào ứng dụng
-                                    <ArrowRight className="ml-2 h-5 w-5" />
+                                    <Rocket className="mr-2 h-5 w-5" />
+                                    Vào ứng dụng ngay
+                                    <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                                 </Button>
                                 <a
                                     href="https://github.com/tanh1c/student-schedule"
@@ -184,7 +231,7 @@ function LandingPage({ onEnterApp }) {
                                     <Button
                                         variant="outline"
                                         size="lg"
-                                        className="w-full sm:w-auto text-base px-8 py-6 border-2 border-foreground/20 hover:border-foreground/40 bg-background/50 backdrop-blur-sm hover:bg-background/80 dark:border-white/30 dark:hover:border-white/50"
+                                        className="w-full sm:w-auto text-base px-10 py-7 border-2 border-gray-300 dark:border-white/30 hover:border-primary/50 dark:hover:border-primary/70 bg-white/80 dark:bg-white/10 backdrop-blur-xl hover:bg-white dark:hover:bg-white/20 rounded-2xl font-semibold text-foreground dark:text-white"
                                     >
                                         <Code2 className="mr-2 h-5 w-5" />
                                         Xem mã nguồn
@@ -192,50 +239,72 @@ function LandingPage({ onEnterApp }) {
                                 </a>
                             </div>
 
-                            {/* Trust Badges */}
-                            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-xs sm:text-sm text-muted-foreground">
-                                <div className="flex items-center gap-1.5">
-                                    <Shield className="h-4 w-4 text-emerald-500" />
+                            {/* Stats Row */}
+                            <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-12 mb-8">
+                                {[
+                                    { value: '1000+', label: 'Sinh viên', icon: Users },
+                                    { value: '6+', label: 'Tính năng', icon: Sparkles },
+                                    { value: '100%', label: 'Bảo mật', icon: Shield }
+                                ].map((stat, i) => (
+                                    <div key={i} className="text-center group cursor-default">
+                                        <div className="flex items-center justify-center gap-2 mb-1">
+                                            <stat.icon className="h-4 w-4 text-primary group-hover:scale-110 transition-transform" />
+                                            <span className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+                                                {stat.value}
+                                            </span>
+                                        </div>
+                                        <span className="text-xs sm:text-sm text-muted-foreground font-medium">{stat.label}</span>
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* Trust Badges with enhanced styling */}
+                            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+                                <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-100 dark:bg-emerald-500/10 border border-emerald-300 dark:border-emerald-500/20 text-emerald-700 dark:text-emerald-400 text-xs sm:text-sm font-medium shadow-sm">
+                                    <Shield className="h-3.5 w-3.5" />
                                     <span>Không lưu mật khẩu</span>
                                 </div>
-                                <div className="hidden sm:block w-px h-4 bg-border" />
-                                <div className="flex items-center gap-1.5">
-                                    <Lock className="h-4 w-4 text-blue-500" />
+                                <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/20 text-blue-700 dark:text-blue-400 text-xs sm:text-sm font-medium shadow-sm">
+                                    <Lock className="h-3.5 w-3.5" />
                                     <span>HTTPS mã hóa</span>
                                 </div>
-                                <div className="hidden sm:block w-px h-4 bg-border" />
-                                <div className="flex items-center gap-1.5">
-                                    <Eye className="h-4 w-4 text-violet-500" />
+                                <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-violet-100 dark:bg-violet-500/10 border border-violet-300 dark:border-violet-500/20 text-violet-700 dark:text-violet-400 text-xs sm:text-sm font-medium shadow-sm">
+                                    <Eye className="h-3.5 w-3.5" />
                                     <span>Không thu thập dữ liệu</span>
                                 </div>
                             </div>
                         </div>
 
-                        {/* Feature Grid - 6 columns on desktop */}
+                        {/* Feature Grid with enhanced cards */}
                         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 max-w-6xl mx-auto w-full">
                             {[
-                                { icon: CalendarClock, label: 'Thời khóa biểu', desc: 'Xem theo tuần', color: 'text-blue-500', bg: 'bg-blue-500/10' },
-                                { icon: GraduationCap, label: 'Lịch thi', desc: 'Tra cứu nhanh', color: 'text-emerald-500', bg: 'bg-emerald-500/10' },
-                                { icon: BadgePercent, label: 'Tính GPA', desc: 'Tự động tính', color: 'text-violet-500', bg: 'bg-violet-500/10' },
-                                { icon: NotebookTabs, label: 'Đăng ký môn', desc: 'Hỗ trợ ĐKMH', color: 'text-amber-500', bg: 'bg-amber-500/10' },
-                                { icon: Map, label: 'Bản đồ', desc: 'Campus BK', color: 'text-cyan-500', bg: 'bg-cyan-500/10' },
-                                { icon: Users, label: 'Lịch giảng dạy', desc: 'Tra cứu GV', color: 'text-rose-500', bg: 'bg-rose-500/10' },
+                                { icon: CalendarClock, label: 'Thời khóa biểu', desc: 'Xem theo tuần', gradient: 'from-blue-500 to-cyan-500', bg: 'bg-blue-50 dark:bg-blue-950/20' },
+                                { icon: GraduationCap, label: 'Lịch thi', desc: 'Tra cứu nhanh', gradient: 'from-emerald-500 to-teal-500', bg: 'bg-emerald-50 dark:bg-emerald-950/20' },
+                                { icon: BadgePercent, label: 'Tính GPA', desc: 'Tự động tính', gradient: 'from-violet-500 to-purple-500', bg: 'bg-violet-50 dark:bg-violet-950/20' },
+                                { icon: NotebookTabs, label: 'Đăng ký môn', desc: 'Hỗ trợ ĐKMH', gradient: 'from-amber-500 to-orange-500', bg: 'bg-amber-50 dark:bg-amber-950/20' },
+                                { icon: Route, label: 'Roadmap', desc: 'Kế hoạch học', gradient: 'from-cyan-500 to-blue-500', bg: 'bg-cyan-50 dark:bg-cyan-950/20' },
+                                { icon: Users, label: 'Lịch giảng dạy', desc: 'Tra cứu GV', gradient: 'from-rose-500 to-pink-500', bg: 'bg-rose-50 dark:bg-rose-950/20' },
                             ].map((item, index) => {
                                 const Icon = item.icon;
                                 return (
                                     <div
                                         key={index}
-                                        className="flex flex-col items-center gap-2 p-4 sm:p-5 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/30 hover:bg-card/80 transition-all cursor-default group"
+                                        className={`group relative flex flex-col items-center gap-3 p-5 sm:p-6 rounded-2xl ${item.bg} backdrop-blur-xl border border-gray-200/80 dark:border-border/50 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 cursor-default overflow-hidden shadow-sm`}
                                     >
-                                        <div className={`h-10 w-10 sm:h-12 sm:w-12 rounded-xl ${item.bg} flex items-center justify-center group-hover:scale-110 transition-transform`}>
-                                            <Icon className={`h-5 w-5 sm:h-6 sm:w-6 ${item.color}`} />
+                                        {/* Hover gradient overlay */}
+                                        <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient} opacity-0 group-hover:opacity-10 dark:group-hover:opacity-5 transition-opacity duration-300`} />
+
+                                        <div className={`relative h-12 w-12 sm:h-14 sm:w-14 rounded-2xl bg-gradient-to-br ${item.gradient} flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg`}>
+                                            <Icon className="h-6 w-6 sm:h-7 sm:w-7 text-white" />
                                         </div>
-                                        <span className="text-xs sm:text-sm font-semibold text-foreground text-center">
-                                            {item.label}
-                                        </span>
-                                        <span className="text-[10px] sm:text-xs text-muted-foreground text-center hidden sm:block">
-                                            {item.desc}
-                                        </span>
+                                        <div className="relative text-center">
+                                            <span className="block text-sm sm:text-base font-semibold text-foreground">
+                                                {item.label}
+                                            </span>
+                                            <span className="text-[11px] sm:text-xs text-muted-foreground hidden sm:block mt-0.5">
+                                                {item.desc}
+                                            </span>
+                                        </div>
                                     </div>
                                 );
                             })}
@@ -243,10 +312,12 @@ function LandingPage({ onEnterApp }) {
                     </div>
 
                     {/* Scroll Indicator */}
-                    <div className="flex justify-center pb-4 sm:pb-6 pt-6">
-                        <div className="flex flex-col items-center gap-1.5 text-muted-foreground/60 animate-bounce">
-                            <span className="text-xs hidden sm:block">Khám phá thêm</span>
-                            <ChevronRight className="h-5 w-5 rotate-90" />
+                    <div className="flex justify-center pb-4 sm:pb-6 pt-8">
+                        <div className="flex flex-col items-center gap-2 text-muted-foreground/60">
+                            <span className="text-xs hidden sm:block font-medium">Khám phá thêm</span>
+                            <div className="w-6 h-10 rounded-full border-2 border-muted-foreground/30 flex justify-center pt-2">
+                                <div className="w-1.5 h-3 bg-muted-foreground/50 rounded-full animate-bounce" />
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -1,0 +1,874 @@
+[
+  {
+    "id": "MT1003",
+    "code": "MT1003",
+    "name": "Giải tích 1",
+    "credits": "4",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "MT1005",
+    "code": "MT1005",
+    "name": "Giải tích 2",
+    "credits": "4",
+    "prerequisites": "MT1003(KN)",
+    "note": ""
+  },
+  {
+    "id": "MT1007",
+    "code": "MT1007",
+    "name": "Đại số Tuyến tính",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "MT2013",
+    "code": "MT2013",
+    "name": "Xác suất và Thống kê",
+    "credits": "4",
+    "prerequisites": "MT1007(KN)",
+    "note": ""
+  },
+  {
+    "id": "PH1003",
+    "code": "PH1003",
+    "name": "Vật lý 1",
+    "credits": "4",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PH1007",
+    "code": "PH1007",
+    "name": "Thí nghiệm Vật lý",
+    "credits": "1",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CH1003",
+    "code": "CH1003",
+    "name": "Hóa đại cương",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CH2113",
+    "code": "CH2113",
+    "name": "Hóa phân tích",
+    "credits": "3",
+    "prerequisites": "CH1003(TQ)",
+    "note": ""
+  },
+  {
+    "id": "CH2013",
+    "code": "CH2013",
+    "name": "Hóa vô cơ (+TN)",
+    "credits": "4",
+    "prerequisites": "CH1003(TQ)",
+    "note": ""
+  },
+  {
+    "id": "SP1007",
+    "code": "SP1007",
+    "name": "Pháp luật Việt Nam Đại cương",
+    "credits": "2",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "SP1031",
+    "code": "SP1031",
+    "name": "Triết học Mác - Lênin",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "SP1033",
+    "code": "SP1033",
+    "name": "Kinh tế Chính trị Mác - Lênin",
+    "credits": "2",
+    "prerequisites": "SP1031(KN)",
+    "note": ""
+  },
+  {
+    "id": "SP1035",
+    "code": "SP1035",
+    "name": "Chủ nghĩa Xã hội Khoa học",
+    "credits": "2",
+    "prerequisites": "SP1033(KN)",
+    "note": ""
+  },
+  {
+    "id": "SP1037",
+    "code": "SP1037",
+    "name": "Tư tưởng Hồ Chí Minh",
+    "credits": "2",
+    "prerequisites": "SP1039(KN)",
+    "note": ""
+  },
+  {
+    "id": "SP1039",
+    "code": "SP1039",
+    "name": "Lịch sử Đảng Cộng sản Việt Nam",
+    "credits": "2",
+    "prerequisites": "SP1035(KN)",
+    "note": ""
+  },
+  {
+    "id": "LA1003",
+    "code": "LA1003",
+    "name": "Anh văn 1",
+    "credits": "2",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "LA1005",
+    "code": "LA1005",
+    "name": "Anh văn 2",
+    "credits": "2",
+    "prerequisites": "LA1003(TQ)",
+    "note": ""
+  },
+  {
+    "id": "LA1007",
+    "code": "LA1007",
+    "name": "Anh văn 3",
+    "credits": "2",
+    "prerequisites": "LA1005(TQ)",
+    "note": ""
+  },
+  {
+    "id": "LA1009",
+    "code": "LA1009",
+    "name": "Anh văn 4",
+    "credits": "2",
+    "prerequisites": "LA1007(TQ)",
+    "note": ""
+  },
+  {
+    "id": "MI1003",
+    "code": "MI1003",
+    "name": "Giáo dục Quốc phòng",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1009",
+    "code": "PE1009",
+    "name": "Bóng đá (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1011",
+    "code": "PE1011",
+    "name": "Bóng chuyền (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1013",
+    "code": "PE1013",
+    "name": "Bóng bàn (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1021",
+    "code": "PE1021",
+    "name": "Aerobic (học Phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1015",
+    "code": "PE1015",
+    "name": "Bóng rổ (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1017",
+    "code": "PE1017",
+    "name": "Cầu lông (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1025",
+    "code": "PE1025",
+    "name": "Điền kinh (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1019",
+    "code": "PE1019",
+    "name": "Bơi (học Phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1027",
+    "code": "PE1027",
+    "name": "Quần vợt (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1053",
+    "code": "PE1053",
+    "name": "Cờ vua (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1057",
+    "code": "PE1057",
+    "name": "Bowling (học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1061",
+    "code": "PE1061",
+    "name": "Pickleball (học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1037",
+    "code": "PE1037",
+    "name": "Bóng bàn (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1041",
+    "code": "PE1041",
+    "name": "Cầu lông (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1033",
+    "code": "PE1033",
+    "name": "Bóng đá (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1045",
+    "code": "PE1045",
+    "name": "Aerobic (học Phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1043",
+    "code": "PE1043",
+    "name": "Bơi (học Phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1039",
+    "code": "PE1039",
+    "name": "Bóng rổ (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1035",
+    "code": "PE1035",
+    "name": "Bóng chuyền (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1049",
+    "code": "PE1049",
+    "name": "Điền kinh (học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1051",
+    "code": "PE1051",
+    "name": "Quần vợt (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1055",
+    "code": "PE1055",
+    "name": "Cờ vua (học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1063",
+    "code": "PE1063",
+    "name": "Pickleball (học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1059",
+    "code": "PE1059",
+    "name": "Bowling (học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CH1001",
+    "code": "CH1001",
+    "name": "Nhập môn về Kỹ thuật",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CH3423",
+    "code": "CH3423",
+    "name": "Phát triển bền vững và xử lý môi trường",
+    "credits": "3",
+    "prerequisites": "CH2051(KN) CH2043(KN) CH2019(KN)",
+    "note": ""
+  },
+  {
+    "id": "IM1013",
+    "code": "IM1013",
+    "name": "Kinh tế học Đại cương",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM1031",
+    "code": "IM1031",
+    "name": "Khởi nghiệp và đổi mới sáng tạo",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM1023",
+    "code": "IM1023",
+    "name": "Quản lý Sản xuất cho Kỹ sư",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM1025",
+    "code": "IM1025",
+    "name": "Quản lý Dự án cho Kỹ sư",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM1027",
+    "code": "IM1027",
+    "name": "Kinh tế Kỹ thuật",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "ME1019",
+    "code": "ME1019",
+    "name": "Quản lý năng suất và chất lượng",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CH3445",
+    "code": "CH3445",
+    "name": "Quản lý chất lượng thực phẩm",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CH2003",
+    "code": "CH2003",
+    "name": "Hóa lý 1",
+    "credits": "3",
+    "prerequisites": "CH1003(TQ) MT1003(KN)",
+    "note": ""
+  },
+  {
+    "id": "CH2019",
+    "code": "CH2019",
+    "name": "Quá trình và Thiết bị Cơ học",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CH2021",
+    "code": "CH2021",
+    "name": "Hóa hữu cơ",
+    "credits": "3",
+    "prerequisites": "CH1003(TQ)",
+    "note": ""
+  },
+  {
+    "id": "CH2041",
+    "code": "CH2041",
+    "name": "Thí nghiệm Hóa lý",
+    "credits": "2",
+    "prerequisites": "CH2109(SHT) CH1003(TQ) CH2003(TQ)",
+    "note": ""
+  },
+  {
+    "id": "CH2043",
+    "code": "CH2043",
+    "name": "Quá trình và Thiết bị Truyền nhiệt",
+    "credits": "3",
+    "prerequisites": "CH2003(TQ)",
+    "note": ""
+  },
+  {
+    "id": "CH2051",
+    "code": "CH2051",
+    "name": "Quá trình và Thiết bị Truyền khối",
+    "credits": "3",
+    "prerequisites": "CH2003(TQ)",
+    "note": ""
+  },
+  {
+    "id": "CH2053",
+    "code": "CH2053",
+    "name": "Thí nghiệm Hóa hữu cơ",
+    "credits": "2",
+    "prerequisites": "CH2155(TQ) CH2051(KN) CH2043(KN) CH2021(KN)",
+    "note": ""
+  },
+  {
+    "id": "CH2109",
+    "code": "CH2109",
+    "name": "Hóa lý 2",
+    "credits": "3",
+    "prerequisites": "CH1003(TQ) CH2003(KN)",
+    "note": ""
+  },
+  {
+    "id": "CH3347",
+    "code": "CH3347",
+    "name": "Kỹ thuật Phản ứng",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CI1003",
+    "code": "CI1003",
+    "name": "Vẽ kỹ thuật",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CH2155",
+    "code": "CH2155",
+    "name": "Thí nghiệm Hóa phân tích",
+    "credits": "2",
+    "prerequisites": "CH1003(TQ) CH2113(KN)",
+    "note": ""
+  },
+  {
+    "id": "CH3015",
+    "code": "CH3015",
+    "name": "Thí nghiệm Quá trình Thiết bị",
+    "credits": "2",
+    "prerequisites": "CH2017(SHT) CH2035(SHT) CH2039(SHT)",
+    "note": ""
+  },
+  {
+    "id": "CH3133",
+    "code": "CH3133",
+    "name": "Mô hình hóa Mô phỏng và Tối ưu hóa trong Công nghệ Hóa học",
+    "credits": "3",
+    "prerequisites": "MT1005(KN) CH3347(SHT)",
+    "note": ""
+  },
+  {
+    "id": "CH4007",
+    "code": "CH4007",
+    "name": "Đồ án Thiết kế Kỹ thuật Hóa học",
+    "credits": "2",
+    "prerequisites": "CH3355(TQ) CH3015(TQ)",
+    "note": ""
+  },
+  {
+    "id": "CH3299",
+    "code": "CH3299",
+    "name": "Thiết kế máy và nhà máy hóa chất",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CH3305",
+    "code": "CH3305",
+    "name": "Thiết kế công nghệ và P&ID cho quá trình hoá học",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CH3307",
+    "code": "CH3307",
+    "name": "An toàn và vận hành quá trình hoá học",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CH3327",
+    "code": "CH3327",
+    "name": "Hóa keo",
+    "credits": "3",
+    "prerequisites": "CH1003(TQ) MT1003(KN)",
+    "note": ""
+  },
+  {
+    "id": "CH3329",
+    "code": "CH3329",
+    "name": "Các Phương pháp Phân tích Hiện đại",
+    "credits": "3",
+    "prerequisites": "CH2113(KN)",
+    "note": ""
+  },
+  {
+    "id": "CH4147",
+    "code": "CH4147",
+    "name": "Cơ sở vật liệu và chống ăn mòn",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CH3337",
+    "code": "CH3337",
+    "name": "Tổng hợp Hữu cơ Hóa dầu",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CH3339",
+    "code": "CH3339",
+    "name": "Cơ sở Hóa sinh và Vi sinh",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CH3341",
+    "code": "CH3341",
+    "name": "Cơ sở điều khiển quá trình",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CH4085",
+    "code": "CH4085",
+    "name": "Hóa học và Công nghệ chất Hoạt động Bề mặt",
+    "credits": "3",
+    "prerequisites": "CH2003(TQ) CH2021(KN)",
+    "note": ""
+  },
+  {
+    "id": "CH4059",
+    "code": "CH4059",
+    "name": "Kiểm toán Năng lượng",
+    "credits": "3",
+    "prerequisites": "CH3347(KN) CH2051(KN) CH2043(KN) CH2019(KN)",
+    "note": ""
+  },
+  {
+    "id": "CH4061",
+    "code": "CH4061",
+    "name": "Kỹ thuật đường ống bể chứa",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CH4127",
+    "code": "CH4127",
+    "name": "Công nghệ chế biến khí thiên nhiên",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CH4129",
+    "code": "CH4129",
+    "name": "Công nghệ lọc và chế biến dầu",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CH4089",
+    "code": "CH4089",
+    "name": "Cơ sở kỹ thuật bức xạ và ứng dụng",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CH3309",
+    "code": "CH3309",
+    "name": "Thiết kế Thí nghiệm và Xử lý Số liệu",
+    "credits": "3",
+    "prerequisites": "MT1007(KN) MT1005(KN) MT1003(KN)",
+    "note": ""
+  },
+  {
+    "id": "CH4087",
+    "code": "CH4087",
+    "name": "Các Phương pháp Vật lý Nghiên cứu Chất rắn",
+    "credits": "3",
+    "prerequisites": "CH2013(KN)",
+    "note": ""
+  },
+  {
+    "id": "CH4123",
+    "code": "CH4123",
+    "name": "Hóa học silicate và ứng dụng",
+    "credits": "3",
+    "prerequisites": "CH2003(KN) CH2013(KN)",
+    "note": ""
+  },
+  {
+    "id": "CH4135",
+    "code": "CH4135",
+    "name": "Cơ sở vật liệu bán dẫn",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CH4081",
+    "code": "CH4081",
+    "name": "Công nghệ sản xuất phân bón và các hóa chất vô cơ",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CH4131",
+    "code": "CH4131",
+    "name": "Thiết bị đo lường và điều khiển",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CH4133",
+    "code": "CH4133",
+    "name": "Pin và các hệ chuyển hóa năng lượng",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CH4079",
+    "code": "CH4079",
+    "name": "Hóa học xanh",
+    "credits": "3",
+    "prerequisites": "CH1003(TQ)",
+    "note": ""
+  },
+  {
+    "id": "CH4091",
+    "code": "CH4091",
+    "name": "Hóa học Nano và Ứng dụng",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CH4125",
+    "code": "CH4125",
+    "name": "Độc chất học",
+    "credits": "3",
+    "prerequisites": "CH1003(TQ)",
+    "note": ""
+  },
+  {
+    "id": "CH4069",
+    "code": "CH4069",
+    "name": "Sản xuất Sạch hơn",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CH3425",
+    "code": "CH3425",
+    "name": "Sinh hóa dược",
+    "credits": "3",
+    "prerequisites": "CH2003(TQ) CH2021(KN)",
+    "note": ""
+  },
+  {
+    "id": "CH3427",
+    "code": "CH3427",
+    "name": "Sinh lý miễn dịch học",
+    "credits": "3",
+    "prerequisites": "CH2021(KN)",
+    "note": ""
+  },
+  {
+    "id": "CH4137",
+    "code": "CH4137",
+    "name": "Công nghệ dẫn truyền thuốc trong dược phẩm và mỹ phẩm",
+    "credits": "3",
+    "prerequisites": "CH2003(TQ) CH2021(KN)",
+    "note": ""
+  },
+  {
+    "id": "CH4139",
+    "code": "CH4139",
+    "name": "Công nghệ bào chế và sản xuất dược phẩm",
+    "credits": "3",
+    "prerequisites": "CH2051(TQ) CH2019(TQ) CH2021(KN)",
+    "note": ""
+  },
+  {
+    "id": "CH4143",
+    "code": "CH4143",
+    "name": "Công nghệ ứng dụng hợp chất tự nhiên",
+    "credits": "3",
+    "prerequisites": "CH2051(KN) CH2021(TQ)",
+    "note": ""
+  },
+  {
+    "id": "CH4145",
+    "code": "CH4145",
+    "name": "Kiểm nghiệm dược phẩm",
+    "credits": "3",
+    "prerequisites": "CH2113(TQ) CH2021(TQ)",
+    "note": ""
+  },
+  {
+    "id": "CH4141",
+    "code": "CH4141",
+    "name": "Cơ sở tổng hợp hóa dược",
+    "credits": "3",
+    "prerequisites": "CH2021(TQ)",
+    "note": ""
+  },
+  {
+    "id": "CH3429",
+    "code": "CH3429",
+    "name": "Công nghệ sản xuất mỹ phẩm",
+    "credits": "3",
+    "prerequisites": "CH2051(TQ) CH2003(TQ)",
+    "note": ""
+  },
+  {
+    "id": "CH3421",
+    "code": "CH3421",
+    "name": "Cơ sở kỹ thuật mỹ phẩm",
+    "credits": "3",
+    "prerequisites": "CH2003(TQ) CH2021(KN)",
+    "note": ""
+  },
+  {
+    "id": "CH4149",
+    "code": "CH4149",
+    "name": "Quản lý chất lượng mỹ phẩm",
+    "credits": "3",
+    "prerequisites": "CH2113(TQ) CH2021(KN)",
+    "note": ""
+  },
+  {
+    "id": "CH4151",
+    "code": "CH4151",
+    "name": "Mỹ phẩm chức năng",
+    "credits": "3",
+    "prerequisites": "CH2003(TQ) CH2021(KN)",
+    "note": ""
+  },
+  {
+    "id": "CH4153",
+    "code": "CH4153",
+    "name": "Thiết kế và phát triển sản phẩm mỹ phẩm",
+    "credits": "3",
+    "prerequisites": "CH2003(TQ) CH2051(KN) CH2021(KN)",
+    "note": ""
+  },
+  {
+    "id": "CH3355",
+    "code": "CH3355",
+    "name": "Thực tập Ngoài trường",
+    "credits": "2",
+    "prerequisites": "CH2041(TQ) CH2053(TQ) CH2043(KN) CH2051(KN) CH2019(KN)",
+    "note": ""
+  },
+  {
+    "id": "CH4053",
+    "code": "CH4053",
+    "name": "Đồ án Chuyên ngành",
+    "credits": "2",
+    "prerequisites": "CH3355(TQ)",
+    "note": ""
+  },
+  {
+    "id": "CH4357",
+    "code": "CH4357",
+    "name": "Đồ án Tốt nghiệp",
+    "credits": "4",
+    "prerequisites": "CH4053(TQ) CH3355(TQ)",
+    "note": ""
+  },
+  {
+    "id": "SA4001",
+    "code": "SA4001",
+    "name": "Hoạt động sinh viên",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  }
+]

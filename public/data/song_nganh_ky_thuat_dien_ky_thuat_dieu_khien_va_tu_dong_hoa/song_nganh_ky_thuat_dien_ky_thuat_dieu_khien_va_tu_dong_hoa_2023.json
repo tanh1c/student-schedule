@@ -1,0 +1,626 @@
+[
+  {
+    "id": "MT1003",
+    "code": "MT1003",
+    "name": "Giải tích 1",
+    "credits": "4",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "MT1005",
+    "code": "MT1005",
+    "name": "Giải tích 2",
+    "credits": "4",
+    "prerequisites": "MT1003(KN)",
+    "note": ""
+  },
+  {
+    "id": "MT1007",
+    "code": "MT1007",
+    "name": "Đại số tuyến tính",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "MT2013",
+    "code": "MT2013",
+    "name": "Xác suất và thống kê",
+    "credits": "4",
+    "prerequisites": "MT1003(KN) MT1007(KN)",
+    "note": ""
+  },
+  {
+    "id": "CH1003",
+    "code": "CH1003",
+    "name": "Hóa đại cương",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PH1003",
+    "code": "PH1003",
+    "name": "Vật lý 1",
+    "credits": "4",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PH1007",
+    "code": "PH1007",
+    "name": "Thí nghiệm vật lý",
+    "credits": "1",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "EE1007",
+    "code": "EE1007",
+    "name": "Vật lý bán dẫn",
+    "credits": "4",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "MT1009",
+    "code": "MT1009",
+    "name": "Phương pháp tính",
+    "credits": "3",
+    "prerequisites": "MT1003(KN) MT1007(KN)",
+    "note": ""
+  },
+  {
+    "id": "SP1007",
+    "code": "SP1007",
+    "name": "Pháp luật Việt Nam đại cương",
+    "credits": "2",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "SP1031",
+    "code": "SP1031",
+    "name": "Triết học Mác - Lênin",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "SP1033",
+    "code": "SP1033",
+    "name": "Kinh tế chính trị Mác - Lênin",
+    "credits": "2",
+    "prerequisites": "SP1031(KN)",
+    "note": ""
+  },
+  {
+    "id": "SP1035",
+    "code": "SP1035",
+    "name": "Chủ nghĩa xã hội khoa học",
+    "credits": "2",
+    "prerequisites": "SP1033(KN)",
+    "note": ""
+  },
+  {
+    "id": "SP1037",
+    "code": "SP1037",
+    "name": "Tư tưởng Hồ Chí Minh",
+    "credits": "2",
+    "prerequisites": "SP1039(KN)",
+    "note": ""
+  },
+  {
+    "id": "SP1039",
+    "code": "SP1039",
+    "name": "Lịch sử Đảng Cộng sản Việt Nam",
+    "credits": "2",
+    "prerequisites": "SP1035(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE1001",
+    "code": "EE1001",
+    "name": "Nhập môn về kỹ thuật",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM1013",
+    "code": "IM1013",
+    "name": "Kinh tế học đại cương",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM1023",
+    "code": "IM1023",
+    "name": "Quản lý sản xuất cho kỹ sư",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM1025",
+    "code": "IM1025",
+    "name": "Quản lý dự án cho kỹ sư",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM1027",
+    "code": "IM1027",
+    "name": "Kinh tế kỹ thuật",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM3001",
+    "code": "IM3001",
+    "name": "Quản trị kinh doanh cho kỹ sư",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "EN1003",
+    "code": "EN1003",
+    "name": "Con người và môi trường",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "LA1003",
+    "code": "LA1003",
+    "name": "Anh văn 1",
+    "credits": "2",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "LA1005",
+    "code": "LA1005",
+    "name": "Anh văn 2",
+    "credits": "2",
+    "prerequisites": "LA1003(TQ)",
+    "note": ""
+  },
+  {
+    "id": "LA1007",
+    "code": "LA1007",
+    "name": "Anh văn 3",
+    "credits": "2",
+    "prerequisites": "LA1005(TQ)",
+    "note": ""
+  },
+  {
+    "id": "LA1009",
+    "code": "LA1009",
+    "name": "Anh văn 4",
+    "credits": "2",
+    "prerequisites": "LA1007(TQ)",
+    "note": ""
+  },
+  {
+    "id": "EE2003",
+    "code": "EE2003",
+    "name": "Trường điện từ",
+    "credits": "3",
+    "prerequisites": "EE2033(KN) MT1005(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE2005",
+    "code": "EE2005",
+    "name": "Tín hiệu và hệ thống",
+    "credits": "3",
+    "prerequisites": "EE2033(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE1009",
+    "code": "EE1009",
+    "name": "Kỹ thuật số",
+    "credits": "3",
+    "prerequisites": "EE1007(KN) EE2033(SH)",
+    "note": ""
+  },
+  {
+    "id": "EE2009",
+    "code": "EE2009",
+    "name": "Hệ thống máy tính và ngôn ngữ lập trình",
+    "credits": "3",
+    "prerequisites": "MT1009(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE2017",
+    "code": "EE2017",
+    "name": "Cơ sở kỹ thuật điện",
+    "credits": "3",
+    "prerequisites": "EE2033(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE2019",
+    "code": "EE2019",
+    "name": "Cơ sở điều khiển tự động",
+    "credits": "3",
+    "prerequisites": "EE2033(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE2021",
+    "code": "EE2021",
+    "name": "Cơ sở điện tử công suất",
+    "credits": "3",
+    "prerequisites": "EE2033(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE2023",
+    "code": "EE2023",
+    "name": "Thực tập điện tử 1",
+    "credits": "1",
+    "prerequisites": "EE2033(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE2025",
+    "code": "EE2025",
+    "name": "Thực tập điện 1",
+    "credits": "1",
+    "prerequisites": "EE2033(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE2033",
+    "code": "EE2033",
+    "name": "Giải tích mạch",
+    "credits": "3",
+    "prerequisites": "MT1005(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE2035",
+    "code": "EE2035",
+    "name": "Mạch điện tử",
+    "credits": "3",
+    "prerequisites": "EE1007(KN) EE2033(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE2039",
+    "code": "EE2039",
+    "name": "Vi xử lý",
+    "credits": "3",
+    "prerequisites": "EE1009(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE2051",
+    "code": "EE2051",
+    "name": "Thực tập điện 2",
+    "credits": "1",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "EE2055",
+    "code": "EE2055",
+    "name": "Đồ án 1 (Kỹ thuật điện & KT Điều khiển và Tự động hóa)",
+    "credits": "1",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "EE3001",
+    "code": "EE3001",
+    "name": "Hệ thống cung cấp điện",
+    "credits": "3",
+    "prerequisites": "EE2017(KN) EE3013(SH)",
+    "note": ""
+  },
+  {
+    "id": "EE3009",
+    "code": "EE3009",
+    "name": "Máy điện",
+    "credits": "3",
+    "prerequisites": "EE2003(KN) EE2017(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE3013",
+    "code": "EE3013",
+    "name": "Giải tích hệ thống điện",
+    "credits": "3",
+    "prerequisites": "EE2033(KN) MT1009(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE3027",
+    "code": "EE3027",
+    "name": "Nhà máy điện và trạm biến áp",
+    "credits": "3",
+    "prerequisites": "EE2017(KN) EE3013(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE3097",
+    "code": "EE3097",
+    "name": "Kỹ thuật an toàn điện",
+    "credits": "3",
+    "prerequisites": "EE2033(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE3087",
+    "code": "EE3087",
+    "name": "Bảo vệ rơle trong hệ thống điện",
+    "credits": "3",
+    "prerequisites": "EE3013(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE3089",
+    "code": "EE3089",
+    "name": "Kỹ thuật cao áp",
+    "credits": "3",
+    "prerequisites": "EE3013(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE3091",
+    "code": "EE3091",
+    "name": "Vật liệu kỹ thuật điện",
+    "credits": "3",
+    "prerequisites": "EE2003(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE3093",
+    "code": "EE3093",
+    "name": "Vận hành và điều khiển hệ thống điện",
+    "credits": "3",
+    "prerequisites": "EE3013(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE3095",
+    "code": "EE3095",
+    "name": "Ổn định hệ thống điện",
+    "credits": "3",
+    "prerequisites": "EE3013(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE3099",
+    "code": "EE3099",
+    "name": "Kỹ thuật chiếu sáng",
+    "credits": "3",
+    "prerequisites": "EE2017(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE3101",
+    "code": "EE3101",
+    "name": "Kỹ thuật tiết kiệm và sử dụng hiệu quả điện năng",
+    "credits": "3",
+    "prerequisites": "EE2021(KN) EE3001(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE3131",
+    "code": "EE3131",
+    "name": "Hệ thống năng lượng xanh",
+    "credits": "3",
+    "prerequisites": "EE2017(KN) EE2021(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE3133",
+    "code": "EE3133",
+    "name": "Thiết bị điện trong phân phối điện",
+    "credits": "3",
+    "prerequisites": "EE2033(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE3135",
+    "code": "EE3135",
+    "name": "Kỹ thuật nhiệt lạnh",
+    "credits": "3",
+    "prerequisites": "EE2017(KN) PH1003(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE3139",
+    "code": "EE3139",
+    "name": "Cảm biến và đo lường",
+    "credits": "3",
+    "prerequisites": "EE2017(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE3143",
+    "code": "EE3143",
+    "name": "Điều khiển và ứng dụng các bộ biến đổi công suất",
+    "credits": "3",
+    "prerequisites": "EE2021(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE3145",
+    "code": "EE3145",
+    "name": "Kỹ thuật ra quyết định",
+    "credits": "3",
+    "prerequisites": "EE3001(KN) EE3013(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE3171",
+    "code": "EE3171",
+    "name": "IoT trong công nghiệp và dân dụng",
+    "credits": "3",
+    "prerequisites": "EE2017(KN) EE2039(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE3179",
+    "code": "EE3179",
+    "name": "Truyền động điện",
+    "credits": "3",
+    "prerequisites": "EE2021(KN) EE3009(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE3005",
+    "code": "EE3005",
+    "name": "Đo lường công nghiệp",
+    "credits": "3",
+    "prerequisites": "EE2035(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE3007",
+    "code": "EE3007",
+    "name": "Lý thuyết điều khiển nâng cao",
+    "credits": "3",
+    "prerequisites": "EE2019(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE3017",
+    "code": "EE3017",
+    "name": "Đo lường và điều khiển bằng máy tính",
+    "credits": "3",
+    "prerequisites": "EE1009(KN) EE2019(KN) EE2039(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE3029",
+    "code": "EE3029",
+    "name": "Thiết bị và hệ thống tự động",
+    "credits": "3",
+    "prerequisites": "EE2033(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE3065",
+    "code": "EE3065",
+    "name": "Kỹ thuật robot",
+    "credits": "3",
+    "prerequisites": "EE2019(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE3057",
+    "code": "EE3057",
+    "name": "Nhập môn điều khiển thông minh",
+    "credits": "3",
+    "prerequisites": "EE2019(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE3063",
+    "code": "EE3063",
+    "name": "Trí tuệ nhân tạo trong điều khiển",
+    "credits": "3",
+    "prerequisites": "EE2009(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE3067",
+    "code": "EE3067",
+    "name": "Hệ thống điều khiển nhúng",
+    "credits": "3",
+    "prerequisites": "EE2039(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE3069",
+    "code": "EE3069",
+    "name": "PLC",
+    "credits": "3",
+    "prerequisites": "EE2019(KN) EE2039(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE3071",
+    "code": "EE3071",
+    "name": "SCADA",
+    "credits": "3",
+    "prerequisites": "EE2009(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE3075",
+    "code": "EE3075",
+    "name": "Thiết bị và hệ thống tự động thủy khí",
+    "credits": "3",
+    "prerequisites": "EE2019(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE3077",
+    "code": "EE3077",
+    "name": "Thị giác máy",
+    "credits": "3",
+    "prerequisites": "EE2009(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE3079",
+    "code": "EE3079",
+    "name": "Điện tử công suất ứng dụng",
+    "credits": "3",
+    "prerequisites": "EE2021(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE3173",
+    "code": "EE3173",
+    "name": "Điều khiển chuyển động",
+    "credits": "3",
+    "prerequisites": "EE2019(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE3175",
+    "code": "EE3175",
+    "name": "Mô hình và mô phỏng hệ thống công nghiệp",
+    "credits": "3",
+    "prerequisites": "EE2019(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE4103",
+    "code": "EE4103",
+    "name": "Thực tập ngoài trường (Kỹ thuật điện & KT Điều khiển và Tự động hóa)",
+    "credits": "2",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "EE4115",
+    "code": "EE4115",
+    "name": "Đồ án 2 (Kỹ thuật điện & KT Điều khiển và Tự động hóa)",
+    "credits": "2",
+    "prerequisites": "EE4103(SH)",
+    "note": ""
+  },
+  {
+    "id": "EE4203",
+    "code": "EE4203",
+    "name": "Đồ án tốt nghiệp (Kỹ thuật điện & KT Điều khiển và Tự động hóa)",
+    "credits": "4",
+    "prerequisites": "EE4103(TQ) EE4115(TQ)",
+    "note": ""
+  }
+]

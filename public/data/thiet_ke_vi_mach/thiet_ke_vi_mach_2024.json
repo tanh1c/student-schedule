@@ -1,0 +1,658 @@
+[
+  {
+    "id": "MT1003",
+    "code": "MT1003",
+    "name": "Giải tích 1",
+    "credits": "4",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "MT1005",
+    "code": "MT1005",
+    "name": "Giải tích 2",
+    "credits": "4",
+    "prerequisites": "MT1003(KN)",
+    "note": ""
+  },
+  {
+    "id": "MT1007",
+    "code": "MT1007",
+    "name": "Đại số Tuyến tính",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "MT2013",
+    "code": "MT2013",
+    "name": "Xác suất và Thống kê",
+    "credits": "4",
+    "prerequisites": "MT1007(KN)",
+    "note": ""
+  },
+  {
+    "id": "CH1003",
+    "code": "CH1003",
+    "name": "Hóa đại cương",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PH1003",
+    "code": "PH1003",
+    "name": "Vật lý 1",
+    "credits": "4",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PH1007",
+    "code": "PH1007",
+    "name": "Thí nghiệm Vật lý",
+    "credits": "1",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "EE1007",
+    "code": "EE1007",
+    "name": "Vật lý Bán dẫn",
+    "credits": "4",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "MT1009",
+    "code": "MT1009",
+    "name": "Phương pháp tính",
+    "credits": "3",
+    "prerequisites": "MT1003(KN)",
+    "note": ""
+  },
+  {
+    "id": "SP1007",
+    "code": "SP1007",
+    "name": "Pháp luật Việt Nam Đại cương",
+    "credits": "2",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "SP1031",
+    "code": "SP1031",
+    "name": "Triết học Mác - Lênin",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "SP1033",
+    "code": "SP1033",
+    "name": "Kinh tế Chính trị Mác - Lênin",
+    "credits": "2",
+    "prerequisites": "SP1031(KN)",
+    "note": ""
+  },
+  {
+    "id": "SP1035",
+    "code": "SP1035",
+    "name": "Chủ nghĩa Xã hội Khoa học",
+    "credits": "2",
+    "prerequisites": "SP1033(KN)",
+    "note": ""
+  },
+  {
+    "id": "SP1037",
+    "code": "SP1037",
+    "name": "Tư tưởng Hồ Chí Minh",
+    "credits": "2",
+    "prerequisites": "SP1039(KN)",
+    "note": ""
+  },
+  {
+    "id": "SP1039",
+    "code": "SP1039",
+    "name": "Lịch sử Đảng Cộng sản Việt Nam",
+    "credits": "2",
+    "prerequisites": "SP1035(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE1001",
+    "code": "EE1001",
+    "name": "Nhập môn Về kỹ Thuật",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "LA1003",
+    "code": "LA1003",
+    "name": "Anh văn 1",
+    "credits": "2",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "LA1005",
+    "code": "LA1005",
+    "name": "Anh văn 2",
+    "credits": "2",
+    "prerequisites": "LA1003(TQ)",
+    "note": ""
+  },
+  {
+    "id": "LA1007",
+    "code": "LA1007",
+    "name": "Anh văn 3",
+    "credits": "2",
+    "prerequisites": "LA1005(TQ)",
+    "note": ""
+  },
+  {
+    "id": "LA1009",
+    "code": "LA1009",
+    "name": "Anh văn 4",
+    "credits": "2",
+    "prerequisites": "LA1007(TQ)",
+    "note": ""
+  },
+  {
+    "id": "EE1009",
+    "code": "EE1009",
+    "name": "Kỹ thuật số",
+    "credits": "3",
+    "prerequisites": "EE2031(KN) EE1007(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE2003",
+    "code": "EE2003",
+    "name": "Trường điện từ",
+    "credits": "3",
+    "prerequisites": "MT1013(KN) MT1005(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE2081",
+    "code": "EE2081",
+    "name": "Ngôn ngữ lập trình",
+    "credits": "3",
+    "prerequisites": "MT1009(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE2005",
+    "code": "EE2005",
+    "name": "Tín hiệu và Hệ thống",
+    "credits": "3",
+    "prerequisites": "EE2031(KN) EE2033(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE2035",
+    "code": "EE2035",
+    "name": "Mạch điện tử",
+    "credits": "3",
+    "prerequisites": "EE2033(TQ) EE1007(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE2033",
+    "code": "EE2033",
+    "name": "Giải tích mạch",
+    "credits": "3",
+    "prerequisites": "MT1005(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE2015",
+    "code": "EE2015",
+    "name": "Xử lý số Tín hiệu",
+    "credits": "3",
+    "prerequisites": "EE2005(SHT)",
+    "note": "x"
+  },
+  {
+    "id": "EE2039",
+    "code": "EE2039",
+    "name": "Vi xử lý",
+    "credits": "3",
+    "prerequisites": "EE1009(SHT)",
+    "note": "x"
+  },
+  {
+    "id": "EE3201",
+    "code": "EE3201",
+    "name": "Cơ sở thiết kế vi mạch",
+    "credits": "3",
+    "prerequisites": "EE1009(TQ) EE2035(KN)",
+    "note": "x"
+  },
+  {
+    "id": "EE2023",
+    "code": "EE2023",
+    "name": "Thực tập Điện tử 1",
+    "credits": "1",
+    "prerequisites": "EE2033(KN)",
+    "note": "x"
+  },
+  {
+    "id": "EE2025",
+    "code": "EE2025",
+    "name": "Thực tập Điện 1",
+    "credits": "1",
+    "prerequisites": "EE2033(KN)",
+    "note": "x"
+  },
+  {
+    "id": "EE3021",
+    "code": "EE3021",
+    "name": "Thực tập Điện tử 2",
+    "credits": "1",
+    "prerequisites": "EE2023(KN)",
+    "note": "x"
+  },
+  {
+    "id": "EE3211",
+    "code": "EE3211",
+    "name": "Đồ án 1 (Thiết kế vi mạch)",
+    "credits": "1",
+    "prerequisites": "EE3205(KN) EE3203(KN) EE3201(KN) EE2039(KN) EE2035(TQ)",
+    "note": ""
+  },
+  {
+    "id": "EE3203",
+    "code": "EE3203",
+    "name": "Kiến trúc máy tính",
+    "credits": "3",
+    "prerequisites": "EE2081(KN) EE1009(TQ)",
+    "note": "x"
+  },
+  {
+    "id": "EE3205",
+    "code": "EE3205",
+    "name": "Mạch điện tử nâng cao",
+    "credits": "3",
+    "prerequisites": "EE2033(KN) EE2035(TQ)",
+    "note": "x"
+  },
+  {
+    "id": "EE3117",
+    "code": "EE3117",
+    "name": "Thiết kế Vi mạch số",
+    "credits": "3",
+    "prerequisites": "EE3201(KN) EE3165(KN) EE4051(KN) EE1009(TQ)",
+    "note": "x"
+  },
+  {
+    "id": "EE3025",
+    "code": "EE3025",
+    "name": "Kỹ thuật Siêu cao tần",
+    "credits": "3",
+    "prerequisites": "EE2035(TQ) EE2003(TQ)",
+    "note": "x"
+  },
+  {
+    "id": "EE3207",
+    "code": "EE3207",
+    "name": "Thiết kế vi mạch tương tự",
+    "credits": "3",
+    "prerequisites": "EE3201(KN) EE2035(TQ)",
+    "note": "x"
+  },
+  {
+    "id": "EE3209",
+    "code": "EE3209",
+    "name": "Thực tập ngoài trường (Thiết kế vi mạch)",
+    "credits": "2",
+    "prerequisites": "EE3205(KN) EE3203(KN) EE3201(KN) EE3211(SHT)",
+    "note": "x"
+  },
+  {
+    "id": "EE4345",
+    "code": "EE4345",
+    "name": "Đồ án 2 (Thiết kế vi mạch)",
+    "credits": "2",
+    "prerequisites": "EE3207(KN) EE3117(KN) EE3211(TQ) EE3209(SHT) EE3201(TQ)",
+    "note": "x"
+  },
+  {
+    "id": "EE4349",
+    "code": "EE4349",
+    "name": "Đồ án tốt nghiệp (Thiết kế vi mạch)",
+    "credits": "4",
+    "prerequisites": "EE3209(TQ) EE4345(TQ)",
+    "note": "x"
+  },
+  {
+    "id": "EE3041",
+    "code": "EE3041",
+    "name": "Xử lý Tín hiệu số với FPGA",
+    "credits": "3",
+    "prerequisites": "EE2015(TQ) EE1009(TQ)",
+    "note": ""
+  },
+  {
+    "id": "EE3213",
+    "code": "EE3213",
+    "name": "Thiết kế và kiểm định hệ thống số",
+    "credits": "3",
+    "prerequisites": "EE3203(KN) EE1009(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE3215",
+    "code": "EE3215",
+    "name": "Thiết kế hệ thống trên chip",
+    "credits": "3",
+    "prerequisites": "EE3203(KN) EE2039(KN) EE1009(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE3217",
+    "code": "EE3217",
+    "name": "Trí tuệ nhân tạo trong thiết kế vi mạch",
+    "credits": "3",
+    "prerequisites": "EE3201(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE3219",
+    "code": "EE3219",
+    "name": "Máy tính lượng tử",
+    "credits": "3",
+    "prerequisites": "EE3201(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE3221",
+    "code": "EE3221",
+    "name": "Thông tin số",
+    "credits": "3",
+    "prerequisites": "EE2005(TQ)",
+    "note": ""
+  },
+  {
+    "id": "EE3223",
+    "code": "EE3223",
+    "name": "Vi mạch thông tin",
+    "credits": "3",
+    "prerequisites": "EE3025(SHT) EE2035(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE3225",
+    "code": "EE3225",
+    "name": "Tương thích điện từ",
+    "credits": "3",
+    "prerequisites": "EE2003(KN)",
+    "note": ""
+  },
+  {
+    "id": "EE3227",
+    "code": "EE3227",
+    "name": "Chuyên đề thiết kế vi mạch",
+    "credits": "3",
+    "prerequisites": "EE3201(KN)",
+    "note": ""
+  },
+  {
+    "id": "IM1023",
+    "code": "IM1023",
+    "name": "Quản lý Sản xuất cho Kỹ sư",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM1025",
+    "code": "IM1025",
+    "name": "Quản lý Dự án cho Kỹ sư",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM3001",
+    "code": "IM3001",
+    "name": "Quản trị Kinh doanh cho Kỹ sư",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM1031",
+    "code": "IM1031",
+    "name": "Khởi nghiệp và đổi mới sáng tạo",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "EN1003",
+    "code": "EN1003",
+    "name": "Con người và Môi trường",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "ME1019",
+    "code": "ME1019",
+    "name": "Quản lý năng suất và chất lượng",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "MI1003",
+    "code": "MI1003",
+    "name": "Giáo dục Quốc phòng",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1009",
+    "code": "PE1009",
+    "name": "Bóng đá (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1011",
+    "code": "PE1011",
+    "name": "Bóng chuyền (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1013",
+    "code": "PE1013",
+    "name": "Bóng bàn (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1021",
+    "code": "PE1021",
+    "name": "Aerobic (học Phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1015",
+    "code": "PE1015",
+    "name": "Bóng rổ (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1017",
+    "code": "PE1017",
+    "name": "Cầu lông (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1025",
+    "code": "PE1025",
+    "name": "Điền kinh (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1019",
+    "code": "PE1019",
+    "name": "Bơi (học Phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1027",
+    "code": "PE1027",
+    "name": "Quần vợt (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1053",
+    "code": "PE1053",
+    "name": "Cờ vua (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1057",
+    "code": "PE1057",
+    "name": "Bowling (học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1061",
+    "code": "PE1061",
+    "name": "Pickleball (học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1037",
+    "code": "PE1037",
+    "name": "Bóng bàn (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1041",
+    "code": "PE1041",
+    "name": "Cầu lông (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1033",
+    "code": "PE1033",
+    "name": "Bóng đá (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1045",
+    "code": "PE1045",
+    "name": "Aerobic (học Phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1043",
+    "code": "PE1043",
+    "name": "Bơi (học Phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1039",
+    "code": "PE1039",
+    "name": "Bóng rổ (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1035",
+    "code": "PE1035",
+    "name": "Bóng chuyền (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1049",
+    "code": "PE1049",
+    "name": "Điền kinh (học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1051",
+    "code": "PE1051",
+    "name": "Quần vợt (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1055",
+    "code": "PE1055",
+    "name": "Cờ vua (học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1063",
+    "code": "PE1063",
+    "name": "Pickleball (học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1059",
+    "code": "PE1059",
+    "name": "Bowling (học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "SA4001",
+    "code": "SA4001",
+    "name": "Hoạt động sinh viên",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  }
+]

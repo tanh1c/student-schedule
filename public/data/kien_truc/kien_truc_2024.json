@@ -1,0 +1,650 @@
+[
+  {
+    "id": "MT1003",
+    "code": "MT1003",
+    "name": "Giải tích 1",
+    "credits": "4",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "MT1007",
+    "code": "MT1007",
+    "name": "Đại số Tuyến tính",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PH1003",
+    "code": "PH1003",
+    "name": "Vật lý 1",
+    "credits": "4",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "MT1005",
+    "code": "MT1005",
+    "name": "Giải tích 2",
+    "credits": "4",
+    "prerequisites": "MT1003(KN)",
+    "note": ""
+  },
+  {
+    "id": "CI1069",
+    "code": "CI1069",
+    "name": "Khoa học Trái đất",
+    "credits": "4",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "MT2013",
+    "code": "MT2013",
+    "name": "Xác suất và Thống kê",
+    "credits": "4",
+    "prerequisites": "MT1007(KN)",
+    "note": ""
+  },
+  {
+    "id": "CH1003",
+    "code": "CH1003",
+    "name": "Hóa đại cương",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PH1007",
+    "code": "PH1007",
+    "name": "Thí nghiệm Vật lý",
+    "credits": "1",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "MT1009",
+    "code": "MT1009",
+    "name": "Phương pháp tính",
+    "credits": "3",
+    "prerequisites": "MT1003(KN)",
+    "note": ""
+  },
+  {
+    "id": "SP1007",
+    "code": "SP1007",
+    "name": "Pháp luật Việt Nam Đại cương",
+    "credits": "2",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "SP1031",
+    "code": "SP1031",
+    "name": "Triết học Mác - Lênin",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "SP1033",
+    "code": "SP1033",
+    "name": "Kinh tế Chính trị Mác - Lênin",
+    "credits": "2",
+    "prerequisites": "SP1031(KN)",
+    "note": ""
+  },
+  {
+    "id": "SP1035",
+    "code": "SP1035",
+    "name": "Chủ nghĩa Xã hội Khoa học",
+    "credits": "2",
+    "prerequisites": "SP1033(KN)",
+    "note": ""
+  },
+  {
+    "id": "SP1039",
+    "code": "SP1039",
+    "name": "Lịch sử Đảng Cộng sản Việt Nam",
+    "credits": "2",
+    "prerequisites": "SP1035(KN)",
+    "note": ""
+  },
+  {
+    "id": "SP1037",
+    "code": "SP1037",
+    "name": "Tư tưởng Hồ Chí Minh",
+    "credits": "2",
+    "prerequisites": "SP1039(KN)",
+    "note": ""
+  },
+  {
+    "id": "PE1011",
+    "code": "PE1011",
+    "name": "Bóng chuyền (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1057",
+    "code": "PE1057",
+    "name": "Bowling (học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1061",
+    "code": "PE1061",
+    "name": "Pickleball (học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1013",
+    "code": "PE1013",
+    "name": "Bóng bàn (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1015",
+    "code": "PE1015",
+    "name": "Bóng rổ (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1017",
+    "code": "PE1017",
+    "name": "Cầu lông (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1019",
+    "code": "PE1019",
+    "name": "Bơi (học Phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1021",
+    "code": "PE1021",
+    "name": "Aerobic (học Phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1025",
+    "code": "PE1025",
+    "name": "Điền kinh (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1027",
+    "code": "PE1027",
+    "name": "Quần vợt (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1053",
+    "code": "PE1053",
+    "name": "Cờ vua (Học phần 1)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1035",
+    "code": "PE1035",
+    "name": "Bóng chuyền (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1059",
+    "code": "PE1059",
+    "name": "Bowling (học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1063",
+    "code": "PE1063",
+    "name": "Pickleball (học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1037",
+    "code": "PE1037",
+    "name": "Bóng bàn (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1039",
+    "code": "PE1039",
+    "name": "Bóng rổ (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1041",
+    "code": "PE1041",
+    "name": "Cầu lông (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1043",
+    "code": "PE1043",
+    "name": "Bơi (học Phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1045",
+    "code": "PE1045",
+    "name": "Aerobic (học Phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1049",
+    "code": "PE1049",
+    "name": "Điền kinh (học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1051",
+    "code": "PE1051",
+    "name": "Quần vợt (Học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "PE1055",
+    "code": "PE1055",
+    "name": "Cờ vua (học phần 2)",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "MI1003",
+    "code": "MI1003",
+    "name": "Giáo dục Quốc phòng",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "LA1003",
+    "code": "LA1003",
+    "name": "Anh văn 1",
+    "credits": "2",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "LA1005",
+    "code": "LA1005",
+    "name": "Anh văn 2",
+    "credits": "2",
+    "prerequisites": "LA1003(TQ)",
+    "note": ""
+  },
+  {
+    "id": "LA1007",
+    "code": "LA1007",
+    "name": "Anh văn 3",
+    "credits": "2",
+    "prerequisites": "LA1005(TQ)",
+    "note": ""
+  },
+  {
+    "id": "LA1009",
+    "code": "LA1009",
+    "name": "Anh văn 4",
+    "credits": "2",
+    "prerequisites": "LA1007(TQ)",
+    "note": ""
+  },
+  {
+    "id": "EN1003",
+    "code": "EN1003",
+    "name": "Con người và Môi trường",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "IM1031",
+    "code": "IM1031",
+    "name": "Khởi nghiệp và đổi mới sáng tạo",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "ME1019",
+    "code": "ME1019",
+    "name": "Quản lý năng suất và chất lượng",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CI3289",
+    "code": "CI3289",
+    "name": "Lãnh đạo và Khởi nghiệp",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CI3291",
+    "code": "CI3291",
+    "name": "Lãnh đạo và Quản Lý Dự án",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CI1065",
+    "code": "CI1065",
+    "name": "Nhập môn Kiến trúc",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CI1067",
+    "code": "CI1067",
+    "name": "Vẽ kỹ thuật Kiến trúc",
+    "credits": "3",
+    "prerequisites": "CI1065(HT)",
+    "note": ""
+  },
+  {
+    "id": "CI2097",
+    "code": "CI2097",
+    "name": "Nguyên lý Thiết kế Kiến trúc Công trình Dân dụng",
+    "credits": "4",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CI2111",
+    "code": "CI2111",
+    "name": "Bố cục Tạo hình trong kiến trúc",
+    "credits": "3",
+    "prerequisites": "CI1067(SHT)",
+    "note": ""
+  },
+  {
+    "id": "CI2101",
+    "code": "CI2101",
+    "name": "Đồ án Thiết kế Cơ sở Kiến trúc",
+    "credits": "2",
+    "prerequisites": "CI1067(HT)",
+    "note": ""
+  },
+  {
+    "id": "CI2105",
+    "code": "CI2105",
+    "name": "Thiết kế Kỹ thuật Kiến trúc Công trình Dân dụng",
+    "credits": "3",
+    "prerequisites": "CI1067(HT)",
+    "note": ""
+  },
+  {
+    "id": "CI2103",
+    "code": "CI2103",
+    "name": "Nguyên lý Thiết kế Kiến trúc Công trình nhà ở",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CI2107",
+    "code": "CI2107",
+    "name": "Thiết kế Kiến trúc 1 - Công trình Công cộng",
+    "credits": "3",
+    "prerequisites": "CI2097(HT)",
+    "note": ""
+  },
+  {
+    "id": "CI2099",
+    "code": "CI2099",
+    "name": "Lịch sử Kiến trúc và Định Cư",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CI3273",
+    "code": "CI3273",
+    "name": "Thiết kế Kiến trúc II - Công trình Chung cư",
+    "credits": "3",
+    "prerequisites": "CI2103(HT)",
+    "note": ""
+  },
+  {
+    "id": "CI3293",
+    "code": "CI3293",
+    "name": "Kỹ thuật công trình dân dụng",
+    "credits": "4",
+    "prerequisites": "CI2097(SHT)",
+    "note": ""
+  },
+  {
+    "id": "CI2123",
+    "code": "CI2123",
+    "name": "Phân tích địa điểm và kiến tạo nơi chốn",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CI2115",
+    "code": "CI2115",
+    "name": "Nguyên lý Quy hoạch và Thiết kế Đô thị",
+    "credits": "3",
+    "prerequisites": "CI2123(SHT)",
+    "note": ""
+  },
+  {
+    "id": "CI3249",
+    "code": "CI3249",
+    "name": "Thực tập Di sản Kiến trúc và Đô thị",
+    "credits": "2",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CI2143",
+    "code": "CI2143",
+    "name": "Viễn thám",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CI2045",
+    "code": "CI2045",
+    "name": "Hệ thống Thông tin Địa lý",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CI3301",
+    "code": "CI3301",
+    "name": "Đo vẽ Địa hình",
+    "credits": "3",
+    "prerequisites": "CI1007(HT)",
+    "note": ""
+  },
+  {
+    "id": "CI3013",
+    "code": "CI3013",
+    "name": "Thủy văn Đô thị",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CI3265",
+    "code": "CI3265",
+    "name": "Kỹ thuật Hạ tầng Đô thị",
+    "credits": "3",
+    "prerequisites": "CI2137(HT)",
+    "note": ""
+  },
+  {
+    "id": "CI4129",
+    "code": "CI4129",
+    "name": "Kinh tế Xây dựng",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CI3285",
+    "code": "CI3285",
+    "name": "Nguyên lý Thiết kế Kiến trúc và Kỹ thuật Công trình Công nghiệ",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CI3279",
+    "code": "CI3279",
+    "name": "Thiết kế Kiến trúc III - Công trình Công nghiệp",
+    "credits": "3",
+    "prerequisites": "CI3285(SHT)",
+    "note": ""
+  },
+  {
+    "id": "CI3269",
+    "code": "CI3269",
+    "name": "Sức bền Vật liệu",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CI4177",
+    "code": "CI4177",
+    "name": "Thiết kế IV - Công trình Phức hợp",
+    "credits": "4",
+    "prerequisites": "CI2107(HT) CI2097(HT)",
+    "note": ""
+  },
+  {
+    "id": "CI3163",
+    "code": "CI3163",
+    "name": "Phân tích Thiết kế Kết cấu",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CI3287",
+    "code": "CI3287",
+    "name": "Nguyên lý Thiết kế Kiến trúc Cảnh quan",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CI3295",
+    "code": "CI3295",
+    "name": "Thiết kế III - trục cảnh quan đô thị",
+    "credits": "3",
+    "prerequisites": "CI3287(HT)",
+    "note": ""
+  },
+  {
+    "id": "CI4205",
+    "code": "CI4205",
+    "name": "Cảm thụ cảnh quan",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CI4207",
+    "code": "CI4207",
+    "name": "Thiết kế IV - cảnh quan đô thị",
+    "credits": "4",
+    "prerequisites": "CI3287(SHT)",
+    "note": ""
+  },
+  {
+    "id": "CI4209",
+    "code": "CI4209",
+    "name": "Xu hướng kiến trúc cảnh quan đương đại",
+    "credits": "3",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CI3485",
+    "code": "CI3485",
+    "name": "Thực tập Ngoài trường",
+    "credits": "2",
+    "prerequisites": "",
+    "note": ""
+  },
+  {
+    "id": "CI4235",
+    "code": "CI4235",
+    "name": "Đồ án chuyên ngành",
+    "credits": "2",
+    "prerequisites": "CI3485(SHT)",
+    "note": ""
+  },
+  {
+    "id": "CI4487",
+    "code": "CI4487",
+    "name": "Đồ án Tốt nghiệp",
+    "credits": "4",
+    "prerequisites": "CI4235(TQ) C13485(TQ)",
+    "note": ""
+  },
+  {
+    "id": "SA4001",
+    "code": "SA4001",
+    "name": "Hoạt động sinh viên",
+    "credits": "0",
+    "prerequisites": "",
+    "note": ""
+  }
+]

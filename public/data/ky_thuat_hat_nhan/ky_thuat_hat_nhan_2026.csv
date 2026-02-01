@@ -1,0 +1,57 @@
+id,code,name,credits,prerequisites,note
+MT2013,MT2013,Xác suất và Thống kê,4,MT1007(KN),
+AS2073,AS2073,Phương pháp tính và mô phỏng trong Kỹ thuật hạt nhân,3,,X
+MT1007,MT1007,Đại số Tuyến tính,3,,
+MT1005,MT1005,Giải tích 2,4,MT1003(KN),
+MT1003,MT1003,Giải tích 1,4,,
+CH1003,CH1003,Hóa đại cương,3,,
+PH1007,PH1007,Thí nghiệm Vật lý,1,,
+PH1005,PH1005,Vật lý 2,4,PH1003(KN),
+PH1003,PH1003,Vật lý 1,4,,
+SP1007,SP1007,Pháp luật Việt Nam Đại cương,2,,
+SP1039,SP1039,Lịch sử Đảng Cộng sản Việt Nam,2,SP1035(KN),
+SP1037,SP1037,Tư tưởng Hồ Chí Minh,2,SP1039(KN),
+SP1035,SP1035,Chủ nghĩa Xã hội Khoa học,2,SP1033(KN),
+SP1031,SP1031,Triết học Mác - Lênin,3,,
+SP1033,SP1033,Kinh tế Chính trị Mác - Lênin,2,SP1031(KN),
+AS1001,AS1001,Nhập môn Về kỹ thuật,3,,
+IM3107,IM3107,Khởi nghiệp và đổi mới sáng tạo,3,,
+IM1025,IM1025,Quản lý Dự án cho Kỹ sư,3,,
+IM1023,IM1023,Quản lý Sản xuất cho Kỹ sư,3,,
+IM1027,IM1027,Kinh tế Kỹ thuật,3,,
+IM3001,IM3001,Quản trị Kinh doanh cho Kỹ sư,3,,
+IM1013,IM1013,Kinh tế học Đại cương,3,,
+EN1003,EN1003,Con người và Môi trường,3,,
+LA1009,LA1009,Anh văn 4,2,LA1007(TQ),
+LA1007,LA1007,Anh văn 3,2,LA1005(TQ),
+LA1005,LA1005,Anh văn 2,2,LA1003(TQ),
+LA1003,LA1003,Anh văn 1,2,,
+AS2085,AS2085,Đồ án Thiết kế cơ sở,1,,X
+AS3203,AS3203,Ứng dụng kỹ thuật hạt nhân trong công nghiệp và y khoa,3,,X
+AS2079,AS2079,Thực tập cơ sở kỹ thuật hạt nhân,1,,X
+EE2019,EE2019,Cơ sở Điều khiển Tự động,3,EE2011(KN) EE2031(KN) EE2033(KN),X
+AS2077,AS2077,Đo lường và an toàn bức xạ ion hóa,3,,X
+AS3201,AS3201,Vật lý neutron và cơ sở lò phản ứng,3,,X
+EE2011,EE2011,Kỹ thuật Điện - Điện tử,3,MT1005(KN) PH1005(KN),X
+ME2013,ME2013,Nhiệt động lực học và Truyền nhiệt,3,,X
+AS2075,AS2075,Cơ học lượng tử Vật lý nguyên tử và Vật lý hạt nhân nâng cao,4,,X
+CI2003,CI2003,Cơ lưu chất,3,,
+CI1003,CI1003,Vẽ kỹ thuật,3,,
+EE3391,EE3391,Hệ thống điện,3,AS2073(KN),X
+AS4023,AS4023,Vật liệu và nhiên liệu hạt nhân,3,,X
+ME3807,ME3807,Lò hơi nhà máy điện hạt nhân,3,,X
+EE4351,EE4351,Hệ thống giám sát điều khiển và quản lý hệ thống điện,3,EE3391(KN),X
+ME4731,ME4731,Nhà máy nhiệt điện điện hạt nhân,3,,X
+AS2081,AS2081,Điện tử hạt nhân cảm biến và đo lường,3,,X
+ME4305,ME4305,Tuabin hơi và tuabin khí,3,,
+AS3211,AS3211,Kỹ thuật phân tích hạt nhân,3,,
+AS3209,AS3209,Thu hồi và Lưu trữ Nguồn Phóng Xạ,3,,
+AS3207,AS3207,Máy gia tốc,3,,
+AS3205,AS3205,Phân tích an toàn lò phản ứng hạt nhân,3,,
+ME3809,ME3809,Quản lý và Sử dụng hiệu quả năng lượng,3,,
+AS4353,AS4353,Đồ án tốt nghiệp,4,AS2079(TQ) AS4351(TQ) AS3347(TQ) AS2085(TQ),X
+AS3347,AS3347,Thực tập ngoài trường,2,,X
+AS4351,AS4351,Đồ án Chuyên ngành,2,,X
+MI1003,MI1003,Giáo dục Quốc phòng,0,,
+ENG_GC_600,ENG_GC_600,Điều kiện tiếng Anh tốt nghiệp,0,,
+SA4001,SA4001,Hoạt động sinh viên,0,,

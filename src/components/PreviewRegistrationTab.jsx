@@ -237,17 +237,6 @@ function PreviewRegistrationTab() {
 
   return (
     <div className="p-3 md:p-6 max-w-[1600px] mx-auto space-y-4 md:space-y-6">
-      {/* Header */}
-      <div className="flex items-center gap-3">
-        <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
-          <Eye className="h-5 w-5 text-primary" />
-        </div>
-        <div>
-          <h2 className="text-xl font-bold">Preview đăng ký môn</h2>
-          <p className="text-sm text-muted-foreground">Xem trước thời khóa biểu khi đăng ký</p>
-        </div>
-      </div>
-
       {/* Info Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Card>

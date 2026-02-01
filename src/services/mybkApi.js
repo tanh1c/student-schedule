@@ -10,6 +10,14 @@ const API_BASE = '/api';
 const TOKEN_KEY = 'mybk_auth_token';
 const USER_KEY = 'mybk_user_data';
 
+// Cache for student info to avoid repeated API calls
+let studentInfoCache = {
+    data: null,
+    timestamp: 0,
+    promise: null  // For deduplicating concurrent requests
+};
+const STUDENT_INFO_CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+
 /**
  * Get stored auth token
  */
@@ -59,7 +67,12 @@ export async function login(username, password) {
             return { success: true, user: data.user };
         }
 
-        return { success: false, error: data.error || 'Đăng nhập thất bại' };
+        // Return code if present (e.g., MAX_SESSIONS_REACHED)
+        return {
+            success: false,
+            error: data.error || 'Đăng nhập thất bại',
+            code: data.code || null
+        };
     } catch (error) {
         console.error('Login error:', error);
         return { success: false, error: 'Không thể kết nối đến server' };
@@ -86,46 +99,85 @@ export async function logout() {
     // Clear local storage
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(USER_KEY);
+
+    // Clear cache (defined below, accessed via hoisting)
+    studentInfoCache = { data: null, timestamp: 0, promise: null };
 }
 
 /**
- * Get student info
+ * Clear student info cache (call on logout or when data changes)
+ */
+export function clearStudentInfoCache() {
+    studentInfoCache = { data: null, timestamp: 0, promise: null };
+}
+
+/**
+ * Get student info with caching
+ * @param {boolean} forceRefresh - Force refresh from API
  * @returns {Promise<{success: boolean, data?: object, error?: string}>}
  */
-export async function getStudentInfo() {
+export async function getStudentInfo(forceRefresh = false) {
     const token = getAuthToken();
 
     if (!token) {
         return { success: false, error: 'Chưa đăng nhập' };
     }
 
-    try {
-        const response = await fetch(`${API_BASE}/student/info`, {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            },
-        });
+    const now = Date.now();
 
-        if (response.status === 401) {
-            // Token expired, clear storage
-            logout();
-            return { success: false, error: 'Phiên đăng nhập đã hết hạn' };
-        }
-
-        const data = await response.json();
-
-        if (response.ok) {
-            const studentData = data.data || data;
-            // Save to localStorage so other components can access
-            localStorage.setItem(USER_KEY, JSON.stringify(studentData));
-            return { success: true, data: studentData };
-        }
-
-        return { success: false, error: data.error || 'Không thể lấy thông tin sinh viên' };
-    } catch (error) {
-        console.error('Get student info error:', error);
-        return { success: false, error: 'Không thể kết nối đến server' };
+    // Return cached data if valid and not forcing refresh
+    if (!forceRefresh && studentInfoCache.data && (now - studentInfoCache.timestamp) < STUDENT_INFO_CACHE_TTL) {
+        console.log('[Cache] Using cached student info');
+        return { success: true, data: studentInfoCache.data };
     }
+
+    // If there's already a request in progress, wait for it
+    if (studentInfoCache.promise) {
+        console.log('[Cache] Waiting for pending student info request');
+        return studentInfoCache.promise;
+    }
+
+    // Create new request
+    studentInfoCache.promise = (async () => {
+        try {
+            const response = await fetch(`${API_BASE}/student/info`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+
+            if (response.status === 401) {
+                // Token expired, clear storage
+                logout();
+                clearStudentInfoCache();
+                return { success: false, error: 'Phiên đăng nhập đã hết hạn' };
+            }
+
+            const data = await response.json();
+
+            if (response.ok) {
+                const studentData = data.data || data;
+                // Save to localStorage so other components can access
+                localStorage.setItem(USER_KEY, JSON.stringify(studentData));
+
+                // Update cache
+                studentInfoCache.data = studentData;
+                studentInfoCache.timestamp = Date.now();
+
+                return { success: true, data: studentData };
+            }
+
+            return { success: false, error: data.error || 'Không thể lấy thông tin sinh viên' };
+        } catch (error) {
+            console.error('Get student info error:', error);
+            return { success: false, error: 'Không thể kết nối đến server' };
+        } finally {
+            // Clear the pending promise
+            studentInfoCache.promise = null;
+        }
+    })();
+
+    return studentInfoCache.promise;
 }
 
 /**
@@ -419,29 +471,69 @@ export async function getDkmhPage() {
     return dkmhRequest('https://mybk.hcmut.edu.vn/dkmh/dangKyMonHocForm.action', 'GET');
 }
 
+// Cache for registration periods
+let registrationPeriodsCache = {
+    data: null,
+    timestamp: 0,
+    promise: null
+};
+const REGISTRATION_PERIODS_CACHE_TTL = 2 * 60 * 1000; // 2 minutes
+
 /**
- * Get list of registration periods (parsed by backend)
+ * Clear registration periods cache
  */
-export async function getRegistrationPeriods() {
+export function clearRegistrationPeriodsCache() {
+    registrationPeriodsCache = { data: null, timestamp: 0, promise: null };
+}
+
+/**
+ * Get list of registration periods (parsed by backend) - with caching
+ * @param {boolean} forceRefresh - Force refresh from API
+ */
+export async function getRegistrationPeriods(forceRefresh = false) {
     const token = getAuthToken();
     if (!token) return { success: false, error: 'Chưa đăng nhập' };
 
-    try {
-        const response = await fetch(`${API_BASE}/dkmh/registration-periods`, {
-            headers: { 'Authorization': `Bearer ${token}` }
-        });
+    const now = Date.now();
 
-        if (response.ok) {
-            const data = await response.json();
-            return data;
-        }
-
-        const errorData = await response.json();
-        return { success: false, error: errorData.error };
-    } catch (e) {
-        console.error('Get registration periods error:', e);
-        return { success: false, error: e.message };
+    // Return cached data if valid
+    if (!forceRefresh && registrationPeriodsCache.data && (now - registrationPeriodsCache.timestamp) < REGISTRATION_PERIODS_CACHE_TTL) {
+        console.log('[Cache] Using cached registration periods');
+        return registrationPeriodsCache.data;
     }
+
+    // If request in progress, wait for it
+    if (registrationPeriodsCache.promise) {
+        console.log('[Cache] Waiting for pending registration periods request');
+        return registrationPeriodsCache.promise;
+    }
+
+    // Create new request
+    registrationPeriodsCache.promise = (async () => {
+        try {
+            const response = await fetch(`${API_BASE}/dkmh/registration-periods`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                // Update cache
+                registrationPeriodsCache.data = data;
+                registrationPeriodsCache.timestamp = Date.now();
+                return data;
+            }
+
+            const errorData = await response.json();
+            return { success: false, error: errorData.error };
+        } catch (e) {
+            console.error('Get registration periods error:', e);
+            return { success: false, error: e.message };
+        } finally {
+            registrationPeriodsCache.promise = null;
+        }
+    })();
+
+    return registrationPeriodsCache.promise;
 }
 
 /**

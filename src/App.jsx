@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import {
   CalendarClock,
   GraduationCap,
-  Map,
   Menu,
   NotebookPen,
   NotebookTabs,
@@ -14,10 +13,13 @@ import {
   BadgePercent,
   X,
   ChevronRight,
-  Home
+  Home,
+  Route,
+  Shield
 } from "lucide-react";
 import { Button } from "./components/ui/button";
 import { Switch } from "./components/ui/switch";
+import { Badge } from "./components/ui/badge";
 import { useThemeMode } from "./contexts/ThemeContext";
 
 import LandingPage from "./components/LandingPage";
@@ -27,9 +29,27 @@ import CurriculumTab from "./components/CurriculumTab";
 import GpaTab from "./components/GpaTab";
 import TeachingScheduleTab from "./components/TeachingScheduleTab";
 import NotesPlansTab from "./components/NotesPlansTab";
-import CampusMapTab from "./components/CampusMapTab";
 import PreviewRegistrationTab from "./components/PreviewRegistrationTab";
 import RegistrationTab from "./components/RegistrationTab";
+import RoadmapTab from "./components/RoadmapTab";
+import AppLogo from "./components/AppLogo";
+import DataManagement from "./components/DataManagement";
+import WelcomeFeedback from "./components/WelcomeFeedback";
+import SecurityPage from "./components/SecurityPage";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "./components/ui/popover";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./components/ui/dialog";
+import { CloudUpload } from "lucide-react";
 
 const menuItems = [
   { id: "schedule", label: "Thời khóa biểu", shortLabel: "TKB", icon: CalendarClock },
@@ -38,9 +58,10 @@ const menuItems = [
   { id: "gpa", label: "Tính GPA", shortLabel: "GPA", icon: BadgePercent },
   { id: "teaching", label: "Lịch giảng dạy", shortLabel: "Dạy", icon: LayoutDashboard },
   { id: "notes", label: "Ghi chú", shortLabel: "Note", icon: ScrollText },
-  { id: "map", label: "Bản đồ", shortLabel: "Map", icon: Map },
+  { id: "roadmap", label: "Roadmap học tập", shortLabel: "Plan", icon: Route },
   { id: "registration", label: "ĐKMH", shortLabel: "ĐKMH", icon: NotebookTabs },
-  { id: "preview", label: "Preview", shortLabel: "Preview", icon: ScrollText }
+  { id: "preview", label: "Preview", shortLabel: "Preview", icon: ScrollText },
+  { id: "security", label: "Bảo mật", shortLabel: "BM", icon: Shield }
 ];
 
 function App() {
@@ -81,12 +102,14 @@ function App() {
         return <TeachingScheduleTab />;
       case "notes":
         return <NotesPlansTab />;
-      case "map":
-        return <CampusMapTab />;
+      case "roadmap":
+        return <RoadmapTab />;
       case "registration":
         return <RegistrationTab />;
       case "preview":
         return <PreviewRegistrationTab />;
+      case "security":
+        return <SecurityPage />;
       default:
         return <ScheduleTab />;
     }
@@ -116,9 +139,7 @@ function App() {
         >
           {/* Logo */}
           <div className={`flex items-center gap-2 border-b px-3 py-4 ${sidebarCollapsed ? 'justify-center' : ''}`}>
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-              <PanelsTopLeft className="h-5 w-5" />
-            </div>
+            <AppLogo size={36} />
             {!sidebarCollapsed && (
               <div className="min-w-0">
                 <p className="truncate text-sm font-bold">TKB Smart</p>
@@ -156,6 +177,23 @@ function App() {
 
           {/* Bottom Controls */}
           <div className={`border-t p-3 ${sidebarCollapsed ? 'flex flex-col items-center gap-2' : 'space-y-3'}`}>
+            {/* Data Management - Backup & Restore */}
+            <Popover>
+              <PopoverTrigger asChild>
+                <button
+                  className={`flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-indigo-600 dark:text-indigo-400 font-bold transition-all hover:bg-indigo-50 dark:hover:bg-indigo-950/20 active:scale-95 ${sidebarCollapsed ? 'justify-center px-2' : ''}`}
+                  title="Sao lưu & Khôi phục"
+                >
+                  <CloudUpload className="h-4 w-4" />
+                  {!sidebarCollapsed && <span>Sao lưu & Sync</span>}
+                  {!sidebarCollapsed && <Badge variant="secondary" className="ml-auto text-[8px] h-4 px-1 bg-indigo-100 dark:bg-indigo-950 border-indigo-200 dark:border-indigo-800">FREE</Badge>}
+                </button>
+              </PopoverTrigger>
+              <PopoverContent side="right" align="end" className="w-72 p-4 rounded-3xl shadow-2xl border-indigo-100 dark:border-indigo-900 ml-2">
+                <DataManagement />
+              </PopoverContent>
+            </Popover>
+
             {/* Home Button */}
             <button
               onClick={handleGoToLanding}
@@ -195,16 +233,14 @@ function App() {
 
         {/* Mobile Sidebar */}
         <aside
-          className={`fixed left-0 top-0 z-50 h-full w-72 border-r bg-card/95 backdrop-blur-lg transition-transform duration-300 lg:hidden
+          className={`fixed left-0 top-0 z-50 h-full w-72 border-r bg-card/95 backdrop-blur-lg transition-transform duration-300 overflow-y-auto flex flex-col lg:hidden
             ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
           `}
         >
           {/* Header */}
           <div className="flex items-center justify-between border-b px-4 py-4">
             <div className="flex items-center gap-2">
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                <PanelsTopLeft className="h-5 w-5" />
-              </div>
+              <AppLogo size={36} />
               <div>
                 <p className="text-sm font-bold">TKB Smart</p>
                 <p className="text-[10px] text-muted-foreground">Dashboard sinh viên</p>
@@ -245,6 +281,33 @@ function App() {
 
           {/* Bottom Controls */}
           <div className="border-t p-4 space-y-3">
+            {/* Data Management for Mobile - Fixed to match desktop logic */}
+            <Dialog>
+              <DialogTrigger asChild>
+                <button
+                  className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50/50 dark:bg-indigo-950/20 transition-all active:scale-95"
+                >
+                  <CloudUpload className="h-5 w-5" />
+                  <span>Sao lưu & Đồng bộ</span>
+                  <Badge variant="secondary" className="ml-auto text-[8px] h-4 px-1 bg-indigo-100 dark:bg-indigo-950">FREE</Badge>
+                </button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-md rounded-3xl w-[92%] mx-auto p-4">
+                <DialogHeader className="mb-2">
+                  <DialogTitle className="flex items-center gap-2">
+                    <CloudUpload className="h-5 w-5 text-indigo-600" />
+                    Quản lý dữ liệu
+                  </DialogTitle>
+                  <DialogDescription className="sr-only">
+                    Giao diện quản lý, sao lưu và khôi phục dữ liệu người dùng.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="max-h-[70vh] overflow-y-auto pr-1">
+                  <DataManagement />
+                </div>
+              </DialogContent>
+            </Dialog>
+
             {/* Home Button */}
             <button
               onClick={handleGoToLanding}
@@ -278,9 +341,7 @@ function App() {
                   <Menu className="h-5 w-5" />
                 </button>
                 <div className="flex items-center gap-2">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                    <PanelsTopLeft className="h-4 w-4" />
-                  </div>
+                  <AppLogo size={32} />
                   <span className="text-base font-bold">TKB Smart</span>
                 </div>
               </div>
@@ -354,6 +415,7 @@ function App() {
           </button>
         </div>
       </nav>
+      <WelcomeFeedback />
     </div>
   );
 }
