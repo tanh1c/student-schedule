@@ -75,6 +75,47 @@ const sessions = new Map();
 const activePeriodJars = new Map();
 
 // ═══════════════════════════════════════════════════════
+// PRIVACY HELPERS - Mask sensitive data in logs
+// ═══════════════════════════════════════════════════════
+
+/**
+ * Mask sensitive string - show first 4 chars + ...
+ */
+function maskSensitive(str, showChars = 4) {
+    if (!str || str.length <= showChars) return '***';
+    return str.substring(0, showChars) + '...';
+}
+
+/**
+ * Mask student ID (MSSV) - show first 3 + last 2 digits
+ */
+function maskStudentId(mssv) {
+    if (!mssv) return '***';
+    const str = String(mssv);
+    if (str.length <= 5) return '***';
+    return str.substring(0, 3) + '***' + str.substring(str.length - 2);
+}
+
+/**
+ * Mask cookie string - hide values but show keys
+ */
+function maskCookie(cookieStr) {
+    if (!cookieStr) return '(empty)';
+    return cookieStr.replace(/=([^;]+)/g, '=***');
+}
+
+/**
+ * Mask URL containing sensitive params
+ */
+function maskUrl(url) {
+    if (!url) return '';
+    return url
+        .replace(/masv=\d+/g, 'masv=***')
+        .replace(/jsessionid=[^&;/]+/gi, 'jsessionid=***')
+        .replace(/SESSION=[^&;]+/gi, 'SESSION=***');
+}
+
+// ═══════════════════════════════════════════════════════
 // SESSION MANAGEMENT & OPTIMIZATION (Production)
 // ═══════════════════════════════════════════════════════
 
@@ -260,12 +301,12 @@ async function performCASLogin(username, password) {
         // Get cookie explicitly from the APP PATH
         const cookies = await jar.getCookies('https://mybk.hcmut.edu.vn/app');
         const cookieString = cookies.map(c => c.cookieString()).join('; ');
-        console.log('[CAS] Cookies from /app path:', cookieString);
+        console.log('[CAS] Cookies from /app path:', maskCookie(cookieString));
 
         if (!cookieString.includes('SESSION')) {
             console.log('[WARN] SESSION cookie missing! Trying root path...');
             const rootCookies = await jar.getCookies('https://mybk.hcmut.edu.vn/');
-            console.log('[CAS] Root cookies:', rootCookies.map(c => c.cookieString()).join('; '));
+            console.log('[CAS] Root cookies:', maskCookie(rootCookies.map(c => c.cookieString()).join('; ')));
         }
 
         // Step 4: Verify by fetching student info
@@ -452,7 +493,7 @@ app.get('/api/student/schedule', async (req, res) => {
     if (!session) return res.status(401).json({ error: 'Unauthorized' });
 
     const { studentId, semesterYear } = req.query;
-    console.log(`[API] Proxying schedule for ${studentId}, sem ${semesterYear}...`);
+    console.log(`[API] Proxying schedule for ${maskStudentId(studentId)}, sem ${semesterYear}...`);
 
     try {
         const headers = {
@@ -482,7 +523,7 @@ app.get('/api/student/exam-schedule', async (req, res) => {
     if (!session) return res.status(401).json({ error: 'Unauthorized' });
 
     const { studentId, namhoc, hocky } = req.query;
-    console.log(`[API] Proxying exam schedule for ${studentId}, namhoc=${namhoc}, hocky=${hocky}...`);
+    console.log(`[API] Proxying exam schedule for ${maskStudentId(studentId)}, namhoc=${namhoc}, hocky=${hocky}...`);
 
     try {
         const headers = {
@@ -496,7 +537,7 @@ app.get('/api/student/exam-schedule', async (req, res) => {
         if (session.jwtToken) headers['Authorization'] = session.jwtToken;
 
         const url = `https://mybk.hcmut.edu.vn/api/thoi-khoa-bieu/lich-thi-sinh-vien/v1?masv=${studentId}&namhoc=${namhoc}&hocky=${hocky}&null`;
-        console.log('[API] Exam schedule URL:', url);
+        console.log('[API] Exam schedule URL:', maskUrl(url));
 
         const response = await nodeFetch(url, { headers });
         const data = await response.json();
@@ -517,7 +558,7 @@ app.post('/api/student/gpa/summary', async (req, res) => {
 
     if (!session) return res.status(401).json({ error: 'Unauthorized' });
 
-    console.log(`[API] Proxying GPA Summary for ${studentId}...`);
+    console.log(`[API] Proxying GPA Summary for ${maskStudentId(studentId)}...`);
 
     try {
         const headers = {
@@ -563,7 +604,7 @@ app.post('/api/student/gpa/detail', async (req, res) => {
 
     if (!session) return res.status(401).json({ error: 'Unauthorized' });
 
-    console.log(`[API] Proxying GPA Detail for ${studentId}...`);
+    console.log(`[API] Proxying GPA Detail for ${maskStudentId(studentId)}...`);
 
     try {
         const headers = {
@@ -718,7 +759,7 @@ async function performDKMHLogin(username, password) {
             redirect: 'follow'
         });
 
-        console.log('[DKMH] Entry URL response:', entryResponse.url);
+        console.log('[DKMH] Entry URL response:', maskUrl(entryResponse.url));
 
         // Now access home.action to establish session
         const homeUrl = 'https://mybk.hcmut.edu.vn/dkmh/home.action';
@@ -731,7 +772,7 @@ async function performDKMHLogin(username, password) {
             redirect: 'follow'
         });
 
-        console.log('[DKMH] Home URL response:', homeResponse.url);
+        console.log('[DKMH] Home URL response:', maskUrl(homeResponse.url));
 
         // Finally access the registration form
         const dkmhUrl = 'https://mybk.hcmut.edu.vn/dkmh/dangKyMonHocForm.action';
@@ -745,7 +786,7 @@ async function performDKMHLogin(username, password) {
         });
 
         const dkmhFinalUrl = dkmhResponse.url;
-        console.log('[DKMH] DKMH Final URL:', dkmhFinalUrl);
+        console.log('[DKMH] DKMH Final URL:', maskUrl(dkmhFinalUrl));
 
         // Check if we successfully reached DKMH or got redirected to login
         if (dkmhFinalUrl.includes('sso.hcmut.edu.vn') || dkmhFinalUrl.includes('cas/login')) {
@@ -1137,7 +1178,7 @@ app.post('/api/dkmh/period-details', async (req, res) => {
         });
         const dotDKHtml = await dotDKResponse.text();
         console.log('[DKMH] getDanhSachDotDK response length:', dotDKHtml.length);
-        console.log('[DKMH] getDanhSachDotDK response preview:', dotDKHtml.substring(0, 200));
+        // Don't log HTML preview in production for privacy
 
         // Parse actual dotDKId from response
         // Pattern: onclick="getLichDangKyByDotDKId(this, 749, 749, false, ' ');"
@@ -1258,13 +1299,14 @@ app.post('/api/dkmh/search-courses', async (req, res) => {
 
         const html = await response.text();
         console.log('[DKMH] Search response length:', html.length);
-        console.log('[DKMH] Search response preview:', html.substring(0, 300));
 
-        // Save for debugging
-        import('fs').then(fs => {
-            fs.writeFileSync('debug_search_results.html', html);
-            console.log('[DKMH] Saved search response to server/debug_search_results.html');
-        });
+        // Only save debug file in development
+        if (!isProduction) {
+            import('fs').then(fs => {
+                fs.writeFileSync('debug_search_results.html', html);
+                console.log('[DKMH] Saved search response to server/debug_search_results.html');
+            });
+        }
 
         // Parse search results
         const courses = parseSearchResultsHtml(html);
@@ -1469,11 +1511,13 @@ function parseSearchResultsHtml(html) {
 function parsePeriodDetailsHtml(html) {
     const courses = [];
 
-    // Save HTML for debugging (async, but we don't wait)
-    import('fs').then(fs => {
-        fs.writeFileSync('debug_period_details.html', html);
-        console.log('[DKMH] Saved period details HTML to server/debug_period_details.html');
-    });
+    // Save HTML for debugging (development only)
+    if (!isProduction) {
+        import('fs').then(fs => {
+            fs.writeFileSync('debug_period_details.html', html);
+            console.log('[DKMH] Saved period details HTML to server/debug_period_details.html');
+        });
+    }
 
     // Match each panel (course) block - handle newlines with [\s\S]
     // This regex matches BOTH locked and unlocked courses:
@@ -1702,7 +1746,7 @@ app.post('/api/dkmh/register', async (req, res) => {
         // Get current cookies from jar for debugging
         const cookies = await jar.getCookies('https://mybk.hcmut.edu.vn');
         const cookieString = cookies.map(c => `${c.key}=${c.value}`).join('; ');
-        console.log('[DKMH] Full cookies:', cookieString);
+        console.log('[DKMH] Cookies count:', cookies.length);
 
         // In Force Mode: Skip priming to replicate original bug behavior
         // This causes server to return empty error messages but still process registration
@@ -1923,7 +1967,7 @@ app.post('/api/dkmh/cancel', async (req, res) => {
         });
 
         const text = await response.text();
-        console.log('[DKMH] Cancel registration response:', text.substring(0, 300));
+        // Don't log response text in production for privacy
 
         // Typically returns empty or success
         res.json({

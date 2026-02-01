@@ -34,6 +34,47 @@ const sessions = new Map();
 // Store active period cookie jars per session (for DKMH search to work)
 const activePeriodJars = new Map();
 
+// ═══════════════════════════════════════════════════════
+// PRIVACY HELPERS - Mask sensitive data in logs
+// ═══════════════════════════════════════════════════════
+
+/**
+ * Mask sensitive string - show first 4 chars + ...
+ */
+function maskSensitive(str, showChars = 4) {
+    if (!str || str.length <= showChars) return '***';
+    return str.substring(0, showChars) + '...';
+}
+
+/**
+ * Mask student ID (MSSV) - show first 3 + last 2 digits
+ */
+function maskStudentId(mssv) {
+    if (!mssv) return '***';
+    const str = String(mssv);
+    if (str.length <= 5) return '***';
+    return str.substring(0, 3) + '***' + str.substring(str.length - 2);
+}
+
+/**
+ * Mask cookie string - hide values but show keys
+ */
+function maskCookie(cookieStr) {
+    if (!cookieStr) return '(empty)';
+    return cookieStr.replace(/=([^;]+)/g, '=***');
+}
+
+/**
+ * Mask URL containing sensitive params
+ */
+function maskUrl(url) {
+    if (!url) return '';
+    return url
+        .replace(/masv=\d+/g, 'masv=***')
+        .replace(/jsessionid=[^&;/]+/gi, 'jsessionid=***')
+        .replace(/SESSION=[^&;]+/gi, 'SESSION=***');
+}
+
 /**
  * Cleanup expired sessions to free up memory
  * Runs automatically every CLEANUP_INTERVAL_MS
