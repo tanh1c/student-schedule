@@ -15,7 +15,8 @@ import {
   ChevronRight,
   Home,
   Route,
-  Shield
+  Shield,
+  History
 } from "lucide-react";
 import { Button } from "./components/ui/button";
 import { Switch } from "./components/ui/switch";
@@ -36,6 +37,7 @@ import AppLogo from "./components/AppLogo";
 import DataManagement from "./components/DataManagement";
 import WelcomeFeedback from "./components/WelcomeFeedback";
 import SecurityPage from "./components/SecurityPage";
+import ChangelogPage from "./components/ChangelogPage";
 import {
   Popover,
   PopoverContent,
@@ -61,7 +63,8 @@ const menuItems = [
   { id: "roadmap", label: "Roadmap học tập", shortLabel: "Plan", icon: Route },
   { id: "registration", label: "ĐKMH", shortLabel: "ĐKMH", icon: NotebookTabs },
   { id: "preview", label: "Preview", shortLabel: "Preview", icon: ScrollText },
-  { id: "security", label: "Bảo mật", shortLabel: "BM", icon: Shield }
+  { id: "security", label: "Bảo mật", shortLabel: "BM", icon: Shield },
+  { id: "changelog", label: "Changelog", shortLabel: "Log", icon: History }
 ];
 
 function App() {
@@ -110,6 +113,8 @@ function App() {
         return <PreviewRegistrationTab />;
       case "security":
         return <SecurityPage />;
+      case "changelog":
+        return <ChangelogPage />;
       default:
         return <ScheduleTab />;
     }

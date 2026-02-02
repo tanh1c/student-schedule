@@ -158,62 +158,84 @@ export default function GpaTabContent() {
     }
   }, [rawDetails]);
 
+  // Re-calculation logic: Tính lại GPA từ đầu khi có điểm Aim
+  // Thay vì cộng dồn (additive), ta duyệt toàn bộ rawDetails và thay thế điểm gốc bằng điểm Aim
   useEffect(() => {
-    if (!preciseState) {
+    if (!rawDetails || rawDetails.length === 0) {
       setPrediction(null);
       return;
     }
 
-    const { baseGpaCredits, baseScore10, baseScore4, accumulatedCredits } = preciseState;
-
+    // Nếu không có điểm Aim nào, không cần tính prediction
     if (Object.keys(predictedScores).length === 0) {
       setPrediction(null);
       return;
     }
 
-    let addedGpaCredits = 0;
-    let addedAccumulatedCredits = 0;
-    let addedScore10Sum = 0;
-    let addedScore4Sum = 0;
+    let totalGpaCredits = 0;
+    let totalScore10 = 0;
+    let totalScore4 = 0;
+    let totalAccumulatedCredits = 0;
+    let hasAnyAimScore = false;
 
-    Object.entries(predictedScores).forEach(([subCode, val]) => {
-      if (val === "" || val === null) return;
-      const score10 = parseFloat(val);
-      if (isNaN(score10)) return;
+    // Duyệt qua toàn bộ môn học và tính lại từ đầu
+    rawDetails.forEach(item => {
+      const credits = parseFloat(item.sotc) || 0;
+      if (!item.mamonhoc || credits === 0) return;
 
-      const subject = rawDetails.find(s => s.mamonhoc === subCode);
-      if (subject) {
-        const creds = parseFloat(subject.sotc) || 0;
-        if (creds > 0) {
+      let score10 = null;
+      let isAimScore = false;
+
+      // Kiểm tra xem môn này có điểm Aim không
+      if (predictedScores[item.mamonhoc] !== undefined &&
+        predictedScores[item.mamonhoc] !== "" &&
+        predictedScores[item.mamonhoc] !== null) {
+        const aimScore = parseFloat(predictedScores[item.mamonhoc]);
+        if (!isNaN(aimScore) && aimScore >= 0 && aimScore <= 10) {
+          score10 = aimScore;
+          isAimScore = true;
+          hasAnyAimScore = true;
+        }
+      }
+
+      // Nếu không có điểm Aim hợp lệ, sử dụng điểm gốc
+      if (score10 === null) {
+        if (item.diemso && item.diemso !== "--" && !isNaN(parseFloat(item.diemso))) {
+          score10 = parseFloat(item.diemso);
+        }
+      }
+
+      // Nếu có điểm (Aim hoặc gốc)
+      if (score10 !== null) {
+        // Tín chỉ tích lũy: chỉ cần >= 4.0 (KHÔNG giới hạn <= 10)
+        // Môn > 10đ vẫn tính TC nhưng không tính GPA
+        if (score10 >= 4.0) {
+          totalAccumulatedCredits += credits;
+        }
+
+        // GPA: chỉ tính các môn có điểm trong khoảng 0-10
+        if (score10 >= 0 && score10 <= 10) {
+          totalGpaCredits += credits;
           const score4 = convertToGpa4(score10);
-          addedGpaCredits += creds;
-          addedScore10Sum += score10 * creds;
-          addedScore4Sum += score4 * creds;
-
-          if (score10 >= 4.0) {
-            addedAccumulatedCredits += creds;
-          }
+          totalScore10 += score10 * credits;
+          totalScore4 += score4 * credits;
         }
       }
     });
 
-    if (addedGpaCredits === 0) {
+    // Chỉ hiển thị prediction nếu có ít nhất 1 điểm Aim hợp lệ
+    if (!hasAnyAimScore || totalGpaCredits === 0) {
       setPrediction(null);
       return;
     }
 
-    const newTotalGpaCredits = baseGpaCredits + addedGpaCredits;
-    const newGpa10 = (baseScore10 + addedScore10Sum) / newTotalGpaCredits;
-    const newGpa4 = (baseScore4 + addedScore4Sum) / newTotalGpaCredits;
-    const newAccumulatedCredits = accumulatedCredits + addedAccumulatedCredits;
-
     setPrediction({
-      gpa10: newGpa10,
-      gpa4: newGpa4,
-      totalCredits: newAccumulatedCredits,
+      gpa10: totalScore10 / totalGpaCredits,
+      gpa4: totalScore4 / totalGpaCredits,
+      totalCredits: totalAccumulatedCredits,
       isModified: true
     });
-  }, [preciseState, rawDetails, predictedScores]);
+  }, [rawDetails, predictedScores]);
 
   const handleScoreChange = (subjectCode, value) => {
     setPredictedScores(prev => ({
