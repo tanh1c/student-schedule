@@ -1,4 +1,5 @@
 import * as dataService from '../services/dataService.js';
+import logger from '../utils/logger.js';
 
 export const searchLecturer = (req, res) => {
     const { id, gv } = req.query;

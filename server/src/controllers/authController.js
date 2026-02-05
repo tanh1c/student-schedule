@@ -1,5 +1,6 @@
 import { performCASLogin } from '../services/authService.js';
 import { performDKMHLogin } from '../services/dkmhService.js';
+import logger from '../utils/logger.js';
 import config from '../../config/default.js';
 
 // Get sessions from app locals (will be passed from routes)
@@ -11,14 +12,14 @@ import config from '../../config/default.js';
 // Let's create a memory store singleton for sessions first.
 
 // Wait, I should create a session store module first.
-import { sessions, activePeriodJars, canCreateSession, MAX_SESSIONS } from '../services/sessionStore.js';
+import { MAX_SESSIONS, canCreateSession, saveSession, deleteSession, activePeriodJars, getSession } from '../services/sessionStore.js';
 
 export const login = async (req, res) => {
     const { username, password } = req.body;
-    console.log(`[API] Login request for ${username}`);
+    logger.info(`[API] Login request for ${username}`);
 
-    if (!canCreateSession()) {
-        console.log(`[API] Max sessions (${MAX_SESSIONS}) reached, rejecting login`);
+    if (!await canCreateSession()) {
+        logger.info(`[API] Max sessions reached, rejecting login`);
         return res.status(503).json({
             error: 'Server đang quá tải, vui lòng thử lại sau ít phút',
             code: 'MAX_SESSIONS_REACHED'
@@ -41,26 +42,27 @@ export const login = async (req, res) => {
             dkmhLoggedIn: false
         };
 
+        await saveSession(sessionToken, sessionData);
+        logger.info(`[API] Login successful. Session saved to Redis.`);
+
         // Async DKMH Login
-        console.log('[API] Also logging into DKMH...');
-        performDKMHLogin(username, password).then(dkmhResult => {
+        logger.info('[API] Also logging into DKMH...');
+        performDKMHLogin(username, password).then(async dkmhResult => {
             if (dkmhResult.success) {
                 // Update session reference
-                const session = sessions.get(sessionToken);
+                const session = await getSession(sessionToken);
                 if (session) {
                     session.dkmhCookie = dkmhResult.cookieString;
                     session.dkmhLoggedIn = true;
                     // Store jar if needed for period selection
                     activePeriodJars.set(sessionToken, dkmhResult.jar);
-                    console.log('[API] DKMH login successful! Session updated.');
+                    await saveSession(sessionToken, session); // Save updated session
+                    logger.info('[API] DKMH login successful! Session updated.');
                 }
             } else {
-                console.log('[API] DKMH login failed:', dkmhResult.error);
+                logger.info('[API] DKMH login failed:', dkmhResult.error);
             }
-        }).catch(err => console.error('[API] DKMH login error:', err));
-
-        sessions.set(sessionToken, sessionData);
-        console.log(`[API] Login successful. Active sessions: ${sessions.size}/${MAX_SESSIONS}`);
+        }).catch(err => logger.error('[API] DKMH login error:', err));
 
         res.json({
             success: true,
@@ -72,11 +74,11 @@ export const login = async (req, res) => {
     }
 };
 
-export const logout = (req, res) => {
-    const token = req.token; // Extracted by auth middleware
+export const logout = async (req, res) => {
+    const token = req.headers['authorization'];
     if (token) {
-        sessions.delete(token);
-        activePeriodJars.delete(token);
+        await deleteSession(token);
+        logger.info(`[API] Logged out: ${token}`);
     }
     res.json({ success: true });
 };

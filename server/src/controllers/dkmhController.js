@@ -1,8 +1,9 @@
 import nodeFetch from 'node-fetch';
-import { sessions, activePeriodJars } from '../services/sessionStore.js';
+import { activePeriodJars } from '../services/sessionStore.js';
 import * as parser from '../services/dkmhParser.js';
 import config from '../../config/default.js';
 import { maskCookie, maskUrl } from '../utils/masking.js';
+import logger from '../utils/logger.js';
 
 // Proxy endpoint for DKMH requests
 export const proxy = async (req, res) => {
@@ -16,7 +17,7 @@ export const proxy = async (req, res) => {
     const { url, method = 'GET', body } = req.body;
     if (!url) return res.status(400).json({ error: 'URL is required' });
 
-    console.log(`[DKMH Proxy] ${method} ${maskUrl(url)}`);
+    logger.info(`[DKMH Proxy] ${method} ${maskUrl(url)}`);
 
     try {
         const options = {
@@ -46,7 +47,7 @@ export const proxy = async (req, res) => {
             res.send(text);
         }
     } catch (e) {
-        console.error('[DKMH Proxy] Error:', e);
+        logger.error('[DKMH Proxy] Error:', e);
         res.status(500).json({ error: e.message });
     }
 };
@@ -59,7 +60,7 @@ export const getRegistrationPeriods = async (req, res) => {
         return res.status(401).json({ error: 'DKMH session not found', dkmhLoggedIn: false });
     }
 
-    console.log('[DKMH] Fetching registration periods...');
+    logger.info('[DKMH] Fetching registration periods...');
     try {
         const response = await nodeFetch(config.urls.dkmhInfo.formUrl, {
             headers: {
@@ -182,7 +183,7 @@ export const getPeriodDetails = async (req, res) => {
         });
 
     } catch (e) {
-        console.error(e);
+        logger.error(e);
         res.status(500).json({ error: e.message });
     }
 };

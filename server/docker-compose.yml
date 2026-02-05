@@ -1,0 +1,34 @@
+services:
+  # ═══════════════════════════════════════════════════════════════
+  # APP SERVICE
+  # ═══════════════════════════════════════════════════════════════
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runner
+    container_name: mybk-api
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+      - CORS_ORIGIN=http://localhost:3000
+      # - REDIS_URL=redis://redis:6379  <-- Ready for Phase 3
+    restart: always
+    # networks:       <-- Uncomment when adding DB/Redis
+    #   - backend
+
+  # ═══════════════════════════════════════════════════════════════
+  # REDIS CACHE
+  # ═══════════════════════════════════════════════════════════════
+  redis:
+    image: redis:alpine
+    container_name: mybk-redis
+    ports:
+      - "6379:6379"
+    restart: always
+
+# networks:
+#   backend:
+#     driver: bridge

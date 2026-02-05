@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import logger from '../utils/logger.js';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -28,7 +29,7 @@ function loadData() {
         }
 
     } catch (e) {
-        console.error('[DATA] Error loading data:', e);
+        logger.error('[DATA] Error loading data:', e);
         subjectData = subjectData || [];
         lecturerData = lecturerData || [];
     }

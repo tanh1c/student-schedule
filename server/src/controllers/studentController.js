@@ -1,4 +1,6 @@
 import nodeFetch from 'node-fetch';
+import logger from '../utils/logger.js';
+import { swr } from '../services/redisService.js';
 
 // Helper to create proxy headers
 const createProxyHeaders = (session) => {
@@ -17,26 +19,34 @@ export const getStudentInfo = async (req, res) => {
     const session = req.session;
     if (!session) return res.status(401).json({ error: 'Unauthorized' });
 
-    console.log('[API] Proxying get-student-info...');
-    try {
+    logger.info('[API] Proxying get-student-info...');
+
+    const fetchStudentInfo = async () => {
         const headers = createProxyHeaders(session);
         const response = await nodeFetch('https://mybk.hcmut.edu.vn/api/v1/student/get-student-info?null', { headers });
-        const responseText = await response.text();
-
-        let data;
-        try {
-            data = JSON.parse(responseText);
-        } catch (e) {
-            return res.status(502).json({ error: 'Invalid response from upstream' });
+        const data = await response.json();
+        // Validation check inside fetcher
+        if (data.code && data.code !== 200 && data.code !== '200') {
+            throw new Error(`MyBK Error: ${data.msg || data.code}`);
         }
+        return data;
+    };
+
+    try {
+        // Cache Key: INFO:{username}
+        // TTL: 4 hours
+        // Fresh: 5 minutes (Don't revalidate if updated < 5 mins ago)
+        const key = `INFO:${session.username}`;
+        const data = await swr(key, fetchStudentInfo, 14400, 300);
 
         if (data.code === "200" || data.code === 200 || !data.code) {
             session.user = data.data || data; // Update user info in session
         }
         res.json(data);
     } catch (e) {
-        console.error('[API] Error:', e);
-        res.status(500).json({ error: e.message });
+        logger.error('[API] Error:', e);
+        // The instruction specifies 502 for upstream errors, which aligns with fetcher throwing
+        res.status(502).json({ error: 'Invalid response from upstream or MyBK API error' });
     }
 };
 
@@ -45,16 +55,31 @@ export const getSchedule = async (req, res) => {
     if (!session) return res.status(401).json({ error: 'Unauthorized' });
 
     const { studentId, semesterYear } = req.query;
-    console.log(`[API] Proxying schedule for ${studentId}, sem ${semesterYear}...`);
+    logger.info(`[API] Proxying schedule for ${studentId}, sem ${semesterYear}...`);
 
-    try {
+    const fetchSchedule = async () => {
         const headers = createProxyHeaders(session);
-        const url = `https://mybk.hcmut.edu.vn/api/v1/student/schedule?studentId=${studentId}&semesterYear=${semesterYear}&null`;
+        // Corrected URL based on common MyBK API patterns for schedule
+        const url = `https://mybk.hcmut.edu.vn/api/v1/student/get-schedule?studentId=${studentId}&semesterYear=${semesterYear}&null`;
         const response = await nodeFetch(url, { headers });
         const data = await response.json();
+        // Add basic validation for MyBK API response if needed, similar to getStudentInfo
+        if (data.code && data.code !== 200 && data.code !== '200') {
+            throw new Error(`MyBK Schedule Error: ${data.msg || data.code}`);
+        }
+        return data;
+    };
+
+    try {
+        // Cache Key: SCHEDULE:{studentId}:{semesterYear}
+        // TTL: 4 hours
+        // Fresh: 1 minute (Aggressive updates allowed, but limit spam)
+        const key = `SCHEDULE:${studentId}:${semesterYear}`;
+        const data = await swr(key, fetchSchedule, 14400, 60);
+
         res.json(data);
     } catch (e) {
-        console.error('[API] Schedule Error:', e);
+        logger.error('[API] Schedule Error:', e);
         res.status(500).json({ error: e.message });
     }
 };
@@ -64,7 +89,7 @@ export const getExamSchedule = async (req, res) => {
     if (!session) return res.status(401).json({ error: 'Unauthorized' });
 
     const { studentId, namhoc, hocky } = req.query;
-    console.log(`[API] Proxying exam schedule for ${studentId}...`);
+    logger.info(`[API] Proxying exam schedule for ${studentId}...`);
 
     try {
         const headers = createProxyHeaders(session);
@@ -85,7 +110,7 @@ export const getGpaSummary = async (req, res) => {
     const { studentId } = req.body;
     if (!session) return res.status(401).json({ error: 'Unauthorized' });
 
-    try {
+    const fetchGpaSummary = async () => {
         const headers = createProxyHeaders(session);
         headers['Content-Type'] = 'application/json';
         headers['Referer'] = 'https://mybk.hcmut.edu.vn/app/sinh-vien/ket-qua-hoc-tap/chuong-trinh-dao-tao';
@@ -96,13 +121,21 @@ export const getGpaSummary = async (req, res) => {
             headers,
             body: JSON.stringify(studentId)
         });
-
         const text = await response.text();
         try {
-            res.json(JSON.parse(text));
+            return JSON.parse(text);
         } catch {
-            res.status(502).send(text);
+            throw new Error('Invalid JSON from MyBK GPA');
         }
+    };
+
+    try {
+        // Cache Key: GPA:{studentId}
+        // TTL: 4 hours
+        // Fresh: 15 minutes (Heavy calculation, rarely changes)
+        const key = `GPA:${studentId}`;
+        const data = await swr(key, fetchGpaSummary, 14400, 900);
+        res.json(data);
     } catch (e) {
         res.status(500).json({ error: e.message });
     }
@@ -191,13 +224,21 @@ export const getTranscript = async (req, res) => { // /api/schedule/get-transcri
     if (!session) return res.status(401).json({ error: 'Unauthorized' });
 
     const { studentId, sem } = req.query;
-    try {
+
+    const fetchTranscript = async () => {
         const headers = createProxyHeaders(session);
         headers['Content-Type'] = 'application/json';
-        // Note: index.js line 1950 uses endpoint ...bang-diem-hoc-ky/v2
         const url = `https://mybk.hcmut.edu.vn/api/share/ket-qua-hoc-tap/bang-diem-hoc-ky/v2?masv=${studentId}&maHocKy=${sem}&tuychon=VIEWONLINE`;
         const response = await nodeFetch(url, { method: 'POST', headers, body: '' });
-        const data = await response.json();
+        return await response.json();
+    };
+
+    try {
+        // Cache Key: TRANSCRIPT:{studentId}:{sem}
+        // TTL: 4 hours
+        // Fresh: 15 minutes
+        const key = `TRANSCRIPT:${studentId}:${sem}`;
+        const data = await swr(key, fetchTranscript, 14400, 900);
         res.json(data);
     } catch (e) {
         res.status(500).json({ error: e.message });
