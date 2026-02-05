@@ -60,7 +60,7 @@ export const getSchedule = async (req, res) => {
     const fetchSchedule = async () => {
         const headers = createProxyHeaders(session);
         // Corrected URL based on common MyBK API patterns for schedule
-        const url = `https://mybk.hcmut.edu.vn/api/v1/student/get-schedule?studentId=${studentId}&semesterYear=${semesterYear}&null`;
+        const url = `https://mybk.hcmut.edu.vn/api/v1/student/schedule?studentId=${studentId}&semesterYear=${semesterYear}&null`;
         const response = await nodeFetch(url, { headers });
         const data = await response.json();
         // Add basic validation for MyBK API response if needed, similar to getStudentInfo
