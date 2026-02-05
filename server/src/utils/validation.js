@@ -10,7 +10,7 @@ export const schemas = {
 
     studentInfo: z.object({
         studentId: z.string().optional(), // Optional if fetched from session/default
-        semesterYear: z.string().regex(/^\d{4}-\d{4}$/, 'Invalid semester format (e.g. 2023-2024)').optional(),
+        semesterYear: z.string().regex(/^(\d{5}|\d{4}-\d{4})$/, 'Invalid semester format (e.g. 20252 or 2023-2024)').optional(),
     }),
 
     searchLecturer: z.object({
