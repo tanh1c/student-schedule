@@ -89,6 +89,27 @@ export const swr = async (key, fetchFn, ttlSeconds = 14400, freshSeconds = 60) =
 // Helper to standardise the saving format
 async function fetchAndCache(key, fetchFn, ttlSeconds) {
     const data = await fetchFn();
+
+    // DON'T CACHE ERROR RESPONSES
+    // Check for common error patterns from upstream APIs
+    const isError = (
+        data.status === 404 ||
+        data.status === 500 ||
+        data.error ||
+        (data.code && data.code !== 200 && data.code !== '200')
+    );
+
+    if (isError) {
+        logger.warn(`[REDIS] NOT CACHING ERROR: ${key}`, { status: data.status, error: data.error });
+        // Delete any stale cache for this key
+        try {
+            await client.del(key);
+        } catch (e) {
+            logger.error(`[REDIS] Failed to delete stale key: ${key}`, e);
+        }
+        return { ...data, _cache: 'ERROR-NO-CACHE' };
+    }
+
     // Wrap with timestamp
     const cacheObject = {
         timestamp: Date.now(),
