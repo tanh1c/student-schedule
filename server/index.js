@@ -6,27 +6,67 @@ import fetchCookie from 'fetch-cookie';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
+import dotenv from 'dotenv';
+import crypto from 'crypto';
+
+// Load environment variables
+dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
+const isProduction = process.env.NODE_ENV === 'production';
 
+// ========================
+// SECURITY MIDDLEWARE
+// ========================
+
+// Trust proxy for Render/Heroku (behind load balancer)
+if (isProduction) {
+    app.set('trust proxy', 1);
+}
+
+// Helmet for secure HTTP headers
+app.use(helmet({
+    contentSecurityPolicy: false,
+    crossOriginEmbedderPolicy: false
+}));
+
+// CORS configuration
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: isProduction ? true : ['http://localhost:3000', 'http://localhost:5173', 'http://localhost:3001'],
     credentials: true
 }));
-app.use(express.json());
 
-// ═══════════════════════════════════════════════════════
-// SESSION MANAGEMENT & OPTIMIZATION
-// ═══════════════════════════════════════════════════════
+// Rate limiting for login (brute force protection)
+const loginLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 10,
+    message: { error: 'Quá nhiều lần thử. Vui lòng đợi 15 phút.' },
+    skip: () => !isProduction
+});
 
-// Configuration - 15 phút timeout để tăng throughput
-const SESSION_TIMEOUT_MS = 15 * 60 * 1000;  // 15 phút không hoạt động = tự động logout
-const CLEANUP_INTERVAL_MS = 3 * 60 * 1000;  // Chạy cleanup mỗi 3 phút
-const MAX_SESSIONS = 40;                     // Tính dựa trên: (512MB - 70MB base - 50MB buffer) / 8MB ≈ 40 sessions
+// General rate limiting
+app.use(rateLimit({
+    windowMs: 60 * 1000,
+    max: 200,
+    skip: () => !isProduction
+}));
+
+app.use(express.json({ limit: '10kb' }));
+
+// ========================
+// STATIC FILES (Production)
+// ========================
+if (isProduction) {
+    const distPath = path.join(__dirname, '..', 'dist');
+    console.log(`[Static] Serving frontend from: ${distPath}`);
+    app.use(express.static(distPath));
+}
 
 // Store sessions in memory
 const sessions = new Map();
@@ -75,9 +115,17 @@ function maskUrl(url) {
         .replace(/SESSION=[^&;]+/gi, 'SESSION=***');
 }
 
+// ═══════════════════════════════════════════════════════
+// SESSION MANAGEMENT & OPTIMIZATION (Production)
+// ═══════════════════════════════════════════════════════
+
+// Configuration - 15 phút timeout để tăng throughput
+const SESSION_TIMEOUT_MS = 15 * 60 * 1000;  // 15 phút không hoạt động = tự động logout
+const CLEANUP_INTERVAL_MS = 3 * 60 * 1000;  // Chạy cleanup mỗi 3 phút
+const MAX_SESSIONS = 40;                     // Tính dựa trên: (512MB - 70MB base - 50MB buffer) / 8MB ≈ 40
+
 /**
  * Cleanup expired sessions to free up memory
- * Runs automatically every CLEANUP_INTERVAL_MS
  */
 function cleanupExpiredSessions() {
     const now = Date.now();
@@ -93,7 +141,6 @@ function cleanupExpiredSessions() {
             sessions.delete(token);
             cleanedCount++;
 
-            // Also cleanup associated period jars
             if (activePeriodJars.has(token)) {
                 activePeriodJars.delete(token);
                 cleanedJars++;
@@ -113,14 +160,14 @@ function cleanupExpiredSessions() {
         console.log(`[CLEANUP] Removed ${cleanedCount} expired sessions, ${cleanedJars} period jars. Active: ${sessions.size}`);
     }
 
-    // Log memory usage after cleanup
+    // Log memory usage
     const mem = process.memoryUsage();
-    console.log(`[MEMORY] Heap: ${(mem.heapUsed / 1024 / 1024).toFixed(1)}MB | RSS: ${(mem.rss / 1024 / 1024).toFixed(1)}MB | Sessions: ${sessions.size}`);
+    console.log(`[MEMORY] Heap: ${(mem.heapUsed / 1024 / 1024).toFixed(1)}MB | RSS: ${(mem.rss / 1024 / 1024).toFixed(1)}MB | Sessions: ${sessions.size}/${MAX_SESSIONS}`);
 }
 
-// Start automatic cleanup interval
+// Start automatic cleanup
 setInterval(cleanupExpiredSessions, CLEANUP_INTERVAL_MS);
-console.log(`[INIT] Session cleanup scheduled every ${CLEANUP_INTERVAL_MS / 60000} minutes (timeout: ${SESSION_TIMEOUT_MS / 60000} min)`);
+console.log(`[INIT] Session cleanup every ${CLEANUP_INTERVAL_MS / 60000}min (timeout: ${SESSION_TIMEOUT_MS / 60000}min, max: ${MAX_SESSIONS})`);
 
 /**
  * Middleware to update session activity timestamp
@@ -128,28 +175,24 @@ console.log(`[INIT] Session cleanup scheduled every ${CLEANUP_INTERVAL_MS / 6000
 function updateSessionActivity(req, res, next) {
     const token = req.headers.authorization?.replace('Bearer ', '');
     const session = sessions.get(token);
-
     if (session) {
         session.lastActivity = Date.now();
     }
-
     next();
 }
-
-// Apply activity tracking to all routes
 app.use(updateSessionActivity);
 
 /**
- * Check if we can create new session (respects MAX_SESSIONS)
+ * Check if we can create new session
  */
 function canCreateSession() {
     if (sessions.size >= MAX_SESSIONS) {
-        // Try cleanup first before rejecting
         cleanupExpiredSessions();
         return sessions.size < MAX_SESSIONS;
     }
     return true;
 }
+
 
 /**
  * Creates a cookie-aware fetch instance
@@ -168,7 +211,7 @@ async function performCASLogin(username, password) {
     const serviceUrl = 'https://mybk.hcmut.edu.vn/app/login/cas';
 
     try {
-        console.log('[CAS] Step 1: Getting login form...');
+        if (!isProduction) console.log('[CAS] Step 1: Getting login form...');
         // Step 1: Get the login form to extract execution flow and lt
         const loginPageUrl = `https://sso.hcmut.edu.vn/cas/login?service=${encodeURIComponent(serviceUrl)}`;
         const formResponse = await fetch(loginPageUrl);
@@ -178,16 +221,16 @@ async function performCASLogin(username, password) {
         const ltMatch = html.match(/name="lt"\s+value="([^"]+)"/);
 
         if (!executionMatch || !ltMatch) {
-            console.log('[CAS] Failed to parse login form. HTML length:', html.length);
+            console.error('[CAS] Failed to parse login form');
             return { success: false, error: 'Không thể tải form đăng nhập SSO' };
         }
 
         const execution = executionMatch[1];
         const lt = ltMatch[1];
-        console.log('[CAS] Got tokens. execution:', execution.substring(0, 10) + '...');
+        if (!isProduction) console.log('[CAS] Got login form tokens');
 
         // Step 2: Submit login form
-        console.log('[CAS] Step 2: Submitting credentials...');
+        if (!isProduction) console.log('[CAS] Step 2: Submitting credentials...');
         const loginParams = new URLSearchParams({
             username: username,
             password: password,
@@ -208,7 +251,7 @@ async function performCASLogin(username, password) {
         });
 
         const finalUrl = loginResponse.url;
-        console.log('[CAS] Final URL after login:', finalUrl);
+        if (!isProduction) console.log('[CAS] Login redirect complete');
 
         if (finalUrl.includes('sso.hcmut.edu.vn/cas/login')) {
             return { success: false, error: 'Sai thông tin đăng nhập' };
@@ -217,10 +260,14 @@ async function performCASLogin(username, password) {
         // Search for tokens in HTML
         const pageHtml = await loginResponse.text();
 
-        // DEBUG: Save HTML to file for analysis
-        const fs = await import('fs');
-        fs.writeFileSync('debug_app.html', pageHtml);
-        console.log('[DEBUG] Saved login HTML to server/debug_app.html');
+        // DEBUG: Only save HTML in development (NEVER in production)
+        if (!isProduction) {
+            try {
+                const fsModule = await import('fs');
+                fsModule.writeFileSync('debug_app.html', pageHtml);
+                console.log('[DEBUG] Saved login HTML to server/debug_app.html');
+            } catch (e) { /* ignore */ }
+        }
 
         let jwtToken = null;
 
@@ -254,12 +301,12 @@ async function performCASLogin(username, password) {
         // Get cookie explicitly from the APP PATH
         const cookies = await jar.getCookies('https://mybk.hcmut.edu.vn/app');
         const cookieString = cookies.map(c => c.cookieString()).join('; ');
-        console.log('[CAS] Cookies from /app path:', cookieString);
+        console.log('[CAS] Cookies from /app path:', maskCookie(cookieString));
 
         if (!cookieString.includes('SESSION')) {
             console.log('[WARN] SESSION cookie missing! Trying root path...');
             const rootCookies = await jar.getCookies('https://mybk.hcmut.edu.vn/');
-            console.log('[CAS] Root cookies:', rootCookies.map(c => c.cookieString()).join('; '));
+            console.log('[CAS] Root cookies:', maskCookie(rootCookies.map(c => c.cookieString()).join('; ')));
         }
 
         // Step 4: Verify by fetching student info
@@ -314,9 +361,13 @@ async function performCASLogin(username, password) {
     }
 }
 
-app.post('/api/auth/login', async (req, res) => {
+app.post('/api/auth/login', loginLimiter, async (req, res) => {
     const { username, password } = req.body;
-    console.log(`[API] Login request for ${username}`);
+
+    // Input validation
+    if (!username || !password || typeof username !== 'string' || typeof password !== 'string') {
+        return res.status(400).json({ error: 'Username và password là bắt buộc' });
+    }
 
     // Check if we can create new session (max sessions limit)
     if (!canCreateSession()) {
@@ -327,36 +378,38 @@ app.post('/api/auth/login', async (req, res) => {
         });
     }
 
+    // Sanitize username for logging (don't log full username)
+    const maskedUsername = username.substring(0, 3) + '***';
+    if (!isProduction) console.log(`[API] Login request for ${maskedUsername}`);
+
     const result = await performCASLogin(username, password);
 
     if (result.success) {
-        const sessionToken = Buffer.from(`${username}:${Date.now()}`).toString('base64');
+        // Generate cryptographically secure token
+        const sessionToken = crypto.randomBytes(32).toString('hex');
 
         const sessionData = {
             username,
-            // NOTE: Không lưu password để tiết kiệm RAM và bảo mật hơn
             cookie: result.cookieString,
             jwtToken: result.jwtToken,
             user: result.user,
             createdAt: Date.now(),
             lastActivity: Date.now(),  // Track activity for cleanup
-            // DKMH will be populated below
             dkmhCookie: null,
             dkmhLoggedIn: false
         };
 
-        // Also login to DKMH in parallel (non-blocking)
-        console.log('[API] Also logging into DKMH...');
+        // Login to DKMH with password, then DELETE password immediately
+        if (!isProduction) console.log('[API] Also logging into DKMH...');
         performDKMHLogin(username, password).then(dkmhResult => {
             if (dkmhResult.success) {
                 sessionData.dkmhCookie = dkmhResult.cookieString;
                 sessionData.dkmhLoggedIn = true;
-                console.log('[API] DKMH login successful! Session updated.');
-            } else {
-                console.log('[API] DKMH login failed:', dkmhResult.error);
+                if (!isProduction) console.log('[API] DKMH login successful!');
             }
+            // Password is NOT stored - DKMH login is done, we only keep the cookie
         }).catch(err => {
-            console.error('[API] DKMH login error:', err);
+            console.error('[API] DKMH login error');
         });
 
         sessions.set(sessionToken, sessionData);
@@ -440,7 +493,7 @@ app.get('/api/student/schedule', async (req, res) => {
     if (!session) return res.status(401).json({ error: 'Unauthorized' });
 
     const { studentId, semesterYear } = req.query;
-    console.log(`[API] Proxying schedule for ${studentId}, sem ${semesterYear}...`);
+    console.log(`[API] Proxying schedule for ${maskStudentId(studentId)}, sem ${semesterYear}...`);
 
     try {
         const headers = {
@@ -470,7 +523,7 @@ app.get('/api/student/exam-schedule', async (req, res) => {
     if (!session) return res.status(401).json({ error: 'Unauthorized' });
 
     const { studentId, namhoc, hocky } = req.query;
-    console.log(`[API] Proxying exam schedule for ${studentId}, namhoc=${namhoc}, hocky=${hocky}...`);
+    console.log(`[API] Proxying exam schedule for ${maskStudentId(studentId)}, namhoc=${namhoc}, hocky=${hocky}...`);
 
     try {
         const headers = {
@@ -484,7 +537,7 @@ app.get('/api/student/exam-schedule', async (req, res) => {
         if (session.jwtToken) headers['Authorization'] = session.jwtToken;
 
         const url = `https://mybk.hcmut.edu.vn/api/thoi-khoa-bieu/lich-thi-sinh-vien/v1?masv=${studentId}&namhoc=${namhoc}&hocky=${hocky}&null`;
-        console.log('[API] Exam schedule URL:', url);
+        console.log('[API] Exam schedule URL:', maskUrl(url));
 
         const response = await nodeFetch(url, { headers });
         const data = await response.json();
@@ -505,7 +558,7 @@ app.post('/api/student/gpa/summary', async (req, res) => {
 
     if (!session) return res.status(401).json({ error: 'Unauthorized' });
 
-    console.log(`[API] Proxying GPA Summary for ${studentId}...`);
+    console.log(`[API] Proxying GPA Summary for ${maskStudentId(studentId)}...`);
 
     try {
         const headers = {
@@ -551,7 +604,7 @@ app.post('/api/student/gpa/detail', async (req, res) => {
 
     if (!session) return res.status(401).json({ error: 'Unauthorized' });
 
-    console.log(`[API] Proxying GPA Detail for ${studentId}...`);
+    console.log(`[API] Proxying GPA Detail for ${maskStudentId(studentId)}...`);
 
     try {
         const headers = {
@@ -596,8 +649,7 @@ app.get('/api/stats', (req, res) => {
     const memoryUsage = process.memoryUsage();
     const sessionCount = sessions.size;
 
-    // Calculate estimated memory per session
-    const baseMemory = 50 * 1024 * 1024; // ~50MB base
+    const baseMemory = 50 * 1024 * 1024;
     const memoryPerSession = sessionCount > 0
         ? Math.round((memoryUsage.rss - baseMemory) / sessionCount)
         : 0;
@@ -707,7 +759,7 @@ async function performDKMHLogin(username, password) {
             redirect: 'follow'
         });
 
-        console.log('[DKMH] Entry URL response:', entryResponse.url);
+        console.log('[DKMH] Entry URL response:', maskUrl(entryResponse.url));
 
         // Now access home.action to establish session
         const homeUrl = 'https://mybk.hcmut.edu.vn/dkmh/home.action';
@@ -720,7 +772,7 @@ async function performDKMHLogin(username, password) {
             redirect: 'follow'
         });
 
-        console.log('[DKMH] Home URL response:', homeResponse.url);
+        console.log('[DKMH] Home URL response:', maskUrl(homeResponse.url));
 
         // Finally access the registration form
         const dkmhUrl = 'https://mybk.hcmut.edu.vn/dkmh/dangKyMonHocForm.action';
@@ -734,7 +786,7 @@ async function performDKMHLogin(username, password) {
         });
 
         const dkmhFinalUrl = dkmhResponse.url;
-        console.log('[DKMH] DKMH Final URL:', dkmhFinalUrl);
+        console.log('[DKMH] DKMH Final URL:', maskUrl(dkmhFinalUrl));
 
         // Check if we successfully reached DKMH or got redirected to login
         if (dkmhFinalUrl.includes('sso.hcmut.edu.vn') || dkmhFinalUrl.includes('cas/login')) {
@@ -744,10 +796,16 @@ async function performDKMHLogin(username, password) {
 
         const dkmhHtml = await dkmhResponse.text();
 
-        // Save for debugging
-        const fs = await import('fs');
-        fs.writeFileSync('debug_dkmh.html', dkmhHtml);
-        console.log('[DEBUG] Saved DKMH HTML to server/debug_dkmh.html');
+        // Save for debugging (development only – tránh ghi HTML chứa cookie trên production)
+        if (!isProduction) {
+            try {
+                const fs = await import('fs');
+                fs.writeFileSync('debug_dkmh.html', dkmhHtml);
+                console.log('[DEBUG] Saved DKMH HTML to server/debug_dkmh.html');
+            } catch (e) {
+                console.error('[DEBUG] Failed to write debug_dkmh.html:', e.message);
+            }
+        }
 
         // Get all cookies
         const ssoCookies = await jar.getCookies('https://sso.hcmut.edu.vn');
@@ -1120,7 +1178,7 @@ app.post('/api/dkmh/period-details', async (req, res) => {
         });
         const dotDKHtml = await dotDKResponse.text();
         console.log('[DKMH] getDanhSachDotDK response length:', dotDKHtml.length);
-        console.log('[DKMH] getDanhSachDotDK response preview:', dotDKHtml.substring(0, 200));
+        // Don't log HTML preview in production for privacy
 
         // Parse actual dotDKId from response
         // Pattern: onclick="getLichDangKyByDotDKId(this, 749, 749, false, ' ');"
@@ -1241,13 +1299,14 @@ app.post('/api/dkmh/search-courses', async (req, res) => {
 
         const html = await response.text();
         console.log('[DKMH] Search response length:', html.length);
-        console.log('[DKMH] Search response preview:', html.substring(0, 300));
 
-        // Save for debugging
-        import('fs').then(fs => {
-            fs.writeFileSync('debug_search_results.html', html);
-            console.log('[DKMH] Saved search response to server/debug_search_results.html');
-        });
+        // Only save debug file in development
+        if (!isProduction) {
+            import('fs').then(fs => {
+                fs.writeFileSync('debug_search_results.html', html);
+                console.log('[DKMH] Saved search response to server/debug_search_results.html');
+            });
+        }
 
         // Parse search results
         const courses = parseSearchResultsHtml(html);
@@ -1452,11 +1511,13 @@ function parseSearchResultsHtml(html) {
 function parsePeriodDetailsHtml(html) {
     const courses = [];
 
-    // Save HTML for debugging (async, but we don't wait)
-    import('fs').then(fs => {
-        fs.writeFileSync('debug_period_details.html', html);
-        console.log('[DKMH] Saved period details HTML to server/debug_period_details.html');
-    });
+    // Save HTML for debugging (development only)
+    if (!isProduction) {
+        import('fs').then(fs => {
+            fs.writeFileSync('debug_period_details.html', html);
+            console.log('[DKMH] Saved period details HTML to server/debug_period_details.html');
+        });
+    }
 
     // Match each panel (course) block - handle newlines with [\s\S]
     // This regex matches BOTH locked and unlocked courses:
@@ -1685,7 +1746,7 @@ app.post('/api/dkmh/register', async (req, res) => {
         // Get current cookies from jar for debugging
         const cookies = await jar.getCookies('https://mybk.hcmut.edu.vn');
         const cookieString = cookies.map(c => `${c.key}=${c.value}`).join('; ');
-        console.log('[DKMH] Full cookies:', cookieString);
+        console.log('[DKMH] Cookies count:', cookies.length);
 
         // In Force Mode: Skip priming to replicate original bug behavior
         // This causes server to return empty error messages but still process registration
@@ -1906,7 +1967,7 @@ app.post('/api/dkmh/cancel', async (req, res) => {
         });
 
         const text = await response.text();
-        console.log('[DKMH] Cancel registration response:', text.substring(0, 300));
+        // Don't log response text in production for privacy
 
         // Typically returns empty or success
         res.json({
@@ -2206,7 +2267,29 @@ app.get('/api/lecturer/subjects', (req, res) => {
     res.json(subjects);
 });
 
-app.listen(PORT, () => {
-    console.log(`🚀 Advanced MyBK Proxy running on http://localhost:${PORT}`);
-});
+// ========================
+// SPA FALLBACK (Production)
+// ========================
+if (isProduction) {
+    app.get('*', (req, res) => {
+        if (!req.path.startsWith('/api')) {
+            const indexPath = path.join(__dirname, '..', 'dist', 'index.html');
+            res.sendFile(indexPath);
+        } else {
+            res.status(404).json({ error: 'API endpoint not found' });
+        }
+    });
+}
 
+// ========================
+// START SERVER
+// ========================
+app.listen(PORT, () => {
+    console.log(`
+╔══════════════════════════════════════════════╗
+║   🚀 MyBK Schedule Server                    ║
+║   Mode: ${isProduction ? 'PRODUCTION ' : 'DEVELOPMENT'}                       ║
+║   Port: ${PORT}                                  ║
+╚══════════════════════════════════════════════╝
+    `);
+});

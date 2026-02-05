@@ -103,15 +103,7 @@ export const dkmhLogin = async (req, res) => {
     if (result.success) {
         const dkmhSessionToken = Buffer.from(`dkmh:${loginUsername}:${Date.now()}`).toString('base64');
 
-        // This seems to be a separate "dkmh-only" session type logic from original code?
-        // Original code: app.post('/api/dkmh/login')
-        /*
-        if (result.success) {
-            sessions.set(dkmhSessionToken, { type: 'dkmh', ... })
-        }
-        */
-
-        sessions.set(dkmhSessionToken, {
+        await saveSession(dkmhSessionToken, {
             type: 'dkmh',
             username: loginUsername,
             cookie: result.cookieString,
@@ -138,4 +130,46 @@ export const dkmhStatus = (req, res) => {
         dkmhLoggedIn: session.dkmhLoggedIn || false,
         username: session.username
     });
+};
+
+// DKMH Session Check - Verify by making actual request to DKMH
+export const dkmhCheck = async (req, res) => {
+    const session = req.session;
+
+    if (!session || session.type !== 'dkmh') {
+        return res.status(401).json({
+            authenticated: false,
+            error: 'DKMH session not found'
+        });
+    }
+
+    try {
+        const nodeFetch = (await import('node-fetch')).default;
+        const testUrl = 'https://mybk.hcmut.edu.vn/dkmh/dangKyMonHocForm.action';
+        const response = await nodeFetch(testUrl, {
+            headers: {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+                'Cookie': session.cookie,
+                'Referer': 'https://mybk.hcmut.edu.vn/my/homeSSO.action'
+            },
+            redirect: 'manual'
+        });
+
+        // If redirected to login, session is invalid
+        if (response.status === 302 || response.status === 301) {
+            const location = response.headers.get('location');
+            if (location && (location.includes('login') || location.includes('sso'))) {
+                await deleteSession(req.token);
+                return res.json({ authenticated: false, error: 'Session expired' });
+            }
+        }
+
+        res.json({
+            authenticated: true,
+            username: session.username,
+            createdAt: session.createdAt
+        });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
 };

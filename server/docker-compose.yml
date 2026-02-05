@@ -14,10 +14,12 @@ services:
       - NODE_ENV=production
       - PORT=3001
       - CORS_ORIGIN=http://localhost:3000
-      # - REDIS_URL=redis://redis:6379  <-- Ready for Phase 3
+      - REDIS_URL=redis://redis:6379
     restart: always
-    # networks:       <-- Uncomment when adding DB/Redis
-    #   - backend
+    networks:
+      - backend
+    depends_on:
+      - redis
 
   # ═══════════════════════════════════════════════════════════════
   # REDIS CACHE
@@ -28,7 +30,9 @@ services:
     ports:
       - "6379:6379"
     restart: always
+    networks:
+      - backend
 
-# networks:
-#   backend:
-#     driver: bridge
+networks:
+  backend:
+    driver: bridge
