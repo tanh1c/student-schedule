@@ -1,4 +1,5 @@
 import winston from 'winston';
+import 'winston-daily-rotate-file';
 import { maskSensitive, maskUrl, maskCookie } from './masking.js';
 
 // Custom format to mask sensitive data in logs
@@ -30,6 +31,26 @@ const maskingFormat = winston.format((info) => {
     return info;
 });
 
+// Daily Rotate Transport - All logs
+const dailyRotateTransport = new winston.transports.DailyRotateFile({
+    filename: 'logs/app-%DATE%.log',
+    datePattern: 'YYYY-MM-DD',
+    zippedArchive: true,       // Compress old logs to .gz
+    maxSize: '20m',            // Max 20MB per file
+    maxFiles: '14d',           // Keep logs for 14 days, then auto-delete
+    level: 'info'
+});
+
+// Daily Rotate Transport - Error logs only
+const errorRotateTransport = new winston.transports.DailyRotateFile({
+    filename: 'logs/error-%DATE%.log',
+    datePattern: 'YYYY-MM-DD',
+    zippedArchive: true,
+    maxSize: '20m',
+    maxFiles: '30d',           // Keep error logs 30 days (more important)
+    level: 'error'
+});
+
 const logger = winston.createLogger({
     level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
     format: winston.format.combine(
@@ -39,15 +60,12 @@ const logger = winston.createLogger({
     ),
     defaultMeta: { service: 'mybk-proxy' },
     transports: [
-        // Write all logs with importance level of `error` or less to `error.log`
-        new winston.transports.File({ filename: 'logs/error.log', level: 'error' }),
-        // Write all logs with importance level of `info` or less to `combined.log`
-        new winston.transports.File({ filename: 'logs/combined.log' }),
+        dailyRotateTransport,
+        errorRotateTransport
     ],
 });
 
-// If we're not in production then log to the `console` with the format:
-// `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
+// Console logging for development
 if (process.env.NODE_ENV !== 'production') {
     logger.add(new winston.transports.Console({
         format: winston.format.combine(
@@ -57,5 +75,10 @@ if (process.env.NODE_ENV !== 'production') {
         ),
     }));
 }
+
+// Log rotation events
+dailyRotateTransport.on('rotate', (oldFilename, newFilename) => {
+    logger.info(`[LOG] Rotated: ${oldFilename} -> ${newFilename}`);
+});
 
 export default logger;
