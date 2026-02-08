@@ -35,10 +35,38 @@ import {
 // Changelog data - Add new entries at the top
 const changelogData = [
     {
+        version: "2.1.0",
+        date: "2026-02-09",
+        title: "LMS Messaging & Schedule UX Upgrade ✨",
+        isLatest: true,
+        changes: [
+            {
+                type: "feature",
+                title: "Hệ thống Tin nhắn LMS (Mới) 💬",
+                description: "Chính thức ra mắt tính năng nhắn tin tích hợp LMS. Kết nối trực tiếp với BK E-Learning để gửi/nhận tin nhắn, quản lý hội thoại và cập nhật thông báo từ giảng viên ngay trên ứng dụng."
+            },
+            {
+                type: "feature",
+                title: "Chế độ Offline & Cache thông minh",
+                description: "Công nghệ lưu trữ cục bộ cho phép xem lại toàn bộ tin nhắn và hội thoại cũ (lên đến 7 ngày) ngay cả khi mất kết nối mạng hoặc server LMS bảo trì."
+            },
+            {
+                type: "improvement",
+                title: "Schedule Detail Popup (Desktop)",
+                description: "Trải nghiệm xem thời khóa biểu tốt hơn: Di chuột hoặc click vào môn học để xem ngay thông tin chi tiết (Phòng, Giờ, Tuần học, Ghi chú...) mà không cần mở tab khác."
+            },
+            {
+                type: "feature",
+                title: "Pinned Messages Dashboard",
+                description: "Tổng hợp tất cả tin nhắn quan trọng (đã ghim từ các cuộc trò chuyện) và hiển thị ngay trên trang chủ tin nhắn để truy cập nhanh."
+            }
+        ]
+    },
+    {
         version: "2.0.0",
         date: "2026-02-08",
         title: "Major Backend Overhaul & Performance Boost 🚀",
-        isLatest: true,
+        isLatest: false,
         changes: [
             {
                 type: "feature",

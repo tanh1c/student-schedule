@@ -6,6 +6,10 @@ import logger from '../utils/logger.js';
 // We accept that these might be lost on restart, requiring user to re-select period.
 export const activePeriodJars = new Map();
 
+// SSO Cookie Jars - For cross-service SSO (LMS, etc.)
+// Key: sessionToken, Value: CookieJar with TGC
+export const ssoJars = new Map();
+
 export const MAX_SESSIONS = config.session.maxSessions;
 
 // Redis Key Prefix
@@ -67,6 +71,7 @@ export async function deleteSession(token) {
     try {
         await client.del(SESSION_PREFIX + token);
         activePeriodJars.delete(token); // Cleanup associated jar
+        ssoJars.delete(token); // Cleanup SSO jar
     } catch (e) {
         logger.error('[SESSION] Delete Error', e);
     }

@@ -51,4 +51,11 @@ router.post('/dkmh/register', authenticate, dkmhController.register);
 router.post('/dkmh/registration-result', authenticate, dkmhController.getRegistrationResult);
 router.post('/dkmh/cancel', authenticate, dkmhController.cancel);
 
+// LMS (BK E-Learning) - Moodle integration
+import * as lmsController from '../controllers/lmsController.js';
+router.post('/lms/init', authenticate, lmsController.initLmsSession);
+router.get('/lms/messages', authenticate, lmsController.getMessages);
+router.get('/lms/messages/:conversationId', authenticate, lmsController.getConversationDetail);
+router.get('/lms/unread', authenticate, lmsController.getUnreadCount);
+
 export default router;

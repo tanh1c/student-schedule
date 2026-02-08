@@ -14,7 +14,10 @@ import {
   CheckCircle2,
   Settings2,
   Download,
-  CalendarPlus
+  CalendarPlus,
+  ExternalLink,
+  X,
+  Info
 } from "lucide-react";
 import {
   parseScheduleData,
@@ -69,6 +72,10 @@ function ScheduleTab() {
   const [inputMethod, setInputMethod] = useState("sync");
   const [isInputExpanded, setIsInputExpanded] = useState(true);
 
+  // Detail popup state
+  const [activeCourse, setActiveCourse] = useState(null);
+  const [hoveredCourse, setHoveredCourse] = useState(null);
+
   const { scheduleData, setScheduleData, selectedWeek, setSelectedWeek, currentWeek } = useScheduleData();
 
   useEffect(() => {
@@ -86,6 +93,13 @@ function ScheduleTab() {
       setIsInputExpanded(false);
     }
   }, [scheduleData]);
+
+  // Close active popup on click outside
+  useEffect(() => {
+    const handleClickOutside = () => setActiveCourse(null);
+    window.addEventListener('click', handleClickOutside);
+    return () => window.removeEventListener('click', handleClickOutside);
+  }, []);
 
   const generateSchedule = (inputData = scheduleInput) => {
     try {
@@ -373,6 +387,20 @@ function ScheduleTab() {
                         width: `calc((100% - 80px) / 7 - 8px)`,
                         height: `${height}px`,
                       }}
+                      onMouseEnter={(e) => {
+                        if (!activeCourse) {
+                          const rect = e.currentTarget.getBoundingClientRect();
+                          setHoveredCourse({ ...course, rect });
+                        }
+                      }}
+                      onMouseLeave={() => setHoveredCourse(null)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        // Get updated rect on click
+                        const rect = e.currentTarget.getBoundingClientRect();
+                        setActiveCourse({ ...course, rect });
+                        setHoveredCourse(null);
+                      }}
                     >
                       <div className="h-full flex flex-col relative px-2 py-1.5">
                         {/* Hover overlay effect */}
@@ -640,6 +668,132 @@ function ScheduleTab() {
 
       {/* Mobile spacer for navigation (if any) */}
       <div className="h-16 md:hidden"></div>
+
+      {/* Course Detail Popup */}
+      {(hoveredCourse || activeCourse) && (
+        <CourseDetailPopup
+          course={activeCourse || hoveredCourse}
+          rect={(activeCourse || hoveredCourse).rect}
+          isActive={!!activeCourse}
+          onClose={() => setActiveCourse(null)}
+        />
+      )}
+    </div>
+  );
+}
+
+function CourseDetailPopup({ course, rect, isActive, onClose }) {
+  if (!course || !rect) return null;
+
+  const CARD_WIDTH = 320;
+  // Calculate Initial Position (Right of the card)
+  let left = rect.right + 12;
+  let top = rect.top;
+
+  // Check Window Boundaries
+  const windowWidth = window.innerWidth;
+  const windowHeight = window.innerHeight;
+
+  // If overflows right edge -> Flip to Left
+  if (left + CARD_WIDTH > windowWidth - 12) {
+    left = rect.left - CARD_WIDTH - 12;
+  }
+
+  // Vertical Adjustment
+  const estimatedHeight = 350; // Rough estimate
+  if (top + estimatedHeight > windowHeight - 12) {
+    top = windowHeight - estimatedHeight - 12;
+  }
+
+  // Ensure not off-screen top
+  if (top < 70) top = 70; // 70px for header bar
+
+  return (
+    <div
+      className="fixed z-50 animate-in zoom-in-95 fade-in duration-200"
+      style={{ top, left, width: CARD_WIDTH }}
+      onMouseEnter={(e) => e.stopPropagation()}
+      onClick={(e) => e.stopPropagation()}
+    >
+      <Card className="shadow-xl bg-white/95 dark:bg-slate-900/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-slate-900/60 border border-slate-200 dark:border-slate-800">
+        {/* Color Stripe */}
+        <div className="h-1.5 w-full" style={{ backgroundColor: getSubjectColor(course.code) }} />
+
+        <CardContent className="p-4 space-y-3">
+          {/* Header */}
+          <div className="flex justify-between items-start gap-3">
+            <div>
+              <h4 className="font-bold text-base leading-snug text-slate-900 dark:text-slate-100">{course.name}</h4>
+              <div className="flex items-center gap-2 mt-1">
+                <Badge variant="outline" className="font-mono text-[10px]">{course.code}</Badge>
+                {course.group && <Badge variant="secondary" className="text-[10px]">Nhóm {course.group}</Badge>}
+              </div>
+            </div>
+            {isActive && (
+              <Button variant="ghost" size="icon" className="h-6 w-6 -mt-1 -mr-2 text-muted-foreground hover:text-foreground" onClick={onClose}>
+                <X className="h-3.5 w-3.5" />
+              </Button>
+            )}
+          </div>
+
+          <div className="space-y-2 pt-1">
+            {/* Location */}
+            <div className="flex items-start gap-2.5 text-sm">
+              <div className="mt-0.5 p-1 rounded-md bg-slate-100 dark:bg-slate-800">
+                <MapPin className="h-3.5 w-3.5 text-slate-500" />
+              </div>
+              <div>
+                <span className="font-medium text-xs text-muted-foreground uppercase">Phòng học</span>
+                <div className="text-sm font-medium text-slate-800 dark:text-slate-200">{course.room}</div>
+              </div>
+            </div>
+
+            {/* Time */}
+            <div className="flex items-start gap-2.5 text-sm">
+              <div className="mt-0.5 p-1 rounded-md bg-slate-100 dark:bg-slate-800">
+                <Clock className="h-3.5 w-3.5 text-slate-500" />
+              </div>
+              <div>
+                <span className="font-medium text-xs text-muted-foreground uppercase">Thời gian</span>
+                <div className="text-sm font-medium text-slate-800 dark:text-slate-200">
+                  {course.time} (Tiết {course.startPeriod} - {course.endPeriod})
+                </div>
+              </div>
+            </div>
+
+            {/* Weeks */}
+            {course.weeks && (
+              <div className="flex items-start gap-2.5 text-sm">
+                <div className="mt-0.5 p-1 rounded-md bg-slate-100 dark:bg-slate-800">
+                  <Calendar className="h-3.5 w-3.5 text-slate-500" />
+                </div>
+                <div>
+                  <span className="font-medium text-xs text-muted-foreground uppercase">Tuần học</span>
+                  <div className="text-xs text-muted-foreground break-words max-h-20 overflow-y-auto pr-1">
+                    {course.weeks.join(', ')}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Note */}
+            {course.notes && (
+              <div className="flex items-start gap-2.5 text-sm pt-2 border-t border-dashed border-slate-200 dark:border-slate-800 mt-2">
+                <Info className="h-4 w-4 text-blue-500 mt-0.5" />
+                <div className="text-xs italic text-muted-foreground">
+                  {course.notes}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {!isActive && (
+            <div className="text-[10px] text-center text-muted-foreground/60 pt-2 border-t font-medium mt-1">
+              Nhấn để xem chi tiết & giữ thẻ này
+            </div>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 }

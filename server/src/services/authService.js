@@ -152,11 +152,18 @@ export async function performCASLogin(username, password) {
             logger.info('[AUTH] Failed to fetch student info:', infoResponse.status);
         }
 
+        // Extract TGC cookie for SSO reuse across services
+        const ssoCookies = await jar.getCookies('https://sso.hcmut.edu.vn');
+        const tgcCookie = ssoCookies.find(c => c.key === 'TGC');
+        const tgcValue = tgcCookie ? tgcCookie.value : null;
+
         return {
             success: true,
             cookieString: cookieString,
             user: userData,
-            jwtToken: jwtToken
+            jwtToken: jwtToken,
+            jar: jar,  // Include jar for services that need SSO (like LMS)
+            tgcCookie: tgcValue  // TGC for SSO ticket granting
         };
 
     } catch (error) {

@@ -91,7 +91,7 @@ function getCurrentSemester() {
 // Key for storing credentials
 const SAVED_CREDENTIALS_KEY = 'mybk_saved_credentials';
 
-function MyBKLoginCard({ onScheduleFetched, onError }) {
+function MyBKLoginCard({ onScheduleFetched, onError, onLoginSuccess }) {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -245,6 +245,11 @@ function MyBKLoginCard({ onScheduleFetched, onError }) {
 
                 setPassword('');
                 await loadStudentInfo();
+
+                // Notify parent component of successful login
+                if (onLoginSuccess) {
+                    onLoginSuccess();
+                }
             } else {
                 // Check if it's a server capacity issue
                 if (result.code === 'MAX_SESSIONS_REACHED' || result.error?.includes('quá tải')) {

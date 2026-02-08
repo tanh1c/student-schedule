@@ -17,7 +17,8 @@ import {
   Route,
   Shield,
   History,
-  Award
+  Award,
+  Mail
 } from "lucide-react";
 import { Button } from "./components/ui/button";
 import { Switch } from "./components/ui/switch";
@@ -40,6 +41,7 @@ import WelcomeFeedback from "./components/WelcomeFeedback";
 import SecurityPage from "./components/SecurityPage";
 import ChangelogPage from "./components/ChangelogPage";
 import HonorWallPage from "./components/HonorWallPage";
+import MessagesTab from "./components/MessagesTab";
 import {
   Popover,
   PopoverContent,
@@ -64,6 +66,7 @@ const menuItems = [
   { id: "notes", label: "Ghi chú", shortLabel: "Note", icon: ScrollText },
   { id: "roadmap", label: "Roadmap học tập", shortLabel: "Plan", icon: Route },
   { id: "registration", label: "ĐKMH", shortLabel: "ĐKMH", icon: NotebookTabs },
+  { id: "messages", label: "Tin nhắn LMS", shortLabel: "Msg", icon: Mail },
   { id: "preview", label: "Preview", shortLabel: "Preview", icon: ScrollText },
   { id: "security", label: "Bảo mật", shortLabel: "BM", icon: Shield },
   { id: "changelog", label: "Changelog", shortLabel: "Log", icon: History },
@@ -120,6 +123,8 @@ function App() {
         return <ChangelogPage />;
       case "honor":
         return <HonorWallPage />;
+      case "messages":
+        return <MessagesTab />;
       default:
         return <ScheduleTab />;
     }

@@ -16,6 +16,11 @@ export default {
             entryUrl: 'https://mybk.hcmut.edu.vn/dkmh/',
             homeUrl: 'https://mybk.hcmut.edu.vn/dkmh/home.action',
             formUrl: 'https://mybk.hcmut.edu.vn/dkmh/dangKyMonHocForm.action'
+        },
+        lms: {
+            baseUrl: 'https://lms.hcmut.edu.vn',
+            serviceUrl: 'https://lms.hcmut.edu.vn/login/index.php?authCAS=CAS',
+            ajaxUrl: 'https://lms.hcmut.edu.vn/lib/ajax/service.php'
         }
     }
 };

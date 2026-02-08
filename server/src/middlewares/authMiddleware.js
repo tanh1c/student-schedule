@@ -14,6 +14,7 @@ export const authenticate = async (req, res, next) => {
         }
 
         req.session = session;
+        req.token = token; // For controllers that need the token (e.g., LMS)
         next();
     } catch (e) {
         logger.error('[AUTH] Middleware Error', e);

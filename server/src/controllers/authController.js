@@ -12,7 +12,7 @@ import config from '../../config/default.js';
 // Let's create a memory store singleton for sessions first.
 
 // Wait, I should create a session store module first.
-import { MAX_SESSIONS, canCreateSession, saveSession, deleteSession, activePeriodJars, getSession } from '../services/sessionStore.js';
+import { MAX_SESSIONS, canCreateSession, saveSession, deleteSession, activePeriodJars, ssoJars, getSession } from '../services/sessionStore.js';
 
 export const login = async (req, res) => {
     const { username, password } = req.body;
@@ -43,6 +43,13 @@ export const login = async (req, res) => {
         };
 
         await saveSession(sessionToken, sessionData);
+
+        // Store SSO jar for cross-service authentication (LMS, etc.)
+        if (result.jar) {
+            ssoJars.set(sessionToken, result.jar);
+            logger.info('[API] SSO jar stored for cross-service auth.');
+        }
+
         logger.info(`[API] Login successful. Session saved to Redis.`);
 
         // Async DKMH Login
