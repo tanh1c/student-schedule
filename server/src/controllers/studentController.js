@@ -153,12 +153,12 @@ export const getGpaDetail = async (req, res) => {
     try {
         const headers = createProxyHeaders(session);
         headers['Content-Type'] = 'application/json';
-        const url = `https://mybk.hcmut.edu.vn/api/share/ket-qua-hoc-tap/bang-diem-hoc-ky/v2?masv=${studentId}&maHocKy=${hocKyId}&tuychon=VIEWONLINE`;
+        const url = 'https://mybk.hcmut.edu.vn/api/share/ket-qua-hoc-tap/danh-sach-mon-hoc-ctdt/v2';
 
         const response = await nodeFetch(url, {
             method: 'POST',
             headers,
-            body: '' // No body required for this POST
+            body: JSON.stringify(studentId)
         });
         const data = await response.json();
         res.json(data);
