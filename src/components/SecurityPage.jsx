@@ -95,7 +95,7 @@ function ApiEndpointCard({ endpoint, method, description, dataFlow, security }) 
                             ) : (
                                 <span className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400">
                                     <CheckCircle2 className="h-3 w-3" />
-                                    Không lưu trữ
+                                    Không lưu Persistent DB
                                 </span>
                             )}
                             {security.encrypted && (
@@ -226,7 +226,7 @@ export default function SecurityPage() {
         {
             endpoint: "/api/stats",
             method: "GET",
-            description: "Thông tin server (memory, sessions) - không chứa dữ liệu cá nhân",
+            description: "Thông tin server (redis, memory, active sessions) - chỉ số liệu thống kê",
             dataFlow: ["Browser", "Server"],
             security: { stored: false, encrypted: true }
         }
@@ -268,7 +268,7 @@ export default function SecurityPage() {
                     </Badge>
                     <Badge className="bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/20 px-3 py-1.5 text-sm">
                         <Clock className="h-3.5 w-3.5 mr-1.5" />
-                        Auto Session Cleanup
+                        Redis Ephemeral Storage
                     </Badge>
                 </div>
 
@@ -366,9 +366,9 @@ export default function SecurityPage() {
                         />
                         <SecurityFeatureCard
                             icon={Trash2}
-                            title="RAM-only Storage"
-                            description="Session chỉ lưu trong RAM, restart server = mất hết data"
-                            status="No DB"
+                            title="Ephemeral Storage"
+                            description="Dữ liệu lưu tạm thời trong Redis và tự động xóa theo TTL"
+                            status="Redis TTL"
                             color="violet"
                         />
                     </div>
@@ -408,7 +408,7 @@ export default function SecurityPage() {
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2 text-amber-800 dark:text-amber-300">
                             <AlertTriangle className="h-5 w-5 text-amber-600 dark:text-amber-400" />
-                            Những gì được lưu TẠM THỜI trong RAM
+                            Những gì được lưu TẠM THỜI (Redis Cache)
                         </CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4">
@@ -428,9 +428,10 @@ export default function SecurityPage() {
                         </div>
                         <div className="flex items-start gap-2 text-sm text-amber-700 dark:text-amber-400 bg-amber-100/50 dark:bg-amber-900/20 rounded-lg p-3">
                             <Info className="h-4 w-4 shrink-0 mt-0.5" />
+
                             <p>
-                                Tất cả dữ liệu trên chỉ tồn tại trong RAM của server. Khi server restart hoặc sau 15 phút không hoạt động,
-                                mọi thứ sẽ bị xóa hoàn toàn. <strong>Không có database</strong> nào lưu trữ thông tin của bạn.
+                                Tất cả dữ liệu trên chỉ được lưu <strong>tạm thời</strong> trong cache Redis với thời gian sống (TTL) ngắn.
+                                Hệ thống sẽ <strong>tự động xóa</strong> vĩnh viễn dữ liệu khi hết hạn (15 phút). Chúng tôi không sử dụng database lưu trữ lâu dài (như MySQL, Mongo).
                             </p>
                         </div>
                     </CardContent>

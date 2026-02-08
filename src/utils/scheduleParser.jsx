@@ -35,8 +35,16 @@ export const parseScheduleData = (input) => {
     if (columns.length >= 12) {
       const [_semester, code, name, credits, _feeCredits, group, day, periods, time, room, location, weeks] = columns;
 
+      // Helper to parse day
+      const parseDay = (d) => {
+        if (d === 'Chủ nhật' || d === 'CN') return 8;
+        return parseInt(d);
+      };
+
+      const dayInt = parseDay(day);
+
       // Bỏ qua các môn không có thời gian học cụ thể (theo logic code cũ)
-      if (day === '--' || periods === '--') {
+      if (day === '--' || periods === '--' || isNaN(dayInt)) {
         return;
       }
 
@@ -60,7 +68,7 @@ export const parseScheduleData = (input) => {
         scheduleData.push({
           code: code,
           name: name,
-          day: parseInt(day),
+          day: dayInt,
           startPeriod: startPeriod,
           endPeriod: startPeriod + numberOfPeriods - 2,
           room: room,
@@ -71,7 +79,7 @@ export const parseScheduleData = (input) => {
           weeks: weekList,
           // Thêm schedule array để tương thích với component
           schedule: [{
-            day: parseInt(day),
+            day: dayInt,
             periods: Array.from({ length: numberOfPeriods }, (_, i) => startPeriod + i),
             room: room,
             time: time,

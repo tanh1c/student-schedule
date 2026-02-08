@@ -465,7 +465,7 @@ function RegistrationPeriodCard({ period, onClick }) {
     );
 }
 
-// Period Details View
+// Period Details View - Premium UI matching main page style
 function PeriodDetailsView({ period, details, loading, onBack }) {
     const courses = details?.courses?.courses || [];
     const totalCredits = details?.courses?.totalCredits || 0;
@@ -480,17 +480,56 @@ function PeriodDetailsView({ period, details, loading, onBack }) {
     const [showSearch, setShowSearch] = useState(false);
     const [forceMode, setForceMode] = useState(false);
 
-    const handleSearch = async (e) => {
-        // Check for shift+click to trigger force mode
-        const isForceClick = e?.shiftKey === true;
+    // Determine period status colors
+    const isOpen = period.status === 'open';
+    const isUpcoming = period.status === 'upcoming';
 
-        // Also check if query contains #force command
+    const colorScheme = {
+        open: {
+            gradient: 'from-emerald-50 via-green-50 to-teal-50 dark:from-emerald-950/20 dark:via-green-950/15 dark:to-teal-950/20',
+            border: 'border-emerald-200/60 dark:border-emerald-900/50',
+            iconBg: 'from-emerald-400 to-green-500 dark:from-emerald-600 dark:to-green-700',
+            iconShadow: 'shadow-emerald-200/50 dark:shadow-emerald-950/40',
+            decoration1: 'bg-emerald-200/30 dark:bg-emerald-900/20',
+            decoration2: 'bg-green-200/30 dark:bg-green-900/20',
+            textColor: 'text-emerald-700 dark:text-emerald-400',
+            badgeBg: 'bg-emerald-100 dark:bg-emerald-950/50',
+            badgeText: 'text-emerald-700 dark:text-emerald-400'
+        },
+        upcoming: {
+            gradient: 'from-blue-50 via-indigo-50 to-violet-50 dark:from-blue-950/20 dark:via-indigo-950/15 dark:to-violet-950/20',
+            border: 'border-blue-200/60 dark:border-blue-900/50',
+            iconBg: 'from-blue-400 to-indigo-500 dark:from-blue-600 dark:to-indigo-700',
+            iconShadow: 'shadow-blue-200/50 dark:shadow-blue-950/40',
+            decoration1: 'bg-blue-200/30 dark:bg-blue-900/20',
+            decoration2: 'bg-indigo-200/30 dark:bg-indigo-900/20',
+            textColor: 'text-blue-700 dark:text-blue-400',
+            badgeBg: 'bg-blue-100 dark:bg-blue-950/50',
+            badgeText: 'text-blue-700 dark:text-blue-400'
+        },
+        closed: {
+            gradient: 'from-zinc-50 via-gray-50 to-slate-50 dark:from-zinc-950/20 dark:via-gray-950/15 dark:to-slate-950/20',
+            border: 'border-zinc-200/60 dark:border-zinc-800/50',
+            iconBg: 'from-zinc-400 to-gray-500 dark:from-zinc-600 dark:to-gray-700',
+            iconShadow: 'shadow-zinc-200/50 dark:shadow-zinc-950/40',
+            decoration1: 'bg-zinc-200/20 dark:bg-zinc-900/15',
+            decoration2: 'bg-gray-200/20 dark:bg-gray-900/15',
+            textColor: 'text-zinc-600 dark:text-zinc-500',
+            badgeBg: 'bg-zinc-100 dark:bg-zinc-900/50',
+            badgeText: 'text-zinc-600 dark:text-zinc-500'
+        }
+    };
+
+    const colors = isOpen ? colorScheme.open : (isUpcoming ? colorScheme.upcoming : colorScheme.closed);
+    const StatusIcon = isOpen ? CheckCircle2 : (isUpcoming ? Clock : Lock);
+
+    const handleSearch = async (e) => {
+        const isForceClick = e?.shiftKey === true;
         let query = searchQuery.trim();
         const hasForceCommand = query.toLowerCase().includes('#force');
         if (hasForceCommand) {
             query = query.replace(/#force/gi, '').trim();
         }
-
         const useForceMode = isForceClick || hasForceCommand;
 
         if (!query) return;
@@ -500,13 +539,8 @@ function PeriodDetailsView({ period, details, loading, onBack }) {
         setSearchResults([]);
         setForceMode(useForceMode);
 
-        if (useForceMode) {
-            console.log('🔓 Force Mode activated! Bypassing validation...');
-        }
-
         try {
             const result = await mybkApi.searchCourses(period.id, query, useForceMode);
-
             if (result.success && result.data) {
                 setSearchResults(result.data);
                 if (result.data.length === 0) {
@@ -530,38 +564,58 @@ function PeriodDetailsView({ period, details, loading, onBack }) {
 
     return (
         <div className="space-y-4 p-3 sm:p-6 pb-24">
-            {/* Header */}
-            <div className="flex items-center gap-3">
-                <Button variant="ghost" size="sm" onClick={onBack} className="h-9 px-2">
-                    <ArrowLeft className="h-5 w-5" />
-                </Button>
-                <div className="flex-1">
-                    <h2 className="text-lg font-bold text-primary">{period.code}</h2>
-                    <p className="text-sm text-muted-foreground line-clamp-1">{period.description}</p>
+            {/* Premium Header Card */}
+            <div className={`relative overflow-hidden rounded-2xl bg-gradient-to-r ${colors.gradient} border ${colors.border} p-4 sm:p-5 shadow-sm`}>
+                {/* Background decorations */}
+                <div className={`absolute -top-10 -right-10 h-32 w-32 ${colors.decoration1} rounded-full blur-2xl`} />
+                <div className={`absolute -bottom-10 -left-10 h-32 w-32 ${colors.decoration2} rounded-full blur-2xl`} />
+
+                <div className="relative flex items-start gap-4">
+                    {/* Back Button + Icon */}
+                    <div className="flex items-center gap-2">
+                        <button
+                            onClick={onBack}
+                            className="h-10 w-10 rounded-xl bg-white/50 dark:bg-white/10 backdrop-blur flex items-center justify-center hover:bg-white/70 dark:hover:bg-white/20 transition-colors"
+                        >
+                            <ArrowLeft className="h-5 w-5 text-foreground/70" />
+                        </button>
+                        <div className={`h-12 w-12 rounded-2xl bg-gradient-to-br ${colors.iconBg} flex items-center justify-center shadow-lg ${colors.iconShadow}`}>
+                            <StatusIcon className="h-6 w-6 text-white" />
+                        </div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 flex-wrap mb-1">
+                            <h2 className={`font-bold text-lg sm:text-xl ${colors.textColor}`}>
+                                {period.code}
+                            </h2>
+                            {getStatusBadgeInline(period.status)}
+                        </div>
+                        <p className="text-sm text-foreground/70 dark:text-foreground/60 line-clamp-2">
+                            {period.description}
+                        </p>
+                    </div>
+                </div>
+
+                {/* Schedule Info Row */}
+                <div className="relative flex flex-wrap gap-3 mt-4 pt-3 border-t border-white/30 dark:border-white/10">
+                    <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/50 dark:bg-white/10 ${colors.textColor} text-xs font-medium`}>
+                        <Calendar className="h-3 w-3" />
+                        {schedule.from || period.startTime}
+                    </span>
+                    <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/50 dark:bg-white/10 ${colors.textColor} text-xs font-medium`}>
+                        <Clock className="h-3 w-3" />
+                        {schedule.to || period.endTime}
+                    </span>
+                    {schedule.isOpen && (
+                        <Badge className="bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 border-none text-[10px] px-2 py-0.5 font-bold">
+                            <CheckCircle2 className="h-3 w-3 mr-1" />
+                            Trong hạn ĐK
+                        </Badge>
+                    )}
                 </div>
             </div>
-
-            {/* Schedule Info */}
-            <Card className="border-blue-200 bg-blue-50/50 dark:bg-blue-900/10">
-                <CardContent className="py-3 px-4">
-                    <div className="flex flex-wrap gap-4 text-sm">
-                        <span className="flex items-center gap-1">
-                            <Calendar className="h-4 w-4 text-blue-600" />
-                            Từ: <span className="font-medium">{schedule.from || period.startTime}</span>
-                        </span>
-                        <span className="flex items-center gap-1">
-                            <Clock className="h-4 w-4 text-blue-600" />
-                            Đến: <span className="font-medium">{schedule.to || period.endTime}</span>
-                        </span>
-                        {schedule.isOpen && (
-                            <Badge className="bg-green-100 text-green-700">
-                                <CheckCircle2 className="h-3 w-3 mr-1" />
-                                Đang trong hạn đăng ký
-                            </Badge>
-                        )}
-                    </div>
-                </CardContent>
-            </Card>
 
             {/* Loading */}
             {loading && (
@@ -571,47 +625,64 @@ function PeriodDetailsView({ period, details, loading, onBack }) {
                 </div>
             )}
 
-            {/* Summary */}
+            {/* Stats Cards - Premium Style */}
             {!loading && details && (
                 <div className="grid grid-cols-2 gap-3">
-                    <Card>
-                        <CardContent className="py-4 px-4 text-center">
-                            <BookOpen className="h-6 w-6 mx-auto mb-1 text-blue-500" />
-                            <p className="text-2xl font-bold">{totalCourses}</p>
-                            <p className="text-xs text-muted-foreground">Môn đăng ký</p>
-                        </CardContent>
-                    </Card>
-                    <Card>
-                        <CardContent className="py-4 px-4 text-center">
-                            <GraduationCap className="h-6 w-6 mx-auto mb-1 text-green-500" />
-                            <p className="text-2xl font-bold">{totalCredits}</p>
-                            <p className="text-xs text-muted-foreground">Tín chỉ</p>
-                        </CardContent>
-                    </Card>
+                    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-50 via-indigo-50 to-violet-50 dark:from-blue-950/20 dark:via-indigo-950/15 dark:to-violet-950/20 border border-blue-200/60 dark:border-blue-900/50 p-4 shadow-sm">
+                        <div className="absolute -top-8 -right-8 h-20 w-20 bg-blue-200/30 dark:bg-blue-900/20 rounded-full blur-xl" />
+                        <div className="relative flex items-center gap-3">
+                            <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-blue-400 to-indigo-500 dark:from-blue-600 dark:to-indigo-700 flex items-center justify-center shadow-lg shadow-blue-200/50 dark:shadow-blue-950/40">
+                                <BookOpen className="h-5 w-5 text-white" />
+                            </div>
+                            <div>
+                                <p className="text-2xl font-black text-blue-900 dark:text-blue-300">{totalCourses}</p>
+                                <p className="text-xs font-medium text-blue-600 dark:text-blue-500">Môn đăng ký</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 dark:from-emerald-950/20 dark:via-green-950/15 dark:to-teal-950/20 border border-emerald-200/60 dark:border-emerald-900/50 p-4 shadow-sm">
+                        <div className="absolute -top-8 -right-8 h-20 w-20 bg-emerald-200/30 dark:bg-emerald-900/20 rounded-full blur-xl" />
+                        <div className="relative flex items-center gap-3">
+                            <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-emerald-400 to-green-500 dark:from-emerald-600 dark:to-green-700 flex items-center justify-center shadow-lg shadow-emerald-200/50 dark:shadow-emerald-950/40">
+                                <GraduationCap className="h-5 w-5 text-white" />
+                            </div>
+                            <div>
+                                <p className="text-2xl font-black text-emerald-900 dark:text-emerald-300">{totalCredits}</p>
+                                <p className="text-xs font-medium text-emerald-600 dark:text-emerald-500">Tín chỉ</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             )}
 
-            {/* Search Section - Only show for open periods */}
+            {/* Search Section - Premium Style */}
             {!loading && period.status === 'open' && (
-                <Card className="border-green-200 bg-green-50/30 dark:bg-green-900/10">
-                    <CardContent className="p-4">
+                <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-violet-50 via-purple-50 to-fuchsia-50 dark:from-violet-950/20 dark:via-purple-950/15 dark:to-fuchsia-950/20 border border-violet-200/60 dark:border-violet-900/50 p-4 shadow-sm">
+                    <div className="absolute -top-10 -right-10 h-32 w-32 bg-violet-200/30 dark:bg-violet-900/20 rounded-full blur-2xl" />
+                    <div className="absolute -bottom-10 -left-10 h-32 w-32 bg-purple-200/30 dark:bg-purple-900/20 rounded-full blur-2xl" />
+
+                    <div className="relative">
                         <div className="flex items-center justify-between mb-3">
-                            <h3 className="font-semibold text-sm flex items-center gap-2">
-                                <Search className="h-4 w-4 text-green-600" />
-                                Đăng ký hiệu chỉnh
-                            </h3>
-                            <Button
-                                variant="ghost"
-                                size="sm"
+                            <div className="flex items-center gap-3">
+                                <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-violet-400 to-purple-500 dark:from-violet-600 dark:to-purple-700 flex items-center justify-center shadow-lg shadow-violet-200/50 dark:shadow-violet-950/40">
+                                    <Search className="h-5 w-5 text-white" />
+                                </div>
+                                <div>
+                                    <h3 className="font-bold text-violet-800 dark:text-violet-300">Đăng ký hiệu chỉnh</h3>
+                                    <p className="text-xs text-violet-600/70 dark:text-violet-400/70">Tìm và đăng ký thêm môn học</p>
+                                </div>
+                            </div>
+                            <button
                                 onClick={() => setShowSearch(!showSearch)}
-                                className="h-7 text-xs"
+                                className="h-8 px-3 rounded-lg bg-violet-100 dark:bg-violet-950/60 hover:bg-violet-200 dark:hover:bg-violet-900/70 text-violet-700 dark:text-violet-400 text-xs font-medium transition-colors"
                             >
                                 {showSearch ? 'Ẩn' : 'Mở rộng'}
-                            </Button>
+                            </button>
                         </div>
 
                         {showSearch && (
-                            <div className="space-y-3">
+                            <div className="space-y-3 pt-3 border-t border-violet-200/50 dark:border-violet-800/30">
                                 {/* Search Input */}
                                 <div className="flex gap-2">
                                     <input
@@ -620,12 +691,12 @@ function PeriodDetailsView({ period, details, loading, onBack }) {
                                         onChange={(e) => setSearchQuery(e.target.value)}
                                         onKeyPress={handleKeyPress}
                                         placeholder="Nhập mã hoặc tên môn học (VD: CO3005)"
-                                        className="flex-1 h-10 px-3 rounded-md border-[1.5px] border-input bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
+                                        className="flex-1 h-10 px-3 rounded-xl border-2 border-violet-200 dark:border-violet-800 bg-white dark:bg-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-violet-400/50 focus:border-violet-400"
                                     />
                                     <Button
                                         onClick={handleSearch}
                                         disabled={searching || !searchQuery.trim()}
-                                        className="h-10 bg-green-600 hover:bg-green-700 text-white"
+                                        className="h-10 px-4 bg-gradient-to-r from-violet-500 to-purple-600 hover:from-violet-600 hover:to-purple-700 text-white rounded-xl"
                                     >
                                         {searching ? (
                                             <Loader2 className="h-4 w-4 animate-spin" />
@@ -637,7 +708,7 @@ function PeriodDetailsView({ period, details, loading, onBack }) {
 
                                 {/* Search Error */}
                                 {searchError && (
-                                    <p className="text-sm text-red-600 flex items-center gap-1">
+                                    <p className="text-sm text-red-600 dark:text-red-400 flex items-center gap-1 px-3 py-2 bg-red-50 dark:bg-red-950/30 rounded-lg">
                                         <XCircle className="h-4 w-4" />
                                         {searchError}
                                     </p>
@@ -645,16 +716,16 @@ function PeriodDetailsView({ period, details, loading, onBack }) {
 
                                 {/* Force Mode Indicator */}
                                 {forceMode && searchResults.length > 0 && (
-                                    <div className="p-2 bg-purple-100 dark:bg-purple-900/30 rounded-md text-purple-700 dark:text-purple-300 text-xs flex items-center gap-2">
+                                    <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-xl text-purple-700 dark:text-purple-300 text-xs flex items-center gap-2 border border-purple-200 dark:border-purple-800">
                                         <span className="text-lg">🔓</span>
-                                        <span><strong>Force Mode:</strong> Bypass validation đã kích hoạt. Có thể đăng ký môn trùng lịch!</span>
+                                        <span><strong>Force Mode:</strong> Bypass validation đã kích hoạt!</span>
                                     </div>
                                 )}
 
                                 {/* Search Results */}
                                 {searchResults.length > 0 && (
                                     <div className="space-y-2">
-                                        <p className="text-xs text-muted-foreground">
+                                        <p className="text-xs text-violet-600 dark:text-violet-400 font-medium">
                                             Tìm thấy {searchResults.length} môn học
                                             {forceMode && <span className="ml-1 text-purple-500">(Force Mode)</span>}
                                         </p>
@@ -670,34 +741,42 @@ function PeriodDetailsView({ period, details, loading, onBack }) {
                                 )}
                             </div>
                         )}
-                    </CardContent>
-                </Card>
+                    </div>
+                </div>
             )}
 
-            {/* Courses List */}
+            {/* Courses List - Premium Style */}
             {!loading && courses.length > 0 && (
                 <div className="space-y-3">
-                    <h3 className="font-semibold text-sm flex items-center gap-2">
-                        <BookOpen className="h-4 w-4" />
-                        Danh sách môn học đã đăng ký
-                    </h3>
+                    <div className="flex items-center gap-3">
+                        <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-orange-400 to-amber-500 flex items-center justify-center shadow-md">
+                            <BookOpen className="h-4 w-4 text-white" />
+                        </div>
+                        <h3 className="font-bold text-foreground">Danh sách môn đã đăng ký</h3>
+                    </div>
                     {courses.map((course, idx) => (
                         <CourseCard
                             key={course.ketquaId || idx}
                             course={course}
                             index={idx + 1}
                             periodId={period.id}
-                            onDeleted={onBack} // Trigger refresh by going back
+                            onDeleted={onBack}
                         />
                     ))}
                 </div>
             )}
 
-            {/* Empty State */}
+            {/* Empty State - Premium Style */}
             {!loading && courses.length === 0 && details && (
-                <div className="text-center py-12 text-muted-foreground border-2 border-dashed rounded-lg">
-                    <BookOpen className="h-10 w-10 mx-auto mb-3 opacity-50" />
-                    <p className="text-sm">Chưa có môn học nào được đăng ký trong đợt này</p>
+                <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-50 via-gray-50 to-zinc-50 dark:from-slate-950/20 dark:via-gray-950/15 dark:to-zinc-950/20 border-2 border-dashed border-slate-300 dark:border-slate-700 p-8">
+                    <div className="absolute -top-10 -right-10 h-32 w-32 bg-slate-200/30 dark:bg-slate-900/20 rounded-full blur-2xl" />
+                    <div className="relative text-center">
+                        <div className="h-16 w-16 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center mx-auto mb-4">
+                            <BookOpen className="h-8 w-8 text-slate-400" />
+                        </div>
+                        <p className="text-slate-600 dark:text-slate-400 font-medium">Chưa có môn học nào được đăng ký</p>
+                        <p className="text-xs text-slate-500 dark:text-slate-500 mt-1">Sử dụng chức năng tìm kiếm để đăng ký môn</p>
+                    </div>
                 </div>
             )}
         </div>

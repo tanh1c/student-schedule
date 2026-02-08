@@ -7,6 +7,7 @@ import logger from './utils/logger.js';
 import apiRoutes from './routes/apiRoutes.js';
 import lecturerRoutes from './routes/lecturerRoutes.js';
 import { activePeriodJars } from './services/sessionStore.js';
+import { getContributors } from './services/githubService.js';
 import { requestIdMiddleware, globalErrorHandler } from './middlewares/errorMiddleware.js';
 
 const app = express();
@@ -45,6 +46,18 @@ app.get('/api/stats', (req, res) => {
     });
 });
 
+// GitHub Contributors API with Redis caching
+app.get('/api/github/contributors', async (req, res) => {
+    try {
+        const data = await getContributors();
+        res.json(data);
+    } catch (error) {
+        logger.error('[API] Failed to get contributors:', error);
+        res.status(500).json({ error: 'Failed to fetch contributors' });
+    }
+});
+
 app.use(globalErrorHandler);
 
 export default app;
+

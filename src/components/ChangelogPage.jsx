@@ -35,10 +35,43 @@ import {
 // Changelog data - Add new entries at the top
 const changelogData = [
     {
+        version: "2.0.0",
+        date: "2026-02-08",
+        title: "Major Backend Overhaul & Performance Boost 🚀",
+        isLatest: true,
+        changes: [
+            {
+                type: "feature",
+                title: "Kiến trúc Modular Backend",
+                description: "Tái cấu trúc toàn bộ Server sang mô hình Controller-Service-Route chuyên nghiệp, dễ bảo trì và mở rộng."
+            },
+            {
+                type: "feature",
+                title: "Redis Caching & Session",
+                description: "Tích hợp Redis với chiến lược SWR (Stale-While-Revalidate), tăng tốc độ API lên gấp 10-100 lần và quản lý session an toàn."
+            },
+            {
+                type: "improvement",
+                title: "Hệ thống Logging nâng cao",
+                description: "Sử dụng Winston Logger với tính năng xoay vòng file log (log rotation) và tự động ẩn thông tin nhạy cảm."
+            },
+            {
+                type: "improvement",
+                title: "Docker Support",
+                description: "Hỗ trợ triển khai nhanh chóng với Dockerfile và docker-compose."
+            },
+            {
+                type: "fix",
+                title: "Sửa lỗi GPA Sync",
+                description: "Cập nhật endpoint API MyBK mới nhất để sửa lỗi không hiện bảng điểm và tối ưu hóa logic đồng bộ."
+            }
+        ]
+    },
+    {
         version: "1.2.0",
         date: "2026-02-02",
         title: "GPA Calculation Fix & Changelog",
-        isLatest: true,
+        isLatest: false,
         changes: [
             {
                 type: "fix",

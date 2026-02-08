@@ -16,7 +16,8 @@ import {
   Home,
   Route,
   Shield,
-  History
+  History,
+  Award
 } from "lucide-react";
 import { Button } from "./components/ui/button";
 import { Switch } from "./components/ui/switch";
@@ -38,6 +39,7 @@ import DataManagement from "./components/DataManagement";
 import WelcomeFeedback from "./components/WelcomeFeedback";
 import SecurityPage from "./components/SecurityPage";
 import ChangelogPage from "./components/ChangelogPage";
+import HonorWallPage from "./components/HonorWallPage";
 import {
   Popover,
   PopoverContent,
@@ -64,7 +66,8 @@ const menuItems = [
   { id: "registration", label: "ĐKMH", shortLabel: "ĐKMH", icon: NotebookTabs },
   { id: "preview", label: "Preview", shortLabel: "Preview", icon: ScrollText },
   { id: "security", label: "Bảo mật", shortLabel: "BM", icon: Shield },
-  { id: "changelog", label: "Changelog", shortLabel: "Log", icon: History }
+  { id: "changelog", label: "Changelog", shortLabel: "Log", icon: History },
+  { id: "honor", label: "Honor Wall", shortLabel: "Honor", icon: Award }
 ];
 
 function App() {
@@ -115,6 +118,8 @@ function App() {
         return <SecurityPage />;
       case "changelog":
         return <ChangelogPage />;
+      case "honor":
+        return <HonorWallPage />;
       default:
         return <ScheduleTab />;
     }
@@ -143,7 +148,7 @@ function App() {
             hidden lg:flex lg:flex-col`}
         >
           {/* Logo */}
-          <div className={`flex items-center gap-2 border-b px-3 py-4 ${sidebarCollapsed ? 'justify-center' : ''}`}>
+          <div className={`flex h-[72px] items-center gap-2 border-b px-3 ${sidebarCollapsed ? 'justify-center' : ''}`}>
             <AppLogo size={36} />
             {!sidebarCollapsed && (
               <div className="min-w-0">
@@ -360,8 +365,8 @@ function App() {
           </header>
 
           {/* Desktop Header */}
-          <header className="sticky top-0 z-30 hidden border-b bg-background/80 backdrop-blur-lg lg:block">
-            <div className="flex items-center justify-between px-6 py-3">
+          <header className="sticky top-0 z-30 hidden h-[72px] border-b bg-background/80 backdrop-blur-lg lg:block">
+            <div className="flex h-full items-center justify-between px-6">
               <div>
                 <p className="text-[11px] uppercase tracking-widest text-muted-foreground">
                   Không gian làm việc

@@ -57,6 +57,7 @@ const daysOfWeek = [
   { id: 5, label: 'Thứ 5', short: 'T5' },
   { id: 6, label: 'Thứ 6', short: 'T6' },
   { id: 7, label: 'Thứ 7', short: 'T7' },
+  { id: 8, label: 'Chủ Nhật', short: 'CN' },
 ];
 
 function ScheduleTab() {
@@ -320,7 +321,7 @@ function ScheduleTab() {
         <ScrollArea className="w-full">
           <div className="min-w-[1100px]">
             {/* Header */}
-            <div className="grid grid-cols-[80px_1fr_1fr_1fr_1fr_1fr_1fr] border-b bg-muted/40 font-medium">
+            <div className="grid grid-cols-[80px_1fr_1fr_1fr_1fr_1fr_1fr_1fr] border-b bg-muted/40 font-medium">
               <div className="p-3 border-r text-center text-sm font-bold">Tiết</div>
               {daysOfWeek.map((day) => (
                 <div key={day.id} className="p-3 border-r last:border-r-0 text-center text-sm font-bold text-primary">
@@ -335,7 +336,7 @@ function ScheduleTab() {
               {timeSlots.map((slot) => (
                 <div
                   key={slot.id}
-                  className="grid grid-cols-[80px_1fr_1fr_1fr_1fr_1fr_1fr] border-b last:border-b-0"
+                  className="grid grid-cols-[80px_1fr_1fr_1fr_1fr_1fr_1fr_1fr] border-b last:border-b-0"
                   style={{ height: `${ROW_HEIGHT}px` }}
                 >
                   {/* Time Column */}
@@ -368,8 +369,8 @@ function ScheduleTab() {
                       style={{
                         backgroundColor: getSubjectColor(course.code),
                         top: `${topOffset}px`,
-                        left: `calc(80px + ${dayIdx} * ((100% - 80px) / 6) + 4px)`,
-                        width: `calc((100% - 80px) / 6 - 8px)`,
+                        left: `calc(80px + ${dayIdx} * ((100% - 80px) / 7) + 4px)`,
+                        width: `calc((100% - 80px) / 7 - 8px)`,
                         height: `${height}px`,
                       }}
                     >
