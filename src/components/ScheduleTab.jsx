@@ -462,7 +462,7 @@ function ScheduleTab() {
   };
 
   return (
-    <div className="p-3 md:p-6 max-w-[1600px] mx-auto space-y-4 md:space-y-6">
+    <div className="p-2 sm:p-3 md:p-6 max-w-[1600px] mx-auto space-y-4 md:space-y-6 overflow-x-hidden">
       {/* Input Section */}
       <Card className="border-2 border-primary/10">
         <CardHeader
@@ -579,10 +579,10 @@ function ScheduleTab() {
       {scheduleData.length > 0 && (
         <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
           {/* Week Navigation */}
-          <div className="bg-primary text-primary-foreground p-3 rounded-xl shadow-md mb-4 flex items-center justify-between sticky top-[60px] md:static z-20">
-            <div className="flex items-center gap-2">
-              <CalendarDays className="h-5 w-5 md:h-6 md:w-6" />
-              <h3 className="font-bold text-lg md:text-xl">
+          <div className="bg-primary text-primary-foreground p-2 sm:p-3 rounded-xl shadow-md mb-4 flex items-center justify-between sticky top-[60px] md:static z-20">
+            <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
+              <CalendarDays className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 flex-shrink-0" />
+              <h3 className="font-bold text-base sm:text-lg md:text-xl truncate">
                 {getWeekLabel(selectedWeek)}
               </h3>
             </div>

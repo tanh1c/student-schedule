@@ -74,7 +74,7 @@ export default function WelcomeFeedback() {
         <>
             <button
                 onClick={handleOpenFeedback}
-                className="fixed bottom-20 right-4 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-indigo-600 text-white shadow-lg shadow-indigo-200 dark:shadow-indigo-900/40 transition-all hover:scale-110 active:scale-95 lg:bottom-6 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-background"
+                className="fixed bottom-24 right-4 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-indigo-600 text-white shadow-lg shadow-indigo-200 dark:shadow-indigo-900/40 transition-all hover:scale-110 active:scale-95 lg:bottom-6 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-background"
                 title="Góp ý cho tác giả"
             >
                 <MessageSquareHeart className="h-6 w-6" />

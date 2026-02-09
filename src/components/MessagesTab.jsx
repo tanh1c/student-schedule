@@ -59,15 +59,15 @@ function StatsCard({ icon: Icon, title, value, color, subtitle }) {
     const scheme = colorSchemes[color] || colorSchemes.blue;
 
     return (
-        <div className={`relative overflow-hidden rounded-2xl bg-gradient-to-br ${scheme.gradient} border ${scheme.border} p-4 sm:p-4 shadow-sm`}>
+        <div className={`relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-br ${scheme.gradient} border ${scheme.border} p-3 sm:p-4 shadow-sm`}>
             <div className="absolute -top-6 -right-6 h-16 w-16 bg-white/30 dark:bg-white/5 rounded-full blur-xl" />
-            <div className="relative flex items-center gap-3 sm:gap-3">
-                <div className={`h-11 w-11 sm:h-10 sm:w-10 rounded-xl bg-gradient-to-br ${scheme.iconBg} flex items-center justify-center shadow-lg ${scheme.iconShadow} shrink-0`}>
-                    <Icon className="h-5 w-5 sm:h-5 sm:w-5 text-white" />
+            <div className="relative flex items-center gap-2 sm:gap-3">
+                <div className={`h-9 w-9 sm:h-10 sm:w-10 rounded-lg sm:rounded-xl bg-gradient-to-br ${scheme.iconBg} flex items-center justify-center shadow-lg ${scheme.iconShadow} shrink-0`}>
+                    <Icon className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
                 </div>
                 <div className="flex-1 min-w-0">
-                    <p className={`text-2xl sm:text-2xl font-black ${scheme.value}`}>{value}</p>
-                    <p className={`text-xs sm:text-xs font-medium ${scheme.text} truncate`}>{title}</p>
+                    <p className={`text-xl sm:text-2xl font-black ${scheme.value}`}>{value}</p>
+                    <p className={`text-[10px] sm:text-xs font-medium ${scheme.text} truncate leading-tight`}>{title}</p>
                     {subtitle && (
                         <p className="text-[10px] sm:text-[10px] text-muted-foreground">{subtitle}</p>
                     )}
@@ -885,9 +885,9 @@ export default function MessagesTab() {
 
     // Conversation list view
     return (
-        <div className="h-full flex flex-col bg-gradient-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900">
+        <div className="h-full flex flex-col bg-gradient-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900 overflow-x-hidden">
             {/* Header with glassmorphism */}
-            <div className="p-4 sm:p-4 border-b bg-white/80 dark:bg-slate-900/80 backdrop-blur-md sticky top-0 z-10">
+            <div className="p-3 sm:p-4 border-b bg-white/80 dark:bg-slate-900/80 backdrop-blur-md sticky top-0 z-10">
                 <div className="flex items-center justify-between mb-4 sm:mb-4">
                     <div className="flex items-center gap-3 sm:gap-3">
                         <div className="h-11 w-11 sm:h-10 sm:w-10 rounded-xl bg-gradient-to-br from-violet-400 to-purple-500 flex items-center justify-center shadow-lg">
@@ -914,7 +914,7 @@ export default function MessagesTab() {
                 </div>
 
                 {/* Stats Grid */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-3">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
                     <StatsCard
                         icon={Inbox}
                         title="Tổng cuộc trò chuyện"
