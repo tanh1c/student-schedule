@@ -7,7 +7,8 @@ services:
     runtime: node
     region: singapore  # Gần Việt Nam nhất
     plan: free
-    buildCommand: npm install --include=dev && npm run build
+    branch: main  # Deploy từ branch main
+    buildCommand: npm install --include=dev && cd server && npm install && cd .. && npm run build
     startCommand: npm start
     envVars:
       - key: NODE_ENV
@@ -16,5 +17,9 @@ services:
         value: 3001
       - key: SESSION_SECRET
         generateValue: true  # Auto-generate random secret
+      - key: REDIS_URL
+        sync: false  # Set this manually from Upstash dashboard
+      - key: CORS_ORIGIN
+        value: "*"
     healthCheckPath: /api/health
     autoDeploy: true  # Auto deploy on git push
