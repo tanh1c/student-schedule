@@ -1,6 +1,8 @@
 import 'express-async-errors';
 import express from 'express';
 import cors from 'cors';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import config from '../config/default.js';
 import helmet from 'helmet';
 import logger from './utils/logger.js';
@@ -10,9 +12,21 @@ import { activePeriodJars } from './services/sessionStore.js';
 import { getContributors } from './services/githubService.js';
 import { requestIdMiddleware, globalErrorHandler } from './middlewares/errorMiddleware.js';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const isProduction = process.env.NODE_ENV === 'production';
+
 const app = express();
 
-app.use(helmet());
+// Trust proxy for Render (behind load balancer)
+if (isProduction) {
+    app.set('trust proxy', 1);
+}
+
+app.use(helmet({
+    contentSecurityPolicy: false,
+    crossOriginEmbedderPolicy: false
+}));
 app.use(requestIdMiddleware);
 
 app.use((req, res, next) => {
@@ -24,13 +38,14 @@ app.use((req, res, next) => {
 });
 
 app.use(cors({
-    origin: config.server.corsOrigin,
+    origin: isProduction ? true : config.server.corsOrigin,
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'x-request-id']
 }));
 app.use(express.json());
 
+// API Routes
 app.use('/api', apiRoutes);
 app.use('/api/lecturer', lecturerRoutes);
 
@@ -57,7 +72,22 @@ app.get('/api/github/contributors', async (req, res) => {
     }
 });
 
+// ========================
+// STATIC FILES (Production)
+// ========================
+if (isProduction) {
+    const distPath = path.join(__dirname, '..', '..', 'dist');
+    logger.info(`[Static] Serving frontend from: ${distPath}`);
+
+    // Serve static files from dist
+    app.use(express.static(distPath));
+
+    // SPA fallback - serve index.html for all non-API routes
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(distPath, 'index.html'));
+    });
+}
+
 app.use(globalErrorHandler);
 
 export default app;
-
