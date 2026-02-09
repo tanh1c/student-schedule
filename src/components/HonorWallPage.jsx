@@ -227,7 +227,8 @@ export default function HonorWallPage() {
 
             try {
                 // Fetch from backend API (with Redis caching)
-                const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+                // In production, FE and BE are on same domain, use relative URL
+                const API_BASE = import.meta.env.VITE_API_URL || '';
                 const res = await fetch(`${API_BASE}/api/github/contributors`);
 
                 if (!res.ok) {
