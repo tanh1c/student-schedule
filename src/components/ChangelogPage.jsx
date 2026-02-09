@@ -205,30 +205,30 @@ function ReleaseCard({ version, date, title, changes, isLatest }) {
     const [expanded, setExpanded] = useState(isLatest || false);
 
     return (
-        <div className={`group relative overflow-hidden rounded-xl bg-gradient-to-br from-slate-50 via-gray-50 to-zinc-50 dark:from-slate-950/40 dark:via-gray-950/30 dark:to-zinc-950/40 border transition-all hover:shadow-md ${isLatest ? 'border-violet-300 dark:border-violet-700 ring-2 ring-violet-200/50 dark:ring-violet-900/30' : 'border-slate-200/60 dark:border-slate-800/50'}`}>
+        <div className={`group relative overflow-hidden rounded-lg sm:rounded-xl bg-gradient-to-br from-slate-50 via-gray-50 to-zinc-50 dark:from-slate-950/40 dark:via-gray-950/30 dark:to-zinc-950/40 border transition-all hover:shadow-md ${isLatest ? 'border-violet-300 dark:border-violet-700 ring-2 ring-violet-200/50 dark:ring-violet-900/30' : 'border-slate-200/60 dark:border-slate-800/50'}`}>
             <div
-                className="p-4 cursor-pointer"
+                className="p-3 sm:p-4 cursor-pointer"
                 onClick={() => setExpanded(!expanded)}
             >
-                <div className="flex items-start justify-between gap-3">
-                    <div className="flex items-center gap-3 flex-1 min-w-0">
-                        <div className={`h-10 w-10 rounded-xl flex items-center justify-center shrink-0 ${isLatest
+                <div className="flex items-start justify-between gap-2 sm:gap-3">
+                    <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
+                        <div className={`h-8 w-8 sm:h-10 sm:w-10 rounded-lg sm:rounded-xl flex items-center justify-center shrink-0 ${isLatest
                             ? 'bg-gradient-to-br from-violet-400 to-purple-500 dark:from-violet-600 dark:to-purple-700'
                             : 'bg-slate-100 dark:bg-slate-800'
                             }`}>
-                            <Tag className={`h-5 w-5 ${isLatest ? 'text-white' : 'text-slate-500 dark:text-slate-400'}`} />
+                            <Tag className={`h-4 w-4 sm:h-5 sm:w-5 ${isLatest ? 'text-white' : 'text-slate-500 dark:text-slate-400'}`} />
                         </div>
                         <div className="flex-1 min-w-0">
-                            <div className="flex flex-wrap items-center gap-2">
-                                <span className="font-mono font-bold text-slate-900 dark:text-slate-100">v{version}</span>
+                            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                                <span className="font-mono font-bold text-sm sm:text-base text-slate-900 dark:text-slate-100">v{version}</span>
                                 {isLatest && (
                                     <Badge className="bg-violet-500/20 text-violet-700 dark:text-violet-400 border-violet-500/30 text-[10px] px-1.5">
                                         MỚI NHẤT
                                     </Badge>
                                 )}
-                                <span className="text-xs text-slate-500 dark:text-slate-400">• {formatDate(date)}</span>
+                                <span className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 hidden xs:inline">• {formatDate(date)}</span>
                             </div>
-                            <p className="text-sm text-slate-600 dark:text-slate-400 truncate">{title}</p>
+                            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 truncate">{title}</p>
                         </div>
                     </div>
                     <div className="shrink-0 text-slate-400">
@@ -238,20 +238,20 @@ function ReleaseCard({ version, date, title, changes, isLatest }) {
             </div>
 
             {expanded && (
-                <div className="px-4 pb-4 space-y-4 border-t border-slate-200/50 dark:border-slate-800/50 pt-3">
+                <div className="px-3 sm:px-4 pb-3 sm:pb-4 space-y-3 sm:space-y-4 border-t border-slate-200/50 dark:border-slate-800/50 pt-3">
                     {changes.map((change, idx) => {
                         const config = getTypeConfig(change.type);
                         const Icon = config.icon;
 
                         return (
-                            <div key={idx} className="space-y-1.5">
-                                <Badge className={`${config.color} font-medium text-xs px-2 py-0.5`}>
-                                    <Icon className="h-3 w-3 mr-1" />
+                            <div key={idx} className="space-y-1 sm:space-y-1.5">
+                                <Badge className={`${config.color} font-medium text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5`}>
+                                    <Icon className="h-2.5 w-2.5 sm:h-3 sm:w-3 mr-1" />
                                     {config.label}
                                 </Badge>
                                 <div>
-                                    <p className="font-semibold text-sm text-slate-800 dark:text-slate-200">{change.title}</p>
-                                    <p className="text-sm text-slate-600 dark:text-slate-400 mt-0.5">{change.description}</p>
+                                    <p className="font-semibold text-xs sm:text-sm text-slate-800 dark:text-slate-200">{change.title}</p>
+                                    <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-0.5">{change.description}</p>
                                 </div>
                             </div>
                         );
@@ -302,15 +302,15 @@ function StatsFeatureCard({ icon: Icon, title, value, color }) {
     const scheme = colorSchemes[color] || colorSchemes.blue;
 
     return (
-        <div className={`relative overflow-hidden rounded-2xl bg-gradient-to-br ${scheme.gradient} border ${scheme.border} p-4 shadow-sm`}>
+        <div className={`relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-br ${scheme.gradient} border ${scheme.border} p-3 sm:p-4 shadow-sm`}>
             <div className="absolute -top-8 -right-8 h-20 w-20 bg-white/20 dark:bg-white/5 rounded-full blur-xl" />
-            <div className="relative flex items-center gap-4">
-                <div className={`h-10 w-10 rounded-xl bg-gradient-to-br ${scheme.iconBg} flex items-center justify-center shadow-lg ${scheme.iconShadow} shrink-0`}>
-                    <Icon className="h-5 w-5 text-white" />
+            <div className="relative flex items-center gap-2 sm:gap-4">
+                <div className={`h-8 w-8 sm:h-10 sm:w-10 rounded-lg sm:rounded-xl bg-gradient-to-br ${scheme.iconBg} flex items-center justify-center shadow-lg ${scheme.iconShadow} shrink-0`}>
+                    <Icon className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
                 </div>
                 <div className="flex-1 min-w-0">
-                    <p className={`text-2xl font-black ${scheme.value}`}>{value}</p>
-                    <p className={`text-xs font-medium ${scheme.text}`}>{title}</p>
+                    <p className={`text-lg sm:text-2xl font-black ${scheme.value}`}>{value}</p>
+                    <p className={`text-[10px] sm:text-xs font-medium ${scheme.text} truncate`}>{title}</p>
                 </div>
             </div>
         </div>
@@ -362,33 +362,33 @@ function FeedbackSection() {
 
     return (
         <>
-            <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 dark:from-slate-800 dark:via-slate-900 dark:to-black p-6 sm:p-8 text-white">
+            <div className="relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 dark:from-slate-800 dark:via-slate-900 dark:to-black p-4 sm:p-6 md:p-8 text-white">
                 <div className="absolute -top-10 -right-10 h-40 w-40 bg-gradient-to-br from-violet-500/20 to-transparent rounded-full blur-2xl" />
                 <div className="absolute -bottom-10 -left-10 h-40 w-40 bg-gradient-to-br from-emerald-500/20 to-transparent rounded-full blur-2xl" />
 
-                <div className="relative flex flex-col sm:flex-row items-center gap-6">
-                    <div className="h-16 w-16 rounded-2xl bg-white/10 backdrop-blur flex items-center justify-center shrink-0">
-                        <Bug className="h-8 w-8" />
+                <div className="relative flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
+                    <div className="h-12 w-12 sm:h-16 sm:w-16 rounded-xl sm:rounded-2xl bg-white/10 backdrop-blur flex items-center justify-center shrink-0">
+                        <Bug className="h-6 w-6 sm:h-8 sm:w-8" />
                     </div>
                     <div className="flex-1 text-center sm:text-left">
-                        <h3 className="text-xl font-bold mb-2">Phát hiện lỗi?</h3>
-                        <p className="text-slate-300 text-sm mb-4">
+                        <h3 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2">Phát hiện lỗi?</h3>
+                        <p className="text-slate-300 text-xs sm:text-sm mb-3 sm:mb-4">
                             Nếu bạn gặp bất kỳ lỗi nào hoặc có ý tưởng cải thiện, hãy báo cho chúng tôi biết!
                             Mọi đóng góp đều được ghi nhận và trân trọng.
                         </p>
-                        <div className="flex flex-wrap gap-3 justify-center sm:justify-start">
+                        <div className="flex flex-wrap gap-2 sm:gap-3 justify-center sm:justify-start">
                             <button
                                 onClick={() => handleOpenDialog("bug")}
-                                className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-white text-slate-900 font-medium text-sm hover:bg-slate-100 transition-colors"
+                                className="inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg bg-white text-slate-900 font-medium text-xs sm:text-sm hover:bg-slate-100 transition-colors"
                             >
-                                <Bug className="h-4 w-4" />
+                                <Bug className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                                 Báo lỗi
                             </button>
                             <button
                                 onClick={() => handleOpenDialog("feature")}
-                                className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-white/10 text-white font-medium text-sm border border-white/30 hover:bg-white/20 transition-colors"
+                                className="inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg bg-white/10 text-white font-medium text-xs sm:text-sm border border-white/30 hover:bg-white/20 transition-colors"
                             >
-                                <Sparkles className="h-4 w-4" />
+                                <Sparkles className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                                 Đề xuất tính năng
                             </button>
                         </div>
@@ -495,25 +495,25 @@ export default function ChangelogPage() {
     const displayedReleases = showAllReleases ? changelogData : changelogData.slice(0, 3);
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900 py-8 px-4">
-            <div className="max-w-4xl mx-auto space-y-8">
+        <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900 py-4 sm:py-8 px-3 sm:px-4 overflow-x-hidden">
+            <div className="max-w-4xl mx-auto space-y-4 sm:space-y-8 min-w-0 overflow-hidden">
 
                 {/* Header */}
-                <div className="text-center space-y-4">
-                    <div className="inline-flex items-center justify-center h-16 w-16 rounded-2xl bg-gradient-to-br from-violet-400 to-purple-500 shadow-lg shadow-violet-200/50 dark:shadow-violet-950/40 mx-auto">
-                        <History className="h-8 w-8 text-white" />
+                <div className="text-center space-y-3 sm:space-y-4">
+                    <div className="inline-flex items-center justify-center h-12 w-12 sm:h-16 sm:w-16 rounded-xl sm:rounded-2xl bg-gradient-to-br from-violet-400 to-purple-500 shadow-lg shadow-violet-200/50 dark:shadow-violet-950/40 mx-auto">
+                        <History className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
                     </div>
-                    <h1 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white">
+                    <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 dark:text-white">
                         Changelog
                     </h1>
-                    <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+                    <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 max-w-2xl mx-auto px-2">
                         Theo dõi các <strong>bản cập nhật</strong>, <strong>tính năng mới</strong> và <strong>sửa lỗi</strong> của TKB Smart.
                         Chúng tôi liên tục cải thiện để mang lại trải nghiệm tốt nhất cho bạn.
                     </p>
                 </div>
 
                 {/* Trust Badges */}
-                <div className="flex flex-wrap justify-center gap-3">
+                <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
                     <Badge className="bg-violet-500/10 text-violet-700 dark:text-violet-400 border border-violet-500/20 px-3 py-1.5 text-sm">
                         <Tag className="h-3.5 w-3.5 mr-1.5" />
                         v{latestVersion.version}
@@ -529,7 +529,7 @@ export default function ChangelogPage() {
                 </div>
 
                 {/* Stats Cards */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4">
                     <StatsFeatureCard
                         icon={Sparkles}
                         title="Tính năng mới"
@@ -564,7 +564,7 @@ export default function ChangelogPage() {
                             Phiên bản mới nhất: v{latestVersion.version}
                         </CardTitle>
                     </CardHeader>
-                    <CardContent className="p-6">
+                    <CardContent className="p-3 sm:p-6">
                         <div className="space-y-4">
                             <p className="text-slate-600 dark:text-slate-400 text-sm">
                                 {latestVersion.title}
@@ -598,9 +598,9 @@ export default function ChangelogPage() {
                 </Card>
 
                 {/* All Releases */}
-                <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                        <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <div className="space-y-3 sm:space-y-4">
+                    <div className="flex items-center justify-between gap-2">
+                        <h2 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
                             <Code2 className="h-5 w-5 text-violet-600" />
                             Lịch sử phiên bản
                         </h2>

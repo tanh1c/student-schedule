@@ -126,7 +126,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       {/* Mobile Overlay */}
       {sidebarOpen && (
         <div
@@ -135,7 +135,7 @@ function App() {
         />
       )}
 
-      <div className="relative flex min-h-screen">
+      <div className="relative flex min-h-screen overflow-x-hidden">
         {/* Desktop Sidebar - Collapsible */}
         <aside
           className={`fixed left-0 top-0 z-50 h-full border-r bg-card/95 backdrop-blur-lg transition-all duration-300 ease-in-out
@@ -379,8 +379,8 @@ function App() {
           </header>
 
           {/* Page Content */}
-          <main className="min-h-[calc(100vh-57px)] pb-20 lg:pb-6">
-            <div className="mx-auto max-w-7xl">
+          <main className="min-h-[calc(100vh-57px)] pb-20 lg:pb-6 overflow-x-hidden w-full max-w-full">
+            <div className="mx-auto max-w-7xl w-full max-w-full overflow-hidden">
               {renderTabContent()}
             </div>
           </main>
@@ -420,7 +420,7 @@ function App() {
           </button>
         </div>
       </nav>
-      <WelcomeFeedback />
+      <WelcomeFeedback hideOnMobile={activeTab === 'gpa'} />
     </div>
   );
 }

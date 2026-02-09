@@ -59,17 +59,17 @@ function StatsCard({ icon: Icon, title, value, color, subtitle }) {
     const scheme = colorSchemes[color] || colorSchemes.blue;
 
     return (
-        <div className={`relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-br ${scheme.gradient} border ${scheme.border} p-3 sm:p-4 shadow-sm`}>
+        <div className={`relative overflow-hidden rounded-lg sm:rounded-2xl bg-gradient-to-br ${scheme.gradient} border ${scheme.border} p-2 sm:p-4 shadow-sm`}>
             <div className="absolute -top-6 -right-6 h-16 w-16 bg-white/30 dark:bg-white/5 rounded-full blur-xl" />
-            <div className="relative flex items-center gap-2 sm:gap-3">
-                <div className={`h-9 w-9 sm:h-10 sm:w-10 rounded-lg sm:rounded-xl bg-gradient-to-br ${scheme.iconBg} flex items-center justify-center shadow-lg ${scheme.iconShadow} shrink-0`}>
-                    <Icon className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
+            <div className="relative flex items-center gap-1.5 sm:gap-3">
+                <div className={`h-8 w-8 sm:h-10 sm:w-10 rounded-md sm:rounded-xl bg-gradient-to-br ${scheme.iconBg} flex items-center justify-center shadow-lg ${scheme.iconShadow} shrink-0`}>
+                    <Icon className="h-3.5 w-3.5 sm:h-5 sm:w-5 text-white" />
                 </div>
                 <div className="flex-1 min-w-0">
-                    <p className={`text-xl sm:text-2xl font-black ${scheme.value}`}>{value}</p>
-                    <p className={`text-[10px] sm:text-xs font-medium ${scheme.text} truncate leading-tight`}>{title}</p>
+                    <p className={`text-lg sm:text-2xl font-black ${scheme.value}`}>{value}</p>
+                    <p className={`text-[9px] sm:text-xs font-medium ${scheme.text} truncate leading-tight`}>{title}</p>
                     {subtitle && (
-                        <p className="text-[10px] sm:text-[10px] text-muted-foreground">{subtitle}</p>
+                        <p className="text-[8px] sm:text-[10px] text-muted-foreground hidden sm:block">{subtitle}</p>
                     )}
                 </div>
             </div>
@@ -109,23 +109,23 @@ function ConversationCard({ conv, onClick, isUnread, isPinned, onPin }) {
     };
 
     return (
-        <div className="flex items-stretch gap-3 sm:gap-3 group">
+        <div className="flex items-stretch gap-2 sm:gap-3 group min-w-0 overflow-hidden">
             {/* Checkbox for Pin - Left side, always visible */}
             <button
                 onClick={handlePin}
-                className={`flex-shrink-0 w-8 sm:w-7 flex items-center justify-center transition-all duration-200
+                className={`flex-shrink-0 w-7 sm:w-7 flex items-center justify-center transition-all duration-200
                     ${isPinned ? 'opacity-100' : 'opacity-60 hover:opacity-100'}
                 `}
                 title={isPinned ? 'Bỏ ghim' : 'Ghim tin nhắn quan trọng'}
             >
-                <div className={`relative w-7 h-7 sm:w-6 sm:h-6 rounded-lg sm:rounded-md border-2 transition-all duration-200 flex items-center justify-center
+                <div className={`relative w-6 h-6 sm:w-6 sm:h-6 rounded-md sm:rounded-md border-2 transition-all duration-200 flex items-center justify-center
                     ${isPinned
                         ? 'bg-gradient-to-br from-amber-400 to-orange-500 border-amber-500 shadow-md shadow-amber-200/50 dark:shadow-amber-900/30'
                         : 'bg-white dark:bg-slate-800 border-slate-300 dark:border-slate-600 hover:border-amber-400 dark:hover:border-amber-500'
                     }
                 `}>
                     {isPinned && (
-                        <Pin className="w-4 h-4 sm:w-3.5 sm:h-3.5 text-white animate-in zoom-in-50 duration-200" />
+                        <Pin className="w-3.5 h-3.5 sm:w-3.5 sm:h-3.5 text-white animate-in zoom-in-50 duration-200" />
                     )}
                 </div>
             </button>
@@ -133,7 +133,7 @@ function ConversationCard({ conv, onClick, isUnread, isPinned, onPin }) {
             {/* Card Content */}
             <button
                 onClick={onClick}
-                className={`flex-1 relative overflow-hidden rounded-2xl sm:rounded-xl bg-gradient-to-br transition-all duration-200 border text-left
+                className={`flex-1 min-w-0 relative overflow-hidden rounded-xl sm:rounded-xl bg-gradient-to-br transition-all duration-200 border text-left
                     ${getCardStyle()}
                     hover:shadow-md hover:scale-[1.005] active:scale-[0.995]
                 `}
@@ -141,10 +141,10 @@ function ConversationCard({ conv, onClick, isUnread, isPinned, onPin }) {
                 {/* Hover glow */}
                 <div className="absolute -top-8 -right-8 h-24 w-24 bg-white/20 dark:bg-white/5 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity" />
 
-                <div className="relative p-4 sm:p-4 flex items-center gap-3 sm:gap-3">
+                <div className="relative p-3 sm:p-4 flex items-center gap-2.5 sm:gap-3">
                     {/* Avatar */}
                     <div className="relative flex-shrink-0">
-                        <div className={`w-12 h-12 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-br flex items-center justify-center overflow-hidden shadow-md ${getAvatarStyle()}`}>
+                        <div className={`w-10 h-10 sm:w-11 sm:h-11 rounded-lg sm:rounded-xl bg-gradient-to-br flex items-center justify-center overflow-hidden shadow-md ${getAvatarStyle()}`}>
                             {sender?.profileimageurl ? (
                                 <img
                                     src={sender.profileimageurl}
@@ -152,22 +152,22 @@ function ConversationCard({ conv, onClick, isUnread, isPinned, onPin }) {
                                     className="w-full h-full object-cover"
                                 />
                             ) : (
-                                <User className="w-5 h-5 sm:w-5 sm:h-5 text-white" />
+                                <User className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                             )}
                         </div>
                         {sender?.isonline && (
-                            <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 sm:w-2.5 sm:h-2.5 bg-green-500 rounded-full border-2 border-white dark:border-slate-900" />
+                            <div className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 sm:w-2.5 sm:h-2.5 bg-green-500 rounded-full border-2 border-white dark:border-slate-900" />
                         )}
                     </div>
 
                     {/* Content */}
                     <div className="flex-1 min-w-0">
-                        <div className="flex items-center justify-between gap-2 mb-1 sm:mb-0.5">
-                            <div className="flex items-center gap-1.5 min-w-0">
+                        <div className="flex items-center justify-between gap-1.5 sm:gap-2 mb-0.5 sm:mb-0.5">
+                            <div className="flex items-center gap-1 sm:gap-1.5 min-w-0">
                                 {isPinned && (
-                                    <Pin className="w-3.5 h-3.5 sm:w-3 sm:h-3 text-amber-500 flex-shrink-0" />
+                                    <Pin className="w-3 h-3 sm:w-3 sm:h-3 text-amber-500 flex-shrink-0" />
                                 )}
-                                <span className={`text-base sm:text-base font-semibold truncate 
+                                <span className={`text-sm sm:text-base font-semibold truncate 
                                     ${isPinned ? 'text-amber-900 dark:text-amber-100' :
                                         isUnread ? 'text-violet-900 dark:text-violet-100' :
                                             'text-slate-700 dark:text-slate-300'}`}
@@ -175,25 +175,25 @@ function ConversationCard({ conv, onClick, isUnread, isPinned, onPin }) {
                                     {sender?.fullname || 'Không rõ'}
                                 </span>
                             </div>
-                            <div className="flex items-center gap-1.5 flex-shrink-0">
+                            <div className="flex items-center gap-1 sm:gap-1.5 flex-shrink-0">
                                 {isUnread && !isPinned && (
-                                    <span className="w-2.5 h-2.5 sm:w-2 sm:h-2 rounded-full bg-violet-500 animate-pulse" />
+                                    <span className="w-2 h-2 sm:w-2 sm:h-2 rounded-full bg-violet-500 animate-pulse" />
                                 )}
-                                <span className="text-xs sm:text-xs text-muted-foreground">
+                                <span className="text-[10px] sm:text-xs text-muted-foreground">
                                     {lastMsg && formatMessageDate(lastMsg.timecreated)}
                                 </span>
                             </div>
                         </div>
-                        <p className={`text-sm sm:text-sm truncate 
+                        <p className={`text-xs sm:text-sm truncate 
                             ${isPinned ? 'text-amber-700 dark:text-amber-300 font-medium' :
                                 isUnread ? 'text-violet-700 dark:text-violet-300 font-medium' :
                                     'text-muted-foreground'}`}
                         >
-                            {lastMsg ? parseMessageText(lastMsg.text).substring(0, 60) : 'Không có tin nhắn'}
+                            {lastMsg ? parseMessageText(lastMsg.text).substring(0, 50) : 'Không có tin nhắn'}
                         </p>
                     </div>
 
-                    <ChevronRight className="w-5 h-5 sm:w-4 sm:h-4 text-muted-foreground hidden sm:block group-hover:translate-x-0.5 transition-transform" />
+                    <ChevronRight className="w-4 h-4 sm:w-4 sm:h-4 text-muted-foreground hidden sm:block group-hover:translate-x-0.5 transition-transform" />
                 </div>
             </button>
         </div>
@@ -885,19 +885,19 @@ export default function MessagesTab() {
 
     // Conversation list view
     return (
-        <div className="h-full flex flex-col bg-gradient-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900 overflow-x-hidden">
+        <div className="h-full w-full max-w-full flex flex-col bg-gradient-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900 overflow-x-hidden">
             {/* Header with glassmorphism */}
-            <div className="p-3 sm:p-4 border-b bg-white/80 dark:bg-slate-900/80 backdrop-blur-md sticky top-0 z-10">
-                <div className="flex items-center justify-between mb-4 sm:mb-4">
-                    <div className="flex items-center gap-3 sm:gap-3">
-                        <div className="h-11 w-11 sm:h-10 sm:w-10 rounded-xl bg-gradient-to-br from-violet-400 to-purple-500 flex items-center justify-center shadow-lg">
-                            <Mail className="h-5 w-5 sm:h-5 sm:w-5 text-white" />
+            <div className="w-full max-w-full p-2 sm:p-4 border-b bg-white/80 dark:bg-slate-900/80 backdrop-blur-md sticky top-0 z-10 overflow-hidden">
+                <div className="flex items-center justify-between mb-2 sm:mb-4">
+                    <div className="flex items-center gap-2 sm:gap-3">
+                        <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-lg sm:rounded-xl bg-gradient-to-br from-violet-400 to-purple-500 flex items-center justify-center shadow-lg">
+                            <Mail className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
                         </div>
                         <div>
-                            <h2 className="font-bold text-lg sm:text-lg text-slate-900 dark:text-slate-100">
+                            <h2 className="font-bold text-base sm:text-lg text-slate-900 dark:text-slate-100">
                                 Tin nhắn LMS
                             </h2>
-                            <p className="text-xs sm:text-xs text-muted-foreground">
+                            <p className="text-[10px] sm:text-xs text-muted-foreground">
                                 BK E-Learning Messages
                             </p>
                         </div>
@@ -907,14 +907,14 @@ export default function MessagesTab() {
                         size="icon"
                         onClick={handleRefresh}
                         disabled={isLoading}
-                        className="h-11 w-11 sm:h-10 sm:w-10"
+                        className="h-9 w-9 sm:h-10 sm:w-10"
                     >
-                        <RefreshCw className={`w-5 h-5 sm:w-4 sm:h-4 ${isLoading ? 'animate-spin' : ''}`} />
+                        <RefreshCw className={`w-4 h-4 sm:w-4 sm:h-4 ${isLoading ? 'animate-spin' : ''}`} />
                     </Button>
                 </div>
 
                 {/* Stats Grid */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 sm:gap-3">
                     <StatsCard
                         icon={Inbox}
                         title="Tổng cuộc trò chuyện"
@@ -945,7 +945,7 @@ export default function MessagesTab() {
 
             {/* Offline Mode Banner */}
             {isOfflineMode && (
-                <div className="mx-3 sm:mx-4 mb-3">
+                <div className="mx-2 sm:mx-4 mb-3">
                     <div className="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-950/50 dark:to-orange-950/50 border border-amber-200 dark:border-amber-800">
                         <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center flex-shrink-0">
                             <WifiOff className="w-5 h-5 text-white" />
@@ -972,7 +972,7 @@ export default function MessagesTab() {
             )}
 
             {/* Conversations list */}
-            <ScrollArea className="flex-1 px-3 sm:px-4">
+            <ScrollArea className="flex-1 w-full max-w-full px-2 sm:px-4 min-w-0 overflow-x-hidden">
                 {conversations.length === 0 ? (
                     <div className="flex flex-col items-center justify-center py-16 text-muted-foreground">
                         <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-slate-200 to-slate-300 dark:from-slate-700 dark:to-slate-800 flex items-center justify-center mb-4">
@@ -984,10 +984,10 @@ export default function MessagesTab() {
                         </p>
                     </div>
                 ) : (
-                    <div className="py-3 sm:py-4 space-y-4">
+                    <div className="py-3 sm:py-4 space-y-4 min-w-0 overflow-hidden">
                         {/* Pinned Messages Section - Messages pinned from inside conversations */}
                         {pinnedMessagesData.length > 0 && (
-                            <div className="space-y-2 sm:space-y-3">
+                            <div className="space-y-2 sm:space-y-3 min-w-0 overflow-hidden">
                                 {/* Pinned Messages Header */}
                                 <div className="flex items-center gap-2">
                                     <div className="flex items-center gap-2 flex-1">
@@ -1011,7 +1011,7 @@ export default function MessagesTab() {
                                     return (
                                         <div
                                             key={msg.id}
-                                            className="relative group cursor-pointer"
+                                            className="relative group cursor-pointer min-w-0 overflow-hidden"
                                             onClick={() => conv && loadConversationMessages(conv)}
                                         >
                                             <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-rose-50 via-pink-50 to-fuchsia-50 dark:from-rose-950/30 dark:via-pink-950/25 dark:to-fuchsia-950/30 border border-rose-200/60 dark:border-rose-800/50 p-3 sm:p-4 hover:shadow-md transition-all">
@@ -1080,7 +1080,7 @@ export default function MessagesTab() {
 
                         {/* Pinned Conversations Section */}
                         {pinnedConversations.length > 0 && (
-                            <div className="space-y-2 sm:space-y-3">
+                            <div className="space-y-2 sm:space-y-3 min-w-0 overflow-hidden">
                                 {/* Pinned Section Header */}
                                 <div className="flex items-center gap-2">
                                     <div className="flex items-center gap-2 flex-1">
@@ -1119,7 +1119,7 @@ export default function MessagesTab() {
 
                         {/* Regular Conversations Section */}
                         {unpinnedConversations.length > 0 && (
-                            <div className="space-y-2 sm:space-y-3">
+                            <div className="space-y-2 sm:space-y-3 min-w-0 overflow-hidden">
                                 {/* Section Title */}
                                 <div className="flex items-center gap-2">
                                     <MessageSquare className="w-4 h-4 text-violet-500" />
