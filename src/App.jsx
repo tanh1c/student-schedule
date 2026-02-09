@@ -15,10 +15,8 @@ import {
   ChevronRight,
   Home,
   Route,
-  Shield,
-  History,
-  Award,
-  Mail
+  Settings,
+  Mail,
 } from "lucide-react";
 import { Button } from "./components/ui/button";
 import { Switch } from "./components/ui/switch";
@@ -38,9 +36,7 @@ import RoadmapTab from "./components/RoadmapTab";
 import AppLogo from "./components/AppLogo";
 import DataManagement from "./components/DataManagement";
 import WelcomeFeedback from "./components/WelcomeFeedback";
-import SecurityPage from "./components/SecurityPage";
-import ChangelogPage from "./components/ChangelogPage";
-import HonorWallPage from "./components/HonorWallPage";
+import SettingsPage from "./components/SettingsPage";
 import MessagesTab from "./components/MessagesTab";
 import {
   Popover,
@@ -68,9 +64,7 @@ const menuItems = [
   { id: "registration", label: "ĐKMH", shortLabel: "ĐKMH", icon: NotebookTabs },
   { id: "messages", label: "Tin nhắn LMS", shortLabel: "Msg", icon: Mail },
   { id: "preview", label: "Preview", shortLabel: "Preview", icon: ScrollText },
-  { id: "security", label: "Bảo mật", shortLabel: "BM", icon: Shield },
-  { id: "changelog", label: "Changelog", shortLabel: "Log", icon: History },
-  { id: "honor", label: "Honor Wall", shortLabel: "Honor", icon: Award }
+  { id: "settings", label: "Cài đặt", shortLabel: "CĐ", icon: Settings }
 ];
 
 function App() {
@@ -117,12 +111,8 @@ function App() {
         return <RegistrationTab />;
       case "preview":
         return <PreviewRegistrationTab />;
-      case "security":
-        return <SecurityPage />;
-      case "changelog":
-        return <ChangelogPage />;
-      case "honor":
-        return <HonorWallPage />;
+      case "settings":
+        return <SettingsPage />;
       case "messages":
         return <MessagesTab />;
       default:
@@ -397,8 +387,8 @@ function App() {
         </div>
       </div>
 
-      {/* Mobile Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 z-40 border-t bg-card/95 backdrop-blur-lg lg:hidden">
+      {/* Mobile Bottom Navigation - Fixed with safe area */}
+      <nav className="fixed bottom-0 left-0 right-0 z-50 border-t bg-card/95 backdrop-blur-lg lg:hidden" style={{ transform: 'translateZ(0)', paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}>
         <div className="flex items-center justify-around px-2 py-2">
           {menuItems.slice(0, 5).map((item) => {
             const Icon = item.icon;

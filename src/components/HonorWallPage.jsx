@@ -124,7 +124,7 @@ const fallbackContributors = [
         role: "Creator & Lead Developer",
         type: "creator",
         badgeType: "founder",
-        name: "Tuấn Anh",
+        name: "TAnh",
         bio: "Student at HCMUT",
         publicRepos: 10,
         followers: 5
@@ -138,7 +138,7 @@ const fallbackContributors = [
         role: "Backend Developer",
         type: "core",
         badgeType: "core",
-        name: "Hoàng Thanh",
+        name: "Huy Thanh",
         bio: null,
         note: "Commits in feature/server-refactor branch",
         publicRepos: 5,
@@ -288,7 +288,7 @@ export default function HonorWallPage() {
                     </div>
 
                     <h1 className="text-2xl sm:text-3xl font-bold mb-3 tracking-tight">
-                        Bảng Vinh Danh
+                        Contributors
                     </h1>
 
                     <p className="text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed mb-6">

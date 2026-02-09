@@ -64,6 +64,20 @@
       radial-gradient(circle at 80% 0%, rgba(14, 165, 233, 0.05), transparent 25%),
       radial-gradient(circle at 50% 80%, rgba(236, 72, 153, 0.05), transparent 20%);
     min-height: 100vh;
+    min-height: 100dvh;
+    /* Dynamic viewport height for mobile browsers */
+    /* Prevent layout shift when mobile browser chrome hides/shows */
+    overflow-x: hidden;
+  }
+
+  /* Fix for iOS Safari viewport issue */
+  html {
+    height: -webkit-fill-available;
+  }
+
+  html,
+  body {
+    overscroll-behavior: none;
   }
 
   :root {

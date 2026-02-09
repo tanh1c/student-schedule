@@ -4,7 +4,6 @@ import {
     Upload,
     RefreshCw,
     ShieldCheck,
-    FileJson,
     QrCode,
     AlertCircle,
     CheckCircle2,
@@ -26,6 +25,7 @@ import {
     DialogTrigger,
     DialogFooter
 } from "./ui/dialog";
+
 import { QRCodeCanvas } from "qrcode.react";
 import LZString from "lz-string";
 
@@ -315,3 +315,4 @@ export default function DataManagement() {
         </div>
     );
 }
+

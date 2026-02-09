@@ -3,7 +3,7 @@ import {
     Mail, Inbox, RefreshCw, ChevronRight, User, Clock,
     AlertCircle, Loader2, ArrowLeft, ExternalLink, MessageSquare,
     Bell, TrendingUp, Calendar, Sparkles, ChevronDown, ChevronUp,
-    Pin, PinOff, Star, LogIn
+    Pin, PinOff, Star, LogIn, WifiOff
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -59,17 +59,17 @@ function StatsCard({ icon: Icon, title, value, color, subtitle }) {
     const scheme = colorSchemes[color] || colorSchemes.blue;
 
     return (
-        <div className={`relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-br ${scheme.gradient} border ${scheme.border} p-3 sm:p-4 shadow-sm`}>
+        <div className={`relative overflow-hidden rounded-2xl bg-gradient-to-br ${scheme.gradient} border ${scheme.border} p-4 sm:p-4 shadow-sm`}>
             <div className="absolute -top-6 -right-6 h-16 w-16 bg-white/30 dark:bg-white/5 rounded-full blur-xl" />
-            <div className="relative flex items-center gap-3">
-                <div className={`h-9 w-9 sm:h-10 sm:w-10 rounded-xl bg-gradient-to-br ${scheme.iconBg} flex items-center justify-center shadow-lg ${scheme.iconShadow} shrink-0`}>
-                    <Icon className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
+            <div className="relative flex items-center gap-3 sm:gap-3">
+                <div className={`h-11 w-11 sm:h-10 sm:w-10 rounded-xl bg-gradient-to-br ${scheme.iconBg} flex items-center justify-center shadow-lg ${scheme.iconShadow} shrink-0`}>
+                    <Icon className="h-5 w-5 sm:h-5 sm:w-5 text-white" />
                 </div>
                 <div className="flex-1 min-w-0">
-                    <p className={`text-xl sm:text-2xl font-black ${scheme.value}`}>{value}</p>
-                    <p className={`text-[10px] sm:text-xs font-medium ${scheme.text} truncate`}>{title}</p>
+                    <p className={`text-2xl sm:text-2xl font-black ${scheme.value}`}>{value}</p>
+                    <p className={`text-xs sm:text-xs font-medium ${scheme.text} truncate`}>{title}</p>
                     {subtitle && (
-                        <p className="text-[9px] sm:text-[10px] text-muted-foreground">{subtitle}</p>
+                        <p className="text-[10px] sm:text-[10px] text-muted-foreground">{subtitle}</p>
                     )}
                 </div>
             </div>
@@ -109,23 +109,23 @@ function ConversationCard({ conv, onClick, isUnread, isPinned, onPin }) {
     };
 
     return (
-        <div className="flex items-stretch gap-2 sm:gap-3 group">
+        <div className="flex items-stretch gap-3 sm:gap-3 group">
             {/* Checkbox for Pin - Left side, always visible */}
             <button
                 onClick={handlePin}
-                className={`flex-shrink-0 w-6 sm:w-7 flex items-center justify-center transition-all duration-200
+                className={`flex-shrink-0 w-8 sm:w-7 flex items-center justify-center transition-all duration-200
                     ${isPinned ? 'opacity-100' : 'opacity-60 hover:opacity-100'}
                 `}
                 title={isPinned ? 'Bỏ ghim' : 'Ghim tin nhắn quan trọng'}
             >
-                <div className={`relative w-5 h-5 sm:w-6 sm:h-6 rounded-md border-2 transition-all duration-200 flex items-center justify-center
+                <div className={`relative w-7 h-7 sm:w-6 sm:h-6 rounded-lg sm:rounded-md border-2 transition-all duration-200 flex items-center justify-center
                     ${isPinned
                         ? 'bg-gradient-to-br from-amber-400 to-orange-500 border-amber-500 shadow-md shadow-amber-200/50 dark:shadow-amber-900/30'
                         : 'bg-white dark:bg-slate-800 border-slate-300 dark:border-slate-600 hover:border-amber-400 dark:hover:border-amber-500'
                     }
                 `}>
                     {isPinned && (
-                        <Pin className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white animate-in zoom-in-50 duration-200" />
+                        <Pin className="w-4 h-4 sm:w-3.5 sm:h-3.5 text-white animate-in zoom-in-50 duration-200" />
                     )}
                 </div>
             </button>
@@ -133,7 +133,7 @@ function ConversationCard({ conv, onClick, isUnread, isPinned, onPin }) {
             {/* Card Content */}
             <button
                 onClick={onClick}
-                className={`flex-1 relative overflow-hidden rounded-xl bg-gradient-to-br transition-all duration-200 border text-left
+                className={`flex-1 relative overflow-hidden rounded-2xl sm:rounded-xl bg-gradient-to-br transition-all duration-200 border text-left
                     ${getCardStyle()}
                     hover:shadow-md hover:scale-[1.005] active:scale-[0.995]
                 `}
@@ -141,10 +141,10 @@ function ConversationCard({ conv, onClick, isUnread, isPinned, onPin }) {
                 {/* Hover glow */}
                 <div className="absolute -top-8 -right-8 h-24 w-24 bg-white/20 dark:bg-white/5 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity" />
 
-                <div className="relative p-3 sm:p-4 flex items-center gap-3">
+                <div className="relative p-4 sm:p-4 flex items-center gap-3 sm:gap-3">
                     {/* Avatar */}
                     <div className="relative flex-shrink-0">
-                        <div className={`w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-br flex items-center justify-center overflow-hidden shadow-md ${getAvatarStyle()}`}>
+                        <div className={`w-12 h-12 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-br flex items-center justify-center overflow-hidden shadow-md ${getAvatarStyle()}`}>
                             {sender?.profileimageurl ? (
                                 <img
                                     src={sender.profileimageurl}
@@ -152,22 +152,22 @@ function ConversationCard({ conv, onClick, isUnread, isPinned, onPin }) {
                                     className="w-full h-full object-cover"
                                 />
                             ) : (
-                                <User className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+                                <User className="w-5 h-5 sm:w-5 sm:h-5 text-white" />
                             )}
                         </div>
                         {sender?.isonline && (
-                            <div className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-white dark:border-slate-900" />
+                            <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 sm:w-2.5 sm:h-2.5 bg-green-500 rounded-full border-2 border-white dark:border-slate-900" />
                         )}
                     </div>
 
                     {/* Content */}
                     <div className="flex-1 min-w-0">
-                        <div className="flex items-center justify-between gap-2 mb-0.5">
+                        <div className="flex items-center justify-between gap-2 mb-1 sm:mb-0.5">
                             <div className="flex items-center gap-1.5 min-w-0">
                                 {isPinned && (
-                                    <Pin className="w-3 h-3 text-amber-500 flex-shrink-0" />
+                                    <Pin className="w-3.5 h-3.5 sm:w-3 sm:h-3 text-amber-500 flex-shrink-0" />
                                 )}
-                                <span className={`text-sm sm:text-base font-semibold truncate 
+                                <span className={`text-base sm:text-base font-semibold truncate 
                                     ${isPinned ? 'text-amber-900 dark:text-amber-100' :
                                         isUnread ? 'text-violet-900 dark:text-violet-100' :
                                             'text-slate-700 dark:text-slate-300'}`}
@@ -177,14 +177,14 @@ function ConversationCard({ conv, onClick, isUnread, isPinned, onPin }) {
                             </div>
                             <div className="flex items-center gap-1.5 flex-shrink-0">
                                 {isUnread && !isPinned && (
-                                    <span className="w-2 h-2 rounded-full bg-violet-500 animate-pulse" />
+                                    <span className="w-2.5 h-2.5 sm:w-2 sm:h-2 rounded-full bg-violet-500 animate-pulse" />
                                 )}
-                                <span className="text-[10px] sm:text-xs text-muted-foreground">
+                                <span className="text-xs sm:text-xs text-muted-foreground">
                                     {lastMsg && formatMessageDate(lastMsg.timecreated)}
                                 </span>
                             </div>
                         </div>
-                        <p className={`text-xs sm:text-sm truncate 
+                        <p className={`text-sm sm:text-sm truncate 
                             ${isPinned ? 'text-amber-700 dark:text-amber-300 font-medium' :
                                 isUnread ? 'text-violet-700 dark:text-violet-300 font-medium' :
                                     'text-muted-foreground'}`}
@@ -193,7 +193,7 @@ function ConversationCard({ conv, onClick, isUnread, isPinned, onPin }) {
                         </p>
                     </div>
 
-                    <ChevronRight className="w-4 h-4 text-muted-foreground hidden sm:block group-hover:translate-x-0.5 transition-transform" />
+                    <ChevronRight className="w-5 h-5 sm:w-4 sm:h-4 text-muted-foreground hidden sm:block group-hover:translate-x-0.5 transition-transform" />
                 </div>
             </button>
         </div>
@@ -215,6 +215,7 @@ export default function MessagesTab() {
     const [showAllConversations, setShowAllConversations] = useState(false);
     const [showLoginForm, setShowLoginForm] = useState(false); // Show login when token expired
     const [loginJustCompleted, setLoginJustCompleted] = useState(false); // Track successful login
+    const [isOfflineMode, setIsOfflineMode] = useState(false); // Track offline mode with cached data
 
     // Pinned conversations - stored in localStorage
     const [pinnedIds, setPinnedIds] = useState(() => {
@@ -397,7 +398,21 @@ export default function MessagesTab() {
     useEffect(() => {
         const init = async () => {
             const success = await initSession();
-            if (success) await loadConversations();
+            if (success) {
+                await loadConversations();
+                setIsOfflineMode(false);
+            } else {
+                // Even if session init fails, try to load cached conversations for offline mode
+                console.log('[LMS] Session init failed, attempting to load cached data...');
+                const cachedResult = await getMessages({ limit: 50, forceRefresh: false });
+                if (cachedResult.success && cachedResult.data?.conversations?.length > 0) {
+                    console.log('[LMS] Loaded offline cache successfully');
+                    setConversations(cachedResult.data.conversations);
+                    setIsLoading(false);
+                    setIsOfflineMode(true);
+                    setError(null); // Clear error so we can show cached data with offline banner
+                }
+            }
         };
         init();
     }, [initSession, loadConversations]);
@@ -558,18 +573,18 @@ export default function MessagesTab() {
         return (
             <div className="h-full flex flex-col bg-gradient-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900">
                 {/* Header - Sticky with glassmorphism */}
-                <div className={`flex items-center gap-2 sm:gap-3 p-3 sm:p-4 border-b backdrop-blur-md sticky top-0 z-10 transition-colors
+                <div className={`flex items-center gap-3 sm:gap-3 p-4 sm:p-4 border-b backdrop-blur-md sticky top-0 z-10 transition-colors
                     ${isConvPinned
                         ? 'bg-amber-50/90 dark:bg-amber-950/50 border-amber-200 dark:border-amber-800'
                         : 'bg-white/80 dark:bg-slate-900/80'
                     }`}
                 >
-                    <Button variant="ghost" size="icon" onClick={handleBack} className="h-9 w-9 sm:h-10 sm:w-10">
+                    <Button variant="ghost" size="icon" onClick={handleBack} className="h-11 w-11 sm:h-10 sm:w-10">
                         <ArrowLeft className="w-5 h-5" />
                     </Button>
 
                     {/* Avatar */}
-                    <div className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br flex items-center justify-center overflow-hidden flex-shrink-0 shadow-md
+                    <div className={`w-11 h-11 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br flex items-center justify-center overflow-hidden flex-shrink-0 shadow-md
                         ${isConvPinned
                             ? 'from-amber-400 to-orange-500'
                             : 'from-violet-400 to-purple-500'
@@ -582,27 +597,27 @@ export default function MessagesTab() {
                                 className="w-full h-full object-cover"
                             />
                         ) : (
-                            <User className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+                            <User className="w-5 h-5 sm:w-5 sm:h-5 text-white" />
                         )}
                     </div>
 
                     <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-1.5">
-                            <h3 className={`font-bold text-sm sm:text-base truncate 
+                            <h3 className={`font-bold text-base sm:text-base truncate 
                                 ${isConvPinned ? 'text-amber-900 dark:text-amber-100' : 'text-slate-900 dark:text-slate-100'}`}
                             >
                                 {sender?.fullname || 'Không rõ'}
                             </h3>
                             {isConvPinned && (
-                                <Badge className="bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-400 border-amber-300 dark:border-amber-700 text-[9px] px-1.5 py-0 flex-shrink-0">
-                                    <Pin className="w-2.5 h-2.5 mr-0.5" />
+                                <Badge className="bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-400 border-amber-300 dark:border-amber-700 text-[10px] sm:text-[9px] px-1.5 py-0 flex-shrink-0">
+                                    <Pin className="w-3 h-3 sm:w-2.5 sm:h-2.5 mr-0.5" />
                                     Ghim
                                 </Badge>
                             )}
                         </div>
                         {sender?.isonline && (
-                            <span className="text-[10px] sm:text-xs text-emerald-500 flex items-center gap-1">
-                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                            <span className="text-xs sm:text-xs text-emerald-500 flex items-center gap-1">
+                                <span className="w-2 h-2 sm:w-1.5 sm:h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                                 Online
                             </span>
                         )}
@@ -613,7 +628,7 @@ export default function MessagesTab() {
                         variant="ghost"
                         size="icon"
                         onClick={() => togglePin(selectedConversation.id)}
-                        className={`h-9 w-9 sm:h-10 sm:w-10 transition-colors
+                        className={`h-11 w-11 sm:h-10 sm:w-10 transition-colors
                             ${isConvPinned
                                 ? 'bg-amber-100 dark:bg-amber-900/50 text-amber-600 dark:text-amber-400 hover:bg-amber-200 dark:hover:bg-amber-900'
                                 : 'text-muted-foreground hover:text-amber-500'
@@ -621,9 +636,9 @@ export default function MessagesTab() {
                         title={isConvPinned ? 'Bỏ ghim' : 'Ghim cuộc trò chuyện'}
                     >
                         {isConvPinned ? (
-                            <PinOff className="w-4 h-4" />
+                            <PinOff className="w-5 h-5 sm:w-4 sm:h-4" />
                         ) : (
-                            <Pin className="w-4 h-4" />
+                            <Pin className="w-5 h-5 sm:w-4 sm:h-4" />
                         )}
                     </Button>
 
@@ -631,14 +646,14 @@ export default function MessagesTab() {
                         variant="ghost"
                         size="icon"
                         onClick={() => loadConversationMessages(selectedConversation, true)}
-                        className="h-9 w-9 sm:h-10 sm:w-10"
+                        className="h-11 w-11 sm:h-10 sm:w-10"
                     >
-                        <RefreshCw className={`w-4 h-4 ${isLoadingMessages ? 'animate-spin' : ''}`} />
+                        <RefreshCw className={`w-5 h-5 sm:w-4 sm:h-4 ${isLoadingMessages ? 'animate-spin' : ''}`} />
                     </Button>
                 </div>
 
                 {/* Messages */}
-                <ScrollArea className="flex-1 px-3 sm:px-4">
+                <ScrollArea className="flex-1 px-4 sm:px-4">
                     {isLoadingMessages ? (
                         <div className="flex justify-center py-12">
                             <Loader2 className="w-8 h-8 animate-spin text-violet-500" />
@@ -672,36 +687,36 @@ export default function MessagesTab() {
                                         const msgSender = isFromSender ? sender : null;
 
                                         return (
-                                            <div key={msg.id} className="flex items-start gap-2 sm:gap-3">
+                                            <div key={msg.id} className="flex items-start gap-3 sm:gap-3">
                                                 {/* Pin Checkbox */}
                                                 <button
                                                     onClick={() => togglePinMessage(msg.id, msg, selectedConversation)}
-                                                    className="flex-shrink-0 mt-3 sm:mt-4"
+                                                    className="flex-shrink-0 mt-4 sm:mt-4"
                                                     title="Bỏ ghim tin nhắn"
                                                 >
-                                                    <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-md bg-gradient-to-br from-amber-400 to-orange-500 border-2 border-amber-500 shadow-md shadow-amber-200/50 dark:shadow-amber-900/30 flex items-center justify-center transition-all hover:scale-110">
-                                                        <Pin className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white" />
+                                                    <div className="w-7 h-7 sm:w-6 sm:h-6 rounded-lg sm:rounded-md bg-gradient-to-br from-amber-400 to-orange-500 border-2 border-amber-500 shadow-md shadow-amber-200/50 dark:shadow-amber-900/30 flex items-center justify-center transition-all hover:scale-110">
+                                                        <Pin className="w-4 h-4 sm:w-3.5 sm:h-3.5 text-white" />
                                                     </div>
                                                 </button>
 
                                                 {/* Message Card */}
-                                                <article className="flex-1 relative overflow-hidden rounded-xl bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 dark:from-amber-950/40 dark:via-orange-950/30 dark:to-yellow-950/40 border border-amber-300/70 dark:border-amber-700/50 p-3 sm:p-4 shadow-sm">
+                                                <article className="flex-1 relative overflow-hidden rounded-2xl sm:rounded-xl bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 dark:from-amber-950/40 dark:via-orange-950/30 dark:to-yellow-950/40 border border-amber-300/70 dark:border-amber-700/50 p-4 sm:p-4 shadow-sm">
                                                     {/* Message Header */}
-                                                    <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
-                                                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center flex-shrink-0 overflow-hidden">
+                                                    <div className="flex items-center gap-3 sm:gap-3 mb-3 sm:mb-3">
+                                                        <div className="w-9 h-9 sm:w-8 sm:h-8 rounded-xl sm:rounded-lg bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center flex-shrink-0 overflow-hidden">
                                                             {msgSender?.profileimageurl ? (
                                                                 <img src={msgSender.profileimageurl} alt="" className="w-full h-full object-cover" />
                                                             ) : (
-                                                                <User className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
+                                                                <User className="w-4 h-4 sm:w-4 sm:h-4 text-white" />
                                                             )}
                                                         </div>
 
-                                                        <div className="flex-1 min-w-0 flex flex-wrap items-center gap-x-2 gap-y-0">
-                                                            <span className="font-semibold text-xs sm:text-sm text-amber-900 dark:text-amber-100">
+                                                        <div className="flex-1 min-w-0 flex flex-wrap items-center gap-x-2 gap-y-0.5">
+                                                            <span className="font-semibold text-sm sm:text-sm text-amber-900 dark:text-amber-100">
                                                                 {isFromSender ? sender?.fullname : 'Bạn'}
                                                             </span>
-                                                            <span className="text-[10px] sm:text-xs text-amber-600 dark:text-amber-400 flex items-center gap-1">
-                                                                <Clock className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
+                                                            <span className="text-xs sm:text-xs text-amber-600 dark:text-amber-400 flex items-center gap-1">
+                                                                <Clock className="w-3 h-3 sm:w-3 sm:h-3" />
                                                                 {formatMessageDate(msg.timecreated)}
                                                             </span>
                                                         </div>
@@ -751,35 +766,35 @@ export default function MessagesTab() {
                                         const msgSender = isFromSender ? sender : null;
 
                                         return (
-                                            <div key={msg.id} className="flex items-start gap-2 sm:gap-3 group">
+                                            <div key={msg.id} className="flex items-start gap-3 sm:gap-3 group">
                                                 {/* Pin Checkbox */}
                                                 <button
                                                     onClick={() => togglePinMessage(msg.id, msg, selectedConversation)}
-                                                    className="flex-shrink-0 mt-3 sm:mt-4 opacity-40 group-hover:opacity-100 transition-opacity"
+                                                    className="flex-shrink-0 mt-4 sm:mt-4 opacity-60 group-hover:opacity-100 transition-opacity"
                                                     title="Ghim tin nhắn quan trọng"
                                                 >
-                                                    <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-md bg-white dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-600 hover:border-amber-400 dark:hover:border-amber-500 flex items-center justify-center transition-all hover:scale-110">
+                                                    <div className="w-7 h-7 sm:w-6 sm:h-6 rounded-lg sm:rounded-md bg-white dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-600 hover:border-amber-400 dark:hover:border-amber-500 flex items-center justify-center transition-all hover:scale-110">
                                                     </div>
                                                 </button>
 
                                                 {/* Message Card */}
-                                                <article className="flex-1 relative overflow-hidden rounded-xl bg-gradient-to-br from-slate-50 via-gray-50 to-zinc-50 dark:from-slate-950/60 dark:via-gray-950/50 dark:to-zinc-950/60 border border-slate-200/60 dark:border-slate-800/50 p-3 sm:p-4 shadow-sm hover:shadow-md transition-shadow">
+                                                <article className="flex-1 relative overflow-hidden rounded-2xl sm:rounded-xl bg-gradient-to-br from-slate-50 via-gray-50 to-zinc-50 dark:from-slate-950/60 dark:via-gray-950/50 dark:to-zinc-950/60 border border-slate-200/60 dark:border-slate-800/50 p-4 sm:p-4 shadow-sm hover:shadow-md transition-shadow">
                                                     {/* Message Header */}
-                                                    <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
-                                                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-gradient-to-br from-violet-400 to-purple-500 flex items-center justify-center flex-shrink-0 overflow-hidden">
+                                                    <div className="flex items-center gap-3 sm:gap-3 mb-3 sm:mb-3">
+                                                        <div className="w-9 h-9 sm:w-8 sm:h-8 rounded-xl sm:rounded-lg bg-gradient-to-br from-violet-400 to-purple-500 flex items-center justify-center flex-shrink-0 overflow-hidden">
                                                             {msgSender?.profileimageurl ? (
                                                                 <img src={msgSender.profileimageurl} alt="" className="w-full h-full object-cover" />
                                                             ) : (
-                                                                <User className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
+                                                                <User className="w-4 h-4 sm:w-4 sm:h-4 text-white" />
                                                             )}
                                                         </div>
 
-                                                        <div className="flex-1 min-w-0 flex flex-wrap items-center gap-x-2 gap-y-0">
-                                                            <span className="font-semibold text-xs sm:text-sm text-slate-800 dark:text-slate-200">
+                                                        <div className="flex-1 min-w-0 flex flex-wrap items-center gap-x-2 gap-y-0.5">
+                                                            <span className="font-semibold text-sm sm:text-sm text-slate-800 dark:text-slate-200">
                                                                 {isFromSender ? sender?.fullname : 'Bạn'}
                                                             </span>
-                                                            <span className="text-[10px] sm:text-xs text-muted-foreground flex items-center gap-1">
-                                                                <Clock className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
+                                                            <span className="text-xs sm:text-xs text-muted-foreground flex items-center gap-1">
+                                                                <Clock className="w-3 h-3 sm:w-3 sm:h-3" />
                                                                 {formatMessageDate(msg.timecreated)}
                                                             </span>
                                                         </div>
@@ -787,7 +802,7 @@ export default function MessagesTab() {
 
                                                     {/* Message Content */}
                                                     <div
-                                                        className="lms-message-content text-sm text-slate-700 dark:text-slate-300 leading-relaxed"
+                                                        className="lms-message-content text-sm sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed"
                                                         style={{ wordBreak: 'break-word', overflowWrap: 'break-word', whiteSpace: 'normal', overflow: 'hidden' }}
                                                         dangerouslySetInnerHTML={{ __html: sanitizeMessageHtml(msg.text) }}
                                                     />
@@ -872,17 +887,17 @@ export default function MessagesTab() {
     return (
         <div className="h-full flex flex-col bg-gradient-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900">
             {/* Header with glassmorphism */}
-            <div className="p-3 sm:p-4 border-b bg-white/80 dark:bg-slate-900/80 backdrop-blur-md sticky top-0 z-10">
-                <div className="flex items-center justify-between mb-3 sm:mb-4">
-                    <div className="flex items-center gap-2 sm:gap-3">
-                        <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-xl bg-gradient-to-br from-violet-400 to-purple-500 flex items-center justify-center shadow-lg">
-                            <Mail className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
+            <div className="p-4 sm:p-4 border-b bg-white/80 dark:bg-slate-900/80 backdrop-blur-md sticky top-0 z-10">
+                <div className="flex items-center justify-between mb-4 sm:mb-4">
+                    <div className="flex items-center gap-3 sm:gap-3">
+                        <div className="h-11 w-11 sm:h-10 sm:w-10 rounded-xl bg-gradient-to-br from-violet-400 to-purple-500 flex items-center justify-center shadow-lg">
+                            <Mail className="h-5 w-5 sm:h-5 sm:w-5 text-white" />
                         </div>
                         <div>
-                            <h2 className="font-bold text-base sm:text-lg text-slate-900 dark:text-slate-100">
+                            <h2 className="font-bold text-lg sm:text-lg text-slate-900 dark:text-slate-100">
                                 Tin nhắn LMS
                             </h2>
-                            <p className="text-[10px] sm:text-xs text-muted-foreground">
+                            <p className="text-xs sm:text-xs text-muted-foreground">
                                 BK E-Learning Messages
                             </p>
                         </div>
@@ -892,14 +907,14 @@ export default function MessagesTab() {
                         size="icon"
                         onClick={handleRefresh}
                         disabled={isLoading}
-                        className="h-9 w-9 sm:h-10 sm:w-10"
+                        className="h-11 w-11 sm:h-10 sm:w-10"
                     >
-                        <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
+                        <RefreshCw className={`w-5 h-5 sm:w-4 sm:h-4 ${isLoading ? 'animate-spin' : ''}`} />
                     </Button>
                 </div>
 
                 {/* Stats Grid */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-3">
                     <StatsCard
                         icon={Inbox}
                         title="Tổng cuộc trò chuyện"
@@ -927,6 +942,34 @@ export default function MessagesTab() {
                     />
                 </div>
             </div>
+
+            {/* Offline Mode Banner */}
+            {isOfflineMode && (
+                <div className="mx-3 sm:mx-4 mb-3">
+                    <div className="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-950/50 dark:to-orange-950/50 border border-amber-200 dark:border-amber-800">
+                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center flex-shrink-0">
+                            <WifiOff className="w-5 h-5 text-white" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                            <h4 className="font-semibold text-sm text-amber-900 dark:text-amber-100">
+                                Chế độ Offline
+                            </h4>
+                            <p className="text-xs text-amber-700 dark:text-amber-300">
+                                Đang xem tin nhắn đã lưu. Kết nối server để cập nhật mới nhất.
+                            </p>
+                        </div>
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={handleRefresh}
+                            className="flex-shrink-0 border-amber-300 dark:border-amber-700 text-amber-700 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/50"
+                        >
+                            <RefreshCw className="w-3.5 h-3.5 mr-1.5" />
+                            Thử lại
+                        </Button>
+                    </div>
+                </div>
+            )}
 
             {/* Conversations list */}
             <ScrollArea className="flex-1 px-3 sm:px-4">

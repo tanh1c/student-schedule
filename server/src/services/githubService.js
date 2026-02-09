@@ -43,7 +43,7 @@ const fallbackData = {
             role: "Creator & Lead Developer",
             type: "creator",
             badgeType: "founder",
-            name: "Tuấn Anh",
+            name: "TAnh",
             bio: "Student at HCMUT",
             publicRepos: 10,
             followers: 5
@@ -57,7 +57,7 @@ const fallbackData = {
             role: "Backend Developer",
             type: "core",
             badgeType: "core",
-            name: "Hoàng Thanh",
+            name: "Huy Thanh",
             bio: null,
             note: "Commits in feature/server-refactor branch",
             publicRepos: 5,
