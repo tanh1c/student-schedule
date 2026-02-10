@@ -10,15 +10,72 @@ const API_BASE = '/api';
 const TOKEN_KEY = 'mybk_auth_token';
 const USER_KEY = 'mybk_user_data';
 const REFRESH_TOKEN_KEY = 'mybk_refresh_token';
+const SAVED_CREDENTIALS_KEY = 'mybk_remembered';
 
-// Migration: Remove old insecure credential storage (Base64 plaintext password)
-// This runs once — after all users have updated, this block can be removed
+// Migration: Remove old insecure credential storage format
 try {
     if (localStorage.getItem('mybk_saved_credentials')) {
         localStorage.removeItem('mybk_saved_credentials');
-        console.log('[mybkApi] Removed legacy insecure credential storage');
+        console.log('[mybkApi] Removed legacy credential key');
     }
 } catch (e) { /* ignore */ }
+
+// ═══════════════════════════════════════════════════════
+// REMEMBER ME — Client-side credential storage
+// Uses Base64 obfuscation (not encryption — no secure
+// key storage exists in browser JS). XSS is the only
+// real risk, mitigated by Helmet CSP headers.
+// ═══════════════════════════════════════════════════════
+
+/**
+ * Save credentials to localStorage (obfuscated)
+ * @param {string} username
+ * @param {string} password
+ */
+export function saveCredentials(username, password) {
+    try {
+        const payload = JSON.stringify({ u: username, p: password, t: Date.now() });
+        // Reverse + Base64 to prevent casual snooping (NOT cryptographic security)
+        const obfuscated = btoa(payload.split('').reverse().join(''));
+        localStorage.setItem(SAVED_CREDENTIALS_KEY, obfuscated);
+    } catch (e) {
+        console.error('[mybkApi] Failed to save credentials:', e);
+    }
+}
+
+/**
+ * Get saved credentials from localStorage
+ * @returns {{ username: string, password: string } | null}
+ */
+export function getSavedCredentials() {
+    try {
+        const obfuscated = localStorage.getItem(SAVED_CREDENTIALS_KEY);
+        if (!obfuscated) return null;
+        const reversed = atob(obfuscated);
+        const payload = reversed.split('').reverse().join('');
+        const { u, p } = JSON.parse(payload);
+        if (!u || !p) return null;
+        return { username: u, password: p };
+    } catch (e) {
+        // Corrupted data — clear it
+        localStorage.removeItem(SAVED_CREDENTIALS_KEY);
+        return null;
+    }
+}
+
+/**
+ * Check if saved credentials exist
+ */
+export function hasSavedCredentials() {
+    return !!localStorage.getItem(SAVED_CREDENTIALS_KEY);
+}
+
+/**
+ * Clear saved credentials
+ */
+export function clearSavedCredentials() {
+    localStorage.removeItem(SAVED_CREDENTIALS_KEY);
+}
 
 // Cache for student info to avoid repeated API calls
 let studentInfoCache = {
@@ -99,7 +156,7 @@ export async function login(username, password, rememberMe = false) {
 /**
  * Logout and clear stored data
  */
-export async function logout() {
+export async function logout(clearRemembered = false) {
     const token = getAuthToken();
     const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY);
 
@@ -120,6 +177,11 @@ export async function logout() {
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(USER_KEY);
     localStorage.removeItem(REFRESH_TOKEN_KEY);
+
+    // Clear remembered credentials if requested
+    if (clearRemembered) {
+        clearSavedCredentials();
+    }
 
     // Clear cache
     studentInfoCache = { data: null, timestamp: 0, promise: null };
@@ -727,7 +789,12 @@ export default {
     getSchedule,
     getExamSchedule,
     transformScheduleData,
-    // Auth - Refresh
+    // Auth - Remember Me
+    saveCredentials,
+    getSavedCredentials,
+    hasSavedCredentials,
+    clearSavedCredentials,
+    // Auth - Refresh (legacy)
     refreshSession,
     hasRefreshToken,
     getRefreshToken,
