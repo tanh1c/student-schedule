@@ -184,41 +184,38 @@ function ScheduleTab() {
     const classesForDay = getClassesForDay(selectedDay).filter(c => c.startPeriod > 0);
 
     return (
-      <div className="md:hidden">
+      <div className="md:hidden w-full min-w-0 overflow-hidden">
         {/* Day Selector Tabs */}
-        <div className="sticky top-0 z-30 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 py-1.5 -mx-1.5 px-1.5 border-b mb-3">
-          <ScrollArea className="w-full whitespace-nowrap">
-            <div className="flex w-max space-x-1.5 pb-0.5">
-              {daysOfWeek.map((day) => {
-                const classCount = getClassesForDay(day.id).filter(c => c.startPeriod > 0).length;
-                const isSelected = selectedDay === day.id;
-                return (
-                  <button
-                    key={day.id}
-                    onClick={() => setSelectedDay(day.id)}
-                    className={cn(
-                      "flex flex-col items-center justify-center min-w-[52px] h-[56px] rounded-lg transition-all duration-200 border-2",
-                      isSelected
-                        ? "bg-primary border-primary text-primary-foreground shadow-lg scale-105"
-                        : "bg-card border-transparent text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-                    )}
-                  >
-                    <span className="text-[10px] font-medium opacity-80">{day.label}</span>
-                    <span className="text-base font-bold leading-none">{day.short.replace('T', '')}</span>
-                    {classCount > 0 && (
-                      <div className={cn(
-                        "mt-0.5 flex items-center justify-center h-3.5 min-w-3.5 px-0.5 rounded-full text-[9px] font-bold",
-                        isSelected ? "bg-white/30 text-white" : "bg-primary text-white"
-                      )}>
-                        {classCount}
-                      </div>
-                    )}
-                  </button>
-                );
-              })}
-            </div>
-            <ScrollBar orientation="horizontal" className="invisible" />
-          </ScrollArea>
+        <div className="sticky top-0 z-30 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 py-1.5 -mx-1 px-1 border-b mb-3">
+          <div className="flex w-full gap-1">
+            {daysOfWeek.map((day) => {
+              const classCount = getClassesForDay(day.id).filter(c => c.startPeriod > 0).length;
+              const isSelected = selectedDay === day.id;
+              return (
+                <button
+                  key={day.id}
+                  onClick={() => setSelectedDay(day.id)}
+                  className={cn(
+                    "flex-1 flex flex-col items-center justify-center h-[52px] rounded-lg transition-all duration-200 border-2",
+                    isSelected
+                      ? "bg-primary border-primary text-primary-foreground shadow-lg scale-105"
+                      : "bg-card border-transparent text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                  )}
+                >
+                  <span className="text-[10px] font-medium opacity-80">{day.label}</span>
+                  <span className="text-base font-bold leading-none">{day.short.replace('T', '')}</span>
+                  {classCount > 0 && (
+                    <div className={cn(
+                      "mt-0.5 flex items-center justify-center h-3.5 min-w-3.5 px-0.5 rounded-full text-[9px] font-bold",
+                      isSelected ? "bg-white/30 text-white" : "bg-primary text-white"
+                    )}>
+                      {classCount}
+                    </div>
+                  )}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         {/* Classes for selected day */}
@@ -233,7 +230,7 @@ function ScheduleTab() {
             </p>
           </div>
         ) : (
-          <div className="space-y-3 pb-20">
+          <div className="space-y-2.5 pb-20 w-full min-w-0">
             {/* Course Classes */}
             {classesForDay.map((course, index) => {
               // Parse time from course.time or fallback to timeSlots
@@ -250,51 +247,51 @@ function ScheduleTab() {
               return (
                 <Card
                   key={index}
-                  className="overflow-hidden border-none shadow-md ring-1 ring-border/50 bg-card transition-all hover:shadow-lg active:scale-[0.99]"
+                  className="overflow-hidden border-none shadow-md ring-1 ring-border/50 bg-card transition-all hover:shadow-lg active:scale-[0.99] w-full min-w-0"
                 >
-                  <div className="flex h-full">
+                  <div className="flex h-full w-full min-w-0">
                     {/* Left Color strip with time */}
                     <div
-                      className="w-20 flex-none flex flex-col items-center justify-center p-2 text-white"
+                      className="w-16 sm:w-20 flex-none flex flex-col items-center justify-center p-1.5 sm:p-2 text-white"
                       style={{ backgroundColor: getSubjectColor(course.code) }}
                     >
-                      <span className="text-sm font-bold">{startTime}</span>
-                      <div className="flex flex-col items-center my-1">
-                        <div className="w-0.5 h-2 bg-white/40 rounded-full" />
-                        <span className="text-[10px] font-medium opacity-80 my-0.5">
+                      <span className="text-xs sm:text-sm font-bold">{startTime}</span>
+                      <div className="flex flex-col items-center my-0.5 sm:my-1">
+                        <div className="w-0.5 h-1.5 sm:h-2 bg-white/40 rounded-full" />
+                        <span className="text-[9px] sm:text-[10px] font-medium opacity-80 my-0.5">
                           {numPeriods} tiết
                         </span>
-                        <div className="w-0.5 h-2 bg-white/40 rounded-full" />
+                        <div className="w-0.5 h-1.5 sm:h-2 bg-white/40 rounded-full" />
                       </div>
-                      <span className="text-sm font-bold">{endTime}</span>
+                      <span className="text-xs sm:text-sm font-bold">{endTime}</span>
                     </div>
 
                     {/* Content */}
-                    <div className="flex-1 p-3 min-w-0">
-                      <div className="flex justify-between items-start mb-1.5 gap-2">
-                        <h4 className="font-bold text-base leading-tight line-clamp-2" title={course.name}>
+                    <div className="flex-1 p-2.5 sm:p-3 min-w-0 w-0">
+                      <div className="flex justify-between items-start mb-1.5 gap-1.5 sm:gap-2 min-w-0">
+                        <h4 className="font-bold text-sm sm:text-base leading-tight line-clamp-2 min-w-0" title={course.name}>
                           {course.name}
                         </h4>
-                        <Badge variant="outline" className="shrink-0 text-[10px] font-mono whitespace-nowrap border-primary/30 bg-primary/10 text-primary font-bold">
+                        <Badge variant="outline" className="shrink-0 text-[9px] sm:text-[10px] font-mono whitespace-nowrap border-primary/30 bg-primary/10 text-primary font-bold">
                           {course.code}
                         </Badge>
                       </div>
 
-                      <div className="flex flex-wrap gap-2 mt-2">
-                        <div className="flex items-center gap-1.5 text-sm bg-muted/50 px-2 py-1 rounded-md">
-                          <MapPin className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
-                          <span className="font-medium">{course.room || 'TBA'}</span>
+                      <div className="flex flex-wrap gap-1.5 sm:gap-2 mt-1.5 sm:mt-2">
+                        <div className="flex items-center gap-1 sm:gap-1.5 text-xs sm:text-sm bg-muted/50 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-md">
+                          <MapPin className="h-3 w-3 sm:h-3.5 sm:w-3.5 shrink-0 text-muted-foreground" />
+                          <span className="font-medium truncate">{course.room || 'TBA'}</span>
                         </div>
 
                         {course.group && (
-                          <div className="flex items-center gap-1.5 text-sm bg-muted/50 px-2 py-1 rounded-md">
-                            <Users className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+                          <div className="flex items-center gap-1 sm:gap-1.5 text-xs sm:text-sm bg-muted/50 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-md">
+                            <Users className="h-3 w-3 sm:h-3.5 sm:w-3.5 shrink-0 text-muted-foreground" />
                             <span className="font-medium">{course.group}</span>
                           </div>
                         )}
 
-                        <div className="flex items-center gap-1.5 text-sm bg-muted/50 px-2 py-1 rounded-md">
-                          <Clock className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+                        <div className="flex items-center gap-1 sm:gap-1.5 text-xs sm:text-sm bg-muted/50 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-md">
+                          <Clock className="h-3 w-3 sm:h-3.5 sm:w-3.5 shrink-0 text-muted-foreground" />
                           <span>Tiết {course.startPeriod}-{course.endPeriod}</span>
                         </div>
                       </div>
@@ -462,9 +459,9 @@ function ScheduleTab() {
   };
 
   return (
-    <div className="p-1.5 sm:p-3 md:p-6 max-w-[1600px] w-full mx-auto space-y-3 md:space-y-6 overflow-x-hidden">
+    <div className="p-1 sm:p-3 md:p-6 max-w-[1600px] w-full mx-auto space-y-3 md:space-y-6 overflow-x-hidden overflow-hidden box-border">
       {/* Input Section */}
-      <Card className="border-2 border-primary/10">
+      <Card className="border-2 border-primary/10 w-full min-w-0 overflow-hidden">
         <CardHeader
           className="p-4 cursor-pointer hover:bg-muted/50 transition-colors"
           onClick={() => setIsInputExpanded(!isInputExpanded)}
@@ -579,15 +576,15 @@ function ScheduleTab() {
       {scheduleData.length > 0 && (
         <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
           {/* Week Navigation */}
-          <div className="bg-primary text-primary-foreground p-2 sm:p-3 rounded-lg sm:rounded-xl shadow-md mb-3 sm:mb-4 flex items-center justify-between sticky top-[60px] md:static z-20">
-            <div className="flex items-center gap-1 sm:gap-2 min-w-0 flex-1">
+          <div className="bg-primary text-primary-foreground p-1.5 sm:p-3 rounded-lg sm:rounded-xl shadow-md mb-3 sm:mb-4 flex items-center justify-between sticky top-[60px] md:static z-20 w-full min-w-0 overflow-hidden box-border">
+            <div className="flex items-center gap-1 sm:gap-2 min-w-0 flex-1 w-0">
               <CalendarDays className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 flex-shrink-0" />
               <h3 className="font-bold text-sm sm:text-lg md:text-xl truncate">
                 {getWeekLabel(selectedWeek)}
               </h3>
             </div>
 
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-0.5 sm:gap-1 flex-shrink-0">
               <Button
                 variant="ghost"
                 size="icon"
@@ -644,7 +641,7 @@ function ScheduleTab() {
           </div>
 
           {/* Stats Cards */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-1.5 sm:gap-2 md:gap-3 mb-3 sm:mb-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-1 sm:gap-2 md:gap-3 mb-3 sm:mb-4 w-full min-w-0">
             {[
               { label: "Môn học", value: scheduleData.length },
               { label: "Tín chỉ", value: scheduleData.reduce((sum, course) => sum + (course.credits || 0), 0) },
@@ -652,9 +649,9 @@ function ScheduleTab() {
               { label: "Tuần hiện tại", value: currentWeek }
             ].map((stat, idx) => (
               <Card key={idx} className="bg-card shadow-sm border">
-                <CardContent className="p-2 sm:p-3 md:p-4 text-center">
-                  <div className="text-lg sm:text-xl md:text-2xl font-bold text-primary mb-0.5">{stat.value}</div>
-                  <div className="text-[9px] sm:text-[10px] md:text-xs text-muted-foreground font-medium uppercase tracking-wide leading-tight">{stat.label}</div>
+                <CardContent className="p-1.5 sm:p-3 md:p-4 text-center">
+                  <div className="text-base sm:text-xl md:text-2xl font-bold text-primary mb-0.5">{stat.value}</div>
+                  <div className="text-[8px] sm:text-[10px] md:text-xs text-muted-foreground font-medium uppercase tracking-wide leading-tight">{stat.label}</div>
                 </CardContent>
               </Card>
             ))}
