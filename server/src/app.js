@@ -5,11 +5,13 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import config from '../config/default.js';
 import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
 import logger from './utils/logger.js';
 import apiRoutes from './routes/apiRoutes.js';
 import lecturerRoutes from './routes/lecturerRoutes.js';
 import { activePeriodJars } from './services/sessionStore.js';
 import { getContributors } from './services/githubService.js';
+import { getCommandStats } from './services/redisService.js';
 import { requestIdMiddleware, globalErrorHandler } from './middlewares/errorMiddleware.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -43,7 +45,43 @@ app.use(cors({
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'x-request-id']
 }));
-app.use(express.json());
+
+// Body size limit (prevent payload abuse)
+app.use(express.json({ limit: '10kb' }));
+
+// ════════════════════════════════════════════════
+// GLOBAL RATE LIMITER — Protect against DDoS & spam
+// Uses in-memory store (NO Redis commands consumed)
+// ════════════════════════════════════════════════
+app.use(rateLimit({
+    windowMs: 60 * 1000,       // 1 minute window
+    max: 200,                   // 200 requests per minute per IP
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { error: 'Quá nhiều request. Vui lòng đợi 1 phút.' },
+    skip: () => !isProduction   // Skip in development
+}));
+
+// Per-session API rate limiter — prevent authenticated users from spamming
+// This protects Upstash commands from being drained by a single user
+const authenticatedLimiter = rateLimit({
+    windowMs: 60 * 1000,       // 1 minute
+    max: 60,                    // 60 API calls per minute per session token
+    keyGenerator: (req) => {
+        // Use session token as key (not IP) — limits PER USER
+        return req.headers.authorization?.replace('Bearer ', '') || req.ip;
+    },
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { error: 'Quá nhiều request. Vui lòng chậm lại.' },
+    skip: () => !isProduction
+});
+
+// Apply per-session limiter to all /api routes (except health/stats)
+app.use('/api/student', authenticatedLimiter);
+app.use('/api/dkmh', authenticatedLimiter);
+app.use('/api/lms', authenticatedLimiter);
+app.use('/api/schedule', authenticatedLimiter);
 
 // API Routes
 app.use('/api', apiRoutes);
@@ -57,6 +95,7 @@ app.get('/api/stats', (req, res) => {
         uptime: process.uptime(),
         memory: process.memoryUsage(),
         activeJars: activePeriodJars.size,
+        redis: getCommandStats(),
         requestId: req.requestId
     });
 });

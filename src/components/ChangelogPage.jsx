@@ -59,6 +59,16 @@ const changelogData = [
                 type: "feature",
                 title: "Auto-Refresh Session",
                 description: "Endpoint /api/auth/refresh cho phép tự động đăng nhập lại khi session hết hạn (15 phút) mà không cần user nhập lại mật khẩu, nếu đã bật \"Ghi nhớ đăng nhập\"."
+            },
+            {
+                type: "improvement",
+                title: "DDoS & Spam Protection",
+                description: "3 tầng rate limiting: Global (200 req/phút/IP), Per-session (60 req/phút/user), và Login (10 lần/15 phút). Body size giới hạn 10KB. Tất cả dùng in-memory — không tốn Redis commands."
+            },
+            {
+                type: "improvement",
+                title: "Upstash Command Budget Guard",
+                description: "Tự động đếm Redis commands và kích hoạt circuit breaker khi đạt 80% quota hàng ngày. Khi circuit mở, cache bị bypass nhưng session auth vẫn hoạt động — tránh bị tính phí vượt mức."
             }
         ]
     },

@@ -1,5 +1,5 @@
 import config from '../../config/default.js';
-import { getClient } from './redisService.js';
+import { getClient, trackCommand } from './redisService.js';
 import logger from '../utils/logger.js';
 import crypto from 'crypto';
 
@@ -67,6 +67,7 @@ export async function getSession(token) {
     if (!client || !client.isOpen) return null;
 
     try {
+        trackCommand();
         const raw = await client.get(SESSION_PREFIX + token);
         if (!raw) return null;
 
@@ -93,6 +94,7 @@ export async function saveSession(token, data) {
         data.lastActivity = Date.now();
 
         const encrypted = encrypt(JSON.stringify(data));
+        trackCommand();
         await client.set(key, encrypted, {
             PX: config.session.timeoutMs // Set TTL in milliseconds
         });
@@ -112,6 +114,7 @@ export async function deleteSession(token) {
     if (!client || !client.isOpen) return;
 
     try {
+        trackCommand();
         await client.del(SESSION_PREFIX + token);
         activePeriodJars.delete(token); // Cleanup associated jar
         ssoJars.delete(token); // Cleanup SSO jar
@@ -158,6 +161,7 @@ export async function saveRefreshToken(refreshToken, username, password) {
     try {
         const encrypted = encrypt(JSON.stringify({ username, password }));
         const key = REFRESH_PREFIX + refreshToken;
+        trackCommand();
         await client.set(key, encrypted, {
             PX: config.session.refreshTokenTTLMs // 7 days
         });
@@ -179,6 +183,7 @@ export async function getRefreshCredentials(refreshToken) {
     if (!client || !client.isOpen) return null;
 
     try {
+        trackCommand();
         const encrypted = await client.get(REFRESH_PREFIX + refreshToken);
         if (!encrypted) return null;
 
@@ -199,6 +204,7 @@ export async function deleteRefreshToken(refreshToken) {
     if (!client || !client.isOpen) return;
 
     try {
+        trackCommand();
         await client.del(REFRESH_PREFIX + refreshToken);
         logger.info('[REFRESH] Deleted refresh token');
     } catch (e) {

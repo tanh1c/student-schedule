@@ -5,6 +5,52 @@ import config from '../../config/default.js';
 let client;
 let isConnected = false;
 
+// ═══════════════════════════════════════════════════════
+// REDIS COMMAND BUDGET TRACKER — Protect Upstash quota
+// ═══════════════════════════════════════════════════════
+const DAILY_LIMIT = parseInt(process.env.UPSTASH_DAILY_COMMAND_LIMIT || '10000', 10);
+const BUDGET_THRESHOLD = 0.8; // Circuit breaker at 80%
+
+let commandCount = 0;
+let budgetDate = new Date().toDateString();
+let circuitOpen = false; // true = Redis disabled to save commands
+
+export function trackCommand() {
+    const today = new Date().toDateString();
+    if (today !== budgetDate) {
+        // New day — reset counter
+        logger.info(`[REDIS-BUDGET] Daily reset. Yesterday: ${commandCount}/${DAILY_LIMIT} commands used.`);
+        commandCount = 0;
+        budgetDate = today;
+        circuitOpen = false;
+    }
+    commandCount++;
+
+    if (!circuitOpen && commandCount >= DAILY_LIMIT * BUDGET_THRESHOLD) {
+        circuitOpen = true;
+        logger.warn(`[REDIS-BUDGET] ⚠️ Circuit OPEN! ${commandCount}/${DAILY_LIMIT} commands used (${(BUDGET_THRESHOLD * 100).toFixed(0)}% threshold). Redis disabled for non-critical operations.`);
+    }
+}
+
+/**
+ * Check if Redis budget allows operations
+ * Critical operations (session auth) always allowed
+ * Cache operations (SWR) blocked when circuit is open
+ */
+export function isBudgetExhausted() {
+    return circuitOpen;
+}
+
+export function getCommandStats() {
+    return {
+        commandsUsed: commandCount,
+        dailyLimit: DAILY_LIMIT,
+        percentUsed: ((commandCount / DAILY_LIMIT) * 100).toFixed(1),
+        circuitOpen,
+        budgetDate
+    };
+}
+
 // Initialize Redis Client
 export const initRedis = async () => {
     const url = process.env.REDIS_URL || 'redis://localhost:6379';
@@ -37,11 +83,16 @@ export const initRedis = async () => {
  * @returns {Promise<any>} Data
  */
 export const swr = async (key, fetchFn, ttlSeconds = 14400, freshSeconds = 60) => {
-    if (!isConnected) {
+    // Circuit breaker: skip Redis entirely when budget is low
+    if (!isConnected || circuitOpen) {
+        if (circuitOpen) {
+            logger.info(`[REDIS] Budget circuit open — bypassing cache for ${key}`);
+        }
         return await fetchFn();
     }
 
     try {
+        trackCommand();
         const cachedRaw = await client.get(key);
 
         if (cachedRaw) {
@@ -64,13 +115,15 @@ export const swr = async (key, fetchFn, ttlSeconds = 14400, freshSeconds = 60) =
                 logger.info(`[REDIS] HIT-FRESH: ${key} (Age: ${ageSeconds.toFixed(1)}s)`);
                 return { ...data, _cache: 'HIT-FRESH' };
             } else {
-                // HIT - STALE: Return immediately, TRIGGER background fetch
+                // HIT - STALE: Return immediately, TRIGGER background fetch (only if budget allows)
                 logger.info(`[REDIS] HIT-STALE: ${key} (Age: ${ageSeconds.toFixed(1)}s) -> Revalidating`);
 
-                // Fire & Forget
-                fetchAndCache(key, fetchFn, ttlSeconds).catch(err =>
-                    logger.error(`[REDIS] Background Update Failed: ${key}`, err)
-                );
+                if (!circuitOpen) {
+                    // Fire & Forget
+                    fetchAndCache(key, fetchFn, ttlSeconds).catch(err =>
+                        logger.error(`[REDIS] Background Update Failed: ${key}`, err)
+                    );
+                }
 
                 return { ...data, _cache: 'HIT-STALE' };
             }
@@ -91,7 +144,6 @@ async function fetchAndCache(key, fetchFn, ttlSeconds) {
     const data = await fetchFn();
 
     // DON'T CACHE ERROR RESPONSES
-    // Check for common error patterns from upstream APIs
     const isError = (
         data.status === 404 ||
         data.status === 500 ||
@@ -101,13 +153,18 @@ async function fetchAndCache(key, fetchFn, ttlSeconds) {
 
     if (isError) {
         logger.warn(`[REDIS] NOT CACHING ERROR: ${key}`, { status: data.status, error: data.error });
-        // Delete any stale cache for this key
         try {
+            trackCommand();
             await client.del(key);
         } catch (e) {
             logger.error(`[REDIS] Failed to delete stale key: ${key}`, e);
         }
         return { ...data, _cache: 'ERROR-NO-CACHE' };
+    }
+
+    // Skip save if budget is exhausted
+    if (circuitOpen) {
+        return { ...data, _cache: 'BUDGET-SKIP' };
     }
 
     // Wrap with timestamp
@@ -117,8 +174,8 @@ async function fetchAndCache(key, fetchFn, ttlSeconds) {
     };
 
     try {
+        trackCommand();
         await client.set(key, JSON.stringify(cacheObject), { EX: ttlSeconds });
-        // logger.info(`[REDIS] Saved: ${key}`);
     } catch (e) {
         logger.error(`[REDIS] Save Failed: ${key}`, e);
     }

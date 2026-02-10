@@ -355,7 +355,7 @@ export default function SecurityPage() {
                         <Lock className="h-5 w-5 text-emerald-600" />
                         Các tính năng bảo mật
                     </h2>
-                    <div className="grid sm:grid-cols-2 gap-4">
+                    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                         <SecurityFeatureCard
                             icon={KeyRound}
                             title="Full Redis Encryption"
@@ -383,6 +383,20 @@ export default function SecurityPage() {
                             description="MSSV trong log luôn được ẩn (221***34). Password không bao giờ xuất hiện trong log files."
                             status="✓"
                             color="violet"
+                        />
+                        <SecurityFeatureCard
+                            icon={Shield}
+                            title="DDoS & Rate Limiting"
+                            description="3 tầng: Global (200 req/phút/IP), Per-session (60 req/phút/user), Login (10/15 phút). In-memory — không tốn Redis."
+                            status="3 layers"
+                            color="blue"
+                        />
+                        <SecurityFeatureCard
+                            icon={AlertTriangle}
+                            title="Upstash Budget Guard"
+                            description="Circuit breaker tự bật khi Redis commands đạt 80% quota. Cache bypass nhưng auth vẫn hoạt động — tránh phí phát sinh."
+                            status="80%"
+                            color="amber"
                         />
                     </div>
                 </div>
