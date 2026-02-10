@@ -177,8 +177,15 @@ export default function SecurityPage() {
         {
             endpoint: "/api/auth/login",
             method: "POST",
-            description: "Đăng nhập qua SSO BK - chuyển tiếp credentials tới server BK, không lưu password",
+            description: "Đăng nhập SSO BK — chuyển tiếp credentials, trả session token + refresh token (nếu rememberMe)",
             dataFlow: ["Browser", "Server (Proxy)", "SSO BK", "MyBK API"],
+            security: { stored: false, encrypted: true }
+        },
+        {
+            endpoint: "/api/auth/refresh",
+            method: "POST",
+            description: "Tự động đăng nhập lại bằng refresh token — decrypt credentials (AES-256) rồi re-authenticate với MyBK",
+            dataFlow: ["Browser", "Server", "Redis (decrypt)", "SSO BK", "Trả session mới"],
             security: { stored: false, encrypted: true }
         },
         {
@@ -259,8 +266,8 @@ export default function SecurityPage() {
                         HTTPS Encrypted
                     </Badge>
                     <Badge className="bg-blue-500/10 text-blue-700 dark:text-blue-400 border border-blue-500/20 px-3 py-1.5 text-sm">
-                        <EyeOff className="h-3.5 w-3.5 mr-1.5" />
-                        No Password Stored
+                        <KeyRound className="h-3.5 w-3.5 mr-1.5" />
+                        AES-256-GCM Encrypted
                     </Badge>
                     <Badge className="bg-violet-500/10 text-violet-700 dark:text-violet-400 border border-violet-500/20 px-3 py-1.5 text-sm">
                         <Github className="h-3.5 w-3.5 mr-1.5" />
@@ -310,25 +317,31 @@ export default function SecurityPage() {
                                 <div className="flex items-start gap-3">
                                     <div className="h-6 w-6 rounded-full bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center text-xs font-bold text-blue-600 dark:text-blue-400 shrink-0">1</div>
                                     <p className="text-sm text-slate-600 dark:text-slate-400">
-                                        <strong>Bạn nhập username/password</strong> - Thông tin được gửi tới server của chúng tôi qua HTTPS (mã hóa)
+                                        <strong>Bạn nhập username/password</strong> - Thông tin được gửi tới server qua HTTPS (mã hóa TLS)
                                     </p>
                                 </div>
                                 <div className="flex items-start gap-3">
                                     <div className="h-6 w-6 rounded-full bg-violet-100 dark:bg-violet-900/50 flex items-center justify-center text-xs font-bold text-violet-600 dark:text-violet-400 shrink-0">2</div>
                                     <p className="text-sm text-slate-600 dark:text-slate-400">
-                                        <strong>Server chuyển tiếp</strong> tới SSO BK (sso.hcmut.edu.vn) để xác thực. <strong className="text-red-600 dark:text-red-400">Password KHÔNG được lưu lại.</strong>
+                                        <strong>Server chuyển tiếp</strong> tới SSO BK (sso.hcmut.edu.vn) để xác thực. Password <strong className="text-red-600 dark:text-red-400">KHÔNG được lưu plaintext</strong> ở bất kỳ đâu.
                                     </p>
                                 </div>
                                 <div className="flex items-start gap-3">
                                     <div className="h-6 w-6 rounded-full bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center text-xs font-bold text-emerald-600 dark:text-emerald-400 shrink-0">3</div>
                                     <p className="text-sm text-slate-600 dark:text-slate-400">
-                                        <strong>MyBK trả về session cookie</strong> - Server chỉ lưu cookie này (tạm thời trong RAM) để thay mặt bạn lấy dữ liệu
+                                        <strong>MyBK trả về session cookie</strong> - Server lưu cookie này trong Redis (TTL 15 phút) để thay mặt bạn lấy dữ liệu
                                     </p>
                                 </div>
                                 <div className="flex items-start gap-3">
                                     <div className="h-6 w-6 rounded-full bg-amber-100 dark:bg-amber-900/50 flex items-center justify-center text-xs font-bold text-amber-600 dark:text-amber-400 shrink-0">4</div>
                                     <p className="text-sm text-slate-600 dark:text-slate-400">
-                                        <strong>Sau 15 phút không hoạt động</strong> - Session tự động bị xóa. Bạn cần đăng nhập lại.
+                                        <strong>Nếu bật "Ghi nhớ đăng nhập"</strong> - Credentials được mã hóa AES-256-GCM bằng server key và lưu trong Redis (TTL 7 ngày). Client chỉ giữ refresh token ngẫu nhiên.
+                                    </p>
+                                </div>
+                                <div className="flex items-start gap-3">
+                                    <div className="h-6 w-6 rounded-full bg-red-100 dark:bg-red-900/50 flex items-center justify-center text-xs font-bold text-red-600 dark:text-red-400 shrink-0">5</div>
+                                    <p className="text-sm text-slate-600 dark:text-slate-400">
+                                        <strong>Sau 15 phút không hoạt động</strong> - Session tự động xóa. Nếu có refresh token, hệ thống tự đăng nhập lại.
                                     </p>
                                 </div>
                             </div>
@@ -344,31 +357,31 @@ export default function SecurityPage() {
                     </h2>
                     <div className="grid sm:grid-cols-2 gap-4">
                         <SecurityFeatureCard
-                            icon={EyeOff}
-                            title="Không lưu Password"
-                            description="Password chỉ được chuyển tiếp tới SSO BK rồi hủy ngay lập tức"
-                            status="✓"
+                            icon={KeyRound}
+                            title="AES-256-GCM Encryption"
+                            description="Credentials 'Ghi nhớ đăng nhập' được mã hóa bằng AES-256-GCM với server key và lưu trong Redis"
+                            status="v2.2"
                             color="green"
                         />
                         <SecurityFeatureCard
                             icon={Clock}
                             title="Session Auto-Expire"
-                            description="Session tự động xóa sau 15 phút không hoạt động"
-                            status="15 min"
+                            description="Session tự động xóa sau 15 phút không hoạt động. Refresh token hết hạn sau 7 ngày."
+                            status="15 min / 7d"
                             color="amber"
                         />
                         <SecurityFeatureCard
                             icon={Lock}
-                            title="HTTPS Encryption"
-                            description="Mọi dữ liệu được mã hóa khi truyền tải qua internet"
-                            status="TLS 1.3"
+                            title="Cryptographic Tokens"
+                            description="Session và refresh token được tạo bằng crypto.randomBytes(32) — không chứa MSSV hay thông tin cá nhân"
+                            status="✓"
                             color="blue"
                         />
                         <SecurityFeatureCard
-                            icon={Trash2}
-                            title="Ephemeral Storage"
-                            description="Dữ liệu lưu tạm thời trong Redis và tự động xóa theo TTL"
-                            status="Redis TTL"
+                            icon={EyeOff}
+                            title="MSSV Masking & Log Privacy"
+                            description="MSSV trong log luôn được ẩn (221***34). Password không bao giờ xuất hiện trong log files."
+                            status="✓"
                             color="violet"
                         />
                     </div>
@@ -415,12 +428,14 @@ export default function SecurityPage() {
                         <div className="grid sm:grid-cols-2 gap-3">
                             {[
                                 { item: "Session cookie từ MyBK", duration: "15 phút" },
-                                { item: "Username (để hiển thị)", duration: "15 phút" },
                                 { item: "JWT token (xác thực API)", duration: "15 phút" },
+                                { item: "Username (để hiển thị)", duration: "15 phút" },
+                                { item: "Cached API responses", duration: "4 giờ" },
+                                { item: "Refresh token (encrypted credentials)", duration: "7 ngày", highlight: true },
                             ].map((data, i) => (
-                                <div key={i} className="flex items-center justify-between gap-2 text-sm bg-amber-50 dark:bg-amber-950/30 rounded-lg px-3 py-2">
+                                <div key={i} className={`flex items-center justify-between gap-2 text-sm rounded-lg px-3 py-2 ${data.highlight ? 'bg-emerald-50 dark:bg-emerald-950/30 ring-1 ring-emerald-200 dark:ring-emerald-800' : 'bg-amber-50 dark:bg-amber-950/30'}`}>
                                     <span className="text-slate-600 dark:text-slate-400">{data.item}</span>
-                                    <Badge variant="outline" className="text-amber-700 dark:text-amber-400 border-amber-300 dark:border-amber-700 text-xs">
+                                    <Badge variant="outline" className={`text-xs ${data.highlight ? 'text-emerald-700 dark:text-emerald-400 border-emerald-300 dark:border-emerald-700' : 'text-amber-700 dark:text-amber-400 border-amber-300 dark:border-amber-700'}`}>
                                         {data.duration}
                                     </Badge>
                                 </div>
@@ -428,10 +443,9 @@ export default function SecurityPage() {
                         </div>
                         <div className="flex items-start gap-2 text-sm text-amber-700 dark:text-amber-400 bg-amber-100/50 dark:bg-amber-900/20 rounded-lg p-3">
                             <Info className="h-4 w-4 shrink-0 mt-0.5" />
-
                             <p>
                                 Tất cả dữ liệu trên chỉ được lưu <strong>tạm thời</strong> trong cache Redis với thời gian sống (TTL) ngắn.
-                                Hệ thống sẽ <strong>tự động xóa</strong> vĩnh viễn dữ liệu khi hết hạn (15 phút). Chúng tôi không sử dụng database lưu trữ lâu dài (như MySQL, Mongo).
+                                Hệ thống sẽ <strong>tự động xóa</strong> vĩnh viễn dữ liệu khi hết hạn. Credentials "Ghi nhớ" được <strong>mã hóa AES-256-GCM</strong> trước khi lưu.
                             </p>
                         </div>
                     </CardContent>

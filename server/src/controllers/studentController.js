@@ -1,6 +1,7 @@
 import nodeFetch from 'node-fetch';
 import logger from '../utils/logger.js';
 import { swr } from '../services/redisService.js';
+import { maskStudentId } from '../utils/masking.js';
 
 // Helper to create proxy headers
 const createProxyHeaders = (session) => {
@@ -55,7 +56,7 @@ export const getSchedule = async (req, res) => {
     if (!session) return res.status(401).json({ error: 'Unauthorized' });
 
     const { studentId, semesterYear } = req.query;
-    logger.info(`[API] Proxying schedule for ${studentId}, sem ${semesterYear}...`);
+    logger.info(`[API] Proxying schedule for ${maskStudentId(studentId)}, sem ${semesterYear}...`);
 
     const fetchSchedule = async () => {
         const headers = createProxyHeaders(session);
@@ -89,7 +90,7 @@ export const getExamSchedule = async (req, res) => {
     if (!session) return res.status(401).json({ error: 'Unauthorized' });
 
     const { studentId, namhoc, hocky } = req.query;
-    logger.info(`[API] Proxying exam schedule for ${studentId}...`);
+    logger.info(`[API] Proxying exam schedule for ${maskStudentId(studentId)}...`);
 
     try {
         const headers = createProxyHeaders(session);

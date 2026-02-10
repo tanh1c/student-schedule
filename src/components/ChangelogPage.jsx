@@ -35,10 +35,38 @@ import {
 // Changelog data - Add new entries at the top
 const changelogData = [
     {
+        version: "2.2.0",
+        date: "2026-02-10",
+        title: "Security Hardening & Privacy Upgrade 🔐",
+        isLatest: true,
+        changes: [
+            {
+                type: "improvement",
+                title: "Encrypted Refresh Tokens (Remember Me)",
+                description: "Tính năng \"Ghi nhớ đăng nhập\" giờ sử dụng AES-256-GCM để mã hóa credentials và lưu trên server (Redis, TTL 7 ngày). Client chỉ giữ một refresh token ngẫu nhiên — không còn lưu mật khẩu trên trình duyệt."
+            },
+            {
+                type: "improvement",
+                title: "Cryptographic Session Tokens",
+                description: "Session token giờ được tạo bằng crypto.randomBytes(32) thay vì Base64(username:timestamp). Token hoàn toàn ngẫu nhiên, không chứa MSSV hay bất kỳ thông tin cá nhân nào."
+            },
+            {
+                type: "improvement",
+                title: "MSSV Masking trong Logs",
+                description: "Tất cả log messages trên server giờ sử dụng maskStudentId() để ẩn MSSV. Ví dụ: 2211234 → 221***34. Không còn log username/MSSV plaintext."
+            },
+            {
+                type: "feature",
+                title: "Auto-Refresh Session",
+                description: "Endpoint /api/auth/refresh cho phép tự động đăng nhập lại khi session hết hạn (15 phút) mà không cần user nhập lại mật khẩu, nếu đã bật \"Ghi nhớ đăng nhập\"."
+            }
+        ]
+    },
+    {
         version: "2.1.0",
         date: "2026-02-09",
         title: "LMS Messaging & Schedule UX Upgrade ✨",
-        isLatest: true,
+        isLatest: false,
         changes: [
             {
                 type: "feature",
