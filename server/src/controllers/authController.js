@@ -12,10 +12,10 @@ import config from '../../config/default.js';
 // Let's create a memory store singleton for sessions first.
 
 // Wait, I should create a session store module first.
-import { MAX_SESSIONS, canCreateSession, saveSession, deleteSession, activePeriodJars, ssoJars, getSession, generateSecureToken, saveRefreshToken, getRefreshCredentials, deleteRefreshToken } from '../services/sessionStore.js';
+import { MAX_SESSIONS, canCreateSession, saveSession, deleteSession, activePeriodJars, ssoJars, getSession, generateSecureToken } from '../services/sessionStore.js';
 
 export const login = async (req, res) => {
-    const { username, password, rememberMe } = req.body;
+    const { username, password } = req.body;
     logger.info(`[API] Login request`);
 
     if (!await canCreateSession()) {
@@ -71,19 +71,10 @@ export const login = async (req, res) => {
             }
         }).catch(err => logger.error('[API] DKMH login error:', err));
 
-        // Handle "Remember Me" - save encrypted credentials server-side
-        let refreshToken = null;
-        if (rememberMe) {
-            refreshToken = generateSecureToken();
-            await saveRefreshToken(refreshToken, username, password);
-            logger.info('[API] Refresh token created for remember-me');
-        }
-
         res.json({
             success: true,
             token: sessionToken,
             user: result.user,
-            refreshToken: refreshToken,  // null if rememberMe is false
         });
     } else {
         res.status(401).json({ error: result.error });
@@ -92,15 +83,10 @@ export const login = async (req, res) => {
 
 export const logout = async (req, res) => {
     const token = req.headers['authorization'];
-    const { refreshToken } = req.body || {};
 
     if (token) {
         await deleteSession(token);
         logger.info(`[API] Session deleted`);
-    }
-    if (refreshToken) {
-        await deleteRefreshToken(refreshToken);
-        logger.info(`[API] Refresh token deleted`);
     }
     res.json({ success: true });
 };
@@ -196,86 +182,3 @@ export const dkmhCheck = async (req, res) => {
     }
 };
 
-// ═══════════════════════════════════════════════════════
-// REFRESH SESSION - "Remember Me" re-authentication
-// ═══════════════════════════════════════════════════════
-export const refreshSession = async (req, res) => {
-    const { refreshToken } = req.body;
-
-    if (!refreshToken) {
-        return res.status(400).json({ error: 'Refresh token required' });
-    }
-
-    // Step 1: Get encrypted credentials from Redis
-    const credentials = await getRefreshCredentials(refreshToken);
-    if (!credentials) {
-        return res.status(401).json({
-            error: 'Refresh token expired or invalid',
-            code: 'REFRESH_TOKEN_EXPIRED'
-        });
-    }
-
-    // Step 2: Check server capacity
-    if (!await canCreateSession()) {
-        return res.status(503).json({
-            error: 'Server đang quá tải, vui lòng thử lại sau',
-            code: 'MAX_SESSIONS_REACHED'
-        });
-    }
-
-    // Step 3: Re-authenticate with MyBK using decrypted credentials
-    logger.info('[REFRESH] Re-authenticating with MyBK...');
-    const result = await performCASLogin(credentials.username, credentials.password);
-
-    if (!result.success) {
-        // Credentials may have changed, invalidate refresh token
-        await deleteRefreshToken(refreshToken);
-        return res.status(401).json({
-            error: 'Đăng nhập lại thất bại. Mật khẩu có thể đã thay đổi.',
-            code: 'REFRESH_AUTH_FAILED'
-        });
-    }
-
-    // Step 4: Create new session
-    const sessionToken = generateSecureToken();
-    const sessionData = {
-        username: credentials.username,
-        cookie: result.cookieString,
-        jwtToken: result.jwtToken,
-        user: result.user,
-        createdAt: Date.now(),
-        lastActivity: Date.now(),
-        dkmhCookie: null,
-        dkmhLoggedIn: false,
-    };
-
-    await saveSession(sessionToken, sessionData);
-
-    if (result.jar) {
-        ssoJars.set(sessionToken, result.jar);
-    }
-
-    // Step 5: Background DKMH login
-    performDKMHLogin(credentials.username, credentials.password).then(async dkmhResult => {
-        if (dkmhResult.success) {
-            const session = await getSession(sessionToken);
-            if (session) {
-                session.dkmhCookie = dkmhResult.cookieString;
-                session.dkmhLoggedIn = true;
-                activePeriodJars.set(sessionToken, dkmhResult.jar);
-                await saveSession(sessionToken, session);
-            }
-        }
-    }).catch(err => logger.error('[REFRESH] DKMH login error:', err));
-
-    logger.info('[REFRESH] Session refreshed successfully');
-
-    // Step 6: Renew refresh token TTL (extend 7 more days)
-    await saveRefreshToken(refreshToken, credentials.username, credentials.password);
-
-    res.json({
-        success: true,
-        token: sessionToken,
-        user: result.user,
-    });
-};

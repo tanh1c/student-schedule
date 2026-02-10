@@ -57,8 +57,8 @@ const changelogData = [
             },
             {
                 type: "feature",
-                title: "Auto-Refresh Session",
-                description: "Endpoint /api/auth/refresh cho phép tự động đăng nhập lại khi session hết hạn (15 phút) mà không cần user nhập lại mật khẩu, nếu đã bật \"Ghi nhớ đăng nhập\"."
+                title: "Ghi nhớ đăng nhập (Remember Me)",
+                description: "Khi bật \"Ghi nhớ đăng nhập\", thông tin sẽ được lưu trên thiết bị để tự động đăng nhập lần sau — không phụ thuộc server, hoạt động ngay cả khi server đang cold start."
             },
             {
                 type: "improvement",

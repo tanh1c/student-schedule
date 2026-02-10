@@ -9,7 +9,6 @@ const API_BASE = '/api';
 // Token storage
 const TOKEN_KEY = 'mybk_auth_token';
 const USER_KEY = 'mybk_user_data';
-const REFRESH_TOKEN_KEY = 'mybk_refresh_token';
 const SAVED_CREDENTIALS_KEY = 'mybk_remembered';
 
 // Migration: Remove old insecure credential storage format
@@ -111,17 +110,16 @@ export function isAuthenticated() {
  * Login with MyBK/CAS credentials
  * @param {string} username - Student username (MSSV or email)
  * @param {string} password - Password
- * @param {boolean} rememberMe - Whether to create a refresh token
  * @returns {Promise<{success: boolean, user?: object, error?: string}>}
  */
-export async function login(username, password, rememberMe = false) {
+export async function login(username, password) {
     try {
         const response = await fetch(`${API_BASE}/auth/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ username, password, rememberMe }),
+            body: JSON.stringify({ username, password }),
         });
 
         const data = await response.json();
@@ -131,12 +129,6 @@ export async function login(username, password, rememberMe = false) {
             localStorage.setItem(TOKEN_KEY, data.token);
             if (data.user) {
                 localStorage.setItem(USER_KEY, JSON.stringify(data.user));
-            }
-            // Store refresh token if server provided one (rememberMe was true)
-            if (data.refreshToken) {
-                localStorage.setItem(REFRESH_TOKEN_KEY, data.refreshToken);
-            } else {
-                localStorage.removeItem(REFRESH_TOKEN_KEY);
             }
             return { success: true, user: data.user };
         }
@@ -158,16 +150,13 @@ export async function login(username, password, rememberMe = false) {
  */
 export async function logout(clearRemembered = false) {
     const token = getAuthToken();
-    const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY);
 
     try {
         await fetch(`${API_BASE}/auth/logout`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ refreshToken }),
         });
     } catch (error) {
         console.error('Logout error:', error);
@@ -176,7 +165,6 @@ export async function logout(clearRemembered = false) {
     // Clear all local storage
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(USER_KEY);
-    localStorage.removeItem(REFRESH_TOKEN_KEY);
 
     // Clear remembered credentials if requested
     if (clearRemembered) {
@@ -194,66 +182,6 @@ export function clearStudentInfoCache() {
     studentInfoCache = { data: null, timestamp: 0, promise: null };
 }
 
-/**
- * Get stored refresh token
- */
-export function getRefreshToken() {
-    return localStorage.getItem(REFRESH_TOKEN_KEY);
-}
-
-/**
- * Check if a refresh token exists (for auto-login UI)
- */
-export function hasRefreshToken() {
-    return !!localStorage.getItem(REFRESH_TOKEN_KEY);
-}
-
-/**
- * Refresh session using stored refresh token
- * Used when session expires but user had "Remember Me" enabled
- * @returns {Promise<{success: boolean, user?: object, error?: string}>}
- */
-export async function refreshSession() {
-    const refreshToken = getRefreshToken();
-    if (!refreshToken) {
-        return { success: false, error: 'No refresh token' };
-    }
-
-    try {
-        const response = await fetch(`${API_BASE}/auth/refresh`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ refreshToken }),
-        });
-
-        const data = await response.json();
-
-        if (response.ok && data.success) {
-            // Update session token
-            localStorage.setItem(TOKEN_KEY, data.token);
-            if (data.user) {
-                localStorage.setItem(USER_KEY, JSON.stringify(data.user));
-            }
-            return { success: true, user: data.user };
-        }
-
-        // If refresh failed, clear the invalid refresh token
-        if (data.code === 'REFRESH_TOKEN_EXPIRED' || data.code === 'REFRESH_AUTH_FAILED') {
-            localStorage.removeItem(REFRESH_TOKEN_KEY);
-        }
-
-        return {
-            success: false,
-            error: data.error || 'Refresh failed',
-            code: data.code || null,
-        };
-    } catch (error) {
-        console.error('Refresh session error:', error);
-        return { success: false, error: 'Không thể kết nối đến server' };
-    }
-}
 
 /**
  * Get student info with caching
@@ -794,10 +722,6 @@ export default {
     getSavedCredentials,
     hasSavedCredentials,
     clearSavedCredentials,
-    // Auth - Refresh (legacy)
-    refreshSession,
-    hasRefreshToken,
-    getRefreshToken,
     // DKMH
     checkDkmhStatus,
     dkmhRequest,

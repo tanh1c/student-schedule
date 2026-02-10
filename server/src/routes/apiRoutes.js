@@ -16,17 +16,8 @@ const loginLimiter = rateLimit({
     skip: () => process.env.NODE_ENV !== 'production' // Skip in dev
 });
 
-// Rate limiter for refresh (prevent abuse)
-const refreshLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000,
-    max: 20, // 20 refresh attempts per 15 min
-    message: { error: 'Quá nhiều lần thử refresh. Vui lòng đợi.' },
-    skip: () => process.env.NODE_ENV !== 'production'
-});
-
 // Public Routes
 router.post('/auth/login', loginLimiter, validate(schemas.login), authController.login);
-router.post('/auth/refresh', refreshLimiter, authController.refreshSession);
 router.post('/dkmh/login', authController.dkmhLogin);
 
 // Protected Routes
