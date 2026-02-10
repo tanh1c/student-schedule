@@ -1,6 +1,7 @@
 import config from '../../config/default.js';
 import { getClient } from './redisService.js';
 import logger from '../utils/logger.js';
+import crypto from 'crypto';
 
 // Legacy in-memory map for Jars (Complex objects that are hard to serialize)
 // We accept that these might be lost on restart, requiring user to re-select period.
@@ -14,6 +15,48 @@ export const MAX_SESSIONS = config.session.maxSessions;
 
 // Redis Key Prefix
 const SESSION_PREFIX = 'SESSION:';
+const REFRESH_PREFIX = 'REFRESH:';
+const ALGORITHM = 'aes-256-gcm';
+
+// ═══════════════════════════════════
+// AES-256-GCM Encryption Helpers
+// ═══════════════════════════════════
+
+/**
+ * Encrypt plaintext with AES-256-GCM
+ * @param {string} plaintext - Data to encrypt
+ * @returns {string} - iv:authTag:ciphertext (hex encoded)
+ */
+function encrypt(plaintext) {
+    const key = Buffer.from(config.security.encryptionKey, 'hex');
+    const iv = crypto.randomBytes(12); // 96-bit IV for GCM
+    const cipher = crypto.createCipheriv(ALGORITHM, key, iv);
+
+    let encrypted = cipher.update(plaintext, 'utf8', 'hex');
+    encrypted += cipher.final('hex');
+    const authTag = cipher.getAuthTag().toString('hex');
+
+    return `${iv.toString('hex')}:${authTag}:${encrypted}`;
+}
+
+/**
+ * Decrypt AES-256-GCM encrypted string
+ * @param {string} encryptedStr - iv:authTag:ciphertext (hex encoded)
+ * @returns {string} - Decrypted plaintext
+ */
+function decrypt(encryptedStr) {
+    const key = Buffer.from(config.security.encryptionKey, 'hex');
+    const [ivHex, authTagHex, ciphertext] = encryptedStr.split(':');
+
+    const iv = Buffer.from(ivHex, 'hex');
+    const authTag = Buffer.from(authTagHex, 'hex');
+    const decipher = crypto.createDecipheriv(ALGORITHM, key, iv);
+    decipher.setAuthTag(authTag);
+
+    let decrypted = decipher.update(ciphertext, 'hex', 'utf8');
+    decrypted += decipher.final('utf8');
+    return decrypted;
+}
 
 /**
  * Get session by token (Async)
@@ -27,12 +70,11 @@ export async function getSession(token) {
         const raw = await client.get(SESSION_PREFIX + token);
         if (!raw) return null;
 
-        const session = JSON.parse(raw);
-        // Refresh TTL on access (sliding expiration)
-        // await client.expire(SESSION_PREFIX + token, config.session.timeoutMs / 1000);
+        const decrypted = decrypt(raw);
+        const session = JSON.parse(decrypted);
         return session;
     } catch (e) {
-        logger.error('[SESSION] Get Error', e);
+        logger.error('[SESSION] Get/Decrypt Error', e);
         return null;
     }
 }
@@ -50,12 +92,13 @@ export async function saveSession(token, data) {
         const key = SESSION_PREFIX + token;
         data.lastActivity = Date.now();
 
-        await client.set(key, JSON.stringify(data), {
+        const encrypted = encrypt(JSON.stringify(data));
+        await client.set(key, encrypted, {
             PX: config.session.timeoutMs // Set TTL in milliseconds
         });
         return true;
     } catch (e) {
-        logger.error('[SESSION] Save Error', e);
+        logger.error('[SESSION] Save/Encrypt Error', e);
         return false;
     }
 }
@@ -93,48 +136,6 @@ export async function canCreateSession() {
 // ═══════════════════════════════════════════════════════
 // REFRESH TOKEN - "Remember Me" with encrypted credentials
 // ═══════════════════════════════════════════════════════
-import crypto from 'crypto';
-
-const REFRESH_PREFIX = 'REFRESH:';
-const ALGORITHM = 'aes-256-gcm';
-
-/**
- * Encrypt credentials with AES-256-GCM
- * @param {string} plaintext - JSON string of credentials
- * @returns {string} - iv:authTag:ciphertext (hex encoded)
- */
-function encryptCredentials(plaintext) {
-    const keyHex = config.security.encryptionKey;
-    const key = Buffer.from(keyHex, 'hex');
-    const iv = crypto.randomBytes(12); // 96-bit IV for GCM
-    const cipher = crypto.createCipheriv(ALGORITHM, key, iv);
-
-    let encrypted = cipher.update(plaintext, 'utf8', 'hex');
-    encrypted += cipher.final('hex');
-    const authTag = cipher.getAuthTag().toString('hex');
-
-    return `${iv.toString('hex')}:${authTag}:${encrypted}`;
-}
-
-/**
- * Decrypt credentials with AES-256-GCM
- * @param {string} encryptedStr - iv:authTag:ciphertext (hex encoded)
- * @returns {string} - Decrypted plaintext
- */
-function decryptCredentials(encryptedStr) {
-    const keyHex = config.security.encryptionKey;
-    const key = Buffer.from(keyHex, 'hex');
-    const [ivHex, authTagHex, ciphertext] = encryptedStr.split(':');
-
-    const iv = Buffer.from(ivHex, 'hex');
-    const authTag = Buffer.from(authTagHex, 'hex');
-    const decipher = crypto.createDecipheriv(ALGORITHM, key, iv);
-    decipher.setAuthTag(authTag);
-
-    let decrypted = decipher.update(ciphertext, 'hex', 'utf8');
-    decrypted += decipher.final('utf8');
-    return decrypted;
-}
 
 /**
  * Generate a cryptographically secure session token
@@ -155,7 +156,7 @@ export async function saveRefreshToken(refreshToken, username, password) {
     if (!client || !client.isOpen) return false;
 
     try {
-        const encrypted = encryptCredentials(JSON.stringify({ username, password }));
+        const encrypted = encrypt(JSON.stringify({ username, password }));
         const key = REFRESH_PREFIX + refreshToken;
         await client.set(key, encrypted, {
             PX: config.session.refreshTokenTTLMs // 7 days
@@ -181,7 +182,7 @@ export async function getRefreshCredentials(refreshToken) {
         const encrypted = await client.get(REFRESH_PREFIX + refreshToken);
         if (!encrypted) return null;
 
-        const decrypted = decryptCredentials(encrypted);
+        const decrypted = decrypt(encrypted);
         return JSON.parse(decrypted);
     } catch (e) {
         logger.error('[REFRESH] Get/Decrypt Error', e);

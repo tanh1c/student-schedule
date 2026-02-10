@@ -358,8 +358,8 @@ export default function SecurityPage() {
                     <div className="grid sm:grid-cols-2 gap-4">
                         <SecurityFeatureCard
                             icon={KeyRound}
-                            title="AES-256-GCM Encryption"
-                            description="Credentials 'Ghi nhớ đăng nhập' được mã hóa bằng AES-256-GCM với server key và lưu trong Redis"
+                            title="Full Redis Encryption"
+                            description="TOÀN BỘ dữ liệu trong Redis (đều) được mã hóa AES-256-GCM trước khi lưu. Kể cả khi Redis bị truy cập trái phép, dữ liệu vẫn không đọc được."
                             status="v2.2"
                             color="green"
                         />
@@ -441,11 +441,12 @@ export default function SecurityPage() {
                                 </div>
                             ))}
                         </div>
-                        <div className="flex items-start gap-2 text-sm text-amber-700 dark:text-amber-400 bg-amber-100/50 dark:bg-amber-900/20 rounded-lg p-3">
-                            <Info className="h-4 w-4 shrink-0 mt-0.5" />
+                        <div className="flex items-start gap-2 text-sm text-emerald-700 dark:text-emerald-400 bg-emerald-100/50 dark:bg-emerald-900/20 rounded-lg p-3">
+                            <Lock className="h-4 w-4 shrink-0 mt-0.5" />
                             <p>
-                                Tất cả dữ liệu trên chỉ được lưu <strong>tạm thời</strong> trong cache Redis với thời gian sống (TTL) ngắn.
-                                Hệ thống sẽ <strong>tự động xóa</strong> vĩnh viễn dữ liệu khi hết hạn. Credentials "Ghi nhớ" được <strong>mã hóa AES-256-GCM</strong> trước khi lưu.
+                                <strong>3 tầng bảo vệ:</strong> (1) Dữ liệu được <strong>mã hóa AES-256-GCM</strong> trước khi lưu Redis,
+                                (2) Redis Upstash có <strong>TLS encryption</strong> cho đường truyền,
+                                (3) Tất cả dữ liệu đều có <strong>TTL tự động xóa</strong> (15 phút – 7 ngày).
                             </p>
                         </div>
                     </CardContent>

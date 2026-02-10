@@ -42,8 +42,8 @@ const changelogData = [
         changes: [
             {
                 type: "improvement",
-                title: "Encrypted Refresh Tokens (Remember Me)",
-                description: "Tính năng \"Ghi nhớ đăng nhập\" giờ sử dụng AES-256-GCM để mã hóa credentials và lưu trên server (Redis, TTL 7 ngày). Client chỉ giữ một refresh token ngẫu nhiên — không còn lưu mật khẩu trên trình duyệt."
+                title: "Full Redis Encryption (AES-256-GCM)",
+                description: "Toàn bộ dữ liệu trong Redis (session cookies, MSSV, refresh tokens, DKMH tokens) đều được mã hóa AES-256-GCM trước khi lưu. Kể cả khi Redis bị truy cập trái phép, dữ liệu không thể đọc được."
             },
             {
                 type: "improvement",
