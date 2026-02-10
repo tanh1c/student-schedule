@@ -606,7 +606,7 @@ function MyBKLoginCard({ onScheduleFetched, onError, onLoginSuccess }) {
                 <form onSubmit={handleLogin} className="space-y-4">
                     <div className="space-y-1">
                         <Input
-                            placeholder="Tài khoản (MSSV)"
+                            placeholder="Tài khoản (MyBK)"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                             disabled={loading}
@@ -663,7 +663,7 @@ function MyBKLoginCard({ onScheduleFetched, onError, onLoginSuccess }) {
                     🔒 Thông tin đăng nhập được gửi trực tiếp đến hệ thống SSO của trường
                     {rememberMe && (
                         <span className="block mt-1 text-emerald-600 dark:text-emerald-400">
-                            � Ghi nhớ: thông tin được lưu trên thiết bị này để tự động đăng nhập
+                            ⚠️ Ghi nhớ: thông tin được lưu trên thiết bị này để tự động đăng nhập
                         </span>
                     )}
                 </p>

@@ -177,15 +177,8 @@ export default function SecurityPage() {
         {
             endpoint: "/api/auth/login",
             method: "POST",
-            description: "Đăng nhập SSO BK — chuyển tiếp credentials, trả session token + refresh token (nếu rememberMe)",
+            description: "Đăng nhập SSO BK — chuyển tiếp credentials tới SSO, trả session token",
             dataFlow: ["Browser", "Server (Proxy)", "SSO BK", "MyBK API"],
-            security: { stored: false, encrypted: true }
-        },
-        {
-            endpoint: "/api/auth/refresh",
-            method: "POST",
-            description: "Tự động đăng nhập lại bằng refresh token — decrypt credentials (AES-256) rồi re-authenticate với MyBK",
-            dataFlow: ["Browser", "Server", "Redis (decrypt)", "SSO BK", "Trả session mới"],
             security: { stored: false, encrypted: true }
         },
         {
