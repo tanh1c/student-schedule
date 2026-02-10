@@ -89,3 +89,118 @@ export async function canCreateSession() {
 
 // Cleanup interval is handled by Redis TTL automatically!
 // No need for setInterval loop.
+
+// ═══════════════════════════════════════════════════════
+// REFRESH TOKEN - "Remember Me" with encrypted credentials
+// ═══════════════════════════════════════════════════════
+import crypto from 'crypto';
+
+const REFRESH_PREFIX = 'REFRESH:';
+const ALGORITHM = 'aes-256-gcm';
+
+/**
+ * Encrypt credentials with AES-256-GCM
+ * @param {string} plaintext - JSON string of credentials
+ * @returns {string} - iv:authTag:ciphertext (hex encoded)
+ */
+function encryptCredentials(plaintext) {
+    const keyHex = config.security.encryptionKey;
+    const key = Buffer.from(keyHex, 'hex');
+    const iv = crypto.randomBytes(12); // 96-bit IV for GCM
+    const cipher = crypto.createCipheriv(ALGORITHM, key, iv);
+
+    let encrypted = cipher.update(plaintext, 'utf8', 'hex');
+    encrypted += cipher.final('hex');
+    const authTag = cipher.getAuthTag().toString('hex');
+
+    return `${iv.toString('hex')}:${authTag}:${encrypted}`;
+}
+
+/**
+ * Decrypt credentials with AES-256-GCM
+ * @param {string} encryptedStr - iv:authTag:ciphertext (hex encoded)
+ * @returns {string} - Decrypted plaintext
+ */
+function decryptCredentials(encryptedStr) {
+    const keyHex = config.security.encryptionKey;
+    const key = Buffer.from(keyHex, 'hex');
+    const [ivHex, authTagHex, ciphertext] = encryptedStr.split(':');
+
+    const iv = Buffer.from(ivHex, 'hex');
+    const authTag = Buffer.from(authTagHex, 'hex');
+    const decipher = crypto.createDecipheriv(ALGORITHM, key, iv);
+    decipher.setAuthTag(authTag);
+
+    let decrypted = decipher.update(ciphertext, 'hex', 'utf8');
+    decrypted += decipher.final('utf8');
+    return decrypted;
+}
+
+/**
+ * Generate a cryptographically secure session token
+ * @returns {string} - Random hex token (no embedded user info)
+ */
+export function generateSecureToken() {
+    return crypto.randomBytes(32).toString('hex');
+}
+
+/**
+ * Save refresh token with encrypted credentials
+ * @param {string} refreshToken - Random token
+ * @param {string} username
+ * @param {string} password
+ */
+export async function saveRefreshToken(refreshToken, username, password) {
+    const client = getClient();
+    if (!client || !client.isOpen) return false;
+
+    try {
+        const encrypted = encryptCredentials(JSON.stringify({ username, password }));
+        const key = REFRESH_PREFIX + refreshToken;
+        await client.set(key, encrypted, {
+            PX: config.session.refreshTokenTTLMs // 7 days
+        });
+        logger.info(`[REFRESH] Saved refresh token for user (encrypted)`);
+        return true;
+    } catch (e) {
+        logger.error('[REFRESH] Save Error', e);
+        return false;
+    }
+}
+
+/**
+ * Get credentials from refresh token
+ * @param {string} refreshToken
+ * @returns {{ username: string, password: string } | null}
+ */
+export async function getRefreshCredentials(refreshToken) {
+    const client = getClient();
+    if (!client || !client.isOpen) return null;
+
+    try {
+        const encrypted = await client.get(REFRESH_PREFIX + refreshToken);
+        if (!encrypted) return null;
+
+        const decrypted = decryptCredentials(encrypted);
+        return JSON.parse(decrypted);
+    } catch (e) {
+        logger.error('[REFRESH] Get/Decrypt Error', e);
+        return null;
+    }
+}
+
+/**
+ * Delete refresh token
+ * @param {string} refreshToken
+ */
+export async function deleteRefreshToken(refreshToken) {
+    const client = getClient();
+    if (!client || !client.isOpen) return;
+
+    try {
+        await client.del(REFRESH_PREFIX + refreshToken);
+        logger.info('[REFRESH] Deleted refresh token');
+    } catch (e) {
+        logger.error('[REFRESH] Delete Error', e);
+    }
+}

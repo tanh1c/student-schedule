@@ -6,7 +6,13 @@ export default {
     session: {
         timeoutMs: 15 * 60 * 1000, // 15 minutes
         cleanupIntervalMs: 3 * 60 * 1000, // 3 minutes
-        maxSessions: 40
+        maxSessions: 40,
+        refreshTokenTTLMs: 7 * 24 * 60 * 60 * 1000, // 7 days for "Remember Me"
+    },
+    security: {
+        // AES-256-GCM encryption key for saved credentials in Redis
+        // MUST be exactly 32 bytes (64 hex chars). Set via env var in production!
+        encryptionKey: process.env.CREDENTIALS_ENCRYPTION_KEY || 'a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2',
     },
     urls: {
         serviceUrl: 'https://mybk.hcmut.edu.vn/app/login/cas',

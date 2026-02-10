@@ -88,9 +88,6 @@ function getCurrentSemester() {
  * MyBK Login & Sync Component
  * Allows users to login with their MyBK credentials and fetch schedule automatically
  */
-// Key for storing credentials
-const SAVED_CREDENTIALS_KEY = 'mybk_saved_credentials';
-
 function MyBKLoginCard({ onScheduleFetched, onError, onLoginSuccess }) {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [username, setUsername] = useState('');
@@ -112,64 +109,27 @@ function MyBKLoginCard({ onScheduleFetched, onError, onLoginSuccess }) {
 
     const semesterOptions = getSemesterOptions();
 
-    // Load saved credentials on mount
-    const loadSavedCredentials = () => {
-        try {
-            const saved = localStorage.getItem(SAVED_CREDENTIALS_KEY);
-            if (saved) {
-                const decoded = JSON.parse(atob(saved));
-                if (decoded.username && decoded.password) {
-                    setUsername(decoded.username);
-                    setPassword(decoded.password);
-                    setRememberMe(true);
-                    return decoded;
-                }
-            }
-        } catch (e) {
-            console.error('Error loading saved credentials:', e);
-            localStorage.removeItem(SAVED_CREDENTIALS_KEY);
-        }
-        return null;
-    };
-
-    // Save credentials to localStorage
-    const saveCredentials = (user, pass) => {
-        try {
-            const encoded = btoa(JSON.stringify({ username: user, password: pass }));
-            localStorage.setItem(SAVED_CREDENTIALS_KEY, encoded);
-        } catch (e) {
-            console.error('Error saving credentials:', e);
-        }
-    };
-
-    // Clear saved credentials
-    const clearSavedCredentials = () => {
-        localStorage.removeItem(SAVED_CREDENTIALS_KEY);
-    };
-
     useEffect(() => {
         checkServerStatus();
-
-        // Load saved credentials
-        const savedCreds = loadSavedCredentials();
 
         if (mybkApi.isAuthenticated()) {
             setIsLoggedIn(true);
             loadStudentInfo();
-        } else if (savedCreds && !autoLoginAttempted) {
-            // Auto-login if credentials are saved and not already attempted
+        } else if (mybkApi.hasRefreshToken()) {
+            // Has refresh token — will auto-login once server is confirmed online
+            setRememberMe(true);
             setAutoLoginAttempted(true);
         }
     }, []);
 
-    // Auto-login effect when credentials are loaded
+    // Auto-login via refresh token when server is confirmed online
     useEffect(() => {
-        if (autoLoginAttempted && username && password && serverStatus === 'online' && !isLoggedIn && !serverBusy) {
-            handleLogin();
+        if (autoLoginAttempted && serverStatus === 'online' && !isLoggedIn && !loading && !serverBusy) {
+            handleRefreshLogin();
         }
-    }, [autoLoginAttempted, username, password, serverStatus]);
+    }, [autoLoginAttempted, serverStatus]);
 
-    // Countdown timer for retry - tự động thử lại khi countdown = 0
+    // Countdown timer for retry — auto-retry when countdown reaches 0
     useEffect(() => {
         if (retryCountdown > 0) {
             const timer = setTimeout(() => {
@@ -183,15 +143,12 @@ function MyBKLoginCard({ onScheduleFetched, onError, onLoginSuccess }) {
         }
     }, [retryCountdown, serverBusy, loading]);
 
-    // Không cần auto refresh stats nữa vì handleLogin sẽ fetch stats nếu vẫn busy
-
     const fetchServerStats = async () => {
         try {
             const response = await fetch('/api/stats');
             if (response.ok) {
                 const stats = await response.json();
                 setServerStats(stats);
-                // Check if server has capacity
                 if (stats.sessions && stats.sessions.available > 0) {
                     setServerBusy(false);
                 }
@@ -206,7 +163,6 @@ function MyBKLoginCard({ onScheduleFetched, onError, onLoginSuccess }) {
             const response = await fetch('/api/health');
             if (response.ok) {
                 setServerStatus('online');
-                // Also fetch server stats
                 fetchServerStats();
             } else {
                 setServerStatus('offline');
@@ -223,6 +179,34 @@ function MyBKLoginCard({ onScheduleFetched, onError, onLoginSuccess }) {
         }
     };
 
+    /**
+     * Auto-login using refresh token (no password needed)
+     */
+    const handleRefreshLogin = async () => {
+        setLoading(true);
+        setError('');
+
+        try {
+            const result = await mybkApi.refreshSession();
+
+            if (result.success) {
+                setIsLoggedIn(true);
+                setServerBusy(false);
+                await loadStudentInfo();
+                if (onLoginSuccess) onLoginSuccess();
+            } else {
+                // Refresh token expired or credentials changed
+                console.log('[AutoLogin] Refresh failed:', result.error);
+                // Don't show error, just show login form
+                setRememberMe(false);
+            }
+        } catch (err) {
+            console.error('[AutoLogin] Error:', err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const handleLogin = async (e) => {
         e?.preventDefault();
         setError('');
@@ -230,37 +214,26 @@ function MyBKLoginCard({ onScheduleFetched, onError, onLoginSuccess }) {
         setServerBusy(false);
 
         try {
-            const result = await mybkApi.login(username, password);
+            const result = await mybkApi.login(username, password, rememberMe);
 
             if (result.success) {
                 setIsLoggedIn(true);
                 setServerBusy(false);
+                setPassword(''); // Clear password from memory
 
-                // Save credentials if Remember Me is checked
-                if (rememberMe) {
-                    saveCredentials(username, password);
-                } else {
-                    clearSavedCredentials();
-                }
-
-                setPassword('');
                 await loadStudentInfo();
 
-                // Notify parent component of successful login
                 if (onLoginSuccess) {
                     onLoginSuccess();
                 }
             } else {
-                // Check if it's a server capacity issue
                 if (result.code === 'MAX_SESSIONS_REACHED' || result.error?.includes('quá tải')) {
                     setServerBusy(true);
-                    setRetryCountdown(30); // 30 seconds countdown
-                    await fetchServerStats(); // Get current stats
-                    setError(''); // Don't show error, show busy UI instead
+                    setRetryCountdown(30);
+                    await fetchServerStats();
+                    setError('');
                 } else {
                     setError(result.error || 'Đăng nhập thất bại');
-                    // Clear saved credentials if login fails
-                    clearSavedCredentials();
                 }
             }
         } catch (err) {
@@ -274,15 +247,11 @@ function MyBKLoginCard({ onScheduleFetched, onError, onLoginSuccess }) {
         await mybkApi.logout();
         setIsLoggedIn(false);
         setStudentInfo(null);
+        setUsername('');
+        setPassword('');
 
         if (clearRemembered) {
-            clearSavedCredentials();
-            setUsername('');
-            setPassword('');
             setRememberMe(false);
-        } else {
-            // Keep username for convenience, reload password if saved
-            loadSavedCredentials();
         }
     };
 
@@ -679,8 +648,8 @@ function MyBKLoginCard({ onScheduleFetched, onError, onLoginSuccess }) {
                 <p className="text-xs text-center text-muted-foreground mt-4">
                     🔒 Thông tin đăng nhập được gửi trực tiếp đến hệ thống SSO của trường
                     {rememberMe && (
-                        <span className="block mt-1 text-amber-600 dark:text-amber-400">
-                            ⚠️ Đang lưu thông tin đăng nhập trên máy này
+                        <span className="block mt-1 text-emerald-600 dark:text-emerald-400">
+                            🔐 Ghi nhớ: thông tin được mã hóa AES-256 và lưu trên server (7 ngày)
                         </span>
                     )}
                 </p>
