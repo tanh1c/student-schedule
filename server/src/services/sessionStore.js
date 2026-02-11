@@ -15,7 +15,6 @@ export const MAX_SESSIONS = config.session.maxSessions;
 
 // Redis Key Prefix
 const SESSION_PREFIX = 'SESSION:';
-const REFRESH_PREFIX = 'REFRESH:';
 const ALGORITHM = 'aes-256-gcm';
 
 // ═══════════════════════════════════
@@ -150,78 +149,10 @@ export async function canCreateSession() {
     }
 }
 
-// ═══════════════════════════════════════════════════════
-// REFRESH TOKEN - "Remember Me" with encrypted credentials
-// ═══════════════════════════════════════════════════════
-
 /**
  * Generate a cryptographically secure session token
  * @returns {string} - Random hex token (no embedded user info)
  */
 export function generateSecureToken() {
     return crypto.randomBytes(32).toString('hex');
-}
-
-/**
- * Save refresh token with encrypted credentials
- * @param {string} refreshToken - Random token
- * @param {string} username
- * @param {string} password
- */
-export async function saveRefreshToken(refreshToken, username, password) {
-    const client = getClient();
-    if (!client || !client.isOpen) return false;
-
-    try {
-        const encrypted = encrypt(JSON.stringify({ username, password }));
-        const key = REFRESH_PREFIX + refreshToken;
-        trackCommand();
-        await client.set(key, encrypted, {
-            PX: config.session.refreshTokenTTLMs // 7 days
-        });
-        logger.info(`[REFRESH] Saved refresh token for user (encrypted)`);
-        return true;
-    } catch (e) {
-        logger.error('[REFRESH] Save Error', e);
-        return false;
-    }
-}
-
-/**
- * Get credentials from refresh token
- * @param {string} refreshToken
- * @returns {{ username: string, password: string } | null}
- */
-export async function getRefreshCredentials(refreshToken) {
-    const client = getClient();
-    if (!client || !client.isOpen) return null;
-
-    try {
-        trackCommand();
-        const encrypted = await client.get(REFRESH_PREFIX + refreshToken);
-        if (!encrypted) return null;
-
-        const decrypted = decrypt(encrypted);
-        return JSON.parse(decrypted);
-    } catch (e) {
-        logger.error('[REFRESH] Get/Decrypt Error', e);
-        return null;
-    }
-}
-
-/**
- * Delete refresh token
- * @param {string} refreshToken
- */
-export async function deleteRefreshToken(refreshToken) {
-    const client = getClient();
-    if (!client || !client.isOpen) return;
-
-    try {
-        trackCommand();
-        await client.del(REFRESH_PREFIX + refreshToken);
-        logger.info('[REFRESH] Deleted refresh token');
-    } catch (e) {
-        logger.error('[REFRESH] Delete Error', e);
-    }
 }

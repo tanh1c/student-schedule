@@ -1,6 +1,6 @@
 import nodeFetch from 'node-fetch';
 import logger from '../utils/logger.js';
-import { swr } from './redisService.js';
+import { swr, getClient } from './redisService.js';
 
 const GITHUB_OWNER = 'tanh1c';
 const GITHUB_REPO = 'student-schedule';
@@ -8,6 +8,7 @@ const GITHUB_REPO = 'student-schedule';
 // Cache for 1 hour, fresh for 5 minutes
 const CACHE_TTL = 3600; // 1 hour
 const CACHE_FRESH = 300; // 5 minutes
+const CACHE_KEY = 'github:contributors';
 
 // Special roles for known contributors
 const specialRoles = {
@@ -80,9 +81,19 @@ const fallbackData = {
  */
 export const getContributors = async () => {
     try {
-        return await swr('github:contributors', fetchContributorsFromGitHub, CACHE_TTL, CACHE_FRESH);
+        return await swr(CACHE_KEY, fetchContributorsFromGitHub, CACHE_TTL, CACHE_FRESH);
     } catch (error) {
         logger.warn('[GITHUB] Using fallback data due to error:', error.message);
+
+        // Purge any cached fallback from Redis so next request retries GitHub
+        try {
+            const client = getClient();
+            if (client?.isOpen) {
+                await client.del(CACHE_KEY);
+                logger.info('[GITHUB] Purged stale cache key');
+            }
+        } catch (e) { /* ignore */ }
+
         return fallbackData;
     }
 };
@@ -103,8 +114,8 @@ async function fetchContributorsFromGitHub() {
         const resetTime = contributorsRes.headers.get('X-RateLimit-Reset');
         logger.warn(`[GITHUB] API Error: ${contributorsRes.status}, Rate Limit Remaining: ${remaining}, Reset: ${resetTime}`);
 
-        // Return fallback data instead of throwing
-        return fallbackData;
+        // THROW instead of returning fallback — so SWR doesn't cache fallback data!
+        throw new Error(`GitHub API returned ${contributorsRes.status}`);
     }
 
     const contributorsData = await contributorsRes.json();

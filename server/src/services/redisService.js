@@ -110,7 +110,7 @@ export const swr = async (key, fetchFn, ttlSeconds = 14400, freshSeconds = 60) =
             const timestamp = cached.timestamp || 0;
             const ageSeconds = (now - timestamp) / 1000;
 
-            if (ageSeconds < freshSeconds) {
+            if (ageSeconds < freshSeconds && !data._fallback) {
                 // HIT - FRESH: Return immediately, NO background fetch
                 logger.info(`[REDIS] HIT-FRESH: ${key} (Age: ${ageSeconds.toFixed(1)}s)`);
                 return { ...data, _cache: 'HIT-FRESH' };
@@ -119,10 +119,16 @@ export const swr = async (key, fetchFn, ttlSeconds = 14400, freshSeconds = 60) =
                 logger.info(`[REDIS] HIT-STALE: ${key} (Age: ${ageSeconds.toFixed(1)}s) -> Revalidating`);
 
                 if (!circuitOpen) {
-                    // Fire & Forget
-                    fetchAndCache(key, fetchFn, ttlSeconds).catch(err =>
-                        logger.error(`[REDIS] Background Update Failed: ${key}`, err)
-                    );
+                    // Fire & Forget — but purge stale key if revalidation fails
+                    fetchAndCache(key, fetchFn, ttlSeconds).catch(async (err) => {
+                        logger.error(`[REDIS] Background Update Failed: ${key}`, err);
+                        // Purge stale data so next request does a blocking fresh fetch
+                        try {
+                            trackCommand();
+                            await client.del(key);
+                            logger.info(`[REDIS] Purged stale key after failed revalidation: ${key}`);
+                        } catch (delErr) { /* ignore */ }
+                    });
                 }
 
                 return { ...data, _cache: 'HIT-STALE' };

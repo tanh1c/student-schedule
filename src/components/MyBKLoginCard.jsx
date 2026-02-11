@@ -115,17 +115,17 @@ function MyBKLoginCard({ onScheduleFetched, onError, onLoginSuccess }) {
         if (mybkApi.isAuthenticated()) {
             setIsLoggedIn(true);
             loadStudentInfo();
-        } else if (mybkApi.hasRefreshToken()) {
-            // Has refresh token — will auto-login once server is confirmed online
+        } else if (mybkApi.hasSavedCredentials()) {
+            // Has saved credentials — will auto-login once server is confirmed online
             setRememberMe(true);
             setAutoLoginAttempted(true);
         }
     }, []);
 
-    // Auto-login via refresh token when server is confirmed online
+    // Auto-login via saved credentials when server is confirmed online
     useEffect(() => {
         if (autoLoginAttempted && serverStatus === 'online' && !isLoggedIn && !loading && !serverBusy) {
-            handleRefreshLogin();
+            handleAutoLogin();
         }
     }, [autoLoginAttempted, serverStatus]);
 
@@ -180,14 +180,20 @@ function MyBKLoginCard({ onScheduleFetched, onError, onLoginSuccess }) {
     };
 
     /**
-     * Auto-login using refresh token (no password needed)
+     * Auto-login using saved credentials (from localStorage)
      */
-    const handleRefreshLogin = async () => {
+    const handleAutoLogin = async () => {
+        const saved = mybkApi.getSavedCredentials();
+        if (!saved) {
+            setAutoLoginAttempted(false);
+            return;
+        }
+
         setLoading(true);
         setError('');
 
         try {
-            const result = await mybkApi.refreshSession();
+            const result = await mybkApi.login(saved.username, saved.password);
 
             if (result.success) {
                 setIsLoggedIn(true);
@@ -195,9 +201,9 @@ function MyBKLoginCard({ onScheduleFetched, onError, onLoginSuccess }) {
                 await loadStudentInfo();
                 if (onLoginSuccess) onLoginSuccess();
             } else {
-                // Refresh token expired or credentials changed
-                console.log('[AutoLogin] Refresh failed:', result.error);
-                // Don't show error, just show login form
+                // Credentials may have changed — don't clear yet,
+                // just show login form so user can re-enter
+                console.log('[AutoLogin] Saved credentials failed:', result.error);
                 setRememberMe(false);
             }
         } catch (err) {
@@ -219,6 +225,14 @@ function MyBKLoginCard({ onScheduleFetched, onError, onLoginSuccess }) {
             if (result.success) {
                 setIsLoggedIn(true);
                 setServerBusy(false);
+
+                // Save credentials if "Remember Me" is checked
+                if (rememberMe) {
+                    mybkApi.saveCredentials(username, password);
+                } else {
+                    mybkApi.clearSavedCredentials();
+                }
+
                 setPassword(''); // Clear password from memory
 
                 await loadStudentInfo();
@@ -244,7 +258,7 @@ function MyBKLoginCard({ onScheduleFetched, onError, onLoginSuccess }) {
     };
 
     const handleLogout = async (clearRemembered = false) => {
-        await mybkApi.logout();
+        await mybkApi.logout(clearRemembered);
         setIsLoggedIn(false);
         setStudentInfo(null);
         setUsername('');
@@ -592,7 +606,7 @@ function MyBKLoginCard({ onScheduleFetched, onError, onLoginSuccess }) {
                 <form onSubmit={handleLogin} className="space-y-4">
                     <div className="space-y-1">
                         <Input
-                            placeholder="Tài khoản (MSSV)"
+                            placeholder="Tài khoản (MyBK)"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                             disabled={loading}
@@ -649,7 +663,7 @@ function MyBKLoginCard({ onScheduleFetched, onError, onLoginSuccess }) {
                     🔒 Thông tin đăng nhập được gửi trực tiếp đến hệ thống SSO của trường
                     {rememberMe && (
                         <span className="block mt-1 text-emerald-600 dark:text-emerald-400">
-                            🔐 Ghi nhớ: thông tin được mã hóa AES-256 và lưu trên server (7 ngày)
+                            ⚠️ Ghi nhớ: thông tin được lưu trên thiết bị này để tự động đăng nhập
                         </span>
                     )}
                 </p>

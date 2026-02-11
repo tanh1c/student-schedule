@@ -177,15 +177,8 @@ export default function SecurityPage() {
         {
             endpoint: "/api/auth/login",
             method: "POST",
-            description: "Đăng nhập SSO BK — chuyển tiếp credentials, trả session token + refresh token (nếu rememberMe)",
+            description: "Đăng nhập SSO BK — chuyển tiếp credentials tới SSO, trả session token",
             dataFlow: ["Browser", "Server (Proxy)", "SSO BK", "MyBK API"],
-            security: { stored: false, encrypted: true }
-        },
-        {
-            endpoint: "/api/auth/refresh",
-            method: "POST",
-            description: "Tự động đăng nhập lại bằng refresh token — decrypt credentials (AES-256) rồi re-authenticate với MyBK",
-            dataFlow: ["Browser", "Server", "Redis (decrypt)", "SSO BK", "Trả session mới"],
             security: { stored: false, encrypted: true }
         },
         {
@@ -335,13 +328,13 @@ export default function SecurityPage() {
                                 <div className="flex items-start gap-3">
                                     <div className="h-6 w-6 rounded-full bg-amber-100 dark:bg-amber-900/50 flex items-center justify-center text-xs font-bold text-amber-600 dark:text-amber-400 shrink-0">4</div>
                                     <p className="text-sm text-slate-600 dark:text-slate-400">
-                                        <strong>Nếu bật "Ghi nhớ đăng nhập"</strong> - Credentials được mã hóa AES-256-GCM bằng server key và lưu trong Redis (TTL 7 ngày). Client chỉ giữ refresh token ngẫu nhiên.
+                                        <strong>Nếu bật "Ghi nhớ đăng nhập"</strong> - Thông tin được lưu trên thiết bị (localStorage) để tự động đăng nhập lần sau. Không gửi lên server.
                                     </p>
                                 </div>
                                 <div className="flex items-start gap-3">
                                     <div className="h-6 w-6 rounded-full bg-red-100 dark:bg-red-900/50 flex items-center justify-center text-xs font-bold text-red-600 dark:text-red-400 shrink-0">5</div>
                                     <p className="text-sm text-slate-600 dark:text-slate-400">
-                                        <strong>Sau 15 phút không hoạt động</strong> - Session tự động xóa. Nếu có refresh token, hệ thống tự đăng nhập lại.
+                                        <strong>Sau 15 phút không hoạt động</strong> - Session tự động xóa. Nếu đã ghi nhớ, hệ thống tự đăng nhập lại khi bạn quay lại.
                                     </p>
                                 </div>
                             </div>
@@ -366,14 +359,14 @@ export default function SecurityPage() {
                         <SecurityFeatureCard
                             icon={Clock}
                             title="Session Auto-Expire"
-                            description="Session tự động xóa sau 15 phút không hoạt động. Refresh token hết hạn sau 7 ngày."
-                            status="15 min / 7d"
+                            description="Session tự động xóa sau 15 phút không hoạt động. Dữ liệu Redis tự xóa khi hết TTL."
+                            status="15 min"
                             color="amber"
                         />
                         <SecurityFeatureCard
                             icon={Lock}
-                            title="Cryptographic Tokens"
-                            description="Session và refresh token được tạo bằng crypto.randomBytes(32) — không chứa MSSV hay thông tin cá nhân"
+                            title="Cryptographic Session Tokens"
+                            description="Session token được tạo bằng crypto.randomBytes(32) — không chứa MSSV hay thông tin cá nhân"
                             status="✓"
                             color="blue"
                         />

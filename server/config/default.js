@@ -9,7 +9,7 @@ export default {
         timeoutMs: 15 * 60 * 1000, // 15 minutes
         cleanupIntervalMs: 3 * 60 * 1000, // 3 minutes
         maxSessions: 40,
-        refreshTokenTTLMs: 7 * 24 * 60 * 60 * 1000, // 7 days for "Remember Me"
+
     },
     security: {
         // AES-256-GCM encryption key for saved credentials in Redis
