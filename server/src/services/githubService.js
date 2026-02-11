@@ -4,11 +4,27 @@ import { swr, getClient } from './redisService.js';
 
 const GITHUB_OWNER = 'tanh1c';
 const GITHUB_REPO = 'student-schedule';
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN || '';
 
 // Cache for 1 hour, fresh for 5 minutes
 const CACHE_TTL = 3600; // 1 hour
 const CACHE_FRESH = 300; // 5 minutes
 const CACHE_KEY = 'github:contributors';
+
+/**
+ * Build headers for GitHub API requests
+ * With token: 5,000 req/hour — Without token: 60 req/hour (shared IP on Render!)
+ */
+function getGitHubHeaders() {
+    const headers = {
+        'Accept': 'application/vnd.github.v3+json',
+        'User-Agent': 'student-schedule-app'
+    };
+    if (GITHUB_TOKEN) {
+        headers['Authorization'] = `token ${GITHUB_TOKEN}`;
+    }
+    return headers;
+}
 
 // Special roles for known contributors
 const specialRoles = {
@@ -102,17 +118,23 @@ export const getContributors = async () => {
  * Internal function to fetch from GitHub API
  */
 async function fetchContributorsFromGitHub() {
-    logger.info('[GITHUB] Fetching contributors from GitHub API');
+    const headers = getGitHubHeaders();
+    logger.info(`[GITHUB] Fetching contributors from GitHub API (authenticated: ${!!GITHUB_TOKEN})`);
 
     // Fetch contributors list
     const contributorsRes = await nodeFetch(
-        `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contributors?per_page=50&anon=0`
+        `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contributors?per_page=50&anon=0`,
+        { headers }
     );
 
+    const remaining = contributorsRes.headers.get('X-RateLimit-Remaining');
+    const limit = contributorsRes.headers.get('X-RateLimit-Limit');
+    logger.info(`[GITHUB] Rate Limit: ${remaining}/${limit}`);
+
     if (!contributorsRes.ok) {
-        const remaining = contributorsRes.headers.get('X-RateLimit-Remaining');
         const resetTime = contributorsRes.headers.get('X-RateLimit-Reset');
-        logger.warn(`[GITHUB] API Error: ${contributorsRes.status}, Rate Limit Remaining: ${remaining}, Reset: ${resetTime}`);
+        const resetDate = resetTime ? new Date(parseInt(resetTime) * 1000).toISOString() : 'unknown';
+        logger.warn(`[GITHUB] API Error: ${contributorsRes.status}, Rate Limit Remaining: ${remaining}/${limit}, Reset: ${resetDate}`);
 
         // THROW instead of returning fallback — so SWR doesn't cache fallback data!
         throw new Error(`GitHub API returned ${contributorsRes.status}`);
@@ -123,8 +145,9 @@ async function fetchContributorsFromGitHub() {
     // Fetch detailed stats
     let statsData = [];
     try {
-        const statsRes = await fetch(
-            `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/stats/contributors`
+        const statsRes = await nodeFetch(
+            `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/stats/contributors`,
+            { headers }
         );
         if (statsRes.status === 200) {
             statsData = await statsRes.json();
@@ -136,7 +159,7 @@ async function fetchContributorsFromGitHub() {
     // Fetch repo info for dev time
     let devTime = "1+ năm";
     try {
-        const repoRes = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}`);
+        const repoRes = await nodeFetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}`, { headers });
         if (repoRes.ok) {
             const repoInfo = await repoRes.json();
             const createdAt = new Date(repoInfo.created_at);
@@ -160,7 +183,7 @@ async function fetchContributorsFromGitHub() {
         contributorsData.map(async (contributor) => {
             let userInfo = {};
             try {
-                const userRes = await fetch(`https://api.github.com/users/${contributor.login}`);
+                const userRes = await nodeFetch(`https://api.github.com/users/${contributor.login}`, { headers });
                 if (userRes.ok) {
                     userInfo = await userRes.json();
                 }
@@ -200,7 +223,7 @@ async function fetchContributorsFromGitHub() {
         if (!existing) {
             let userInfo = {};
             try {
-                const userRes = await fetch(`https://api.github.com/users/${manual.github}`);
+                const userRes = await nodeFetch(`https://api.github.com/users/${manual.github}`, { headers });
                 if (userRes.ok) {
                     userInfo = await userRes.json();
                 }
