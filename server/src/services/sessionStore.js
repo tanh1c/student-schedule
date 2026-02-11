@@ -124,17 +124,31 @@ export async function deleteSession(token) {
 }
 
 /**
- * Check if we can create new session
- * With Redis, we typically don't limit hard count as strictly unless necessary.
- * For now, we assume Redis can handle it.
+ * Check if we can create new session by counting SESSION: keys
+ * Uses Redis DBSIZE as approximation (includes refresh tokens etc.)
+ * Falls back to allowing if Redis is not available
  */
 export async function canCreateSession() {
-    // Optional: Check DBSIZE if strict limit needed
-    return true;
-}
+    const client = getClient();
+    if (!client || !client.isOpen) return true; // Allow if Redis is down
 
-// Cleanup interval is handled by Redis TTL automatically!
-// No need for setInterval loop.
+    try {
+        trackCommand();
+        // Count only SESSION: keys using SCAN with pattern
+        let count = 0;
+        for await (const key of client.scanIterator({ MATCH: `${SESSION_PREFIX}*`, COUNT: 100 })) {
+            count++;
+            if (count >= MAX_SESSIONS) break;
+        }
+        if (count >= MAX_SESSIONS) {
+            logger.warn(`[SESSION] Max sessions reached (${count}/${MAX_SESSIONS})`);
+        }
+        return count < MAX_SESSIONS;
+    } catch (e) {
+        logger.error('[SESSION] canCreateSession error', e);
+        return true; // Allow on error to avoid blocking logins
+    }
+}
 
 // ═══════════════════════════════════════════════════════
 // REFRESH TOKEN - "Remember Me" with encrypted credentials

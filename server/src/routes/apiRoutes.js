@@ -3,6 +3,7 @@ import rateLimit from 'express-rate-limit';
 import * as authController from '../controllers/authController.js';
 import * as studentController from '../controllers/studentController.js';
 import * as dkmhController from '../controllers/dkmhController.js';
+import * as lmsController from '../controllers/lmsController.js';
 import { authenticate } from '../middlewares/authMiddleware.js';
 import { validate, schemas } from '../utils/validation.js';
 
@@ -51,7 +52,7 @@ router.get('/schedule/get-course-list', authenticate, studentController.getCours
 // DKMH - All endpoints matching index.production.js
 router.get('/dkmh/status', authenticate, authController.dkmhStatus);
 router.get('/dkmh/check', authenticate, authController.dkmhCheck);
-router.post('/dkmh/proxy', authenticate, dkmhController.proxy);
+router.post('/dkmh/proxy', authenticate, validate(schemas.dkmhProxy), dkmhController.proxy);
 router.get('/dkmh/registration-periods', authenticate, dkmhController.getRegistrationPeriods);
 router.post('/dkmh/period-details', authenticate, dkmhController.getPeriodDetails);
 router.post('/dkmh/search-courses', authenticate, dkmhController.searchCourses);
@@ -61,7 +62,6 @@ router.post('/dkmh/registration-result', authenticate, dkmhController.getRegistr
 router.post('/dkmh/cancel', authenticate, dkmhController.cancel);
 
 // LMS (BK E-Learning) - Moodle integration
-import * as lmsController from '../controllers/lmsController.js';
 router.post('/lms/init', authenticate, lmsController.initLmsSession);
 router.get('/lms/messages', authenticate, lmsController.getMessages);
 router.get('/lms/messages/:conversationId', authenticate, lmsController.getConversationDetail);

@@ -1,3 +1,4 @@
+import nodeFetch from 'node-fetch';
 import logger from '../utils/logger.js';
 import { swr } from './redisService.js';
 
@@ -93,7 +94,7 @@ async function fetchContributorsFromGitHub() {
     logger.info('[GITHUB] Fetching contributors from GitHub API');
 
     // Fetch contributors list
-    const contributorsRes = await fetch(
+    const contributorsRes = await nodeFetch(
         `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contributors?per_page=50&anon=0`
     );
 

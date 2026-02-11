@@ -2,7 +2,6 @@ import fetchCookie from 'fetch-cookie';
 import nodeFetch from 'node-fetch';
 import { CookieJar } from 'tough-cookie';
 import config from '../../config/default.js';
-import fs from 'fs';
 import { maskCookie, maskUrl, maskSensitive } from '../utils/masking.js';
 import logger from '../utils/logger.js';
 
@@ -59,7 +58,7 @@ export async function performCASLogin(username, password) {
             body: loginParams,
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+                'User-Agent': config.userAgent
             },
             redirect: 'follow'
         });
@@ -117,7 +116,7 @@ export async function performCASLogin(username, password) {
         logger.info('[AUTH] Verifying with get-student-info...');
         const apiHeaders = {
             'Accept': 'application/json',
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+            'User-Agent': config.userAgent,
             'Referer': 'https://mybk.hcmut.edu.vn/app/',
             'Origin': 'https://mybk.hcmut.edu.vn',
             'Cookie': cookieString

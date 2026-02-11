@@ -1,4 +1,6 @@
 import nodeFetch from 'node-fetch';
+import fetchCookie from 'fetch-cookie';
+import { CookieJar } from 'tough-cookie';
 import { activePeriodJars } from '../services/sessionStore.js';
 import * as parser from '../services/dkmhParser.js';
 import config from '../../config/default.js';
@@ -23,7 +25,7 @@ export const proxy = async (req, res) => {
         const options = {
             method: method,
             headers: {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+                'User-Agent': config.userAgent,
                 'Cookie': dkmhCookie,
                 'Referer': config.urls.dkmhInfo.entryUrl,
                 'Origin': 'https://mybk.hcmut.edu.vn',
@@ -64,7 +66,7 @@ export const getRegistrationPeriods = async (req, res) => {
     try {
         const response = await nodeFetch(config.urls.dkmhInfo.formUrl, {
             headers: {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+                'User-Agent': config.userAgent,
                 'Cookie': dkmhCookie,
                 'Referer': config.urls.dkmhInfo.homeUrl,
                 'Accept': 'text/html,application/xhtml+xml'
@@ -118,11 +120,6 @@ export const getPeriodDetails = async (req, res) => {
     if (!periodId) return res.status(400).json({ error: 'periodId required' });
 
     try {
-        // Setup Jar (similar to index.js logic)
-        const { CookieJar } = await import('tough-cookie');
-        const fetchCookieModule = await import('fetch-cookie');
-        const fetchCookie = fetchCookieModule.default;
-
         const jar = new CookieJar();
         const fetch = fetchCookie(nodeFetch, jar);
 
@@ -132,7 +129,7 @@ export const getPeriodDetails = async (req, res) => {
         }
 
         const baseHeaders = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+            'User-Agent': config.userAgent,
             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
             'Origin': 'https://mybk.hcmut.edu.vn',
             'Referer': config.urls.dkmhInfo.formUrl

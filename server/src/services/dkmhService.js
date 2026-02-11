@@ -46,7 +46,7 @@ export async function performDKMHLogin(username, password) {
             body: loginParams,
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+                'User-Agent': config.userAgent
             },
             redirect: 'follow'
         });
@@ -70,7 +70,7 @@ export async function performDKMHLogin(username, password) {
         const dkmhEntryUrl = config.urls.dkmhInfo.entryUrl;
         const entryResponse = await fetch(dkmhEntryUrl, {
             headers: {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+                'User-Agent': config.userAgent,
                 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
                 'Referer': config.urls.dkmhInfo.serviceUrl
             },
@@ -83,7 +83,7 @@ export async function performDKMHLogin(username, password) {
         const homeUrl = config.urls.dkmhInfo.homeUrl;
         const homeResponse = await fetch(homeUrl, {
             headers: {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+                'User-Agent': config.userAgent,
                 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
                 'Referer': entryResponse.url
             },
@@ -96,7 +96,7 @@ export async function performDKMHLogin(username, password) {
         const dkmhUrl = config.urls.dkmhInfo.formUrl;
         const dkmhResponse = await fetch(dkmhUrl, {
             headers: {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+                'User-Agent': config.userAgent,
                 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
                 'Referer': homeResponse.url
             },

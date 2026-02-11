@@ -21,11 +21,19 @@ export const schemas = {
         message: "Must provide either 'id' or 'gv'",
     }),
 
-    // Check DKMH Proxy
+    // DKMH Proxy — URL whitelist to prevent SSRF
     dkmhProxy: z.object({
-        url: z.string().url('Invalid URL'),
+        url: z.string().url('Invalid URL').refine(
+            (url) => {
+                try {
+                    const parsed = new URL(url);
+                    return parsed.hostname === 'mybk.hcmut.edu.vn';
+                } catch { return false; }
+            },
+            { message: 'Only mybk.hcmut.edu.vn URLs are allowed' }
+        ),
         method: z.enum(['GET', 'POST']).optional(),
-        body: z.string().optional(),
+        body: z.any().optional(),
     })
 };
 

@@ -30,7 +30,7 @@ export async function performLMSLogin(existingJar) {
         const response = await fetch(lmsLoginUrl, {
             redirect: 'follow',
             headers: {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+                'User-Agent': config.userAgent
             }
         });
 
@@ -138,7 +138,7 @@ export async function getConversations(lmsSession, options = {}) {
             'Content-Type': 'application/json',
             'Accept': 'application/json, text/javascript, */*; q=0.01',
             'Cookie': lmsSession.lmsCookie,
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+            'User-Agent': config.userAgent,
             'Origin': config.urls.lms.baseUrl,
             'Referer': `${config.urls.lms.baseUrl}/message/`,
             'X-Requested-With': 'XMLHttpRequest'
@@ -203,7 +203,7 @@ export async function getConversationMessages(lmsSession, conversationId, option
             'Content-Type': 'application/json',
             'Accept': 'application/json',
             'Cookie': lmsSession.lmsCookie,
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+            'User-Agent': config.userAgent,
             'Origin': config.urls.lms.baseUrl,
             'Referer': `${config.urls.lms.baseUrl}/message/`,
             'X-Requested-With': 'XMLHttpRequest'
@@ -249,7 +249,7 @@ export async function getUnreadCount(lmsSession) {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
             'Cookie': lmsSession.lmsCookie,
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+            'User-Agent': config.userAgent,
             'Origin': config.urls.lms.baseUrl,
             'X-Requested-With': 'XMLHttpRequest'
         },
