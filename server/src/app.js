@@ -73,7 +73,7 @@ const authenticatedLimiter = rateLimit({
     },
     standardHeaders: true,
     legacyHeaders: false,
-    validate: { keyGenerator: false }, // Disable IPv6 warning for custom keyGenerator
+    validate: { ipv6SubnetOrKeyGenerator: false }, // Disable IPv6 warning for custom keyGenerator
     message: { error: 'Quá nhiều request. Vui lòng chậm lại.' },
     skip: () => !isProduction
 });
