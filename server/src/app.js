@@ -59,7 +59,8 @@ app.use(rateLimit({
     standardHeaders: true,
     legacyHeaders: false,
     message: { error: 'Quá nhiều request. Vui lòng đợi 1 phút.' },
-    skip: () => !isProduction   // Skip in development
+    skip: () => !isProduction,
+    validate: false              // Disable all validation (IPv6 check) for Docker/proxy
 }));
 
 // Per-session API rate limiter — prevent authenticated users from spamming
@@ -73,7 +74,11 @@ const authenticatedLimiter = rateLimit({
     },
     standardHeaders: true,
     legacyHeaders: false,
+<<<<<<< HEAD
     validate: { ipv6SubnetOrKeyGenerator: false }, // Disable IPv6 warning for custom keyGenerator
+=======
+    validate: false, // Disable all validation for Docker/proxy
+>>>>>>> origin/feature/server-refactor
     message: { error: 'Quá nhiều request. Vui lòng chậm lại.' },
     skip: () => !isProduction
 });

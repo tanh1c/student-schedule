@@ -80,7 +80,7 @@ export const login = async (req, res) => {
 };
 
 export const logout = async (req, res) => {
-    const token = req.headers['authorization'];
+    const token = req.headers['authorization']?.replace('Bearer ', '');
 
     if (token) {
         await deleteSession(token);
@@ -100,7 +100,7 @@ export const dkmhLogin = async (req, res) => {
     const result = await performDKMHLogin(loginUsername, loginPassword);
 
     if (result.success) {
-        const dkmhSessionToken = Buffer.from(`dkmh:${loginUsername}:${Date.now()}`).toString('base64');
+        const dkmhSessionToken = generateSecureToken();
 
         await saveSession(dkmhSessionToken, {
             type: 'dkmh',
