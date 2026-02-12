@@ -4,7 +4,10 @@
     "type": "module",
     "scripts": {
         "start": "node src/server.js",
-        "dev": "node --watch src/server.js"
+        "dev": "node --watch src/server.js",
+        "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+        "test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watch",
+        "test:coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage"
     },
     "dependencies": {
         "cors": "^2.8.5",
@@ -21,5 +24,11 @@
         "winston": "^3.19.0",
         "winston-daily-rotate-file": "^5.0.0",
         "zod": "^4.3.6"
+    },
+    "devDependencies": {
+        "@jest/globals": "^30.2.0",
+        "@types/jest": "^30.0.0",
+        "jest": "^30.2.0",
+        "supertest": "^7.2.2"
     }
 }

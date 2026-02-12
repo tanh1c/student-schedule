@@ -5,9 +5,15 @@ export function parseVietnameseDate(dateStr) {
     if (!dateStr) return null;
     try {
         const [datePart, timePart] = dateStr.split(' ');
+        if (!datePart || !datePart.includes('/')) return null;
+
         const [day, month, year] = datePart.split('/').map(Number);
+        if (isNaN(day) || isNaN(month) || isNaN(year)) return null;
+
         const [hour, minute] = timePart ? timePart.split(':').map(Number) : [0, 0];
-        return new Date(year, month - 1, day, hour, minute);
+        const date = new Date(year, month - 1, day, hour, minute);
+
+        return isNaN(date.getTime()) ? null : date;
     } catch (e) {
         return null;
     }
