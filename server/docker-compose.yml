@@ -14,25 +14,42 @@ services:
       - NODE_ENV=production
       - PORT=3001
       - CORS_ORIGIN=http://localhost:3000
-      - REDIS_URL=redis://redis:6379
+      - REDIS_URL=redis://:${REDIS_PASSWORD:-mybk_redis_secret}@redis:6379
+      - CREDENTIALS_ENCRYPTION_KEY=${CREDENTIALS_ENCRYPTION_KEY}
     restart: always
     networks:
       - backend
     depends_on:
-      - redis
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3001/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
 
   # ═══════════════════════════════════════════════════════════════
-  # REDIS CACHE
+  # REDIS CACHE (Internal only — NOT exposed to host)
   # ═══════════════════════════════════════════════════════════════
   redis:
     image: redis:alpine
     container_name: mybk-redis
-    ports:
-      - "6379:6379"
+    command: redis-server --requirepass ${REDIS_PASSWORD:-mybk_redis_secret} --appendonly yes
+    volumes:
+      - redis_data:/data
     restart: always
     networks:
       - backend
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD:-mybk_redis_secret}", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
 networks:
   backend:
     driver: bridge
+
+volumes:
+  redis_data:

@@ -75,8 +75,21 @@ logs/
 # Text Editor / IDE specific files
 .idea
 .vscode
+.agent
+.gemini
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+
+# Legacy files (fully refactored into src/)
+index.js
+index.production.js
+
+# Test & doc files
+*test*.js
+*test*.md
+performance_test.md
+*.md
+!README.md

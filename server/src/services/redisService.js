@@ -100,29 +100,26 @@ export const swr = async (key, fetchFn, ttlSeconds = 14400, freshSeconds = 60) =
             try {
                 cached = JSON.parse(cachedRaw);
             } catch (e) {
-                // Formatting change/error, treat as miss
                 return await fetchAndCache(key, fetchFn, ttlSeconds);
             }
 
-            // Check if wrapping format is used { timestamp, data }
             const now = Date.now();
-            const data = cached.data || cached; // Fallback for old simple format
+            const data = cached.data || cached;
             const timestamp = cached.timestamp || 0;
             const ageSeconds = (now - timestamp) / 1000;
 
+            // Strip internal cache metadata before returning
+            const { _cache, _fallback, ...cleanData } = data;
+
             if (ageSeconds < freshSeconds && !data._fallback) {
-                // HIT - FRESH: Return immediately, NO background fetch
                 logger.info(`[REDIS] HIT-FRESH: ${key} (Age: ${ageSeconds.toFixed(1)}s)`);
-                return { ...data, _cache: 'HIT-FRESH' };
+                return cleanData;
             } else {
-                // HIT - STALE: Return immediately, TRIGGER background fetch (only if budget allows)
                 logger.info(`[REDIS] HIT-STALE: ${key} (Age: ${ageSeconds.toFixed(1)}s) -> Revalidating`);
 
                 if (!circuitOpen) {
-                    // Fire & Forget — but purge stale key if revalidation fails
                     fetchAndCache(key, fetchFn, ttlSeconds).catch(async (err) => {
                         logger.error(`[REDIS] Background Update Failed: ${key}`, err);
-                        // Purge stale data so next request does a blocking fresh fetch
                         try {
                             trackCommand();
                             await client.del(key);
@@ -131,10 +128,9 @@ export const swr = async (key, fetchFn, ttlSeconds = 14400, freshSeconds = 60) =
                     });
                 }
 
-                return { ...data, _cache: 'HIT-STALE' };
+                return cleanData;
             }
         } else {
-            // MISS: Blocking Fetch
             logger.info(`[REDIS] HIT-MISS: ${key}`);
             return await fetchAndCache(key, fetchFn, ttlSeconds);
         }
@@ -165,12 +161,12 @@ async function fetchAndCache(key, fetchFn, ttlSeconds) {
         } catch (e) {
             logger.error(`[REDIS] Failed to delete stale key: ${key}`, e);
         }
-        return { ...data, _cache: 'ERROR-NO-CACHE' };
+        return data;
     }
 
     // Skip save if budget is exhausted
     if (circuitOpen) {
-        return { ...data, _cache: 'BUDGET-SKIP' };
+        return data;
     }
 
     // Wrap with timestamp
@@ -186,7 +182,7 @@ async function fetchAndCache(key, fetchFn, ttlSeconds) {
         logger.error(`[REDIS] Save Failed: ${key}`, e);
     }
 
-    return { ...data, _cache: 'MISS' };
+    return data;
 }
 
 export const getClient = () => client;

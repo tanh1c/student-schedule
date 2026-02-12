@@ -14,12 +14,13 @@ const loginLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 10, // 10 attempts per window
     message: { error: 'Quá nhiều lần thử. Vui lòng đợi 15 phút.' },
-    skip: () => process.env.NODE_ENV !== 'production' // Skip in dev
+    skip: () => process.env.NODE_ENV !== 'production',
+    validate: false // Disable all validation for Docker/proxy
 });
 
 // Public Routes
 router.post('/auth/login', loginLimiter, validate(schemas.login), authController.login);
-router.post('/dkmh/login', authController.dkmhLogin);
+router.post('/dkmh/login', loginLimiter, validate(schemas.dkmhLogin), authController.dkmhLogin);
 
 // Protected Routes
 router.post('/auth/logout', authenticate, authController.logout);
@@ -27,7 +28,7 @@ router.post('/auth/logout', authenticate, authController.logout);
 // Student (Original API set)
 router.get('/student/info', authenticate, studentController.getStudentInfo);
 router.get('/student/schedule', authenticate, validate(schemas.studentInfo, 'query'), studentController.getSchedule);
-router.get('/student/exam-schedule', authenticate, studentController.getExamSchedule);
+router.get('/student/exam-schedule', authenticate, validate(schemas.examSchedule, 'query'), studentController.getExamSchedule);
 router.post('/student/gpa/summary', authenticate, studentController.getGpaSummary);
 router.post('/student/gpa/detail', authenticate, studentController.getGpaDetail);
 
@@ -45,12 +46,12 @@ router.get('/dkmh/status', authenticate, authController.dkmhStatus);
 router.get('/dkmh/check', authenticate, authController.dkmhCheck);
 router.post('/dkmh/proxy', authenticate, validate(schemas.dkmhProxy), dkmhController.proxy);
 router.get('/dkmh/registration-periods', authenticate, dkmhController.getRegistrationPeriods);
-router.post('/dkmh/period-details', authenticate, dkmhController.getPeriodDetails);
-router.post('/dkmh/search-courses', authenticate, dkmhController.searchCourses);
-router.post('/dkmh/class-groups', authenticate, dkmhController.getClassGroups);
-router.post('/dkmh/register', authenticate, dkmhController.register);
+router.post('/dkmh/period-details', authenticate, validate(schemas.periodDetails), dkmhController.getPeriodDetails);
+router.post('/dkmh/search-courses', authenticate, validate(schemas.searchCourses), dkmhController.searchCourses);
+router.post('/dkmh/class-groups', authenticate, validate(schemas.classGroups), dkmhController.getClassGroups);
+router.post('/dkmh/register', authenticate, validate(schemas.register), dkmhController.register);
 router.post('/dkmh/registration-result', authenticate, dkmhController.getRegistrationResult);
-router.post('/dkmh/cancel', authenticate, dkmhController.cancel);
+router.post('/dkmh/cancel', authenticate, validate(schemas.cancel), dkmhController.cancel);
 
 // LMS (BK E-Learning) - Moodle integration
 router.post('/lms/init', authenticate, lmsController.initLmsSession);

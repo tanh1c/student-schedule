@@ -156,3 +156,43 @@ export async function canCreateSession() {
 export function generateSecureToken() {
     return crypto.randomBytes(32).toString('hex');
 }
+
+// ═══════════════════════════════════
+// Periodic cleanup of in-memory Maps
+// Prevents memory leaks from Redis TTL-expired sessions
+// ═══════════════════════════════════
+const CLEANUP_INTERVAL = 5 * 60 * 1000; // 5 minutes
+
+setInterval(async () => {
+    const client = getClient();
+    if (!client || !client.isOpen) return;
+
+    let cleaned = 0;
+    for (const token of ssoJars.keys()) {
+        try {
+            trackCommand();
+            const exists = await client.exists(SESSION_PREFIX + token);
+            if (!exists) {
+                ssoJars.delete(token);
+                cleaned++;
+            }
+        } catch { break; } // Stop on Redis errors
+    }
+
+    // Clean activePeriodJars (keys are `token_periodId`)
+    for (const key of activePeriodJars.keys()) {
+        const token = key.includes('_') ? key.split('_')[0] : key;
+        try {
+            trackCommand();
+            const exists = await client.exists(SESSION_PREFIX + token);
+            if (!exists) {
+                activePeriodJars.delete(key);
+                cleaned++;
+            }
+        } catch { break; }
+    }
+
+    if (cleaned > 0) {
+        logger.info(`[SESSION] Cleanup: removed ${cleaned} orphaned in-memory entries`);
+    }
+}, CLEANUP_INTERVAL);

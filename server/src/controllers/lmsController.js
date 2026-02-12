@@ -15,7 +15,6 @@ import * as lmsService from '../services/lmsService.js';
 export const initLmsSession = async (req, res) => {
     const session = req.session;
     const token = req.token;
-    if (!session) return res.status(401).json({ error: 'Unauthorized' });
 
     // Check if already have valid LMS session
     if (session.lms && session.lms.sesskey) {
@@ -73,7 +72,6 @@ export const initLmsSession = async (req, res) => {
  */
 export const getMessages = async (req, res) => {
     const session = req.session;
-    if (!session) return res.status(401).json({ error: 'Unauthorized' });
 
     // Check LMS session
     if (!session.lms || !session.lms.sesskey) {
@@ -122,7 +120,6 @@ export const getMessages = async (req, res) => {
  */
 export const getConversationDetail = async (req, res) => {
     const session = req.session;
-    if (!session) return res.status(401).json({ error: 'Unauthorized' });
 
     if (!session.lms || !session.lms.sesskey) {
         return res.status(400).json({
@@ -173,7 +170,6 @@ export const getConversationDetail = async (req, res) => {
  */
 export const getUnreadCount = async (req, res) => {
     const session = req.session;
-    if (!session) return res.status(401).json({ error: 'Unauthorized' });
 
     if (!session.lms || !session.lms.sesskey) {
         return res.status(400).json({

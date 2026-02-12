@@ -7,6 +7,8 @@ import config from '../../config/default.js';
 import { maskCookie, maskUrl } from '../utils/masking.js';
 import logger from '../utils/logger.js';
 
+const FETCH_TIMEOUT = 15000;
+
 // Proxy endpoint for DKMH requests
 export const proxy = async (req, res) => {
     const session = req.session; // From authMiddleware
@@ -38,7 +40,7 @@ export const proxy = async (req, res) => {
             options.headers['Content-Type'] = 'application/json';
         }
 
-        const response = await nodeFetch(url, options);
+        const response = await nodeFetch(url, { ...options, signal: AbortSignal.timeout(FETCH_TIMEOUT) });
         const contentType = response.headers.get('content-type');
 
         if (contentType && contentType.includes('application/json')) {
@@ -75,10 +77,6 @@ export const getRegistrationPeriods = async (req, res) => {
 
         const html = await response.text();
 
-        // Use parsing logic from index.js (embedded here for simplicity as it wasn't in parser utils)
-        // Wait, I should have put this in parser utils but I missed some.
-        // Let's implement quick regex here or move to parser later?
-        // Let's implement here for now.
         const rowRegex = /<tr[^>]*onclick="ketQuaDangKyView\((\d+)[^"]*"[^>]*>\s*<td>(\d+)<\/td>\s*<td[^>]*>([^<]+)<\/td>\s*<td>([\s\S]*?)<\/td>\s*<td>([^<]+)<\/td>\s*<td>([^<]+)<\/td>/g;
         const periods = [];
         let match;
