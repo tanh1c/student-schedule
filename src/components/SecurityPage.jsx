@@ -90,7 +90,7 @@ function ApiEndpointCard({ endpoint, method, description, dataFlow, security }) 
                             {security.stored ? (
                                 <span className="flex items-center gap-1 text-amber-600 dark:text-amber-400">
                                     <Database className="h-3 w-3" />
-                                    Lưu tạm trong RAM
+                                    Lưu tạm trong Redis (encrypted)
                                 </span>
                             ) : (
                                 <span className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400">
@@ -150,19 +150,17 @@ function SecurityFeatureCard({ icon: Icon, title, description, status, color }) 
     return (
         <div className={`relative overflow-hidden rounded-2xl bg-gradient-to-br ${scheme.gradient} border ${scheme.border} p-4 shadow-sm`}>
             <div className="absolute -top-8 -right-8 h-20 w-20 bg-white/20 dark:bg-white/5 rounded-full blur-xl" />
+            {status && (
+                <Badge className="absolute top-3 right-3 bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 border-none text-[10px] px-1.5 z-10">
+                    {status}
+                </Badge>
+            )}
             <div className="relative flex items-start gap-4">
                 <div className={`h-10 w-10 rounded-xl bg-gradient-to-br ${scheme.iconBg} flex items-center justify-center shadow-lg ${scheme.iconShadow} shrink-0`}>
                     <Icon className="h-5 w-5 text-white" />
                 </div>
-                <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                        <h3 className={`font-bold ${scheme.text}`}>{title}</h3>
-                        {status && (
-                            <Badge className="bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 border-none text-[10px] px-1.5">
-                                {status}
-                            </Badge>
-                        )}
-                    </div>
+                <div className="flex-1 min-w-0 pr-10">
+                    <h3 className={`font-bold mb-1 ${scheme.text}`}>{title}</h3>
                     <p className="text-sm text-slate-600 dark:text-slate-400">{description}</p>
                 </div>
             </div>
@@ -184,49 +182,70 @@ export default function SecurityPage() {
         {
             endpoint: "/api/auth/logout",
             method: "POST",
-            description: "Đăng xuất - xóa session khỏi bộ nhớ server",
-            dataFlow: ["Browser", "Server", "Xóa session"],
+            description: "Đăng xuất - xóa session khỏi Redis",
+            dataFlow: ["Browser", "Server", "Redis (xóa session)"],
             security: { stored: false, encrypted: true }
         },
         {
             endpoint: "/api/student/info",
             method: "GET",
             description: "Lấy thông tin sinh viên từ MyBK API (proxy)",
-            dataFlow: ["Browser", "Server", "MyBK API", "Trả về browser"],
-            security: { stored: false, encrypted: true }
+            dataFlow: ["Browser", "Server", "Redis Cache", "MyBK API"],
+            security: { stored: true, encrypted: true }
         },
         {
             endpoint: "/api/student/schedule",
             method: "GET",
             description: "Lấy thời khóa biểu từ MyBK API",
-            dataFlow: ["Browser", "Server", "MyBK API", "Trả về browser"],
-            security: { stored: false, encrypted: true }
+            dataFlow: ["Browser", "Server", "Redis Cache", "MyBK API"],
+            security: { stored: true, encrypted: true }
         },
         {
             endpoint: "/api/student/gpa/summary",
             method: "POST",
             description: "Lấy tổng quan GPA từ MyBK",
-            dataFlow: ["Browser", "Server", "MyBK API", "Trả về browser"],
-            security: { stored: false, encrypted: true }
+            dataFlow: ["Browser", "Server", "Redis Cache", "MyBK API"],
+            security: { stored: true, encrypted: true }
         },
         {
             endpoint: "/api/student/gpa/detail",
             method: "POST",
             description: "Lấy chi tiết điểm các môn từ MyBK",
-            dataFlow: ["Browser", "Server", "MyBK API", "Trả về browser"],
-            security: { stored: false, encrypted: true }
+            dataFlow: ["Browser", "Server", "Redis Cache", "MyBK API"],
+            security: { stored: true, encrypted: true }
         },
         {
             endpoint: "/api/dkmh/registration-periods",
             method: "GET",
             description: "Lấy danh sách đợt đăng ký môn học",
-            dataFlow: ["Browser", "Server", "DKMH BK", "Trả về browser"],
+            dataFlow: ["Browser", "Server", "DKMH BK"],
             security: { stored: false, encrypted: true }
+        },
+        {
+            endpoint: "/api/lms/init",
+            method: "POST",
+            description: "Khởi tạo phiên LMS — SSO cross-auth sang BK E-Learning",
+            dataFlow: ["Browser", "Server", "SSO BK", "LMS Moodle"],
+            security: { stored: true, encrypted: true }
+        },
+        {
+            endpoint: "/api/lms/messages",
+            method: "GET",
+            description: "Lấy danh sách hội thoại tin nhắn LMS",
+            dataFlow: ["Browser", "Server", "Redis Cache", "Moodle AJAX API"],
+            security: { stored: true, encrypted: true }
+        },
+        {
+            endpoint: "/api/lms/deadlines",
+            method: "GET",
+            description: "Lấy deadline quiz/assignment từ LMS Calendar",
+            dataFlow: ["Browser", "Server", "Redis Cache", "Moodle AJAX API"],
+            security: { stored: true, encrypted: true }
         },
         {
             endpoint: "/api/stats",
             method: "GET",
-            description: "Thông tin server (redis, memory, active sessions) - chỉ số liệu thống kê",
+            description: "Thông tin server (redis, memory, uptime) - chỉ số liệu thống kê, không cần auth",
             dataFlow: ["Browser", "Server"],
             security: { stored: false, encrypted: true }
         }
@@ -435,14 +454,14 @@ export default function SecurityPage() {
                         <div className="grid sm:grid-cols-2 gap-3">
                             {[
                                 { item: "Session cookie từ MyBK", duration: "15 phút" },
-                                { item: "JWT token (xác thực API)", duration: "15 phút" },
+                                { item: "MyBK JWT token (xác thực API)", duration: "15 phút" },
                                 { item: "Username (để hiển thị)", duration: "15 phút" },
-                                { item: "Cached API responses", duration: "4 giờ" },
-                                { item: "Refresh token (encrypted credentials)", duration: "7 ngày", highlight: true },
+                                { item: "LMS session (sesskey, cookie)", duration: "15 phút" },
+                                { item: "Cached API responses (SWR)", duration: "30p – 4 giờ" },
                             ].map((data, i) => (
-                                <div key={i} className={`flex items-center justify-between gap-2 text-sm rounded-lg px-3 py-2 ${data.highlight ? 'bg-emerald-50 dark:bg-emerald-950/30 ring-1 ring-emerald-200 dark:ring-emerald-800' : 'bg-amber-50 dark:bg-amber-950/30'}`}>
+                                <div key={i} className={`flex items-center justify-between gap-2 text-sm rounded-lg px-3 py-2 bg-amber-50 dark:bg-amber-950/30`}>
                                     <span className="text-slate-600 dark:text-slate-400">{data.item}</span>
-                                    <Badge variant="outline" className={`text-xs ${data.highlight ? 'text-emerald-700 dark:text-emerald-400 border-emerald-300 dark:border-emerald-700' : 'text-amber-700 dark:text-amber-400 border-amber-300 dark:border-amber-700'}`}>
+                                    <Badge variant="outline" className={`text-xs text-amber-700 dark:text-amber-400 border-amber-300 dark:border-amber-700`}>
                                         {data.duration}
                                     </Badge>
                                 </div>
@@ -453,7 +472,7 @@ export default function SecurityPage() {
                             <p>
                                 <strong>3 tầng bảo vệ:</strong> (1) Dữ liệu được <strong>mã hóa AES-256-GCM</strong> trước khi lưu Redis,
                                 (2) Redis Upstash có <strong>TLS encryption</strong> cho đường truyền,
-                                (3) Tất cả dữ liệu đều có <strong>TTL tự động xóa</strong> (15 phút – 7 ngày).
+                                (3) Tất cả dữ liệu đều có <strong>TTL tự động xóa</strong> (15 phút – 4 giờ).
                             </p>
                         </div>
                     </CardContent>
