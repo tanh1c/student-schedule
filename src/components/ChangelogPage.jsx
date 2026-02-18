@@ -35,10 +35,43 @@ import {
 // Changelog data - Add new entries at the top
 const changelogData = [
     {
+        version: "2.3.0",
+        date: "2026-02-18",
+        title: "LMS Deadline Calendar & Offline Caching 📅",
+        isLatest: true,
+        changes: [
+            {
+                type: "feature",
+                title: "Hệ thống Deadline LMS (Mới) 📅",
+                description: "Chính thức ra mắt tab Deadline LMS. Kết nối trực tiếp với BK E-Learning Calendar qua AJAX API (core_calendar_get_calendar_monthly_view), hiển thị quiz/assignment deadlines với đầy đủ thông tin."
+            },
+            {
+                type: "feature",
+                title: "Multi-Month Calendar Fetching",
+                description: "Hỗ trợ chọn phạm vi thời gian từ 1 đến 6 tháng. Dữ liệu được fetch song song (Promise.all) từ Moodle AJAX API, nhanh hơn và chính xác hơn cách scrape HTML cũ."
+            },
+            {
+                type: "feature",
+                title: "Chế độ Offline cho Deadline",
+                description: "Hệ thống cache 2 tầng: Memory cache (5 phút) + localStorage (7 ngày offline). Khi mất kết nối hoặc session hết hạn, deadline đã lưu vẫn hiển thị kèm banner Offline — giống MessagesTab."
+            },
+            {
+                type: "improvement",
+                title: "Countdown Chi Tiết & Course Name Đầy Đủ",
+                description: "Countdown hiện chính xác ngày/giờ/phút thay vì chỉ \"3 ngày 5h\". Tên khoá học hiện đầy đủ (không bị cắt ...). Countdown pill đổi màu theo urgency: 🔴 critical (≤1 ngày), 🟡 warning (≤3 ngày), 🟢 normal."
+            },
+            {
+                type: "improvement",
+                title: "UI/UX Đồng bộ với MessagesTab",
+                description: "Redesign hoàn toàn DeadlinesTab: Sticky header glassmorphism, Stats Grid, ScrollArea padding, Footer bar, và Shadcn Button/Badge — tất cả matching 1:1 pattern của MessagesTab."
+            }
+        ]
+    },
+    {
         version: "2.2.0",
         date: "2026-02-10",
         title: "Security Hardening & Privacy Upgrade 🔐",
-        isLatest: true,
+        isLatest: false,
         changes: [
             {
                 type: "improvement",

@@ -10,6 +10,7 @@
         "test:coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage"
     },
     "dependencies": {
+        "cheerio": "^1.2.0",
         "cors": "^2.8.5",
         "dotenv": "^17.2.3",
         "express": "^4.21.0",

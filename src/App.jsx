@@ -38,6 +38,7 @@ import DataManagement from "./components/DataManagement";
 import WelcomeFeedback from "./components/WelcomeFeedback";
 import SettingsPage from "./components/SettingsPage";
 import MessagesTab from "./components/MessagesTab";
+import DeadlinesTab from "./components/DeadlinesTab";
 import {
   Popover,
   PopoverContent,
@@ -63,6 +64,7 @@ const menuItems = [
   { id: "roadmap", label: "Roadmap học tập", shortLabel: "Plan", icon: Route },
   { id: "registration", label: "ĐKMH", shortLabel: "ĐKMH", icon: NotebookTabs },
   { id: "messages", label: "Tin nhắn LMS", shortLabel: "Msg", icon: Mail },
+  { id: "deadlines", label: "Deadline LMS", shortLabel: "DL", icon: CalendarClock },
   { id: "preview", label: "Preview", shortLabel: "Preview", icon: ScrollText },
   { id: "settings", label: "Cài đặt", shortLabel: "CĐ", icon: Settings }
 ];
@@ -115,6 +117,8 @@ function App() {
         return <SettingsPage />;
       case "messages":
         return <MessagesTab />;
+      case "deadlines":
+        return <DeadlinesTab />;
       default:
         return <ScheduleTab />;
     }

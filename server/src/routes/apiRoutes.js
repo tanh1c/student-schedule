@@ -58,5 +58,6 @@ router.post('/lms/init', authenticate, lmsController.initLmsSession);
 router.get('/lms/messages', authenticate, lmsController.getMessages);
 router.get('/lms/messages/:conversationId', authenticate, lmsController.getConversationDetail);
 router.get('/lms/unread', authenticate, lmsController.getUnreadCount);
+router.get('/lms/deadlines', authenticate, lmsController.getDeadlines);
 
 export default router;

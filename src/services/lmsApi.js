@@ -12,6 +12,9 @@ const STORAGE_KEYS = {
     CONVERSATIONS: 'lms_cache_conversations',
     CONVERSATIONS_TIME: 'lms_cache_conversations_time',
     CONVERSATION_DETAILS: 'lms_cache_details',
+    DEADLINES: 'lms_cache_deadlines',
+    DEADLINES_TIME: 'lms_cache_deadlines_time',
+    DEADLINES_MONTHS: 'lms_cache_deadlines_months',
 };
 
 // Cache configuration
@@ -26,6 +29,9 @@ const memCache = {
     conversations: null,
     conversationsTime: 0,
     conversationDetails: new Map(),
+    deadlines: null,
+    deadlinesTime: 0,
+    deadlinesMonths: 3,
 };
 
 /**
@@ -46,6 +52,16 @@ function loadCacheFromStorage() {
         if (detailsData) {
             const details = JSON.parse(detailsData);
             memCache.conversationDetails = new Map(Object.entries(details));
+        }
+
+        // Load deadlines
+        const dlData = localStorage.getItem(STORAGE_KEYS.DEADLINES);
+        const dlTime = localStorage.getItem(STORAGE_KEYS.DEADLINES_TIME);
+        const dlMonths = localStorage.getItem(STORAGE_KEYS.DEADLINES_MONTHS);
+        if (dlData && dlTime) {
+            memCache.deadlines = JSON.parse(dlData);
+            memCache.deadlinesTime = parseInt(dlTime, 10);
+            memCache.deadlinesMonths = dlMonths ? parseInt(dlMonths, 10) : 3;
         }
 
         console.log('[LMS] Loaded cache from localStorage');
@@ -78,6 +94,19 @@ function saveDetailsToStorage() {
     }
 }
 
+/**
+ * Save deadlines to localStorage
+ */
+function saveDeadlinesToStorage(data, months) {
+    try {
+        localStorage.setItem(STORAGE_KEYS.DEADLINES, JSON.stringify(data));
+        localStorage.setItem(STORAGE_KEYS.DEADLINES_TIME, Date.now().toString());
+        localStorage.setItem(STORAGE_KEYS.DEADLINES_MONTHS, String(months));
+    } catch (e) {
+        console.error('[LMS] Error saving deadlines to localStorage:', e);
+    }
+}
+
 // Load cache on module init
 loadCacheFromStorage();
 
@@ -102,12 +131,18 @@ export function clearLmsCache() {
     memCache.conversations = null;
     memCache.conversationsTime = 0;
     memCache.conversationDetails.clear();
+    memCache.deadlines = null;
+    memCache.deadlinesTime = 0;
+    memCache.deadlinesMonths = 3;
 
     // Also clear localStorage
     try {
         localStorage.removeItem(STORAGE_KEYS.CONVERSATIONS);
         localStorage.removeItem(STORAGE_KEYS.CONVERSATIONS_TIME);
         localStorage.removeItem(STORAGE_KEYS.CONVERSATION_DETAILS);
+        localStorage.removeItem(STORAGE_KEYS.DEADLINES);
+        localStorage.removeItem(STORAGE_KEYS.DEADLINES_TIME);
+        localStorage.removeItem(STORAGE_KEYS.DEADLINES_MONTHS);
     } catch (e) {
         console.error('[LMS] Error clearing localStorage cache:', e);
     }
@@ -308,6 +343,71 @@ export async function getUnreadCount() {
 }
 
 /**
+ * Get quiz/assignment deadlines from LMS calendar
+ * @param {Object} options - Query options
+ * @param {string} options.filter - 'deadlines' | 'upcoming' | 'all' (default: 'all')
+ * @param {number} options.months - Number of months to fetch, 1-6 (default: 3)
+ * @param {boolean} options.forceRefresh - Force refresh from server
+ */
+export async function getDeadlines(options = {}) {
+    const token = getAuthToken();
+
+    const { filter = 'all', months = 3, forceRefresh = false } = options;
+
+    // Check memory cache first (only if same months param)
+    if (!forceRefresh && memCache.deadlines && memCache.deadlinesMonths === months) {
+        if (isCacheValid(memCache.deadlinesTime, CACHE_CONFIG.CONVERSATIONS_TTL)) {
+            console.log('[LMS] Using cached deadlines');
+            return { success: true, data: memCache.deadlines, cached: true };
+        }
+    }
+
+    // If no token, try to return offline data
+    if (!token) {
+        if (memCache.deadlines && isOfflineCacheValid(memCache.deadlinesTime)) {
+            console.log('[LMS] No token, returning offline deadline cache');
+            return { success: true, data: memCache.deadlines, cached: true, offline: true };
+        }
+        return { success: false, error: 'Chưa đăng nhập' };
+    }
+
+    try {
+        const params = new URLSearchParams({ filter, months: String(months) });
+        const response = await fetch(
+            `${API_BASE}/lms/deadlines?${params}`,
+            { headers: { 'Authorization': `Bearer ${token}` } }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            // Try offline cache on error
+            if (memCache.deadlines && isOfflineCacheValid(memCache.deadlinesTime)) {
+                console.log('[LMS] API error, returning offline deadline cache');
+                return { success: true, data: memCache.deadlines, cached: true, offline: true };
+            }
+            return { success: false, error: data.error, code: data.code };
+        }
+
+        // Store in memory and localStorage
+        memCache.deadlines = data.data;
+        memCache.deadlinesTime = Date.now();
+        memCache.deadlinesMonths = months;
+        saveDeadlinesToStorage(data.data, months);
+
+        return { success: true, data: data.data };
+    } catch (error) {
+        console.error('[LMS] Get deadlines error:', error);
+        // Return offline cache if available
+        if (memCache.deadlines && isOfflineCacheValid(memCache.deadlinesTime)) {
+            console.log('[LMS] Network error, returning offline deadline cache');
+            return { success: true, data: memCache.deadlines, cached: true, offline: true };
+        }
+        return { success: false, error: 'Không thể tải deadline' };
+    }
+}
+
+/**
  * Parse HTML message content to plain text
  */
 export function parseMessageText(html) {
@@ -413,6 +513,7 @@ export default {
     getMessages,
     getConversationMessages,
     getUnreadCount,
+    getDeadlines,
     parseMessageText,
     sanitizeMessageHtml,
     formatMessageDate,
