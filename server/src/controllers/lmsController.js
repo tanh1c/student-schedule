@@ -192,3 +192,66 @@ export const getUnreadCount = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+/**
+ * Get quiz/assignment deadlines from LMS calendar
+ * GET /api/lms/deadlines
+ * Query params:
+ *   - filter: 'deadlines' | 'upcoming' | 'all' (default: 'all')
+ *   - months: number of months to fetch, 1-6 (default: 3)
+ */
+export const getDeadlines = async (req, res) => {
+    const session = req.session;
+
+    // Check LMS session
+    if (!session.lms || !session.lms.sesskey) {
+        return res.status(400).json({
+            error: 'LMS session not initialized. Call /api/lms/init first.'
+        });
+    }
+
+    const { filter = 'all' } = req.query;
+    const months = Math.max(1, Math.min(parseInt(req.query.months) || 3, 6));
+
+    const fetchDeadlines = async () => {
+        return await lmsService.getDeadlines(session.lms, months);
+    };
+
+    try {
+        // Cache Key: LMS_DEADLINES:{username}:{months}
+        // TTL: 30 minutes, Fresh: 5 minutes
+        const key = `LMS_DEADLINES:${session.username}:${months}m`;
+        const data = await swr(key, fetchDeadlines, 1800, 300);
+
+        // Apply filter if requested
+        let result = data;
+        if (filter === 'deadlines') {
+            result = {
+                ...data,
+                allEvents: undefined,
+                upcoming: undefined
+            };
+        } else if (filter === 'upcoming') {
+            result = {
+                ...data,
+                allEvents: undefined,
+                deadlines: undefined
+            };
+        }
+
+        res.json({ success: true, data: result });
+    } catch (error) {
+        logger.error('[LMS] Get deadlines error:', error);
+
+        // If session expired, clear LMS session
+        if (error.message.includes('expired') || error.message.includes('login')) {
+            session.lms = null;
+            return res.status(401).json({
+                error: 'LMS session expired. Please re-initialize.',
+                code: 'LMS_SESSION_EXPIRED'
+            });
+        }
+
+        res.status(500).json({ error: error.message });
+    }
+};

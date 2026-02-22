@@ -74,7 +74,7 @@ const authenticatedLimiter = rateLimit({
     },
     standardHeaders: true,
     legacyHeaders: false,
-    validate: false, // Disable all validation for Docker/proxy
+    validate: false, // Disable all validation for Docker/proxy/IPv6 warnings
     message: { error: 'Quá nhiều request. Vui lòng chậm lại.' },
     skip: () => !isProduction
 });
