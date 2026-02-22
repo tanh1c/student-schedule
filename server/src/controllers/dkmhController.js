@@ -1,7 +1,7 @@
 import nodeFetch from 'node-fetch';
 import fetchCookie from 'fetch-cookie';
 import { CookieJar } from 'tough-cookie';
-import { activePeriodJars } from '../services/sessionStore.js';
+import { activePeriodJars, boundedMapSet } from '../services/sessionStore.js';
 import * as parser from '../services/dkmhParser.js';
 import config from '../../config/default.js';
 import { maskCookie, maskUrl } from '../utils/masking.js';
@@ -58,7 +58,7 @@ export const proxy = async (req, res) => {
 
 export const getRegistrationPeriods = async (req, res) => {
     const session = req.session;
-    const dkmhCookie = session.dkmhCookie;
+    const dkmhCookie = session.type === 'dkmh' ? session.cookie : session.dkmhCookie;
 
     if (!dkmhCookie) {
         return res.status(401).json({ error: 'DKMH session not found', dkmhLoggedIn: false });
@@ -166,7 +166,7 @@ export const getPeriodDetails = async (req, res) => {
 
         // Store jar
         const jarKey = `${req.token}_${periodId}`;
-        activePeriodJars.set(jarKey, { fetch, jar, baseHeaders, periodId, dotDKId, dotDKHocVienId });
+        boundedMapSet(activePeriodJars, jarKey, { fetch, jar, baseHeaders, periodId, dotDKId, dotDKHocVienId });
 
         res.json({
             success: true,
@@ -304,6 +304,16 @@ export const cancel = async (req, res) => {
         const response = await storedData.fetch('https://mybk.hcmut.edu.vn/dkmh/xoaKetQuaDangKy.action', {
             method: 'POST', body: `ketquaId=${ketquaId}`, headers: storedData.baseHeaders
         });
+
+        let text = await response.text();
+        if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+
+        let result = {};
+        try { result = JSON.parse(text); } catch { /* not JSON, treat as success */ }
+
+        if (result.code && result.code !== 'SUCCESS') {
+            return res.json({ success: false, error: result.msg || 'Hủy đăng ký thất bại', code: result.code });
+        }
 
         res.json({
             success: true,

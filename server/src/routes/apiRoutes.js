@@ -33,9 +33,9 @@ router.post('/student/gpa/summary', authenticate, studentController.getGpaSummar
 router.post('/student/gpa/detail', authenticate, studentController.getGpaDetail);
 
 // Schedule (Additional/Legacy Endpoints)
-router.get('/schedule/get-schedule', authenticate, studentController.getScheduleSimple);
-router.get('/schedule/get-schedule-by-sem', authenticate, studentController.getScheduleBySem);
-router.get('/schedule/get-exam-schedule', authenticate, studentController.getExamSchedule);
+router.get('/schedule/get-schedule', authenticate, validate(schemas.studentInfo, 'query'), studentController.getScheduleSimple);
+router.get('/schedule/get-schedule-by-sem', authenticate, validate(schemas.studentInfo, 'query'), studentController.getScheduleBySem);
+router.get('/schedule/get-exam-schedule', authenticate, validate(schemas.examSchedule, 'query'), studentController.getExamSchedule);
 router.get('/schedule/get-gpa', authenticate, studentController.getGpa);
 router.get('/schedule/get-transcript', authenticate, studentController.getTranscript);
 router.get('/schedule/get-transcript-summary', authenticate, studentController.getTranscriptSummary);

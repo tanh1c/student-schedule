@@ -3,6 +3,7 @@ import logger from '../utils/logger.js';
 import config from '../../config/default.js';
 import { swr } from '../services/redisService.js';
 import { maskStudentId } from '../utils/masking.js';
+import { saveSession } from '../services/sessionStore.js';
 
 // Default timeout for upstream API calls (prevent hanging)
 const FETCH_TIMEOUT = 15000;
@@ -41,6 +42,8 @@ export const getStudentInfo = async (req, res) => {
         const data = await swr(key, fetchStudentInfo, 14400, 300);
         if (data.code === "200" || data.code === 200 || !data.code) {
             session.user = data.data || data;
+            // Persist updated session to Redis
+            await saveSession(req.token, session);
         }
         res.json(data);
     } catch (e) {
@@ -167,6 +170,8 @@ export const getScheduleBySem = async (req, res) => {
 
 // Legacy alias — delegates to getGpaSummary
 export const getGpa = async (req, res) => {
+    // GET route: ensure req.body exists and populate studentId from query
+    if (!req.body) req.body = {};
     req.body.studentId = req.body.studentId || req.query.studentId;
     return getGpaSummary(req, res);
 };

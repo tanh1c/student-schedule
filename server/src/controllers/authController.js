@@ -1,7 +1,7 @@
 import nodeFetch from 'node-fetch';
 import { performCASLogin } from '../services/authService.js';
 import { performDKMHLogin } from '../services/dkmhService.js';
-import { canCreateSession, saveSession, deleteSession, activePeriodJars, ssoJars, getSession, generateSecureToken } from '../services/sessionStore.js';
+import { canCreateSession, saveSession, deleteSession, activePeriodJars, ssoJars, getSession, generateSecureToken, boundedMapSet } from '../services/sessionStore.js';
 import logger from '../utils/logger.js';
 import config from '../../config/default.js';
 
@@ -16,7 +16,7 @@ async function backgroundDkmhLogin(username, password, sessionToken) {
             if (session) {
                 session.dkmhCookie = dkmhResult.cookieString;
                 session.dkmhLoggedIn = true;
-                activePeriodJars.set(sessionToken, dkmhResult.jar);
+                boundedMapSet(activePeriodJars, sessionToken, dkmhResult.jar);
                 await saveSession(sessionToken, session);
                 logger.info('[API] DKMH background login successful.');
             }
@@ -60,7 +60,7 @@ export const login = async (req, res) => {
 
         // Store SSO jar for cross-service authentication (LMS, etc.)
         if (result.jar) {
-            ssoJars.set(sessionToken, result.jar);
+            boundedMapSet(ssoJars, sessionToken, result.jar);
             logger.info('[API] SSO jar stored for cross-service auth.');
         }
 
@@ -150,7 +150,8 @@ export const dkmhCheck = async (req, res) => {
                 'Cookie': session.cookie,
                 'Referer': config.urls.dkmhInfo.serviceUrl
             },
-            redirect: 'manual'
+            redirect: 'manual',
+            signal: AbortSignal.timeout(15000)
         });
 
         // If redirected to login, session is invalid

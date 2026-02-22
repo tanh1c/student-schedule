@@ -23,12 +23,14 @@ const server = app.listen(PORT, () => {
 async function gracefulShutdown(signal) {
     logger.info(`[SHUTDOWN] Received ${signal}. Closing server...`);
 
-    // 1. Stop accepting new connections
-    server.close(() => {
-        logger.info('[SHUTDOWN] HTTP server closed.');
-    });
+    // Safety net: force exit after 10s if cleanup hangs
+    const forceExitTimer = setTimeout(() => {
+        logger.warn('[SHUTDOWN] Forced exit after timeout.');
+        process.exit(1);
+    }, 10000);
+    forceExitTimer.unref(); // Don't keep process alive just for this timer
 
-    // 2. Close Redis connection
+    // 1. Close Redis connection
     try {
         const redisClient = getClient();
         if (redisClient?.isOpen) {
@@ -39,13 +41,11 @@ async function gracefulShutdown(signal) {
         logger.error('[SHUTDOWN] Redis close error:', e);
     }
 
-    // 3. Exit after cleanup (timeout 10s to force exit)
-    setTimeout(() => {
-        logger.warn('[SHUTDOWN] Forced exit after timeout.');
-        process.exit(1);
-    }, 10000);
-
-    process.exit(0);
+    // 2. Stop accepting new connections, then exit
+    server.close(() => {
+        logger.info('[SHUTDOWN] HTTP server closed. Exiting.');
+        process.exit(0);
+    });
 }
 
 process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));

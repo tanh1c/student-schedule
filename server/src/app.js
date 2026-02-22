@@ -116,6 +116,12 @@ app.get('/api/github/contributors', async (req, res) => {
 // ========================
 // STATIC FILES (Production)
 // ========================
+
+// API 404 catch-all — must be BEFORE SPA fallback to avoid returning HTML for bad API paths
+app.all('/api/*', (req, res) => {
+    res.status(404).json({ error: 'API endpoint not found', path: req.originalUrl });
+});
+
 if (isProduction) {
     const distPath = path.join(__dirname, '..', '..', 'dist');
     logger.info(`[Static] Serving frontend from: ${distPath}`);

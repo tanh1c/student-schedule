@@ -1,18 +1,13 @@
 import winston from 'winston';
 import 'winston-daily-rotate-file';
-import { maskSensitive, maskUrl, maskCookie } from './masking.js';
+import { maskSensitive, maskCookie } from './masking.js';
 
 // Custom format to mask sensitive data in logs
 const maskingFormat = winston.format((info) => {
     if (typeof info.message === 'string') {
         let msg = info.message;
 
-        // Mask URLs
-        if (msg.includes('http')) {
-            msg = maskUrl(msg);
-        }
-
-        // Mask Cookies/Tokens (basic patterns)
+        // Mask Cookies/Tokens (safety net — call sites may miss these)
         if (msg.includes('execution:')) {
             msg = msg.replace(/execution:\s*([^\s]+)/, (match, p1) => `execution: ${maskSensitive(p1)}`);
         }

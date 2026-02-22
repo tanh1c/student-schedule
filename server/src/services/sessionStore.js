@@ -11,6 +11,22 @@ export const activePeriodJars = new Map();
 // Key: sessionToken, Value: CookieJar with TGC
 export const ssoJars = new Map();
 
+// Upper-bound for in-memory Maps to prevent memory leaks
+const MAX_MAP_SIZE = 200;
+
+/**
+ * Set a value in a bounded Map, evicting the oldest entry if full.
+ */
+export function boundedMapSet(map, key, value) {
+    if (map.size >= MAX_MAP_SIZE && !map.has(key)) {
+        // Delete the oldest entry (first inserted key)
+        const oldestKey = map.keys().next().value;
+        map.delete(oldestKey);
+        logger.info(`[SESSION] Evicted oldest entry from in-memory Map (size was ${MAX_MAP_SIZE})`);
+    }
+    map.set(key, value);
+}
+
 export const MAX_SESSIONS = config.session.maxSessions;
 
 // Redis Key Prefix

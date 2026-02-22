@@ -15,7 +15,7 @@ export async function performDKMHLogin(username, password) {
     try {
         logger.info('[DKMH] Step 1: Getting SSO login form...');
         const loginPageUrl = `${config.urls.loginPage}?service=${encodeURIComponent(serviceUrl)}`;
-        const formResponse = await fetch(loginPageUrl);
+        const formResponse = await fetch(loginPageUrl, { signal: AbortSignal.timeout(15000) });
         const html = await formResponse.text();
 
         const executionMatch = html.match(/name="execution"\s+value="([^"]+)"/);
@@ -48,7 +48,8 @@ export async function performDKMHLogin(username, password) {
                 'Content-Type': 'application/x-www-form-urlencoded',
                 'User-Agent': config.userAgent
             },
-            redirect: 'follow'
+            redirect: 'follow',
+            signal: AbortSignal.timeout(15000)
         });
 
         const finalUrl = loginResponse.url;
@@ -74,7 +75,8 @@ export async function performDKMHLogin(username, password) {
                 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
                 'Referer': config.urls.dkmhInfo.serviceUrl
             },
-            redirect: 'follow'
+            redirect: 'follow',
+            signal: AbortSignal.timeout(15000)
         });
 
         logger.info('[DKMH] Entry URL response:', entryResponse.url);
@@ -87,7 +89,8 @@ export async function performDKMHLogin(username, password) {
                 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
                 'Referer': entryResponse.url
             },
-            redirect: 'follow'
+            redirect: 'follow',
+            signal: AbortSignal.timeout(15000)
         });
 
         logger.info('[DKMH] Home URL response:', homeResponse.url);
@@ -100,7 +103,8 @@ export async function performDKMHLogin(username, password) {
                 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
                 'Referer': homeResponse.url
             },
-            redirect: 'follow'
+            redirect: 'follow',
+            signal: AbortSignal.timeout(15000)
         });
 
         const dkmhFinalUrl = dkmhResponse.url;
