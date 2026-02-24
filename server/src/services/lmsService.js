@@ -305,7 +305,8 @@ async function getCalendarMonth(lmsSession, year, month) {
             'Referer': `${config.urls.lms.baseUrl}/my/`,
             'X-Requested-With': 'XMLHttpRequest'
         },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
+        signal: AbortSignal.timeout(15000)
     });
 
     if (!response.ok) {

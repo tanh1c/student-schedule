@@ -18,7 +18,6 @@ jest.unstable_mockModule('../../src/utils/logger.js', () => ({
 }));
 
 const { requestIdMiddleware, globalErrorHandler } = await import('../../src/middlewares/errorMiddleware.js');
-const AppError = (await import('../../src/utils/AppError.js')).default;
 
 describe('Error Middleware', () => {
     describe('requestIdMiddleware', () => {
@@ -63,8 +62,11 @@ describe('Error Middleware', () => {
             next = jest.fn();
         });
 
-        it('should handle AppError with default development settings', () => {
-            const err = new AppError('Test error', 400);
+        it('should handle operational errors with default development settings', () => {
+            const err = new Error('Test error');
+            err.statusCode = 400;
+            err.status = 'fail';
+            err.isOperational = true;
             const originalEnv = process.env.NODE_ENV;
             process.env.NODE_ENV = 'development';
 
@@ -123,7 +125,10 @@ describe('Error Middleware', () => {
         });
 
         it('should show operational errors in production', () => {
-            const err = new AppError('Test error', 400);
+            const err = new Error('Test error');
+            err.statusCode = 400;
+            err.status = 'fail';
+            err.isOperational = true;
             const originalEnv = process.env.NODE_ENV;
             process.env.NODE_ENV = 'production';
 
@@ -141,7 +146,10 @@ describe('Error Middleware', () => {
         });
 
         it('should use "unknown-id" when requestId is missing', () => {
-            const err = new AppError('Test error', 400);
+            const err = new Error('Test error');
+            err.statusCode = 400;
+            err.status = 'fail';
+            err.isOperational = true;
             req = {};
             const originalEnv = process.env.NODE_ENV;
             process.env.NODE_ENV = 'development';
@@ -158,7 +166,10 @@ describe('Error Middleware', () => {
         });
 
         it('should include custom error code if provided', () => {
-            const err = new AppError('Test error', 400);
+            const err = new Error('Test error');
+            err.statusCode = 400;
+            err.status = 'fail';
+            err.isOperational = true;
             err.code = 'CUSTOM_CODE';
             const originalEnv = process.env.NODE_ENV;
             process.env.NODE_ENV = 'development';

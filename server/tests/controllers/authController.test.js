@@ -15,6 +15,7 @@ jest.unstable_mockModule('../../src/services/sessionStore.js', () => ({
     saveSession: jest.fn(),
     deleteSession: jest.fn(),
     getSession: jest.fn(),
+    boundedMapSet: jest.fn(),
     activePeriodJars: new Map(),
     ssoJars: new Map()
 }));
