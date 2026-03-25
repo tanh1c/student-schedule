@@ -225,14 +225,17 @@ export const parseRegistrationData = (input) => {
   return subjects;
 };
 
-// Helper function to get current week number (semester week)
+// Helper function to get current week number
+// Week 1 = tuần chứa ngày 1/1 của năm, bắt đầu từ thứ Hai
 export const getCurrentWeek = () => {
   const now = new Date();
-  const start = new Date(now.getFullYear(), 0, 1);
-  const diff = now - start;
-  const oneWeek = 1000 * 60 * 60 * 24 * 7;
-  // Add 1 to match school's semester week numbering
-  return Math.ceil(diff / oneWeek) + 1;
+  const year = now.getFullYear();
+  const jan1 = new Date(year, 0, 1);
+  const jan1Day = jan1.getDay(); // 0=CN, 1=T2, ..., 6=T7
+  const daysToMonday = jan1Day === 0 ? -6 : 1 - jan1Day;
+  const week1Monday = new Date(year, 0, 1 + daysToMonday);
+  const diffDays = Math.floor((now - week1Monday) / (1000 * 60 * 60 * 24));
+  return Math.floor(diffDays / 7) + 1;
 };
 
 // Map lưu trữ màu sắc cho mỗi mã môn học (theo logic code cũ)
