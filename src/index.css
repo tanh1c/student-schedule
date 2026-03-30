@@ -85,7 +85,9 @@
 
   html,
   body {
-    overscroll-behavior: none;
+    /* Keep native vertical wheel/touchpad scroll behavior across devices */
+    overscroll-behavior-y: auto;
+    overscroll-behavior-x: none;
     word-wrap: break-word;
     overflow-wrap: break-word;
   }
