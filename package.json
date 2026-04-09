@@ -5,15 +5,16 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "dev:all": "concurrently \"npm run dev\" \"npm run server\"",
-    "server": "cd server && npm start",
-    "server:prod": "cd server && npm start",
-    "server:install": "cd server && npm install",
-    "postinstall": "cd server && npm install",
+    "dev:web": "vite",
+    "dev:server": "npm --prefix server run dev",
+    "dev:all": "concurrently \"npm run dev:web\" \"npm run dev:server\"",
     "build": "vite build",
-    "lint": "eslint .",
+    "lint:web": "eslint src vite.config.js tailwind.config.js postcss.config.js",
+    "lint:server": "eslint server/src server/tests server/config",
+    "lint": "npm run lint:web && npm run lint:server",
+    "test:server": "npm --prefix server test -- --runInBand",
     "preview": "vite preview",
-    "start": "cd server && npm start"
+    "start": "npm --prefix server start"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
@@ -62,6 +63,7 @@
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.1",
     "autoprefixer": "^10.4.20",
+    "concurrently": "^9.2.1",
     "eslint": "^9.39.1",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",

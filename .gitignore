@@ -45,6 +45,7 @@ lerna-debug.log*
 # ========================
 # IDE / Editor
 # ========================
+.claude/
 .vscode/*
 !.vscode/extensions.json
 !.vscode/settings.json
@@ -91,6 +92,7 @@ __pycache__
 .Python
 venv
 .venv
+server/backup/
 
 # ========================
 # Render / Deployment

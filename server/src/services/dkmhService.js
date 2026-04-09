@@ -1,6 +1,6 @@
 import config from '../../config/default.js';
 import { createCookieFetch } from './authService.js';
-import { maskCookie, maskUrl } from '../utils/masking.js';
+import { maskUrl } from '../utils/masking.js';
 import logger from '../utils/logger.js';
 
 /**

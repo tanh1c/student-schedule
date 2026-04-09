@@ -43,7 +43,7 @@ async function getServerStats() {
         if (res.ok) {
             return await res.json();
         }
-    } catch (e) {
+    } catch {
         return null;
     }
     return null;
@@ -101,8 +101,6 @@ async function runPerformanceTest() {
     log(colors.green, '✅ Server đang hoạt động\n');
 
     // Get initial stats
-    const initialStats = await getServerStats();
-
     // Test results storage
     const results = [];
 

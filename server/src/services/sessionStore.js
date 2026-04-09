@@ -135,7 +135,7 @@ export async function canCreateSession() {
         trackCommand();
         // Count only SESSION: keys using SCAN with pattern
         let count = 0;
-        for await (const key of client.scanIterator({ MATCH: `${SESSION_PREFIX}*`, COUNT: 100 })) {
+        for await (const _key of client.scanIterator({ MATCH: `${SESSION_PREFIX}*`, COUNT: 100 })) {
             count++;
             if (count >= MAX_SESSIONS) break;
         }

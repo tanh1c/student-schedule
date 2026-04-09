@@ -108,7 +108,9 @@ export const getContributors = async () => {
                 await client.del(CACHE_KEY);
                 logger.info('[GITHUB] Purged stale cache key');
             }
-        } catch (e) { /* ignore */ }
+        } catch (_error) {
+            /* ignore cache purge failure */
+        }
 
         return fallbackData;
     }
@@ -152,7 +154,7 @@ async function fetchContributorsFromGitHub() {
         if (statsRes.status === 200) {
             statsData = await statsRes.json();
         }
-    } catch (e) {
+    } catch (_error) {
         logger.warn('[GITHUB] Stats API not available');
     }
 
@@ -174,7 +176,7 @@ async function fetchContributorsFromGitHub() {
                 devTime = `${diffDays} ngày`;
             }
         }
-    } catch (e) {
+    } catch (_error) {
         logger.warn('[GITHUB] Failed to fetch repo info');
     }
 
@@ -187,7 +189,7 @@ async function fetchContributorsFromGitHub() {
                 if (userRes.ok) {
                     userInfo = await userRes.json();
                 }
-            } catch (e) {
+            } catch (_error) {
                 logger.warn(`[GITHUB] Failed to fetch user: ${contributor.login}`);
             }
 
@@ -227,7 +229,9 @@ async function fetchContributorsFromGitHub() {
                 if (userRes.ok) {
                     userInfo = await userRes.json();
                 }
-            } catch (e) { }
+            } catch (_error) {
+                /* ignore missing manual contributor profile */
+            }
 
             const special = specialRoles[manual.github] || {};
             enrichedContributors.push({

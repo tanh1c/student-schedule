@@ -13,7 +13,7 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=3001
-      - CORS_ORIGIN=http://localhost:3000
+      - CORS_ORIGIN=http://localhost:5173
       - REDIS_URL=redis://:${REDIS_PASSWORD:-mybk_redis_secret}@redis:6379
       - CREDENTIALS_ENCRYPTION_KEY=${CREDENTIALS_ENCRYPTION_KEY}
     restart: always

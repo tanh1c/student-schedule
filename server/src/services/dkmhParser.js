@@ -14,7 +14,7 @@ export function parseVietnameseDate(dateStr) {
         const date = new Date(year, month - 1, day, hour, minute);
 
         return isNaN(date.getTime()) ? null : date;
-    } catch (e) {
+    } catch {
         return null;
     }
 }
@@ -248,7 +248,6 @@ export function parsePeriodDetailsHtml(html) {
     const panelRegex = /<div class='col-md-1'>(\d+)<\/div>[\s\S]*?<div class='col-md-8'>([\s\S]*?)<\/div>[\s\S]*?<div class='col-md-1'>[\s\S]*?([\d.]+)[\s\S]*?<\/div>/g;
 
     let match;
-    let count = 0;
     while ((match = panelRegex.exec(html)) !== null) {
         const stt = parseInt(match[1]);
         const col8Content = match[2];
@@ -263,7 +262,6 @@ export function parsePeriodDetailsHtml(html) {
         const ketquaMatch = col8Content.match(/hieuChinhKetQuaDangKyForm\((\d+)\)|xoaKetQuaDangKy\((\d+)/);
         const ketquaId = ketquaMatch ? (ketquaMatch[1] || ketquaMatch[2]) : null;
 
-        count++;
         const scheduleInfo = extractCourseSchedule(html, code);
 
         const courseIdx = html.indexOf(code);
