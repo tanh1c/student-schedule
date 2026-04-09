@@ -24,11 +24,10 @@ import {
   getSubjectColor
 } from '../utils/scheduleParser';
 import { exportToGoogleCalendar } from '../utils/calendarExport';
-import { useScheduleData } from '../hooks/useLocalStorage';
+import { useLocalStorage, useScheduleData } from '../hooks/useLocalStorage';
 import MyBKLoginCard from './MyBKLoginCard';
 import { Button } from "./ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "./ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { Textarea } from "./ui/textarea";
 import { Badge } from "./ui/badge";
 import { ScrollArea, ScrollBar } from "./ui/scroll-area";
@@ -63,6 +62,91 @@ const daysOfWeek = [
   { id: 8, label: 'Chủ Nhật', short: 'CN' },
 ];
 
+const getCurrentScheduleDayId = (date = new Date()) => {
+  const today = date.getDay();
+  return today === 0 ? 8 : today + 1;
+};
+
+const getMinutesFromTime = (timeValue) => {
+  const [hours, minutes] = timeValue.split(':').map(Number);
+  return (hours * 60) + minutes;
+};
+
+const getCurrentTimeSlotInfo = (date = new Date()) => {
+  const currentMinutes = (date.getHours() * 60) + date.getMinutes();
+
+  return timeSlots.find((slot) => {
+    const [startTime, endTime] = slot.time.split('-');
+    const startMinutes = getMinutesFromTime(startTime);
+    const endMinutes = getMinutesFromTime(endTime);
+    return currentMinutes >= startMinutes && currentMinutes < endMinutes;
+  }) ?? null;
+};
+
+const getTeacherLabel = (course) => {
+  if (!course?.teacher) return '';
+
+  const normalizedTeacher = course.teacher.trim();
+  if (!normalizedTeacher || normalizedTeacher === 'Chưa biết chưa biết') {
+    return '';
+  }
+
+  return normalizedTeacher;
+};
+
+const getClassSizeLabel = (course) => {
+  const candidates = [
+    course?.classSize,
+    course?.memberCount,
+    course?.studentCount,
+    course?._raw?.classSize,
+    course?._raw?.memberCount,
+    course?._raw?.studentCount,
+    course?._raw?.numberOfStudents,
+    course?._raw?.numOfStudents,
+    course?._raw?.subjectClassGroup?.numberOfStudents,
+    course?._raw?.subjectClassGroup?.studentCount,
+    course?._raw?.subjectClassGroup?.classSize,
+  ];
+
+  const classSize = candidates.find((value) => {
+    if (typeof value === 'number') return Number.isFinite(value) && value > 0;
+    if (typeof value === 'string') return value.trim() !== '';
+    return false;
+  });
+
+  if (classSize === undefined) return '';
+  return typeof classSize === 'number' ? `${classSize} sinh viên` : classSize;
+};
+
+const getCourseTimeRange = (course) => {
+  if (course.time && course.time.includes('-')) {
+    const [startTime, endTime] = course.time.split('-').map((timeValue) => timeValue.trim());
+    return { startTime, endTime };
+  }
+
+  return {
+    startTime: timeSlots[course.startPeriod - 1]?.time.split('-')[0] || '',
+    endTime: timeSlots[course.endPeriod - 1]?.time.split('-')[1] || '',
+  };
+};
+
+const isCourseOngoingNow = (course, currentDayId, currentTimeSlotInfo, isViewingCurrentWeek) => {
+  return Boolean(
+    isViewingCurrentWeek &&
+    currentTimeSlotInfo &&
+    course.day === currentDayId &&
+    currentTimeSlotInfo.id >= course.startPeriod &&
+    currentTimeSlotInfo.id <= course.endPeriod
+  );
+};
+
+const scheduleViewModes = [
+  { id: 'timeline', label: 'Lịch tuần', icon: CalendarDays },
+  { id: 'agenda', label: 'Agenda', icon: Clock },
+  { id: 'day', label: 'Theo ngày', icon: Calendar },
+];
+
 function ScheduleTab() {
   const [scheduleInput, setScheduleInput] = useState('');
   const [selectedDay, setSelectedDay] = useState(2); // Default to Monday (Thứ 2)
@@ -71,20 +155,41 @@ function ScheduleTab() {
   // inputMethod: "sync" | "manual"
   const [inputMethod, setInputMethod] = useState("sync");
   const [isInputExpanded, setIsInputExpanded] = useState(true);
+  const [scheduleViewMode, setScheduleViewMode] = useLocalStorage('scheduleViewMode', 'timeline');
 
   // Detail popup state
   const [activeCourse, setActiveCourse] = useState(null);
   const [hoveredCourse, setHoveredCourse] = useState(null);
+  const [now, setNow] = useState(() => new Date());
+  const [hasAutoFocusedCurrentWeek, setHasAutoFocusedCurrentWeek] = useState(false);
 
   const { scheduleData, setScheduleData, selectedWeek, setSelectedWeek, currentWeek } = useScheduleData();
+  const currentDayId = getCurrentScheduleDayId(now);
+  const currentTimeSlotInfo = getCurrentTimeSlotInfo(now);
+  const isViewingCurrentWeek = selectedWeek === currentWeek;
+  const scheduleStatusText = scheduleData.length > 0
+    ? `${scheduleData.length} môn đã sẵn sàng. Bạn có thể đồng bộ lại hoặc nhập dữ liệu mới khi cần.`
+    : 'Đồng bộ nhanh từ MyBK hoặc dán dữ liệu thủ công khi bạn cần cập nhật lịch.';
+
+  const openDataPanel = (method = inputMethod) => {
+    setInputMethod(method);
+    setIsInputExpanded(true);
+  };
 
   useEffect(() => {
     // Set default day to current day
-    const today = new Date().getDay();
-    const dayId = today === 0 ? 2 : today + 1; // Convert to our day format (2-7)
-    if (dayId >= 2 && dayId <= 7) {
+    const dayId = getCurrentScheduleDayId();
+    if (dayId >= 2 && dayId <= 8) {
       setSelectedDay(dayId);
     }
+  }, []);
+
+  useEffect(() => {
+    const timerId = window.setInterval(() => {
+      setNow(new Date());
+    }, 60_000);
+
+    return () => window.clearInterval(timerId);
   }, []);
 
   // Collapse input section when data is available
@@ -100,6 +205,26 @@ function ScheduleTab() {
     window.addEventListener('click', handleClickOutside);
     return () => window.removeEventListener('click', handleClickOutside);
   }, []);
+
+  useEffect(() => {
+    if (scheduleData.length > 0 && !hasAutoFocusedCurrentWeek) {
+      setSelectedWeek(currentWeek);
+      setSelectedDay(currentDayId);
+      setHasAutoFocusedCurrentWeek(true);
+    }
+  }, [currentDayId, currentWeek, hasAutoFocusedCurrentWeek, scheduleData.length, setSelectedWeek]);
+
+  useEffect(() => {
+    if (scheduleData.length === 0 && hasAutoFocusedCurrentWeek) {
+      setHasAutoFocusedCurrentWeek(false);
+    }
+  }, [hasAutoFocusedCurrentWeek, scheduleData.length]);
+
+  useEffect(() => {
+    if (!scheduleViewModes.some((mode) => mode.id === scheduleViewMode)) {
+      setScheduleViewMode('timeline');
+    }
+  }, [scheduleViewMode, setScheduleViewMode]);
 
   const generateSchedule = (inputData = scheduleInput) => {
     try {
@@ -149,7 +274,10 @@ function ScheduleTab() {
 
   const goToPreviousWeek = () => setSelectedWeek(prev => Math.max(1, prev - 1));
   const goToNextWeek = () => setSelectedWeek(prev => Math.min(50, prev + 1));
-  const goToCurrentWeek = () => setSelectedWeek(currentWeek);
+  const goToCurrentWeek = () => {
+    setSelectedWeek(currentWeek);
+    setSelectedDay(currentDayId);
+  };
 
   // Export to Google Calendar
   const handleExportToCalendar = () => {
@@ -178,19 +306,19 @@ function ScheduleTab() {
     }).sort((a, b) => a.startPeriod - b.startPeriod);
   };
 
-  // Mobile View - Card based per day
-  const renderMobileSchedule = () => {
+  const renderDayFocusSchedule = ({ mobileOnly = false } = {}) => {
     // Filter out unscheduled courses (startPeriod=0)
     const classesForDay = getClassesForDay(selectedDay).filter(c => c.startPeriod > 0);
 
     return (
-      <div className="md:hidden w-full min-w-0 overflow-hidden">
+      <div className={cn("w-full min-w-0 overflow-hidden", mobileOnly && "md:hidden")}>
         {/* Day Selector Tabs */}
         <div className="sticky top-0 z-30 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 py-1.5 -mx-1 px-1 border-b mb-3">
           <div className="flex w-full gap-1">
             {daysOfWeek.map((day) => {
               const classCount = getClassesForDay(day.id).filter(c => c.startPeriod > 0).length;
               const isSelected = selectedDay === day.id;
+              const isToday = isViewingCurrentWeek && currentDayId === day.id;
               return (
                 <button
                   key={day.id}
@@ -199,7 +327,9 @@ function ScheduleTab() {
                     "flex-1 flex flex-col items-center justify-center h-[52px] rounded-lg transition-all duration-200 border-2",
                     isSelected
                       ? "bg-primary border-primary text-primary-foreground shadow-lg scale-105"
-                      : "bg-card border-transparent text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                      : isToday
+                        ? "border-primary/70 bg-primary/15 text-primary shadow-sm dark:border-primary/80 dark:bg-primary/25"
+                        : "bg-card border-transparent text-muted-foreground hover:bg-accent hover:text-accent-foreground"
                   )}
                 >
                   <span className="text-[10px] font-medium opacity-80">{day.label}</span>
@@ -233,21 +363,22 @@ function ScheduleTab() {
           <div className="space-y-2.5 pb-20 w-full min-w-0">
             {/* Course Classes */}
             {classesForDay.map((course, index) => {
-              // Parse time from course.time or fallback to timeSlots
-              let startTime = '', endTime = '';
-              if (course.time && course.time.includes('-')) {
-                [startTime, endTime] = course.time.split('-').map(t => t.trim());
-              } else {
-                startTime = timeSlots[course.startPeriod - 1]?.time.split('-')[0] || '';
-                endTime = timeSlots[course.endPeriod - 1]?.time.split('-')[1] || '';
-              }
-
+              const { startTime, endTime } = getCourseTimeRange(course);
               const numPeriods = course.endPeriod - course.startPeriod + 1;
+              const isOngoingCourse = isCourseOngoingNow(
+                course,
+                currentDayId,
+                currentTimeSlotInfo,
+                isViewingCurrentWeek
+              );
 
               return (
                 <Card
                   key={index}
-                  className="overflow-hidden border-none shadow-md ring-1 ring-border/50 bg-card transition-all hover:shadow-lg active:scale-[0.99] w-full min-w-0"
+                  className={cn(
+                    "overflow-hidden border-none shadow-md ring-1 ring-border/50 bg-card transition-all hover:shadow-lg active:scale-[0.99] w-full min-w-0",
+                    isOngoingCourse && "ring-2 ring-primary shadow-lg shadow-primary/15"
+                  )}
                 >
                   <div className="flex h-full w-full min-w-0">
                     {/* Left Color strip with time */}
@@ -272,9 +403,16 @@ function ScheduleTab() {
                         <h4 className="font-bold text-sm sm:text-base leading-tight line-clamp-2 min-w-0" title={course.name}>
                           {course.name}
                         </h4>
-                        <Badge variant="outline" className="shrink-0 text-[9px] sm:text-[10px] font-mono whitespace-nowrap border-primary/30 bg-primary/10 text-primary font-bold">
-                          {course.code}
-                        </Badge>
+                        <div className="flex shrink-0 flex-col items-end gap-1">
+                          <Badge variant="outline" className="shrink-0 text-[9px] sm:text-[10px] font-mono whitespace-nowrap border-primary/30 bg-primary/10 text-primary font-bold">
+                            {course.code}
+                          </Badge>
+                          {isOngoingCourse && (
+                            <Badge className="border-0 bg-emerald-500 px-1.5 py-0 text-[9px] font-bold text-white">
+                              Đang diễn ra
+                            </Badge>
+                          )}
+                        </div>
                       </div>
 
                       <div className="flex flex-wrap gap-1.5 sm:gap-2 mt-1.5 sm:mt-2">
@@ -334,33 +472,69 @@ function ScheduleTab() {
             {/* Header */}
             <div className="grid grid-cols-[80px_1fr_1fr_1fr_1fr_1fr_1fr_1fr] border-b bg-muted/40 font-medium">
               <div className="p-3 border-r text-center text-sm font-bold">Tiết</div>
-              {daysOfWeek.map((day) => (
-                <div key={day.id} className="p-3 border-r last:border-r-0 text-center text-sm font-bold text-primary">
-                  {day.label}
-                </div>
-              ))}
+              {daysOfWeek.map((day) => {
+                const isTodayColumn = isViewingCurrentWeek && currentDayId === day.id;
+                return (
+                  <div
+                    key={day.id}
+                    className={cn(
+                      "p-3 border-r last:border-r-0 text-center text-sm font-bold text-primary",
+                      isTodayColumn && "bg-primary/15 text-primary shadow-[inset_0_0_0_1px_rgba(59,130,246,0.2)] dark:bg-primary/25 dark:shadow-[inset_0_0_0_1px_rgba(96,165,250,0.32)]"
+                    )}
+                  >
+                    <div>{day.label}</div>
+                  </div>
+                );
+              })}
             </div>
 
             {/* Body - Container with relative positioning */}
             <div className="relative">
               {/* Background grid rows */}
-              {timeSlots.map((slot) => (
-                <div
-                  key={slot.id}
-                  className="grid grid-cols-[80px_1fr_1fr_1fr_1fr_1fr_1fr_1fr] border-b last:border-b-0"
-                  style={{ height: `${ROW_HEIGHT}px` }}
-                >
-                  {/* Time Column */}
-                  <div className="p-2 border-r bg-muted/10 text-center flex flex-col justify-center items-center">
-                    <span className="font-bold text-sm">{slot.label}</span>
-                    <span className="text-[10px] text-muted-foreground mt-0.5">{slot.time}</span>
+              {timeSlots.map((slot) => {
+                const isCurrentSlot = isViewingCurrentWeek && currentTimeSlotInfo?.id === slot.id;
+                return (
+                  <div
+                    key={slot.id}
+                    className={cn(
+                      "grid grid-cols-[80px_1fr_1fr_1fr_1fr_1fr_1fr_1fr] border-b last:border-b-0",
+                      isCurrentSlot && "bg-primary/10 dark:bg-primary/15"
+                    )}
+                    style={{ height: `${ROW_HEIGHT}px` }}
+                  >
+                    {/* Time Column */}
+                    <div className={cn(
+                      "p-2 border-r bg-muted/10 text-center flex flex-col justify-center items-center",
+                      isCurrentSlot && "bg-primary/20 text-primary shadow-[inset_0_0_0_1px_rgba(59,130,246,0.22)] dark:bg-primary/30 dark:text-primary-foreground dark:shadow-[inset_0_0_0_1px_rgba(96,165,250,0.36)]"
+                    )}>
+                      <span className="font-bold text-sm">{slot.label}</span>
+                      <span className={cn(
+                        "text-[10px] mt-0.5",
+                        isCurrentSlot ? "text-primary/80 dark:text-primary-foreground/85" : "text-muted-foreground"
+                      )}>{slot.time}</span>
+                      {isCurrentSlot && (
+                        <span className="mt-1 rounded-full bg-primary px-2 py-[2px] text-[9px] font-bold uppercase tracking-wide text-primary-foreground shadow-sm">
+                          Bây giờ
+                        </span>
+                      )}
+                    </div>
+                    {/* Empty day cells for grid lines */}
+                    {daysOfWeek.map((day) => {
+                      const isTodayColumn = isViewingCurrentWeek && currentDayId === day.id;
+                      return (
+                        <div
+                          key={day.id}
+                          className={cn(
+                            "border-r last:border-r-0",
+                            isTodayColumn && "bg-primary/[0.08] dark:bg-primary/[0.14]",
+                            isTodayColumn && isCurrentSlot && "bg-primary/[0.16] shadow-[inset_0_0_0_1px_rgba(59,130,246,0.18)] dark:bg-primary/[0.24] dark:shadow-[inset_0_0_0_1px_rgba(96,165,250,0.28)]"
+                          )}
+                        />
+                      );
+                    })}
                   </div>
-                  {/* Empty day cells for grid lines */}
-                  {daysOfWeek.map((day) => (
-                    <div key={day.id} className="border-r last:border-r-0" />
-                  ))}
-                </div>
-              ))}
+                );
+              })}
 
               {/* Overlay courses using absolute positioning */}
               {daysOfWeek.map((day, dayIdx) => {
@@ -369,6 +543,12 @@ function ScheduleTab() {
                   const numPeriods = course.endPeriod - course.startPeriod + 1;
                   const topOffset = (course.startPeriod - 1) * ROW_HEIGHT;
                   const height = numPeriods * ROW_HEIGHT - 4; // -4 for padding
+                  const isOngoingCourse = isCourseOngoingNow(
+                    course,
+                    currentDayId,
+                    currentTimeSlotInfo,
+                    isViewingCurrentWeek
+                  );
 
                   // Calculate left position based on day column (skip first column which is 80px)
                   // Each day column is (100% - 80px) / 6 = ~16.67% width
@@ -376,7 +556,10 @@ function ScheduleTab() {
                   return (
                     <div
                       key={`${course.code}-${idx}`}
-                      className="absolute p-2 rounded-lg shadow-md text-white hover:shadow-lg transition-all cursor-pointer z-10 group overflow-hidden"
+                      className={cn(
+                        "absolute p-2 rounded-lg shadow-md text-white hover:shadow-lg transition-all cursor-pointer z-10 group overflow-hidden",
+                        isOngoingCourse && "ring-2 ring-white/90 shadow-xl shadow-primary/25"
+                      )}
                       style={{
                         backgroundColor: getSubjectColor(course.code),
                         top: `${topOffset}px`,
@@ -406,6 +589,11 @@ function ScheduleTab() {
                         {/* Header: Course Code */}
                         <div className="font-bold text-sm flex justify-between items-start mb-0.5 shrink-0">
                           <span>{course.code}</span>
+                          {isOngoingCourse && (
+                            <span className="rounded-full bg-white/20 px-1.5 py-[1px] text-[9px] font-bold uppercase tracking-wide">
+                              Now
+                            </span>
+                          )}
                         </div>
 
                         {/* Body: Course Name (Takes remaining space) */}
@@ -458,56 +646,304 @@ function ScheduleTab() {
     );
   };
 
+  const renderAgendaSchedule = () => {
+    const weeklySections = daysOfWeek
+      .map((day) => ({
+        ...day,
+        classes: getClassesForDay(day.id).filter((course) => course.startPeriod > 0),
+      }))
+      .filter((section) => section.classes.length > 0);
+
+    if (weeklySections.length === 0) {
+      return (
+        <div className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed bg-muted/30 p-10 text-center">
+          <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-muted">
+            <CalendarDays className="h-8 w-8 text-muted-foreground" />
+          </div>
+          <h3 className="font-semibold text-foreground">Tuần này chưa có lịch học</h3>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Thử chuyển sang tuần khác hoặc đồng bộ lại dữ liệu từ MyBK.
+          </p>
+        </div>
+      );
+    }
+
+    return (
+      <div className="space-y-4 pb-20">
+        {weeklySections.map((section) => {
+          const isTodaySection = isViewingCurrentWeek && currentDayId === section.id;
+
+          return (
+            <Card
+              key={section.id}
+              className={cn(
+                "overflow-hidden border shadow-sm",
+                isTodaySection && "border-primary/30 shadow-primary/5"
+              )}
+            >
+              <CardHeader className={cn(
+                "border-b bg-muted/30 pb-4",
+                isTodaySection && "bg-primary/5"
+              )}>
+                <div className="flex flex-wrap items-center gap-2">
+                  <CardTitle className="text-base md:text-lg">{section.label}</CardTitle>
+                  {isTodaySection && (
+                    <Badge className="border-0 bg-primary text-primary-foreground">Hôm nay</Badge>
+                  )}
+                  <Badge variant="secondary">{section.classes.length} môn</Badge>
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-3 p-3 sm:p-4">
+                {section.classes.map((course, index) => {
+                  const { startTime, endTime } = getCourseTimeRange(course);
+                  const isOngoingCourse = isCourseOngoingNow(
+                    course,
+                    currentDayId,
+                    currentTimeSlotInfo,
+                    isViewingCurrentWeek
+                  );
+
+                  return (
+                    <button
+                      key={`${section.id}-${course.code}-${index}`}
+                      type="button"
+                      className={cn(
+                        "group flex w-full items-start gap-3 rounded-xl border bg-card p-3 text-left transition-all hover:shadow-md",
+                        isOngoingCourse && "border-emerald-300 bg-emerald-50/60 dark:border-emerald-800 dark:bg-emerald-950/20"
+                      )}
+                      onMouseEnter={(event) => {
+                        if (!activeCourse) {
+                          const rect = event.currentTarget.getBoundingClientRect();
+                          setHoveredCourse({ ...course, rect });
+                        }
+                      }}
+                      onMouseLeave={() => setHoveredCourse(null)}
+                      onClick={(event) => {
+                        const rect = event.currentTarget.getBoundingClientRect();
+                        setActiveCourse({ ...course, rect });
+                        setHoveredCourse(null);
+                      }}
+                    >
+                      <div
+                        className="flex min-h-[72px] w-20 flex-none flex-col items-center justify-center rounded-xl px-2 text-white shadow-sm"
+                        style={{ backgroundColor: getSubjectColor(course.code) }}
+                      >
+                        <span className="text-xs font-bold">{startTime}</span>
+                        <span className="my-1 text-[10px] font-medium opacity-80">đến</span>
+                        <span className="text-xs font-bold">{endTime}</span>
+                      </div>
+
+                      <div className="min-w-0 flex-1">
+                        <div className="flex flex-wrap items-start gap-2">
+                          <div className="min-w-0 flex-1">
+                            <h4 className="line-clamp-2 text-sm font-bold text-foreground sm:text-base">
+                              {course.name}
+                            </h4>
+                            <div className="mt-1 flex flex-wrap items-center gap-2">
+                              <Badge variant="outline" className="font-mono text-[10px]">
+                                {course.code}
+                              </Badge>
+                              {course.group && (
+                                <Badge variant="secondary" className="text-[10px]">
+                                  Nhóm {course.group}
+                                </Badge>
+                              )}
+                              {isOngoingCourse && (
+                                <Badge className="border-0 bg-emerald-500 text-[10px] text-white">
+                                  Đang diễn ra
+                                </Badge>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="mt-3 flex flex-wrap gap-2 text-xs text-muted-foreground sm:text-sm">
+                          <span className="inline-flex items-center gap-1 rounded-full bg-muted/60 px-2 py-1">
+                            <Clock className="h-3.5 w-3.5" />
+                            Tiết {course.startPeriod}-{course.endPeriod}
+                          </span>
+                          <span className="inline-flex items-center gap-1 rounded-full bg-muted/60 px-2 py-1">
+                            <MapPin className="h-3.5 w-3.5" />
+                            {course.room || 'TBA'}
+                          </span>
+                          {getTeacherLabel(course) && (
+                            <span className="inline-flex items-center gap-1 rounded-full bg-muted/60 px-2 py-1">
+                              <Users className="h-3.5 w-3.5" />
+                              {getTeacherLabel(course)}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </button>
+                  );
+                })}
+              </CardContent>
+            </Card>
+          );
+        })}
+      </div>
+    );
+  };
+
+  const renderActiveScheduleView = () => {
+    return (
+      <>
+        {renderDayFocusSchedule({ mobileOnly: true })}
+        {scheduleViewMode === 'agenda' && (
+          <div className="hidden md:block">
+            {renderAgendaSchedule()}
+          </div>
+        )}
+        {scheduleViewMode === 'day' && (
+          <div className="hidden md:block">
+            {renderDayFocusSchedule()}
+          </div>
+        )}
+        {scheduleViewMode === 'timeline' && renderDesktopSchedule()}
+      </>
+    );
+  };
+
+  const renderScheduleViewSwitcher = ({ className } = {}) => (
+    <div className={cn(
+      "flex w-full flex-nowrap items-center justify-center gap-1 rounded-2xl border bg-card/80 p-1.5 shadow-sm backdrop-blur",
+      className
+    )}>
+      {scheduleViewModes.map((mode) => {
+        const Icon = mode.icon;
+        const isActive = scheduleViewMode === mode.id;
+
+        return (
+          <Button
+            key={mode.id}
+            type="button"
+            variant={isActive ? "default" : "ghost"}
+            size="sm"
+            onClick={() => setScheduleViewMode(mode.id)}
+            className={cn(
+              "h-9 shrink-0 gap-1.5 rounded-xl px-2.5 lg:px-3",
+              !isActive && "text-muted-foreground hover:text-foreground"
+            )}
+          >
+            <Icon className="h-4 w-4" />
+            <span>{mode.label}</span>
+          </Button>
+        );
+      })}
+    </div>
+  );
+
   return (
     <div className="p-1 sm:p-3 md:p-6 max-w-[1600px] w-full mx-auto space-y-3 md:space-y-6 overflow-x-hidden overflow-hidden box-border">
       {/* Input Section */}
-      <Card className="border-2 border-primary/10 w-full min-w-0 overflow-hidden">
-        <CardHeader
-          className="p-4 cursor-pointer hover:bg-muted/50 transition-colors"
-          onClick={() => setIsInputExpanded(!isInputExpanded)}
-        >
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Settings2 className="h-5 w-5 text-primary" />
-              <CardTitle className="text-base md:text-lg">Cài đặt & Dữ liệu</CardTitle>
+      <Card className="w-full min-w-0 overflow-hidden border border-border/70 bg-card/95 shadow-sm backdrop-blur">
+        <CardHeader className={cn("p-3 sm:p-4", isInputExpanded && "border-b")}>
+          <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+            <div
+              className="flex min-w-0 cursor-pointer items-center gap-3"
+              onClick={() => setIsInputExpanded(!isInputExpanded)}
+            >
+              <div className="flex h-10 w-10 flex-none items-center justify-center rounded-2xl bg-primary/10 text-primary">
+                <Settings2 className="h-5 w-5" />
+              </div>
+              <div className="min-w-0">
+                <CardTitle className="text-base md:text-lg">Cài đặt & Dữ liệu</CardTitle>
+                <CardDescription className="mt-1 line-clamp-2 text-xs sm:text-sm">
+                  {scheduleStatusText}
+                </CardDescription>
+              </div>
             </div>
-            {isInputExpanded ? (
-              <ChevronUp className="h-5 w-5 text-muted-foreground" />
-            ) : (
-              <ChevronDown className="h-5 w-5 text-muted-foreground" />
-            )}
+
+            <div className="flex min-w-0 flex-col gap-2 lg:items-end">
+              <div className="flex flex-wrap items-center gap-2 lg:justify-end">
+                <Badge
+                  variant="secondary"
+                  className="rounded-full bg-primary/8 px-2.5 py-1 text-primary"
+                >
+                  {scheduleData.length > 0 ? `${scheduleData.length} môn` : 'Chưa có dữ liệu'}
+                </Badge>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant={isInputExpanded && inputMethod === 'sync' ? "default" : "outline"}
+                  className="rounded-xl"
+                  onClick={() => openDataPanel('sync')}
+                >
+                  Đồng bộ MyBK
+                </Button>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant={isInputExpanded && inputMethod === 'manual' ? "default" : "ghost"}
+                  className="rounded-xl"
+                  onClick={() => openDataPanel('manual')}
+                >
+                  Nhập thủ công
+                </Button>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  className="h-9 w-9 rounded-xl"
+                  onClick={() => setIsInputExpanded(!isInputExpanded)}
+                >
+                  {isInputExpanded ? (
+                    <ChevronUp className="h-5 w-5 text-muted-foreground" />
+                  ) : (
+                    <ChevronDown className="h-5 w-5 text-muted-foreground" />
+                  )}
+                </Button>
+              </div>
+
+              {scheduleData.length > 0 && (
+                <div className="hidden w-full md:block lg:max-w-fit">
+                  {renderScheduleViewSwitcher({
+                    className: "justify-start sm:justify-center lg:justify-center"
+                  })}
+                </div>
+              )}
+            </div>
           </div>
         </CardHeader>
 
         {isInputExpanded && (
-          <CardContent className="p-4 pt-0 border-t animate-in slide-in-from-top-2">
-            <div className="pt-4">
-              <Tabs value={inputMethod} onValueChange={(v) => setInputMethod(v)} className="w-full">
-                <TabsList className="mb-4 grid w-full max-w-[400px] grid-cols-2">
-                  <TabsTrigger value="sync" className="font-semibold">
-                    🔄 Đồng bộ MyBK
-                  </TabsTrigger>
-                  <TabsTrigger value="manual" className="font-semibold">
-                    📋 Nhập thủ công
-                  </TabsTrigger>
-                </TabsList>
-
-                <TabsContent value="sync" className="mt-0">
-                  <p className="text-sm text-muted-foreground mb-4">
-                    Đăng nhập bằng tài khoản MyBK để tự động lấy thời khóa biểu
-                  </p>
-                  <MyBKLoginCard
-                    onScheduleFetched={(data) => {
-                      setScheduleData(data);
-                    }}
-                    onError={(err) => console.error(err)}
-                  />
-                </TabsContent>
-
-                <TabsContent value="manual" className="mt-0 space-y-4">
+          <CardContent className="animate-in slide-in-from-top-2 p-3 sm:p-4">
+            <div className="space-y-4">
+              {inputMethod === 'sync' ? (
+                <div className="grid gap-4 xl:grid-cols-[280px_minmax(0,1fr)]">
+                  <div className="rounded-2xl border bg-muted/20 p-4">
+                    <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
+                      <CalendarDays className="h-4 w-4 text-primary" />
+                      Đồng bộ nhanh từ MyBK
+                    </div>
+                    <p className="mt-2 text-sm text-muted-foreground">
+                      Dùng tài khoản MyBK để lấy dữ liệu mới nhất mà không cần copy thủ công.
+                    </p>
+                    <div className="mt-4 space-y-2 text-xs text-muted-foreground">
+                      <div className="rounded-xl bg-background px-3 py-2 ring-1 ring-border/60">
+                        Cách phù hợp nhất khi bạn muốn cập nhật lịch mới hoặc kiểm tra thay đổi theo tuần.
+                      </div>
+                      {scheduleData.length > 0 && (
+                        <div className="rounded-xl bg-primary/5 px-3 py-2 text-primary ring-1 ring-primary/10">
+                          Dữ liệu hiện tại đang có {scheduleData.length} môn học.
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <div className="min-w-0">
+                    <MyBKLoginCard
+                      onScheduleFetched={(data) => {
+                        setScheduleData(data);
+                      }}
+                      onError={(err) => console.error(err)}
+                    />
+                  </div>
+                </div>
+              ) : (
+                <div className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div
-                      className="p-4 border rounded-lg hover:border-primary/50 hover:bg-muted/50 cursor-pointer transition-colors flex items-center gap-3"
+                      className="p-4 border rounded-xl hover:border-primary/50 hover:bg-muted/50 cursor-pointer transition-colors flex items-center gap-3"
                       onClick={handleOpenMyBK}
                     >
                       <div className="h-9 w-9 bg-primary text-primary-foreground rounded-full flex items-center justify-center font-bold">
@@ -521,7 +957,7 @@ function ScheduleTab() {
                     </div>
 
                     <div
-                      className="p-4 border-2 border-primary/20 bg-primary/5 rounded-lg hover:bg-primary/10 hover:border-primary/40 cursor-pointer transition-all flex items-center gap-3"
+                      className="p-4 border-2 border-primary/20 bg-primary/5 rounded-xl hover:bg-primary/10 hover:border-primary/40 cursor-pointer transition-all flex items-center gap-3"
                       onClick={handleSmartPaste}
                     >
                       <div className="h-9 w-9 bg-background text-primary border border-primary/20 rounded-full flex items-center justify-center font-bold shadow-sm">
@@ -535,19 +971,27 @@ function ScheduleTab() {
                     </div>
                   </div>
 
-                  <div className="pt-2">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="text-muted-foreground hover:text-foreground p-0 h-auto"
-                      onClick={() => setShowManualInput(!showManualInput)}
-                    >
-                      {showManualInput ? "Ẩn nhập thủ công" : "Hiện khung nhập thủ công"}
-                      {showManualInput ? <ChevronUp className="ml-1 h-3 w-3" /> : <ChevronDown className="ml-1 h-3 w-3" />}
-                    </Button>
+                  <div className="rounded-2xl border bg-muted/15 p-3 sm:p-4">
+                    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                      <div>
+                        <div className="text-sm font-semibold text-foreground">Dán dữ liệu nếu cần kiểm soát thủ công</div>
+                        <div className="text-xs text-muted-foreground">
+                          Hữu ích khi clipboard bị chặn hoặc bạn muốn chỉnh nội dung trước khi xử lý.
+                        </div>
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="justify-start text-muted-foreground hover:text-foreground sm:justify-center"
+                        onClick={() => setShowManualInput(!showManualInput)}
+                      >
+                        {showManualInput ? "Ẩn ô nhập" : "Mở ô nhập"}
+                        {showManualInput ? <ChevronUp className="ml-1 h-3 w-3" /> : <ChevronDown className="ml-1 h-3 w-3" />}
+                      </Button>
+                    </div>
 
                     {showManualInput && (
-                      <div className="mt-2 space-y-2 animate-in fade-in slide-in-from-top-2 duration-300">
+                      <div className="mt-3 space-y-2 animate-in fade-in slide-in-from-top-2 duration-300">
                         <Textarea
                           placeholder="Dán dữ liệu thời khóa biểu từ MyBK vào đây..."
                           className="min-h-[100px]"
@@ -565,8 +1009,8 @@ function ScheduleTab() {
                       </div>
                     )}
                   </div>
-                </TabsContent>
-              </Tabs>
+                </div>
+              )}
             </div>
           </CardContent>
         )}
@@ -640,26 +1084,8 @@ function ScheduleTab() {
             </div>
           </div>
 
-          {/* Stats Cards */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-1 sm:gap-2 md:gap-3 mb-3 sm:mb-4 w-full min-w-0">
-            {[
-              { label: "Môn học", value: scheduleData.length },
-              { label: "Tín chỉ", value: scheduleData.reduce((sum, course) => sum + (course.credits || 0), 0) },
-              { label: "Học tuần này", value: scheduleData.filter(course => course.weeks && course.weeks.includes(selectedWeek)).length },
-              { label: "Tuần hiện tại", value: currentWeek }
-            ].map((stat, idx) => (
-              <Card key={idx} className="bg-card shadow-sm border">
-                <CardContent className="p-1.5 sm:p-3 md:p-4 text-center">
-                  <div className="text-base sm:text-xl md:text-2xl font-bold text-primary mb-0.5">{stat.value}</div>
-                  <div className="text-[8px] sm:text-[10px] md:text-xs text-muted-foreground font-medium uppercase tracking-wide leading-tight">{stat.label}</div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
           {/* Render Schedule View */}
-          {renderMobileSchedule()}
-          {renderDesktopSchedule()}
+          {renderActiveScheduleView()}
         </div>
       )}
 
@@ -682,25 +1108,41 @@ function ScheduleTab() {
 function CourseDetailPopup({ course, rect, isActive, onClose }) {
   if (!course || !rect) return null;
 
-  const CARD_WIDTH = 320;
-  // Calculate Initial Position (Right of the card)
-  let left = rect.right + 12;
+  const teacherLabel = getTeacherLabel(course);
+  const classSizeLabel = getClassSizeLabel(course);
+
+  const VIEWPORT_PADDING = 12;
+  const POPUP_GAP = 12;
+  const CARD_WIDTH = Math.min(320, window.innerWidth - (VIEWPORT_PADDING * 2));
+  let left = rect.right + POPUP_GAP;
   let top = rect.top;
 
   // Check Window Boundaries
   const windowWidth = window.innerWidth;
   const windowHeight = window.innerHeight;
 
-  // If overflows right edge -> Flip to Left
-  if (left + CARD_WIDTH > windowWidth - 12) {
-    left = rect.left - CARD_WIDTH - 12;
+  const hasRoomOnRight = rect.right + POPUP_GAP + CARD_WIDTH <= windowWidth - VIEWPORT_PADDING;
+  const hasRoomOnLeft = rect.left - POPUP_GAP - CARD_WIDTH >= VIEWPORT_PADDING;
+
+  if (hasRoomOnRight) {
+    left = rect.right + POPUP_GAP;
+  } else if (hasRoomOnLeft) {
+    left = rect.left - CARD_WIDTH - POPUP_GAP;
+  } else {
+    const centeredLeft = rect.left + (rect.width / 2) - (CARD_WIDTH / 2);
+    left = Math.min(
+      Math.max(centeredLeft, VIEWPORT_PADDING),
+      windowWidth - CARD_WIDTH - VIEWPORT_PADDING
+    );
   }
 
   // Vertical Adjustment
   const estimatedHeight = 350; // Rough estimate
-  if (top + estimatedHeight > windowHeight - 12) {
-    top = windowHeight - estimatedHeight - 12;
-  }
+  const centeredTop = rect.top + (rect.height / 2) - (estimatedHeight / 2);
+  top = Math.min(
+    Math.max(centeredTop, 70),
+    windowHeight - estimatedHeight - VIEWPORT_PADDING
+  );
 
   // Ensure not off-screen top
   if (top < 70) top = 70; // 70px for header bar
@@ -768,6 +1210,34 @@ function CourseDetailPopup({ course, rect, isActive, onClose }) {
                   <span className="font-medium text-xs text-muted-foreground uppercase">Tuần học</span>
                   <div className="text-xs text-muted-foreground break-words max-h-20 overflow-y-auto pr-1">
                     {course.weeks.join(', ')}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {teacherLabel && (
+              <div className="flex items-start gap-2.5 text-sm">
+                <div className="mt-0.5 rounded-md bg-slate-100 p-1 dark:bg-slate-800">
+                  <Users className="h-3.5 w-3.5 text-slate-500" />
+                </div>
+                <div>
+                  <span className="font-medium text-xs text-muted-foreground uppercase">Giảng viên</span>
+                  <div className="text-sm font-medium text-slate-800 dark:text-slate-200">
+                    {teacherLabel}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {classSizeLabel && (
+              <div className="flex items-start gap-2.5 text-sm">
+                <div className="mt-0.5 rounded-md bg-slate-100 p-1 dark:bg-slate-800">
+                  <Users className="h-3.5 w-3.5 text-slate-500" />
+                </div>
+                <div>
+                  <span className="font-medium text-xs text-muted-foreground uppercase">Sĩ số lớp</span>
+                  <div className="text-sm font-medium text-slate-800 dark:text-slate-200">
+                    {classSizeLabel}
                   </div>
                 </div>
               </div>

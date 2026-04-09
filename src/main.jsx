@@ -11,6 +11,7 @@ createRoot(document.getElementById('root')).render(
       defaultTheme="system"
       enableSystem
       storageKey="ui-theme"
+      disableTransitionOnChange
     >
       <App />
     </ThemeProvider>

@@ -319,23 +319,27 @@ function AppShell() {
             sidebarCollapsed ? "lg:pl-16" : "lg:pl-56"
           }`}
         >
-          <header className="sticky top-0 z-30 border-b bg-background/80 backdrop-blur-lg lg:hidden">
-            <div className="flex items-center justify-between px-4 py-3">
-              <div className="flex items-center gap-3">
+          <header className="sticky top-0 z-30 w-full max-w-full overflow-x-hidden border-b bg-background/80 backdrop-blur-lg lg:hidden">
+            <div className="flex w-full min-w-0 items-center justify-between gap-2 px-3 py-3">
+              <div className="flex min-w-0 flex-1 items-center gap-2">
                 <button
                   onClick={() => setSidebarOpen(true)}
-                  className="rounded-lg border p-2 transition-colors hover:bg-accent"
+                  className="shrink-0 rounded-lg border p-2 transition-colors hover:bg-accent"
                 >
                   <Menu className="h-5 w-5" />
                 </button>
-                <div className="flex items-center gap-2">
-                  <AppLogo size={32} />
-                  <span className="text-base font-bold">TKB Smart</span>
+                <div className="flex min-w-0 flex-1 items-center gap-2">
+                  <div className="shrink-0">
+                    <AppLogo size={32} />
+                  </div>
+                  <span className="truncate text-sm font-bold min-[380px]:text-base">
+                    TKB Smart
+                  </span>
                 </div>
               </div>
               <button
                 onClick={toggleDarkMode}
-                className="rounded-lg border p-2 transition-colors hover:bg-accent"
+                className="shrink-0 rounded-lg border p-2 transition-colors hover:bg-accent"
               >
                 {darkMode ? (
                   <SunMedium className="h-5 w-5" />
@@ -367,7 +371,7 @@ function AppShell() {
           </header>
 
           <main className="min-h-[calc(100vh-57px)] w-full max-w-full overflow-x-hidden pb-20 lg:pb-6">
-            <div className="mx-auto w-full max-w-7xl overflow-hidden">
+            <div className="mx-auto w-full max-w-[1600px] overflow-hidden">
               <ActiveTabComponent />
             </div>
           </main>

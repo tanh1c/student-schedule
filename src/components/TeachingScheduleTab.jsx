@@ -6,7 +6,6 @@ import { Input } from '@/components/ui/input';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import {
-  GraduationCap,
   Search,
   Calendar,
   Mail,
@@ -16,7 +15,12 @@ import {
   Clock,
   BookOpen,
   User,
-  Loader2
+  Loader2,
+  Building2,
+  RefreshCcw,
+  ListFilter,
+  Sparkles,
+  GraduationCap
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -32,6 +36,16 @@ const dayNames = {
   4: 'Thứ 5',
   5: 'Thứ 6',
   6: 'Thứ 7'
+};
+
+const dayShortNames = {
+  0: 'CN',
+  1: 'T2',
+  2: 'T3',
+  3: 'T4',
+  4: 'T5',
+  5: 'T6',
+  6: 'T7'
 };
 
 // Thứ tự hiển thị: Thứ 2 -> Thứ 7 -> CN
@@ -62,6 +76,14 @@ const tietGroups = [
   { label: 'Sáng', tiets: [1, 2, 3, 4, 5, 6], timeRange: '06:00 - 11:50' },
   { label: 'Chiều', tiets: [7, 8, 9, 10, 11, 12], timeRange: '12:00 - 17:50' },
   { label: 'Tối', tiets: [13, 14, 15, 16], timeRange: '18:00 - 21:10' },
+];
+
+const allTietOptions = Array.from({ length: 16 }, (_, index) => index + 1);
+
+const campusOptions = [
+  { value: '', label: 'Tất cả cơ sở', helper: 'Không giới hạn tòa nhà' },
+  { value: '1', label: 'CS1 (A, B, C)', helper: 'Tòa A1-A5, B1-B12, C1-C6' },
+  { value: '2', label: 'CS2 (H)', helper: 'Tòa H1-H6' }
 ];
 
 // Helper: Lấy khung giờ từ danh sách tiết
@@ -143,6 +165,20 @@ const smartVietnameseMatch = (text, query) => {
   return false;
 };
 
+const matchesResultsQuery = (fields, query) => {
+  const trimmedQuery = query.trim();
+  if (!trimmedQuery) return true;
+
+  return fields.some((field) => {
+    if (field === null || field === undefined) return false;
+
+    const value = String(field).trim();
+    if (!value) return false;
+
+    return smartVietnameseMatch(value, trimmedQuery);
+  });
+};
+
 function TeachingScheduleTab() {
   const [searchTab, setSearchTab] = useState('code'); // 'code' | 'lecturer' | 'time'
   const [courseCode, setCourseCode] = useState('');
@@ -157,6 +193,7 @@ function TeachingScheduleTab() {
   const [selectedCampus, setSelectedCampus] = useState('');
   const [timeResults, setTimeResults] = useState([]);
   const [strictTietFilter, setStrictTietFilter] = useState(false); // true = chỉ lớp trong range, false = có overlap
+  const [resultsQuery, setResultsQuery] = useState('');
 
   // For autocomplete
   const [allSubjects, setAllSubjects] = useState([]);
@@ -198,6 +235,7 @@ function TeachingScheduleTab() {
     // Chỉ reset error và suggestions, giữ nguyên các input và kết quả
     setError(null);
     setShowSuggestions(false);
+    setResultsQuery('');
   };
 
   const searchByCode = async () => {
@@ -219,6 +257,7 @@ function TeachingScheduleTab() {
         setError('Không tìm thấy môn học');
       }
       setSearchResults(data);
+      setResultsQuery('');
     } catch {
       setError('Lỗi kết nối server');
     } finally {
@@ -240,6 +279,7 @@ function TeachingScheduleTab() {
         setError('Không tìm thấy giảng viên');
       }
       setSearchResults(data);
+      setResultsQuery('');
     } catch {
       setError('Lỗi kết nối server');
     } finally {
@@ -280,6 +320,7 @@ function TeachingScheduleTab() {
         setError('Không tìm thấy lớp học nào trong thời gian đã chọn');
       }
       setTimeResults(data);
+      setResultsQuery('');
     } catch {
       setError('Lỗi kết nối server');
     } finally {
@@ -294,6 +335,13 @@ function TeachingScheduleTab() {
         ? prev.filter(t => t !== tiet)
         : [...prev, tiet].sort((a, b) => a - b)
     );
+  };
+
+  const resetTimeFilters = () => {
+    setSelectedDay(null);
+    setSelectedTiet([]);
+    setSelectedCampus('');
+    setStrictTietFilter(false);
   };
 
   // Filter suggestions with smart Vietnamese search
@@ -316,8 +364,61 @@ function TeachingScheduleTab() {
     return smartVietnameseMatch(l.name, query);
   }).slice(0, 10);
 
+  const selectedCampusMeta = campusOptions.find((campus) => campus.value === selectedCampus) ?? campusOptions[0];
+  const selectedTietSummary = selectedTiet.length > 0
+    ? `Tiết ${selectedTiet.join(', ')}`
+    : 'Tất cả tiết';
+  const selectedTietRange = selectedTiet.length > 0
+    ? `${tietTimeMap[selectedTiet[0]]?.start} - ${tietTimeMap[selectedTiet[selectedTiet.length - 1]]?.end}`
+    : 'Không giới hạn khung giờ';
+
+  const filteredTimeResults = timeResults.filter((item) => matchesResultsQuery([
+    item.maMonHoc,
+    item.tenMonHoc,
+    item.group,
+    item.giangVien,
+    item.email,
+    item.siso,
+    ...(item.classInfo ?? []).flatMap((ci) => [
+      ci.phong,
+      `Tiết ${ci.tietHoc?.join('-')}`,
+      getTietTimeRange(ci.tietHoc)
+    ])
+  ], resultsQuery));
+
+  const filteredSearchResults = searchResults.filter((result) => matchesResultsQuery([
+    result.maMonHoc,
+    result.tenMonHoc,
+    result.soTinChi,
+    ...(result.lichHoc ?? []).flatMap((lh) => [
+      lh.group,
+      lh.giangVien,
+      lh.email,
+      lh.phone,
+      lh.giangVienBT,
+      lh.emailBT,
+      lh.siso,
+      lh.ngonNgu,
+      ...(lh.classInfo ?? []).flatMap((ci) => [
+        dayNames[ci.dayOfWeek] || ci.dayOfWeek,
+        `Tiết ${ci.tietHoc?.join('-')}`,
+        getTietTimeRange(ci.tietHoc),
+        ci.phong,
+        ci.coSo
+      ])
+    ])
+  ], resultsQuery));
+
+  const totalResultsCount = searchTab === 'time' ? timeResults.length : searchResults.length;
+  const visibleResultsCount = searchTab === 'time' ? filteredTimeResults.length : filteredSearchResults.length;
+  const hasServerResults = totalResultsCount > 0;
+  const hasFilteredResults = visibleResultsCount > 0;
+  const resultsFilterPlaceholder = searchTab === 'time'
+    ? 'Lọc theo môn, giảng viên, phòng, nhóm hoặc tiết...'
+    : 'Lọc theo mã môn, tên môn, giảng viên, nhóm hoặc phòng...';
+
   return (
-    <div className="p-3 md:p-6 max-w-[1600px] mx-auto space-y-4 md:space-y-6">
+    <div className="mx-auto w-full min-w-0 max-w-[1600px] space-y-4 overflow-x-hidden p-3 md:p-6 md:space-y-6">
       {/* Data loading alert */}
       {loadingData && (
         <Alert className="bg-blue-50 border-blue-200 dark:bg-blue-900/10 dark:border-blue-900/30">
@@ -329,57 +430,57 @@ function TeachingScheduleTab() {
       )}
 
       {/* Search Card */}
-      <Card>
+      <Card className="w-full min-w-0 overflow-hidden">
         <CardHeader className="pb-3">
           <CardTitle className="text-base flex items-center gap-2">
             <Search className="h-4 w-4" />
             Tìm kiếm
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="min-w-0 space-y-4 overflow-x-hidden">
           {/* Search Tabs */}
-          <div className="flex flex-wrap gap-2">
+          <div className="grid grid-cols-1 gap-2 sm:flex sm:flex-wrap">
             <button
               onClick={() => handleTabChange('code')}
               className={cn(
-                "px-4 py-2 rounded-lg font-medium text-sm transition-all",
+                "flex w-full items-center justify-start gap-2 rounded-xl px-4 py-3 text-sm font-medium transition-all sm:w-auto sm:justify-center sm:rounded-lg sm:px-4 sm:py-2",
                 searchTab === 'code'
                   ? "bg-primary text-primary-foreground shadow-sm"
                   : "bg-muted text-muted-foreground hover:bg-accent"
               )}
             >
-              <BookOpen className="h-4 w-4 inline mr-2" />
-              Theo mã môn
+              <BookOpen className="h-4 w-4 shrink-0" />
+              <span>Theo mã môn</span>
             </button>
             <button
               onClick={() => handleTabChange('lecturer')}
               className={cn(
-                "px-4 py-2 rounded-lg font-medium text-sm transition-all",
+                "flex w-full items-center justify-start gap-2 rounded-xl px-4 py-3 text-sm font-medium transition-all sm:w-auto sm:justify-center sm:rounded-lg sm:px-4 sm:py-2",
                 searchTab === 'lecturer'
                   ? "bg-primary text-primary-foreground shadow-sm"
                   : "bg-muted text-muted-foreground hover:bg-accent"
               )}
             >
-              <User className="h-4 w-4 inline mr-2" />
-              Theo giảng viên
+              <User className="h-4 w-4 shrink-0" />
+              <span>Theo giảng viên</span>
             </button>
             <button
               onClick={() => handleTabChange('time')}
               className={cn(
-                "px-4 py-2 rounded-lg font-medium text-sm transition-all",
+                "flex w-full items-center justify-start gap-2 rounded-xl px-4 py-3 text-sm font-medium transition-all sm:w-auto sm:justify-center sm:rounded-lg sm:px-4 sm:py-2",
                 searchTab === 'time'
                   ? "bg-primary text-primary-foreground shadow-sm"
                   : "bg-muted text-muted-foreground hover:bg-accent"
               )}
             >
-              <Clock className="h-4 w-4 inline mr-2" />
-              Theo thời gian
+              <Clock className="h-4 w-4 shrink-0" />
+              <span>Theo thời gian</span>
             </button>
           </div>
 
           {/* Search Input - For code and lecturer tabs */}
           {(searchTab === 'code' || searchTab === 'lecturer') && (
-            <div className="flex gap-3">
+            <div className="flex flex-col gap-3 sm:flex-row">
               <div className="flex-1 relative">
                 <Input
                   placeholder={searchTab === 'code'
@@ -440,7 +541,7 @@ function TeachingScheduleTab() {
               <Button
                 onClick={searchTab === 'code' ? searchByCode : searchByLecturer}
                 disabled={loading || (searchTab === 'code' ? !courseCode.trim() : !lecturerName.trim())}
-                className="h-11 px-6"
+                className="h-11 w-full px-6 sm:w-auto"
               >
                 {loading ? (
                   <Loader2 className="h-4 w-4 animate-spin" />
@@ -456,147 +557,134 @@ function TeachingScheduleTab() {
 
           {/* Time Search UI */}
           {searchTab === 'time' && (
-            <div className="space-y-4">
-              {/* Day Selection */}
-              <div>
-                <label className="text-sm font-medium mb-2 block">Chọn ngày trong tuần:</label>
-                <div className="flex flex-wrap gap-2">
-                  {dayOrder.map((day) => (
-                    <button
-                      key={day}
-                      onClick={() => setSelectedDay(day)}
-                      className={cn(
-                        "px-4 py-2 rounded-lg text-sm font-medium transition-all min-w-[70px]",
-                        selectedDay === day
-                          ? "bg-primary text-primary-foreground shadow-sm"
-                          : "bg-muted text-muted-foreground hover:bg-accent"
-                      )}
+            <div className="space-y-3 sm:space-y-4">
+              <div className="sm:hidden">
+                <div className="rounded-2xl border bg-card p-3 shadow-sm">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <div className="text-sm font-semibold text-foreground">Tìm theo thời gian</div>
+                      <p className="mt-1 text-xs text-muted-foreground">
+                        Chọn nhanh ngày, tiết và cơ sở.
+                      </p>
+                    </div>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="shrink-0 px-2"
+                      onClick={resetTimeFilters}
                     >
-                      {dayNames[day]}
-                    </button>
-                  ))}
-                </div>
-              </div>
+                      <RefreshCcw className="mr-1 h-3.5 w-3.5" />
+                      Reset
+                    </Button>
+                  </div>
 
-              {/* Tiết Selection với khung giờ */}
-              <div>
-                <label className="text-sm font-medium mb-2 block">
-                  Chọn tiết học (có thể chọn nhiều, hoặc bỏ trống để xem tất cả):
-                </label>
-
-                {/* Nhóm theo buổi */}
-                <div className="space-y-3">
-                  {tietGroups.map((group) => (
-                    <div key={group.label}>
-                      <div className="flex items-center gap-2 mb-1.5">
-                        <span className="text-xs font-medium text-muted-foreground">
-                          {group.label}
-                        </span>
-                        <span className="text-xs text-muted-foreground/70">
-                          ({group.timeRange})
-                        </span>
-                        <button
-                          onClick={() => {
-                            // Toggle all tiets in this group
-                            const allSelected = group.tiets.every(t => selectedTiet.includes(t));
-                            if (allSelected) {
-                              setSelectedTiet(prev => prev.filter(t => !group.tiets.includes(t)));
-                            } else {
-                              setSelectedTiet(prev => [...new Set([...prev, ...group.tiets])].sort((a, b) => a - b));
-                            }
-                          }}
-                          className="text-xs text-primary hover:underline"
-                        >
-                          {group.tiets.every(t => selectedTiet.includes(t)) ? 'Bỏ chọn' : 'Chọn tất cả'}
-                        </button>
+                  <div className="mt-3 grid grid-cols-3 gap-2">
+                    <div className="rounded-xl bg-muted/40 px-2 py-2 text-center">
+                      <div className="text-[10px] uppercase tracking-wide text-muted-foreground">Ngày</div>
+                      <div className="mt-1 text-xs font-medium text-foreground">
+                        {selectedDay !== null ? dayShortNames[selectedDay] : '--'}
                       </div>
-                      <div className="flex flex-wrap gap-1.5">
-                        {group.tiets.map((tiet) => (
+                    </div>
+                    <div className="rounded-xl bg-muted/40 px-2 py-2 text-center">
+                      <div className="text-[10px] uppercase tracking-wide text-muted-foreground">Tiết</div>
+                      <div className="mt-1 text-xs font-medium text-foreground">
+                        {selectedTiet.length > 0 ? selectedTiet.length : 'Tất cả'}
+                      </div>
+                    </div>
+                    <div className="rounded-xl bg-muted/40 px-2 py-2 text-center">
+                      <div className="text-[10px] uppercase tracking-wide text-muted-foreground">Cơ sở</div>
+                      <div className="mt-1 truncate text-xs font-medium text-foreground">
+                        {selectedCampus || 'Tất cả'}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mt-4 space-y-3">
+                    <div>
+                      <label className="mb-2 block text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                        Ngày trong tuần
+                      </label>
+                      <div className="grid grid-cols-4 gap-2">
+                        {dayOrder.map((day) => (
+                          <button
+                            key={day}
+                            onClick={() => setSelectedDay(day)}
+                            title={dayNames[day]}
+                            className={cn(
+                              "rounded-xl border px-2 py-2.5 text-sm font-medium transition-all",
+                              selectedDay === day
+                                ? "border-primary bg-primary text-primary-foreground shadow-sm"
+                                : "border-border bg-background text-muted-foreground hover:border-primary/40 hover:bg-accent hover:text-accent-foreground"
+                            )}
+                          >
+                            {dayShortNames[day]}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="mb-2 block text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                        Cơ sở
+                      </label>
+                      <div className="grid grid-cols-3 gap-2">
+                        {campusOptions.map((campus) => (
+                          <button
+                            key={campus.value}
+                            onClick={() => setSelectedCampus(campus.value)}
+                            className={cn(
+                              "rounded-xl border px-2 py-2 text-center text-xs font-medium transition-all",
+                              selectedCampus === campus.value
+                                ? "border-primary bg-primary/8 text-primary shadow-sm"
+                                : "border-border bg-background text-muted-foreground hover:border-primary/30 hover:bg-accent"
+                            )}
+                          >
+                            {campus.value === '' ? 'Tất cả' : campus.value === '1' ? 'CS1' : 'CS2'}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <div className="mb-2 flex items-center justify-between gap-2">
+                        <label className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                          Chọn tiết
+                        </label>
+                        {selectedTiet.length > 0 && (
+                          <Badge variant="secondary" className="text-[10px]">
+                            {selectedTietSummary}
+                          </Badge>
+                        )}
+                      </div>
+                      <div className="grid grid-cols-4 gap-2">
+                        {allTietOptions.map((tiet) => (
                           <button
                             key={tiet}
                             onClick={() => toggleTiet(tiet)}
                             title={`${tietTimeMap[tiet].start} - ${tietTimeMap[tiet].end}`}
                             className={cn(
-                              "flex flex-col items-center px-2 py-1.5 rounded-lg text-xs font-medium transition-all min-w-[52px]",
+                              "rounded-xl border px-2 py-2 text-xs font-medium transition-all",
                               selectedTiet.includes(tiet)
-                                ? "bg-primary text-primary-foreground shadow-sm"
-                                : "bg-muted text-muted-foreground hover:bg-accent"
+                                ? "border-primary bg-primary text-primary-foreground shadow-sm"
+                                : "border-border bg-background text-muted-foreground hover:border-primary/30 hover:bg-accent hover:text-accent-foreground"
                             )}
                           >
-                            <span className="font-bold">Tiết {tiet}</span>
-                            <span className="text-[10px] opacity-80">
-                              {tietTimeMap[tiet].start}
-                            </span>
+                            <div className="font-bold">{tiet}</div>
+                            <div className="mt-0.5 text-[10px] opacity-80">{tietTimeMap[tiet].start}</div>
                           </button>
                         ))}
                       </div>
                     </div>
-                  ))}
-                </div>
 
-                {selectedTiet.length > 0 && (
-                  <div className="mt-2 p-2 bg-primary/10 rounded-lg">
-                    <p className="text-xs font-medium text-primary">
-                      Đã chọn: Tiết {selectedTiet.join(', ')}
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      Từ {tietTimeMap[selectedTiet[0]]?.start} đến {tietTimeMap[selectedTiet[selectedTiet.length - 1]]?.end}
-                    </p>
-                  </div>
-                )}
-              </div>
-
-              {/* Campus Selection - Based on building names */}
-              <div>
-                <label className="text-sm font-medium mb-2 block">
-                  Cơ sở (lọc theo tòa nhà):
-                </label>
-                <div className="flex flex-wrap gap-2">
-                  {[
-                    { value: '', label: 'Tất cả' },
-                    { value: '1', label: 'CS1 (A, B, C)' },
-                    { value: '2', label: 'CS2 (H)' }
-                  ].map((campus) => (
-                    <button
-                      key={campus.value}
-                      onClick={() => setSelectedCampus(campus.value)}
-                      className={cn(
-                        "px-4 py-2 rounded-lg text-sm font-medium transition-all",
-                        selectedCampus === campus.value
-                          ? "bg-primary text-primary-foreground shadow-sm"
-                          : "bg-muted text-muted-foreground hover:bg-accent"
-                      )}
-                    >
-                      {campus.label}
-                    </button>
-                  ))}
-                </div>
-                <p className="text-xs text-muted-foreground mt-1">
-                  CS1: Tòa A1-A5, B1-B12, C1-C6 | CS2: Tòa H1-H6
-                </p>
-              </div>
-
-              {/* Filter Mode - Chỉ hiện khi đã chọn tiết */}
-              {selectedTiet.length > 0 && (
-                <div className="p-3 bg-muted/50 rounded-lg">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <label className="text-sm font-medium">Chế độ lọc tiết:</label>
-                      <p className="text-xs text-muted-foreground mt-0.5">
-                        {strictTietFilter
-                          ? 'Chỉ hiện lớp có tất cả tiết nằm trong range đã chọn'
-                          : 'Hiện lớp có bất kỳ tiết nào trong range đã chọn'
-                        }
-                      </p>
-                    </div>
-                    <div className="flex gap-1 bg-background rounded-lg p-1">
+                    <div className="grid grid-cols-2 gap-2">
                       <button
                         onClick={() => setStrictTietFilter(false)}
                         className={cn(
-                          "px-3 py-1.5 rounded text-xs font-medium transition-all",
+                          "rounded-xl border px-3 py-2 text-xs font-medium transition-all",
                           !strictTietFilter
-                            ? "bg-primary text-primary-foreground shadow-sm"
-                            : "text-muted-foreground hover:bg-accent"
+                            ? "border-primary bg-primary text-primary-foreground shadow-sm"
+                            : "border-border bg-background text-muted-foreground hover:border-primary/30 hover:bg-accent"
                         )}
                       >
                         Có overlap
@@ -604,41 +692,291 @@ function TeachingScheduleTab() {
                       <button
                         onClick={() => setStrictTietFilter(true)}
                         className={cn(
-                          "px-3 py-1.5 rounded text-xs font-medium transition-all",
+                          "rounded-xl border px-3 py-2 text-xs font-medium transition-all",
                           strictTietFilter
-                            ? "bg-primary text-primary-foreground shadow-sm"
-                            : "text-muted-foreground hover:bg-accent"
+                            ? "border-primary bg-primary text-primary-foreground shadow-sm"
+                            : "border-border bg-background text-muted-foreground hover:border-primary/30 hover:bg-accent"
                         )}
                       >
-                        Chỉ trong range
+                        Trong range
                       </button>
                     </div>
+
+                    <Button
+                      onClick={searchByTime}
+                      disabled={loading || selectedDay === null}
+                      className="h-11 w-full"
+                    >
+                      {loading ? (
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                      ) : (
+                        <>
+                          <Sparkles className="mr-2 h-4 w-4" />
+                          Tìm lớp học
+                        </>
+                      )}
+                    </Button>
                   </div>
-                  <p className="text-xs text-amber-600 dark:text-amber-400 mt-2">
-                    💡 VD: Chọn tiết 7-9, mode "{strictTietFilter ? 'Chỉ trong range' : 'Có overlap'}":
-                    {strictTietFilter
-                      ? ' Lớp 7-8 ✓, Lớp 7-11 ✗'
-                      : ' Lớp 7-8 ✓, Lớp 7-11 ✓'
-                    }
+                </div>
+              </div>
+
+              <div className="hidden w-full min-w-0 rounded-2xl border bg-muted/20 p-3 sm:block sm:p-4">
+                <div className="flex flex-col gap-3 sm:gap-4 xl:flex-row xl:items-start xl:justify-between">
+                  <div className="space-y-3">
+                    <div className="flex items-start gap-3">
+                      <div className="mt-0.5 flex h-9 w-9 flex-none items-center justify-center rounded-2xl bg-primary/10 text-primary sm:h-10 sm:w-10">
+                        <GraduationCap className="h-4.5 w-4.5 sm:h-5 sm:w-5" />
+                      </div>
+                      <div>
+                        <div className="text-sm font-semibold text-foreground">
+                          Duyệt lớp đang giảng dạy theo thời gian
+                        </div>
+                        <p className="mt-1 text-xs text-muted-foreground sm:text-sm">
+                          Chọn ngày, khung tiết và cơ sở để tìm nhanh lớp học đang diễn ra hoặc sắp diễn ra trong khuôn viên trường.
+                        </p>
+                      </div>
+                    </div>
+
+                    <ScrollArea className="w-full whitespace-nowrap">
+                      <div className="flex gap-2 pb-1">
+                        <Badge variant={selectedDay !== null ? "default" : "secondary"} className="gap-1">
+                          <Calendar className="h-3 w-3" />
+                          {selectedDay !== null ? dayNames[selectedDay] : 'Chưa chọn ngày'}
+                        </Badge>
+                        <Badge variant="secondary" className="gap-1">
+                          <Clock className="h-3 w-3" />
+                          {selectedTietSummary}
+                        </Badge>
+                        <Badge variant="secondary" className="gap-1">
+                          <Building2 className="h-3 w-3" />
+                          {selectedCampusMeta.label}
+                        </Badge>
+                        {selectedTiet.length > 0 && (
+                          <Badge variant="outline">
+                            {strictTietFilter ? 'Chỉ trong range' : 'Có overlap'}
+                          </Badge>
+                        )}
+                      </div>
+                      <ScrollBar orientation="horizontal" />
+                    </ScrollArea>
+                  </div>
+
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    className="justify-start xl:justify-center"
+                    onClick={resetTimeFilters}
+                  >
+                    <RefreshCcw className="mr-2 h-4 w-4" />
+                    Đặt lại bộ lọc
+                  </Button>
+                </div>
+              </div>
+
+              <div className="hidden w-full min-w-0 gap-3 sm:grid sm:gap-4 xl:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
+                <div className="min-w-0 rounded-2xl border bg-card p-3 shadow-sm sm:p-4">
+                  <div className="mb-4">
+                    <div className="text-sm font-semibold text-foreground">Bước 1. Chọn ngày và cơ sở</div>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      Ngày là bắt buộc. Cơ sở là tuỳ chọn nếu bạn muốn thu hẹp kết quả theo khu vực học.
+                    </p>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div>
+                      <label className="mb-2 block text-sm font-medium">Ngày trong tuần</label>
+                      <div className="grid grid-cols-4 gap-2 sm:hidden">
+                        {dayOrder.map((day) => (
+                          <button
+                            key={day}
+                            onClick={() => setSelectedDay(day)}
+                            title={dayNames[day]}
+                            className={cn(
+                              "rounded-xl border px-2 py-2.5 text-sm font-medium transition-all",
+                              selectedDay === day
+                                ? "border-primary bg-primary text-primary-foreground shadow-sm"
+                                : "border-border bg-background text-muted-foreground hover:border-primary/40 hover:bg-accent hover:text-accent-foreground"
+                            )}
+                          >
+                            {dayShortNames[day]}
+                          </button>
+                        ))}
+                      </div>
+                      <ScrollArea className="hidden w-full whitespace-nowrap sm:block">
+                        <div className="flex gap-2 pb-1">
+                          {dayOrder.map((day) => (
+                            <button
+                              key={day}
+                              onClick={() => setSelectedDay(day)}
+                              title={dayNames[day]}
+                              className={cn(
+                                "min-w-[68px] rounded-xl border px-3 py-2.5 text-sm font-medium transition-all sm:min-w-[78px] sm:px-4",
+                                selectedDay === day
+                                  ? "border-primary bg-primary text-primary-foreground shadow-sm"
+                                  : "border-border bg-background text-muted-foreground hover:border-primary/40 hover:bg-accent hover:text-accent-foreground"
+                              )}
+                            >
+                              <span>{dayNames[day]}</span>
+                            </button>
+                          ))}
+                        </div>
+                        <ScrollBar orientation="horizontal" />
+                      </ScrollArea>
+                    </div>
+
+                    <div>
+                      <label className="mb-2 block text-sm font-medium">Cơ sở</label>
+                      <div className="grid gap-2 sm:grid-cols-3">
+                        {campusOptions.map((campus) => (
+                          <button
+                            key={campus.value}
+                            onClick={() => setSelectedCampus(campus.value)}
+                            className={cn(
+                              "rounded-xl border p-3 text-left transition-all",
+                              selectedCampus === campus.value
+                                ? "border-primary bg-primary/5 shadow-sm"
+                                : "border-border bg-background hover:border-primary/30 hover:bg-accent/40"
+                            )}
+                          >
+                            <div className="text-sm font-medium text-foreground">{campus.label}</div>
+                            <div className="mt-1 text-xs text-muted-foreground">{campus.helper}</div>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="min-w-0 rounded-2xl border bg-card p-3 shadow-sm sm:p-4">
+                  <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+                    <div>
+                      <div className="text-sm font-semibold text-foreground">Bước 2. Chọn khung tiết</div>
+                      <p className="mt-1 text-xs text-muted-foreground">
+                        Có thể bỏ trống để xem toàn bộ lớp trong ngày, hoặc chọn nhiều tiết để thu hẹp phạm vi.
+                      </p>
+                    </div>
+                    {selectedTiet.length > 0 && (
+                      <Badge variant="secondary">{selectedTiet.length} tiết</Badge>
+                    )}
+                  </div>
+
+                  <div className="space-y-3">
+                    {tietGroups.map((group) => {
+                      const allGroupSelected = group.tiets.every((t) => selectedTiet.includes(t));
+
+                      return (
+                        <div key={group.label} className="rounded-xl border bg-muted/15 p-2.5 sm:p-3">
+                          <div className="mb-2 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                            <div>
+                              <div className="text-sm font-medium text-foreground">{group.label}</div>
+                              <div className="text-xs text-muted-foreground">{group.timeRange}</div>
+                            </div>
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="sm"
+                              className="justify-start sm:justify-center"
+                              onClick={() => {
+                                if (allGroupSelected) {
+                                  setSelectedTiet((prev) => prev.filter((t) => !group.tiets.includes(t)));
+                                } else {
+                                  setSelectedTiet((prev) => [...new Set([...prev, ...group.tiets])].sort((a, b) => a - b));
+                                }
+                              }}
+                            >
+                              {allGroupSelected ? 'Bỏ chọn buổi' : 'Chọn cả buổi'}
+                            </Button>
+                          </div>
+
+                          <div className="grid grid-cols-3 gap-1.5 sm:flex sm:flex-wrap sm:overflow-visible sm:pb-0">
+                            {group.tiets.map((tiet) => (
+                              <button
+                                key={tiet}
+                                onClick={() => toggleTiet(tiet)}
+                                title={`${tietTimeMap[tiet].start} - ${tietTimeMap[tiet].end}`}
+                                className={cn(
+                                  "min-w-0 rounded-xl border px-2 py-2 text-xs font-medium transition-all sm:min-w-[64px] sm:shrink-0",
+                                  selectedTiet.includes(tiet)
+                                    ? "border-primary bg-primary text-primary-foreground shadow-sm"
+                                    : "border-border bg-background text-muted-foreground hover:border-primary/30 hover:bg-accent hover:text-accent-foreground"
+                                )}
+                              >
+                                <div className="font-bold">Tiết {tiet}</div>
+                                <div className="mt-0.5 text-[10px] opacity-80">{tietTimeMap[tiet].start}</div>
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  <div className="mt-4 rounded-xl border bg-primary/5 p-3">
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                      <div>
+                        <div className="text-sm font-medium text-foreground">Chế độ lọc khung tiết</div>
+                        <p className="mt-1 text-xs text-muted-foreground">
+                          {selectedTiet.length > 0
+                            ? `${selectedTietSummary} • ${selectedTietRange}`
+                            : 'Chưa chọn tiết, hệ thống sẽ lấy toàn bộ lớp trong ngày.'}
+                        </p>
+                      </div>
+                      <div className="grid grid-cols-2 gap-1 rounded-xl bg-background p-1 sm:flex sm:gap-1">
+                        <button
+                          onClick={() => setStrictTietFilter(false)}
+                          className={cn(
+                            "w-full rounded-lg px-3 py-1.5 text-xs font-medium transition-all",
+                            !strictTietFilter
+                              ? "bg-primary text-primary-foreground shadow-sm"
+                              : "text-muted-foreground hover:bg-accent"
+                          )}
+                        >
+                          Có overlap
+                        </button>
+                        <button
+                          onClick={() => setStrictTietFilter(true)}
+                          className={cn(
+                            "w-full rounded-lg px-3 py-1.5 text-xs font-medium transition-all",
+                            strictTietFilter
+                              ? "bg-primary text-primary-foreground shadow-sm"
+                              : "text-muted-foreground hover:bg-accent"
+                          )}
+                        >
+                          Chỉ trong range
+                        </button>
+                      </div>
+                    </div>
+                    <p className="mt-2 text-xs text-amber-600 dark:text-amber-400">
+                      VD nếu chọn tiết 7-9: chế độ "Có overlap" vẫn giữ lớp 7-11, còn "Chỉ trong range" thì chỉ lấy lớp nằm hoàn toàn trong 7-9.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="hidden flex-col gap-3 rounded-2xl border bg-background p-3 sm:flex sm:flex-row sm:items-center sm:justify-between sm:p-4">
+                <div>
+                  <div className="text-sm font-semibold text-foreground">Sẵn sàng tìm lớp học</div>
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    {selectedDay === null
+                      ? 'Hãy chọn ít nhất một ngày để bắt đầu duyệt lịch giảng dạy.'
+                      : `Bạn đang duyệt ${dayNames[selectedDay]} • ${selectedTietSummary} • ${selectedCampusMeta.label}.`}
                   </p>
                 </div>
-              )}
-
-              {/* Search Button */}
-              <Button
-                onClick={searchByTime}
-                disabled={loading || selectedDay === null}
-                className="w-full h-11"
-              >
-                {loading ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  <>
-                    <Search className="h-4 w-4 mr-2" />
-                    Tìm lớp học
-                  </>
-                )}
-              </Button>
+                <Button
+                  onClick={searchByTime}
+                  disabled={loading || selectedDay === null}
+                  className="h-11 w-full sm:min-w-[180px] sm:w-auto"
+                >
+                  {loading ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <>
+                      <Sparkles className="mr-2 h-4 w-4" />
+                      Tìm lớp học
+                    </>
+                  )}
+                </Button>
+              </div>
             </div>
           )}
         </CardContent>
@@ -646,28 +984,61 @@ function TeachingScheduleTab() {
 
       {/* Results Card */}
       <Card>
-        <CardHeader className="pb-3">
-          <CardTitle className="text-base flex items-center gap-2">
-            <Calendar className="h-4 w-4" />
-            Kết quả tìm kiếm
-            {searchTab === 'time' && timeResults.length > 0 && (
-              <Badge variant="secondary" className="ml-auto">
-                {timeResults.length} lớp
-              </Badge>
+        <CardHeader className="space-y-4 pb-3">
+          <div className="flex min-w-0 flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+            <div className="space-y-1">
+              <CardTitle className="text-base flex items-center gap-2">
+                <Calendar className="h-4 w-4" />
+                Kết quả tìm kiếm
+                {hasServerResults && (
+                  <Badge variant="secondary" className="ml-1">
+                    {visibleResultsCount}/{totalResultsCount} {searchTab === 'time' ? 'lớp' : 'môn'}
+                  </Badge>
+                )}
+              </CardTitle>
+              {searchTab === 'time' && selectedDay !== null && timeResults.length > 0 && (
+                <CardDescription>
+                  Các lớp học vào {dayNames[selectedDay]}
+                  {selectedTiet.length > 0 && `, ${selectedTietSummary.toLowerCase()}`}
+                  {selectedCampus && `, ${selectedCampusMeta.label}`}
+                </CardDescription>
+              )}
+              {searchTab !== 'time' && searchResults.length > 0 && (
+                <CardDescription>
+                  Lọc nhanh kết quả hiện tại theo mã môn, tên môn, giảng viên, nhóm học hoặc phòng học.
+                </CardDescription>
+              )}
+            </div>
+
+            {hasServerResults && (
+              <div className="w-full min-w-0 lg:max-w-md">
+                <div className="relative">
+                  <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                  <Input
+                    value={resultsQuery}
+                    onChange={(e) => setResultsQuery(e.target.value)}
+                    placeholder={resultsFilterPlaceholder}
+                    className="h-11 pl-9 pr-20"
+                  />
+                  {resultsQuery.trim() && (
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="absolute right-1 top-1/2 h-8 -translate-y-1/2"
+                      onClick={() => setResultsQuery('')}
+                    >
+                      Xóa
+                    </Button>
+                  )}
+                </div>
+                <div className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
+                  <ListFilter className="h-3.5 w-3.5" />
+                  Search này chỉ lọc trên kết quả đã tải, không gọi lại server.
+                </div>
+              </div>
             )}
-            {searchTab !== 'time' && searchResults.length > 0 && (
-              <Badge variant="secondary" className="ml-auto">
-                {searchResults.length} môn
-              </Badge>
-            )}
-          </CardTitle>
-          {searchTab === 'time' && selectedDay !== null && timeResults.length > 0 && (
-            <CardDescription>
-              Các lớp học vào {dayNames[selectedDay]}
-              {selectedTiet.length > 0 && `, tiết ${selectedTiet.join(', ')}`}
-              {selectedCampus && ` tại CS${selectedCampus}`}
-            </CardDescription>
-          )}
+          </div>
         </CardHeader>
         <CardContent>
           {/* Loading */}
@@ -703,10 +1074,23 @@ function TeachingScheduleTab() {
             </div>
           )}
 
+          {!loading && !error && hasServerResults && !hasFilteredResults && (
+            <div className="flex flex-col items-center justify-center rounded-lg border-2 border-dashed bg-muted/20 py-12 text-center">
+              <Search className="mb-4 h-12 w-12 text-muted-foreground/60" />
+              <h3 className="text-lg font-semibold text-foreground">Không có kết quả phù hợp bộ lọc hiển thị</h3>
+              <p className="mt-1 max-w-md text-sm text-muted-foreground">
+                Thử từ khóa ngắn hơn hoặc tìm theo mã môn, tên môn, giảng viên, nhóm, phòng học và khung tiết.
+              </p>
+              <Button variant="ghost" className="mt-3" onClick={() => setResultsQuery('')}>
+                Xóa bộ lọc hiển thị
+              </Button>
+            </div>
+          )}
+
           {/* Time Results - Compact list */}
-          {!loading && searchTab === 'time' && timeResults.length > 0 && (
+          {!loading && searchTab === 'time' && filteredTimeResults.length > 0 && (
             <div className="space-y-2">
-              {timeResults.map((item, index) => (
+              {filteredTimeResults.map((item, index) => (
                 <div
                   key={index}
                   className="border rounded-lg p-3 hover:bg-muted/50 transition-colors"
@@ -756,9 +1140,9 @@ function TeachingScheduleTab() {
           )}
 
           {/* Regular Results */}
-          {!loading && searchTab !== 'time' && searchResults.length > 0 && (
+          {!loading && searchTab !== 'time' && filteredSearchResults.length > 0 && (
             <div className="space-y-4">
-              {searchResults.map((result, index) => (
+              {filteredSearchResults.map((result, index) => (
                 <Card key={index} className="overflow-hidden">
                   <div className="flex">
                     <div className="w-2 bg-primary shrink-0" />

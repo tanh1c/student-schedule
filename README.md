@@ -1,35 +1,28 @@
-# MyBK Student Portal (TKB Smart)
+# TKB Smart
 
-Ứng dụng full-stack giúp sinh viên HCMUT quản lý thời khóa biểu, lịch thi, GPA, CTDT, DKMH, tin nhắn LMS và một số tiện ích học tập khác.
+TKB Smart là workspace học tập dành cho sinh viên HCMUT, giúp gom các nhu cầu thường ngày vào một nơi: thời khóa biểu, lịch thi, CTĐT, GPA, roadmap học tập, ĐKMH, lịch giảng dạy và LMS.
 
-## Repo Layout
+## Highlights
 
-- `src/app/`: app shell, menu config, tab registry.
-- `src/features/`: feature entrypoints cho Registration, Messages, Roadmap, Curriculum, Deadlines.
-- `src/shared/`: shared hooks/ui/lib wrappers cho kiến trúc mới.
-- `src/components/`: phần UI hiện có và compatibility stubs trong lúc migrate dần.
-- `public/`: static assets dùng khi chạy app.
-- `server/`: backend Express + Redis + test suite.
-- Root configs: `package.json`, `vite.config.js`, `eslint.config.js`, `tailwind.config.js`, `render.yaml`.
+- Thời khóa biểu cá nhân với dữ liệu MyBK và trải nghiệm xem lịch tối ưu cho cả desktop lẫn mobile
+- Tin nhắn LMS và deadline LMS ngay trong app, có cache để dùng ổn định hơn
+- Roadmap học tập để tự lên kế hoạch từng học kỳ, đặt aim GPA và ghi chú môn học
+- CTĐT, GPA, ĐKMH và các tiện ích học tập khác trong cùng một giao diện
 
-Một số thư mục dữ liệu/crawl/backup ở root là dữ liệu cục bộ hoặc đầu vào xử lý riêng, không phải phần runtime chính của ứng dụng.
+## Quick Start
 
-## Requirements
+Yêu cầu:
 
 - Node.js 18+
 - npm
-- Redis cho backend nếu cần chạy flow đăng nhập/cache đầy đủ
+- Redis nếu muốn chạy đầy đủ các flow backend/login/cache
 
-## Install
+Cài dependencies:
 
 ```bash
 npm install
-cd server
-npm install
-cd ..
+npm --prefix server install
 ```
-
-## Environment
 
 Tạo `server/.env`:
 
@@ -41,57 +34,53 @@ CREDENTIALS_ENCRYPTION_KEY=<64-char-hex-string>
 UPSTASH_DAILY_COMMAND_LIMIT=10000
 ```
 
-Tạo key:
+Tạo key mã hóa:
 
 ```bash
 node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 ```
 
-## Development
+Chạy local:
 
-Web chạy ở `http://localhost:5173`.
+```bash
+npm run dev:all
+```
 
-Backend chạy bằng entrypoint `server/src/server.js` và mặc định nghe ở `http://localhost:3001`.
+Mặc định:
+
+- Frontend: `http://localhost:5173`
+- Backend: `http://localhost:3001`
+
+Nếu cần chạy riêng:
 
 ```bash
 npm run dev:web
 npm run dev:server
 ```
 
-Hoặc chạy cùng lúc:
-
-```bash
-npm run dev:all
-```
-
-`vite.config.js` hiện không tự mở browser để script `dev:all` chạy ổn định hơn trong môi trường local/sandbox.
-
 ## Scripts
 
-| Script | Purpose |
-| --- | --- |
-| `npm run dev` | chạy Vite dev server |
-| `npm run dev:web` | chạy frontend dev server |
-| `npm run dev:server` | chạy backend bằng `npm --prefix server run dev` |
-| `npm run dev:all` | chạy frontend + backend cùng lúc |
-| `npm run lint:web` | lint active frontend source + web configs |
-| `npm run lint:server` | lint backend source + tests |
-| `npm run lint` | chạy cả web và server lint |
-| `npm run test:server` | chạy Jest của backend theo `--runInBand` |
-| `npm run build` | build frontend production bundle |
-| `npm run preview` | preview bundle Vite |
+- `npm run dev`: chạy Vite dev server
+- `npm run dev:web`: chạy frontend
+- `npm run dev:server`: chạy backend
+- `npm run dev:all`: chạy frontend + backend cùng lúc
+- `npm run lint`: lint toàn bộ source đang active
+- `npm run test:server`: chạy test backend
+- `npm run build`: build production cho frontend
 
-## Architecture
+## Project Structure
 
-```text
-React/Vite frontend  ->  Express backend  ->  MyBK / DKMH / LMS
-                                      |
-                                      -> Redis / Upstash
-```
+- `src/app`: app shell, menu config, tab registry
+- `src/features`: các feature chính như Messages, Roadmap, Curriculum, Registration, Deadlines
+- `src/shared`: shared UI, hooks, lib
+- `server`: backend Express
+- `public`: static assets
 
-Backend production mode có thể serve luôn frontend từ `dist/`.
+## Production Notes
 
-## Quality Gates
+Backend production có thể serve trực tiếp frontend từ `dist/`. File `render.yaml` là điểm bắt đầu tốt nếu bạn muốn deploy toàn app như một web service Node.
+
+## Quality Check
 
 Trước khi commit, nên chạy:
 
@@ -101,14 +90,6 @@ npm run build
 npm run test:server
 ```
 
-## Deployment
+## Tracking
 
-`render.yaml` hiện mô tả deploy kiểu một web service Node:
-
-- build frontend ở root
-- start backend qua root `npm start`
-- backend sẽ serve static files từ `dist/` khi `NODE_ENV=production`
-
-## Refactor Tracking
-
-Tiến độ refactor hiện được track ở `REFACTOR_PROGRESS.md`.
+Tiến độ refactor hiện được ghi tại `REFACTOR_PROGRESS.md`.

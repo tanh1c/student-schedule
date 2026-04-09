@@ -111,7 +111,7 @@ export default function RegistrationTab() {
     }
 
     return (
-        <div className="space-y-4 p-3 sm:p-6 pb-24">
+        <div className="space-y-4 px-3 pt-3 pb-24 sm:px-4 sm:pt-6">
             {showBetaWarning && (
                 <BetaWarningBanner onDismiss={dismissBetaWarning} />
             )}

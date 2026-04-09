@@ -83,7 +83,7 @@ export default function DeadlinesTab() {
 
       {isOfflineMode && <DeadlinesOfflineBanner onRefresh={handleRefresh} />}
 
-      <ScrollArea className="flex-1 min-w-0 w-full max-w-full overflow-x-hidden px-1.5 sm:px-4">
+      <ScrollArea className="flex-1 min-w-0 w-full max-w-full overflow-x-hidden px-1.5 sm:px-3">
         <div className="min-w-0 w-full space-y-4 overflow-hidden py-3 sm:py-4">
           <DeadlinesToolbar
             activeFilter={activeFilter}

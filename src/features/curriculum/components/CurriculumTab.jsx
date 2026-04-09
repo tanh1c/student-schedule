@@ -178,7 +178,7 @@ export default function CurriculumTab() {
   };
 
   return (
-    <div className="mx-auto max-w-[1600px] space-y-4 p-3 md:space-y-6 md:p-6">
+    <div className="mx-auto max-w-[1600px] space-y-4 px-3 py-3 md:space-y-6 md:px-4 md:py-6">
       <CurriculumFiltersCard
         linksLoading={linksLoading}
         linksError={linksError}

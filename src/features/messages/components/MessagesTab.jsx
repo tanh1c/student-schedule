@@ -109,7 +109,11 @@ export default function MessagesTab() {
     }, []);
 
     const { pinnedMessages, unpinnedMessages } = useMemo(() => {
-        const allMessages = [...conversationMessages].reverse();
+        const allMessages = [...conversationMessages].sort((left, right) => {
+            const timeDelta = Number(right.timecreated || 0) - Number(left.timecreated || 0);
+            if (timeDelta !== 0) return timeDelta;
+            return Number(right.id || 0) - Number(left.id || 0);
+        });
         const pinnedSet = new Set(pinnedMessageIds.map((id) => Number(id)));
         return {
             pinnedMessages: allMessages.filter((message) => pinnedSet.has(Number(message.id))),

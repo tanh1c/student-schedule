@@ -41,8 +41,8 @@ export default function ConversationListView({
     togglePin
 }) {
     return (
-        <div className="h-full w-full max-w-full flex flex-col bg-gradient-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900 overflow-x-hidden overflow-hidden">
-            <div className="w-full max-w-full p-1.5 sm:p-4 border-b bg-white/80 dark:bg-slate-900/80 backdrop-blur-md sticky top-0 z-10 overflow-hidden box-border">
+        <div className="h-full w-full max-w-full flex flex-col overflow-hidden bg-gradient-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900 overflow-x-hidden">
+            <div className="sticky top-0 z-10 box-border w-full max-w-full overflow-hidden border-b bg-white/80 p-1.5 backdrop-blur-md dark:bg-slate-900/80 sm:px-3 sm:py-4">
                 <div className="flex items-center justify-between mb-2 sm:mb-4">
                     <div className="flex items-center gap-2 sm:gap-3">
                         <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-lg sm:rounded-xl bg-gradient-to-br from-violet-400 to-purple-500 flex items-center justify-center shadow-lg">
@@ -98,7 +98,7 @@ export default function ConversationListView({
             </div>
 
             {isOfflineMode && (
-                <div className="mx-2 sm:mx-4 mb-3">
+                <div className="mx-2 mb-3 sm:mx-3">
                     <div className="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-950/50 dark:to-orange-950/50 border border-amber-200 dark:border-amber-800">
                         <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center flex-shrink-0">
                             <WifiOff className="w-5 h-5 text-white" />
@@ -124,7 +124,7 @@ export default function ConversationListView({
                 </div>
             )}
 
-            <ScrollArea className="flex-1 w-full max-w-full px-1.5 sm:px-4 min-w-0 overflow-x-hidden">
+            <ScrollArea className="flex-1 min-w-0 w-full max-w-full overflow-x-hidden px-1.5 sm:px-3">
                 {conversations.length === 0 ? (
                     <div className="flex flex-col items-center justify-center py-16 text-muted-foreground">
                         <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-slate-200 to-slate-300 dark:from-slate-700 dark:to-slate-800 flex items-center justify-center mb-4">

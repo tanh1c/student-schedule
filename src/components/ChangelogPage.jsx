@@ -35,10 +35,43 @@ import {
 // Changelog data - Add new entries at the top
 const changelogData = [
     {
+        version: "2.4.0",
+        date: "2026-04-09",
+        title: "Refined Workspace Experience & Major UX Cleanup ✨",
+        isLatest: true,
+        changes: [
+            {
+                type: "improvement",
+                title: "Roadmap học tập quay lại đúng tinh thần bản gốc",
+                description: "Khôi phục lại giao diện timeline sticky-note, popup chi tiết học kỳ và flow chỉnh sửa môn học để trải nghiệm lập kế hoạch học tập trực quan, quen thuộc và giàu thông tin hơn."
+            },
+            {
+                type: "improvement",
+                title: "Nâng cấp trải nghiệm lịch học và lịch giảng dạy",
+                description: "Làm lại nhiều chi tiết UI/UX cho thời khóa biểu và lịch giảng dạy, đặc biệt trên mobile: bố cục gọn hơn, ít chiếm chỗ hơn và dễ thao tác hơn khi duyệt dữ liệu thực tế."
+            },
+            {
+                type: "improvement",
+                title: "Tin nhắn LMS hiển thị đúng ngữ cảnh hơn",
+                description: "Chi tiết conversation giờ ưu tiên tin nhắn mới nhất ở phía trên, giúp đọc các cập nhật mới nhanh hơn và bám sát kỳ vọng của người dùng chat hiện đại."
+            },
+            {
+                type: "improvement",
+                title: "Đổi theme mượt hơn, ít cảm giác lag hơn",
+                description: "Tối ưu cơ chế chuyển light/dark mode để tránh việc toàn bộ UI animate quá nhiều cùng lúc, giúp trải nghiệm đổi theme gọn và mượt hơn."
+            },
+            {
+                type: "improvement",
+                title: "Kiến trúc frontend sạch hơn sau đợt refactor lớn",
+                description: "Tách app theo `app / features / shared`, giảm kích thước các file quá lớn và chuẩn hóa lại repo để codebase dễ theo dõi, dễ sửa và dễ mở rộng hơn về lâu dài."
+            }
+        ]
+    },
+    {
         version: "2.3.0",
         date: "2026-02-18",
         title: "LMS Deadline Calendar & Offline Caching 📅",
-        isLatest: true,
+        isLatest: false,
         changes: [
             {
                 type: "feature",

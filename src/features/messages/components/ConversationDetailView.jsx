@@ -141,8 +141,8 @@ export default function ConversationDetailView({
     const isConversationPinned = pinnedIds.includes(selectedConversation.id);
 
     return (
-        <div className="h-full w-full max-w-full flex flex-col bg-gradient-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900 overflow-hidden">
-            <div className={`flex items-center gap-2 sm:gap-3 p-2.5 sm:p-4 border-b backdrop-blur-md sticky top-0 z-10 transition-colors w-full max-w-full overflow-hidden box-border ${isConversationPinned
+        <div className="h-full w-full max-w-full flex flex-col overflow-hidden bg-gradient-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900">
+            <div className={`sticky top-0 z-10 flex w-full max-w-full items-center gap-2 overflow-hidden border-b p-2.5 backdrop-blur-md transition-colors box-border sm:gap-3 sm:px-3 sm:py-4 ${isConversationPinned
                 ? "bg-amber-50/90 dark:bg-amber-950/50 border-amber-200 dark:border-amber-800"
                 : "bg-white/80 dark:bg-slate-900/80"
                 }`}>
@@ -209,7 +209,7 @@ export default function ConversationDetailView({
                 </Button>
             </div>
 
-            <ScrollArea className="flex-1 px-2 sm:px-4 w-full max-w-full overflow-x-hidden">
+            <ScrollArea className="flex-1 w-full max-w-full overflow-x-hidden px-2 sm:px-3">
                 {isLoadingMessages ? (
                     <div className="flex justify-center py-12">
                         <Loader2 className="w-8 h-8 animate-spin text-violet-500" />

@@ -106,7 +106,7 @@ export default function PeriodDetailsView({ period, details, loading, onBack }) 
     };
 
     return (
-        <div className="space-y-4 p-3 sm:p-6 pb-24">
+        <div className="space-y-4 px-3 pt-3 pb-24 sm:px-4 sm:pt-6">
             <div className={`relative overflow-hidden rounded-2xl bg-gradient-to-r ${colors.gradient} border ${colors.border} p-4 sm:p-5 shadow-sm`}>
                 <div className={`absolute -top-10 -right-10 h-32 w-32 ${colors.decoration1} rounded-full blur-2xl`} />
                 <div className={`absolute -bottom-10 -left-10 h-32 w-32 ${colors.decoration2} rounded-full blur-2xl`} />

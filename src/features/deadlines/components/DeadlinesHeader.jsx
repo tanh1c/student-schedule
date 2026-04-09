@@ -17,7 +17,7 @@ export default function DeadlinesHeader({
   onRefresh,
 }) {
   return (
-    <div className="sticky top-0 z-10 box-border w-full max-w-full overflow-hidden border-b bg-white/80 p-1.5 backdrop-blur-md dark:bg-slate-900/80 sm:p-4">
+    <div className="sticky top-0 z-10 box-border w-full max-w-full overflow-hidden border-b bg-white/80 p-1.5 backdrop-blur-md dark:bg-slate-900/80 sm:px-3 sm:py-4">
       <div className="mb-2 flex items-center justify-between sm:mb-4">
         <div className="flex items-center gap-2 sm:gap-3">
           <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-rose-400 to-red-500 shadow-lg sm:h-10 sm:w-10 sm:rounded-xl">
