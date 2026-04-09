@@ -17,11 +17,6 @@
     "start": "npm --prefix server start"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.1",
-    "@emotion/styled": "^11.11.0",
-    "@mui/icons-material": "^5.14.19",
-    "@mui/material": "^5.14.20",
-    "@mui/x-date-pickers": "^6.18.2",
     "@radix-ui/react-dialog": "^1.1.15",
     "@radix-ui/react-popover": "^1.1.15",
     "@radix-ui/react-scroll-area": "^1.2.10",
@@ -33,7 +28,6 @@
     "cmdk": "^1.1.1",
     "cors": "^2.8.5",
     "date-fns": "^4.1.0",
-    "dayjs": "^1.11.10",
     "dotenv": "^17.2.3",
     "express": "^4.21.0",
     "express-rate-limit": "^8.2.1",

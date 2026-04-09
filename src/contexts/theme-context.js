@@ -1,11 +1,16 @@
-import { createContext, useContext } from "react";
-
-export const ThemeContext = createContext(null);
+import { useTheme } from "next-themes";
 
 export function useThemeMode() {
-  const context = useContext(ThemeContext);
-  if (!context) {
-    throw new Error("useThemeMode must be used within a ThemeContextProvider");
-  }
-  return context;
+  const { resolvedTheme, setTheme, theme } = useTheme();
+
+  const activeTheme =
+    resolvedTheme ?? (theme === "dark" || theme === "light" ? theme : "light");
+
+  return {
+    theme: activeTheme,
+    darkMode: activeTheme === "dark",
+    toggleDarkMode: () => {
+      setTheme(activeTheme === "dark" ? "light" : "dark");
+    },
+  };
 }
