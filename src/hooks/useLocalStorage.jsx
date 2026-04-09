@@ -28,14 +28,18 @@ export const useLocalStorage = (key, initialValue) => {
   return [storedValue, setValue];
 };
 
-// Helper to calculate current semester week (ISO week number)
+// Helper to calculate current week number
+// Week 1 = tuần chứa ngày 1/1 của năm, bắt đầu từ thứ Hai
+// Ví dụ: 1/1/2026 là thứ 5 => Tuần 1 bắt đầu từ thứ 2 ngày 29/12/2025
 const getCurrentSemesterWeek = () => {
   const now = new Date();
-  const start = new Date(now.getFullYear(), 0, 1);
-  const diff = now - start;
-  const oneWeek = 1000 * 60 * 60 * 24 * 7;
-  // Math.ceil already gives week 1 for day 1-7, week 2 for day 8-14, etc.
-  return Math.ceil(diff / oneWeek);
+  const year = now.getFullYear();
+  const jan1 = new Date(year, 0, 1);
+  const jan1Day = jan1.getDay(); // 0=CN, 1=T2, ..., 6=T7
+  const daysToMonday = jan1Day === 0 ? -6 : 1 - jan1Day;
+  const week1Monday = new Date(year, 0, 1 + daysToMonday);
+  const diffDays = Math.floor((now - week1Monday) / (1000 * 60 * 60 * 24));
+  return Math.floor(diffDays / 7) + 1;
 };
 
 // Hook for managing schedule data
