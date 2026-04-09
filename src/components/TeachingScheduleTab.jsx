@@ -219,7 +219,7 @@ function TeachingScheduleTab() {
         setError('Không tìm thấy môn học');
       }
       setSearchResults(data);
-    } catch (e) {
+    } catch {
       setError('Lỗi kết nối server');
     } finally {
       setLoading(false);
@@ -240,7 +240,7 @@ function TeachingScheduleTab() {
         setError('Không tìm thấy giảng viên');
       }
       setSearchResults(data);
-    } catch (e) {
+    } catch {
       setError('Lỗi kết nối server');
     } finally {
       setLoading(false);
@@ -280,7 +280,7 @@ function TeachingScheduleTab() {
         setError('Không tìm thấy lớp học nào trong thời gian đã chọn');
       }
       setTimeResults(data);
-    } catch (e) {
+    } catch {
       setError('Lỗi kết nối server');
     } finally {
       setLoading(false);

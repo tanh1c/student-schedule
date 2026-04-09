@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState } from "react";
 import {
     HardDrive,
     Database,
@@ -23,10 +23,10 @@ import { ScrollArea } from "./ui/scroll-area";
 export default function LocalStorageViewer() {
     const [showDetails, setShowDetails] = useState(true);
     const [searchQuery, setSearchQuery] = useState("");
-    const [refreshKey, setRefreshKey] = useState(0);
+    const [, setRefreshKey] = useState(0);
 
     // Calculate storage statistics for ALL localStorage items
-    const storageStats = useMemo(() => {
+    const storageStats = (() => {
         const items = [];
         let totalBytes = 0;
 
@@ -64,17 +64,17 @@ export default function LocalStorageViewer() {
             totalFormatted: formatBytes(totalBytes),
             itemCount: items.length
         };
-    }, [refreshKey]);
+    })();
 
     // Filter items based on search query
-    const filteredItems = useMemo(() => {
+    const filteredItems = (() => {
         if (!searchQuery.trim()) return storageStats.items;
         const query = searchQuery.toLowerCase();
         return storageStats.items.filter(
             item => item.key.toLowerCase().includes(query) ||
                 item.category.toLowerCase().includes(query)
         );
-    }, [storageStats.items, searchQuery]);
+    })();
 
     // Format bytes to human readable
     function formatBytes(bytes) {

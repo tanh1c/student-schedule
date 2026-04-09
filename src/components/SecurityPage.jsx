@@ -113,7 +113,7 @@ function ApiEndpointCard({ endpoint, method, description, dataFlow, security }) 
 }
 
 // Security Feature Card
-function SecurityFeatureCard({ icon: Icon, title, description, status, color }) {
+function SecurityFeatureCard({ icon: IconComponent, title, description, status, color }) {
     const colorSchemes = {
         green: {
             gradient: "from-emerald-50 via-green-50 to-teal-50 dark:from-emerald-950/20 dark:via-green-950/15 dark:to-teal-950/20",
@@ -146,6 +146,9 @@ function SecurityFeatureCard({ icon: Icon, title, description, status, color }) 
     };
 
     const scheme = colorSchemes[color] || colorSchemes.green;
+    const iconNode = React.createElement(IconComponent, {
+        className: "h-5 w-5 text-white"
+    });
 
     return (
         <div className={`relative overflow-hidden rounded-2xl bg-gradient-to-br ${scheme.gradient} border ${scheme.border} p-4 shadow-sm`}>
@@ -157,7 +160,7 @@ function SecurityFeatureCard({ icon: Icon, title, description, status, color }) 
             )}
             <div className="relative flex items-start gap-4">
                 <div className={`h-10 w-10 rounded-xl bg-gradient-to-br ${scheme.iconBg} flex items-center justify-center shadow-lg ${scheme.iconShadow} shrink-0`}>
-                    <Icon className="h-5 w-5 text-white" />
+                    {iconNode}
                 </div>
                 <div className="flex-1 min-w-0 pr-10">
                     <h3 className={`font-bold mb-1 ${scheme.text}`}>{title}</h3>

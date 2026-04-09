@@ -29,20 +29,6 @@ import { Badge } from "./ui/badge";
 const GITHUB_OWNER = "tanh1c";
 const GITHUB_REPO = "student-schedule";
 
-// Special roles for known contributors (optional customization)
-const specialRoles = {
-    "tanh1c": {
-        role: "Creator & Lead Developer",
-        type: "creator",
-        badgeType: "founder"
-    },
-    "HThanh-how": {
-        role: "Backend Developer",
-        type: "core",
-        badgeType: "core"
-    }
-};
-
 // Badge configurations with icons and premium styling
 const badgeConfig = {
     founder: {
@@ -102,16 +88,6 @@ const badgeConfig = {
         animation: ""
     }
 };
-
-// Manual contributors - for those who have commits in unmerged branches
-// These will be added even if GitHub API doesn't return them
-const manualContributors = [
-    {
-        github: "HThanh-how",
-        commits: 8, // From git shortlog
-        note: "Commits in feature/server-refactor branch"
-    }
-];
 
 // Fallback data when GitHub API is rate limited
 const fallbackContributors = [

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import {
     Download,
     Upload,
@@ -31,9 +31,7 @@ import LZString from "lz-string";
 
 export default function DataManagement() {
     const [lastBackup, setLastBackup] = useState(localStorage.getItem("last_backup_time") || "Chưa có");
-    const [isImporting, setIsImporting] = useState(false);
     const [showQr, setShowQr] = useState(false);
-    const [syncLink, setSyncLink] = useState("");
     const [copied, setCopied] = useState(false);
     const fileInputRef = useRef(null);
 
@@ -56,7 +54,7 @@ export default function DataManagement() {
             if (appKeys.includes(key)) {
                 try {
                     data[key] = JSON.parse(localStorage.getItem(key));
-                } catch (e) {
+                } catch {
                     data[key] = localStorage.getItem(key);
                 }
             }
@@ -64,17 +62,14 @@ export default function DataManagement() {
         return data;
     };
 
-    // Tạo link đồng bộ nén
-    useEffect(() => {
-        if (showQr) {
-            const data = getAllData();
-            const jsonStr = JSON.stringify(data);
-            const compressed = LZString.compressToEncodedURIComponent(jsonStr);
-            // Giới hạn độ dài URL (thường là 2000-8000 tùy trình duyệt)
-            // Nếu quá dài, link sẽ không hoạt động tốt, nhưng tối ưu cho các data nhỏ
-            const url = `${window.location.origin}${window.location.pathname}#sync=${compressed}`;
-            setSyncLink(url);
-        }
+    const syncLink = useMemo(() => {
+        if (!showQr) return "";
+
+        const data = getAllData();
+        const jsonStr = JSON.stringify(data);
+        const compressed = LZString.compressToEncodedURIComponent(jsonStr);
+
+        return `${window.location.origin}${window.location.pathname}#sync=${compressed}`;
     }, [showQr]);
 
     // Check hash for sync data on mount
@@ -144,7 +139,7 @@ export default function DataManagement() {
                     });
                     window.location.reload();
                 }
-            } catch (err) {
+            } catch {
                 alert("Lỗi: File JSON không hợp lệ hoặc bị hỏng.");
             }
         };

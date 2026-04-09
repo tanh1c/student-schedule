@@ -94,7 +94,7 @@ export const searchByName = async (courseName) => {
   // Simulate API delay
   await new Promise(resolve => setTimeout(resolve, 500));
   
-  const matchingCourses = Object.entries(mockTeachingData).filter(([code, data]) =>
+  const matchingCourses = Object.entries(mockTeachingData).filter(([, data]) =>
     data.courseName.toLowerCase().includes(courseName.toLowerCase())
   );
   
@@ -106,7 +106,7 @@ export const searchByName = async (courseName) => {
 };
 
 export const getTeachersForCourse = (courseName) => {
-  const courseEntry = Object.entries(mockTeachingData).find(([code, data]) =>
+  const courseEntry = Object.entries(mockTeachingData).find(([, data]) =>
     data.courseName.toLowerCase() === courseName.toLowerCase()
   );
   
@@ -118,7 +118,7 @@ export const getTeachersForCourse = (courseName) => {
 };
 
 export const getScheduleForTeacher = (courseName, teacherName) => {
-  const courseEntry = Object.entries(mockTeachingData).find(([code, data]) =>
+  const courseEntry = Object.entries(mockTeachingData).find(([, data]) =>
     data.courseName.toLowerCase() === courseName.toLowerCase()
   );
   

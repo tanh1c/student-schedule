@@ -334,7 +334,7 @@ function ReleaseCard({ version, date, title, changes, isLatest }) {
 }
 
 // Stats Feature Card - Similar to SecurityFeatureCard
-function StatsFeatureCard({ icon: Icon, title, value, color }) {
+function StatsFeatureCard({ icon: IconComponent, title, value, color }) {
     const colorSchemes = {
         green: {
             gradient: "from-emerald-50 via-green-50 to-teal-50 dark:from-emerald-950/20 dark:via-green-950/15 dark:to-teal-950/20",
@@ -371,13 +371,16 @@ function StatsFeatureCard({ icon: Icon, title, value, color }) {
     };
 
     const scheme = colorSchemes[color] || colorSchemes.blue;
+    const iconNode = React.createElement(IconComponent, {
+        className: "h-4 w-4 sm:h-5 sm:w-5 text-white"
+    });
 
     return (
         <div className={`relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-br ${scheme.gradient} border ${scheme.border} p-3 sm:p-4 shadow-sm`}>
             <div className="absolute -top-8 -right-8 h-20 w-20 bg-white/20 dark:bg-white/5 rounded-full blur-xl" />
             <div className="relative flex items-center gap-2 sm:gap-4">
                 <div className={`h-8 w-8 sm:h-10 sm:w-10 rounded-lg sm:rounded-xl bg-gradient-to-br ${scheme.iconBg} flex items-center justify-center shadow-lg ${scheme.iconShadow} shrink-0`}>
-                    <Icon className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
+                    {iconNode}
                 </div>
                 <div className="flex-1 min-w-0">
                     <p className={`text-lg sm:text-2xl font-black ${scheme.value}`}>{value}</p>
@@ -687,7 +690,7 @@ export default function ChangelogPage() {
                         )}
                     </div>
                     <div className="space-y-3">
-                        {displayedReleases.map((release, idx) => (
+                        {displayedReleases.map((release) => (
                             <ReleaseCard
                                 key={release.version}
                                 {...release}

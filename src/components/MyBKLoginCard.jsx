@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
     LogIn,
     LogOut,
@@ -28,7 +28,6 @@ import { Input } from "./ui/input";
 import { Badge } from "./ui/badge";
 import { Separator } from "./ui/separator";
 import { Card, CardContent } from "./ui/card";
-import { cn } from "@/lib/utils";
 
 /**
  * Generate semester options for dropdown
@@ -61,12 +60,6 @@ function getSemesterOptions() {
  * Get current semester code
  */
 function getCurrentSemester() {
-    const currentYear = new Date().getFullYear();
-    const currentMonth = new Date().getMonth() + 1;
-
-    // Semester 1: August to January (Aug 2025 - Jan 2026 = 20251)
-    // Semester 2: February to July (Feb 2026 - Jul 2026 = 20252)
-
     // Hardcoded to HK2 2025-2026 as per user request
     return '20252';
 
@@ -107,43 +100,9 @@ function MyBKLoginCard({ onScheduleFetched, onError, onLoginSuccess }) {
     const [serverStats, setServerStats] = useState(null);
     const [retryCountdown, setRetryCountdown] = useState(0);
 
-    const semesterOptions = getSemesterOptions();
+    const semesterOptions = useMemo(() => getSemesterOptions(), []);
 
-    useEffect(() => {
-        checkServerStatus();
-
-        if (mybkApi.isAuthenticated()) {
-            setIsLoggedIn(true);
-            loadStudentInfo();
-        } else if (mybkApi.hasSavedCredentials()) {
-            // Has saved credentials — will auto-login once server is confirmed online
-            setRememberMe(true);
-            setAutoLoginAttempted(true);
-        }
-    }, []);
-
-    // Auto-login via saved credentials when server is confirmed online
-    useEffect(() => {
-        if (autoLoginAttempted && serverStatus === 'online' && !isLoggedIn && !loading && !serverBusy) {
-            handleAutoLogin();
-        }
-    }, [autoLoginAttempted, serverStatus]);
-
-    // Countdown timer for retry — auto-retry when countdown reaches 0
-    useEffect(() => {
-        if (retryCountdown > 0) {
-            const timer = setTimeout(() => {
-                setRetryCountdown(prev => prev - 1);
-            }, 1000);
-            return () => clearTimeout(timer);
-        } else if (retryCountdown === 0 && serverBusy && !loading) {
-            // Auto retry login when countdown reaches 0
-            console.log('[Auto-Retry] Countdown ended, attempting login...');
-            handleLogin();
-        }
-    }, [retryCountdown, serverBusy, loading]);
-
-    const fetchServerStats = async () => {
+    const fetchServerStats = useCallback(async () => {
         try {
             const response = await fetch('/api/stats');
             if (response.ok) {
@@ -153,36 +112,36 @@ function MyBKLoginCard({ onScheduleFetched, onError, onLoginSuccess }) {
                     setServerBusy(false);
                 }
             }
-        } catch (err) {
+        } catch {
             console.log('Could not fetch server stats');
         }
-    };
+    }, []);
 
-    const checkServerStatus = async () => {
+    const checkServerStatus = useCallback(async () => {
         try {
             const response = await fetch('/api/health');
             if (response.ok) {
                 setServerStatus('online');
-                fetchServerStats();
+                void fetchServerStats();
             } else {
                 setServerStatus('offline');
             }
-        } catch (err) {
+        } catch {
             setServerStatus('offline');
         }
-    };
+    }, [fetchServerStats]);
 
-    const loadStudentInfo = async () => {
+    const loadStudentInfo = useCallback(async () => {
         const result = await mybkApi.getStudentInfo();
         if (result.success && result.data) {
             setStudentInfo(result.data);
         }
-    };
+    }, []);
 
     /**
      * Auto-login using saved credentials (from localStorage)
      */
-    const handleAutoLogin = async () => {
+    const handleAutoLogin = useCallback(async () => {
         const saved = mybkApi.getSavedCredentials();
         if (!saved) {
             setAutoLoginAttempted(false);
@@ -211,9 +170,9 @@ function MyBKLoginCard({ onScheduleFetched, onError, onLoginSuccess }) {
         } finally {
             setLoading(false);
         }
-    };
+    }, [loadStudentInfo, onLoginSuccess]);
 
-    const handleLogin = async (e) => {
+    const handleLogin = useCallback(async (e) => {
         e?.preventDefault();
         setError('');
         setLoading(true);
@@ -250,12 +209,48 @@ function MyBKLoginCard({ onScheduleFetched, onError, onLoginSuccess }) {
                     setError(result.error || 'Đăng nhập thất bại');
                 }
             }
-        } catch (err) {
+        } catch {
             setError('Không thể kết nối đến server');
         } finally {
             setLoading(false);
         }
-    };
+    }, [fetchServerStats, loadStudentInfo, onLoginSuccess, password, rememberMe, username]);
+
+    useEffect(() => {
+        void checkServerStatus();
+
+        if (mybkApi.isAuthenticated()) {
+            setIsLoggedIn(true);
+            void loadStudentInfo();
+        } else if (mybkApi.hasSavedCredentials()) {
+            // Has saved credentials — will auto-login once server is confirmed online
+            setRememberMe(true);
+            setAutoLoginAttempted(true);
+        }
+    }, [checkServerStatus, loadStudentInfo]);
+
+    // Auto-login via saved credentials when server is confirmed online
+    useEffect(() => {
+        if (autoLoginAttempted && serverStatus === 'online' && !isLoggedIn && !loading && !serverBusy) {
+            void handleAutoLogin();
+        }
+    }, [autoLoginAttempted, handleAutoLogin, isLoggedIn, loading, serverBusy, serverStatus]);
+
+    // Countdown timer for retry — auto-retry when countdown reaches 0
+    useEffect(() => {
+        if (retryCountdown > 0) {
+            const timer = setTimeout(() => {
+                setRetryCountdown(prev => prev - 1);
+            }, 1000);
+            return () => clearTimeout(timer);
+        }
+
+        if (retryCountdown === 0 && serverBusy && !loading) {
+            // Auto retry login when countdown reaches 0
+            console.log('[Auto-Retry] Countdown ended, attempting login...');
+            void handleLogin();
+        }
+    }, [handleLogin, loading, retryCountdown, serverBusy]);
 
     const handleLogout = async (clearRemembered = false) => {
         await mybkApi.logout(clearRemembered);

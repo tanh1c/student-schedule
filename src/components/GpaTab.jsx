@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { RefreshCw, PenLine, GraduationCap } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import GpaTabContent from "./GpaTabContent";

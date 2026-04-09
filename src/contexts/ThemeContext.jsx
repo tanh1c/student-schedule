@@ -1,16 +1,7 @@
-import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { ThemeProvider as MuiThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-
-const ThemeContext = createContext(null);
-
-export const useThemeMode = () => {
-  const context = useContext(ThemeContext);
-  if (!context) {
-    throw new Error("useThemeMode must be used within a ThemeContextProvider");
-  }
-  return context;
-};
+import { ThemeContext } from "./theme-context";
 
 // Create MUI theme based on mode
 const createMuiTheme = (mode) => {

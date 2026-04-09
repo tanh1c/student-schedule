@@ -516,9 +516,8 @@ export default function ManualGpaCalculator() {
                             </div>
 
                             {/* Course Rows */}
-                            {courses.map((course, idx) => {
+                            {courses.map((course) => {
                                 const letterGrade = getLetterGrade(course.score);
-                                const gpa4 = convertToGpa4(course.score);
 
                                 return (
                                     <div

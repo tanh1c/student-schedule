@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   Calculator,
   RotateCcw,
@@ -32,6 +32,71 @@ import {
 } from "./ui/table";
 import mybkApi from "../services/mybkApi";
 
+function convertToGpa4(score10) {
+  const score = parseFloat(score10);
+  if (score >= 8.5) return 4.0;
+  if (score >= 8.0) return 3.5;
+  if (score >= 7.0) return 3.0;
+  if (score >= 6.5) return 2.5;
+  if (score >= 5.5) return 2.0;
+  if (score >= 5.0) return 1.5;
+  if (score >= 4.0) return 1.0;
+  return 0.0;
+}
+
+function getLetterGrade(score10) {
+  const score = parseFloat(score10);
+  if (score >= 9.5) return 'A+';
+  if (score >= 8.5) return 'A';
+  if (score >= 8.0) return 'B+';
+  if (score >= 7.0) return 'B';
+  if (score >= 6.5) return 'C+';
+  if (score >= 5.5) return 'C';
+  if (score >= 5.0) return 'D+';
+  if (score >= 4.0) return 'D';
+  return 'F';
+}
+
+function calculatePreciseCurrentGpa(rawDetails) {
+  if (!rawDetails || rawDetails.length === 0) return null;
+
+  let totalGpaCredits = 0;
+  let totalScore10 = 0;
+  let totalScore4 = 0;
+  let totalAccumulatedCredits = 0;
+
+  rawDetails.forEach(item => {
+    const credits = parseFloat(item.sotc) || 0;
+    if (!item.mamonhoc || credits === 0) return;
+
+    if (item.diemso && item.diemso !== "--" && !isNaN(parseFloat(item.diemso))) {
+      const score10 = parseFloat(item.diemso);
+
+      if (score10 >= 4.0) {
+        totalAccumulatedCredits += credits;
+      }
+
+      if (score10 >= 0 && score10 <= 10) {
+        totalGpaCredits += credits;
+        const score4 = convertToGpa4(score10);
+        totalScore10 += score10 * credits;
+        totalScore4 += score4 * credits;
+      }
+    }
+  });
+
+  if (totalGpaCredits === 0) return null;
+
+  return {
+    gpa10: totalScore10 / totalGpaCredits,
+    gpa4: totalScore4 / totalGpaCredits,
+    accumulatedCredits: totalAccumulatedCredits,
+    baseGpaCredits: totalGpaCredits,
+    baseScore10: totalScore10,
+    baseScore4: totalScore4
+  };
+}
+
 export default function GpaTabContent() {
   const [isSyncing, setIsSyncing] = useState(false);
   const [summary, setSummary] = useState(null);
@@ -40,11 +105,11 @@ export default function GpaTabContent() {
   const [rawDetails, setRawDetails] = useState([]);
   const [predictedScores, setPredictedScores] = useState({});
   const [prediction, setPrediction] = useState(null);
-  const [preciseState, setPreciseState] = useState(null);
   const [activeGroup, setActiveGroup] = useState(null);
   const [showNav, setShowNav] = useState(false);
   const [expandedGroups, setExpandedGroups] = useState({});
   const [editingSubjects, setEditingSubjects] = useState({});
+  const preciseState = useMemo(() => calculatePreciseCurrentGpa(rawDetails), [rawDetails]);
 
   // Load data from localStorage on mount
   useEffect(() => {
@@ -86,78 +151,6 @@ export default function GpaTabContent() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [groupedCourses]);
 
-  const convertToGpa4 = (score10) => {
-    const score = parseFloat(score10);
-    if (score >= 8.5) return 4.0;
-    if (score >= 8.0) return 3.5;
-    if (score >= 7.0) return 3.0;
-    if (score >= 6.5) return 2.5;
-    if (score >= 5.5) return 2.0;
-    if (score >= 5.0) return 1.5;
-    if (score >= 4.0) return 1.0;
-    return 0.0;
-  };
-
-  const getLetterGrade = (score10) => {
-    const score = parseFloat(score10);
-    if (score >= 9.5) return 'A+';
-    if (score >= 8.5) return 'A';
-    if (score >= 8.0) return 'B+';
-    if (score >= 7.0) return 'B';
-    if (score >= 6.5) return 'C+';
-    if (score >= 5.5) return 'C';
-    if (score >= 5.0) return 'D+';
-    if (score >= 4.0) return 'D';
-    return 'F';
-  };
-
-  const calculatePreciseCurrentGpa = () => {
-    if (!rawDetails || rawDetails.length === 0) return null;
-
-    let totalGpaCredits = 0;
-    let totalScore10 = 0;
-    let totalScore4 = 0;
-    let totalAccumulatedCredits = 0;
-
-    rawDetails.forEach(item => {
-      const credits = parseFloat(item.sotc) || 0;
-      if (!item.mamonhoc || credits === 0) return;
-
-      if (item.diemso && item.diemso !== "--" && !isNaN(parseFloat(item.diemso))) {
-        const score10 = parseFloat(item.diemso);
-
-        if (score10 >= 4.0) {
-          totalAccumulatedCredits += credits;
-        }
-
-        if (score10 >= 0 && score10 <= 10) {
-          totalGpaCredits += credits;
-          const score4 = convertToGpa4(score10);
-          totalScore10 += score10 * credits;
-          totalScore4 += score4 * credits;
-        }
-      }
-    });
-
-    if (totalGpaCredits === 0) return null;
-
-    return {
-      gpa10: totalScore10 / totalGpaCredits,
-      gpa4: totalScore4 / totalGpaCredits,
-      accumulatedCredits: totalAccumulatedCredits,
-      baseGpaCredits: totalGpaCredits,
-      baseScore10: totalScore10,
-      baseScore4: totalScore4
-    };
-  };
-
-  useEffect(() => {
-    if (rawDetails.length > 0) {
-      const calculated = calculatePreciseCurrentGpa();
-      setPreciseState(calculated);
-    }
-  }, [rawDetails]);
-
   // Re-calculation logic: Tính lại GPA từ đầu khi có điểm Aim
   // Thay vì cộng dồn (additive), ta duyệt toàn bộ rawDetails và thay thế điểm gốc bằng điểm Aim
   useEffect(() => {
@@ -184,8 +177,6 @@ export default function GpaTabContent() {
       if (!item.mamonhoc || credits === 0) return;
 
       let score10 = null;
-      let isAimScore = false;
-
       // Kiểm tra xem môn này có điểm Aim không
       if (predictedScores[item.mamonhoc] !== undefined &&
         predictedScores[item.mamonhoc] !== "" &&
@@ -193,7 +184,6 @@ export default function GpaTabContent() {
         const aimScore = parseFloat(predictedScores[item.mamonhoc]);
         if (!isNaN(aimScore) && aimScore >= 0 && aimScore <= 10) {
           score10 = aimScore;
-          isAimScore = true;
           hasAnyAimScore = true;
         }
       }
@@ -600,7 +590,6 @@ export default function GpaTabContent() {
                               const upper = String(displayGrade).toUpperCase();
                               const isHigh = upper === 'A+' || upper === 'A';
                               const isMid = upper === 'B+' || upper === 'B' || upper === 'C+' || upper === 'C';
-                              const isLow = !isHigh && !isMid;
 
                               const colorClass = isHigh
                                 ? 'text-green-600'
@@ -841,7 +830,6 @@ function MobileSubjectCard({ subject, predictedScore, onScoreChange, onStartEdit
                   const upper = String(sub.grade).toUpperCase();
                   const isHigh = upper === 'A+' || upper === 'A';
                   const isMid = upper === 'B+' || upper === 'B' || upper === 'C+' || upper === 'C';
-                  const isLow = !isHigh && !isMid;
 
                   const colorClass = isHigh
                     ? 'text-green-600'

@@ -43,7 +43,6 @@ function CampusMapTab() {
   const [distance, setDistance] = useState(null);
   const [estimatedTime, setEstimatedTime] = useState(null);
   const [locationError, setLocationError] = useState(null);
-  const [selectedLocation, setSelectedLocation] = useState(null);
   const mapRef = useRef(null);
 
   const getCurrentLocation = useCallback(() => {
@@ -165,7 +164,6 @@ function CampusMapTab() {
                   <MapMarker
                     longitude={HCMUT_LNG}
                     latitude={HCMUT_LAT}
-                    onClick={() => setSelectedLocation('main')}
                   >
                     <MarkerContent>
                       <div className="relative">

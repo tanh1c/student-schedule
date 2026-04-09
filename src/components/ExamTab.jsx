@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Calendar,
   Clock,
@@ -97,19 +97,7 @@ export default function ExamTab() {
     localStorage.setItem('examSelectedSemester', selectedSemester.toString());
   }, [selectedYear, selectedSemester]);
 
-  useEffect(() => {
-    if (studentId) {
-      // Create a key to check if we need to refetch
-      const fetchKey = `${studentId}-${selectedYear}-${selectedSemester}`;
-
-      // Only fetch if the key changed or we have no cached data
-      if (fetchKey !== lastFetchKey || exams.length === 0) {
-        fetchExamSchedule(fetchKey);
-      }
-    }
-  }, [studentId, selectedYear, selectedSemester]);
-
-  const fetchExamSchedule = async (fetchKey) => {
+  const fetchExamSchedule = useCallback(async (fetchKey) => {
     if (!studentId) {
       setError('Không tìm thấy thông tin sinh viên. Vui lòng đăng nhập!');
       return;
@@ -143,7 +131,26 @@ export default function ExamTab() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [selectedSemester, selectedYear, studentId]);
+
+  useEffect(() => {
+    if (!studentId) {
+      return;
+    }
+
+    const fetchKey = `${studentId}-${selectedYear}-${selectedSemester}`;
+
+    if (fetchKey !== lastFetchKey || exams.length === 0) {
+      void fetchExamSchedule(fetchKey);
+    }
+  }, [
+    exams.length,
+    fetchExamSchedule,
+    lastFetchKey,
+    selectedSemester,
+    selectedYear,
+    studentId,
+  ]);
 
   const formatDate = (dateStr) => {
     if (!dateStr) return '';
