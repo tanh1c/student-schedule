@@ -10,28 +10,30 @@ import {
   ScrollText,
   Settings,
 } from "lucide-react";
+import { scheduleTabMeta } from "@features/schedule/constants/meta";
 import { curriculumTabMeta } from "@features/curriculum/constants/meta";
 import { deadlinesTabMeta } from "@features/deadlines/constants/meta";
+import { examTabMeta } from "@features/exam/constants/meta";
+import { gpaTabMeta } from "@features/gpa/constants/meta";
 import { messagesTabMeta } from "@features/messages/constants/meta";
 import {
   previewRegistrationTabMeta,
   registrationTabMeta,
 } from "@features/registration/constants/meta";
 import { roadmapTabMeta } from "@features/roadmap/constants/meta";
+import { settingsTabMeta } from "@features/settings/constants/meta";
+import { teachingScheduleTabMeta } from "@features/teaching-schedule/constants/meta";
+import { notesPlansTabMeta } from "@features/notes-plans/constants/meta";
 
 export const defaultTabId = "schedule";
 
 export const menuItems = [
   {
-    id: "schedule",
-    label: "Thời khóa biểu",
-    shortLabel: "TKB",
+    ...scheduleTabMeta,
     icon: CalendarClock,
   },
   {
-    id: "exam",
-    label: "Lịch thi",
-    shortLabel: "Thi",
+    ...examTabMeta,
     icon: NotebookPen,
   },
   {
@@ -39,21 +41,15 @@ export const menuItems = [
     icon: GraduationCap,
   },
   {
-    id: "gpa",
-    label: "Tính GPA",
-    shortLabel: "GPA",
+    ...gpaTabMeta,
     icon: BadgePercent,
   },
   {
-    id: "teaching",
-    label: "Lịch giảng dạy",
-    shortLabel: "Dạy",
+    ...teachingScheduleTabMeta,
     icon: LayoutDashboard,
   },
   {
-    id: "notes",
-    label: "Ghi chú",
-    shortLabel: "Note",
+    ...notesPlansTabMeta,
     icon: ScrollText,
   },
   {
@@ -77,9 +73,7 @@ export const menuItems = [
     icon: ScrollText,
   },
   {
-    id: "settings",
-    label: "Cài đặt",
-    shortLabel: "CĐ",
+    ...settingsTabMeta,
     icon: Settings,
   },
 ];

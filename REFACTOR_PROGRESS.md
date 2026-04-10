@@ -7,6 +7,7 @@
 - [x] Make the repo cleaner and easier to maintain without changing public runtime APIs.
 - [x] Finish Phase 1 so lint, build, and server tests are trustworthy on active source.
 - [x] Finish Phase 2 so frontend structure moves toward `app/features/shared`.
+- [x] Extend the follow-up waves until all `12/12` tabs are featureized.
 
 # Phase 1 Checklist
 
@@ -42,6 +43,10 @@ Exit Criteria: active source is green on lint/build/test, docs match reality, an
 - [x] Refactor Deadlines feature.
 - [x] Split large feature entrypoints into container + feature-scoped components/utils for the main high-risk tabs.
 - [x] Re-run smoke checks for navigation, login, data fetch, and persisted local state.
+- [x] Featureize Notes & Plans.
+- [x] Featureize GPA.
+- [x] Featureize Settings.
+- [x] Featureize Exam.
 
 Exit Criteria: app shell is thin, touched feature files live behind feature entrypoints, and the new directory structure reflects product domains instead of one flat component bucket.
 
@@ -50,6 +55,8 @@ Exit Criteria: app shell is thin, touched feature files live behind feature entr
 - [x] Branch naming stays `refactor/repo-hygiene-foundation`.
 - [x] `server/backup` is currently untracked local data; avoid deleting it blindly during cleanup.
 - [x] High-risk feature entrypoints are now much smaller: Registration `1106 -> 189`, Messages `1102 -> 355`, Roadmap `1381 -> 422`, Curriculum `847 -> 195`, Deadlines `849 -> 126`.
+- [x] All `12/12` tabs now live behind `src/features/*` entrypoints.
+- [x] No page-level files remain above `800` lines; the largest remaining file over that threshold is shared UI infra `src/components/ui/map.jsx`.
 - [~] The biggest remaining frontend follow-up is bundle size and route/code splitting; the `CurriculumTab.jsx` and `DeadlinesTab.jsx` container follow-up is complete.
 - [ ] Confirm whether any ignored data folders should become documented external inputs later.
 
@@ -69,3 +76,6 @@ Exit Criteria: app shell is thin, touched feature files live behind feature entr
 - [x] Post-refactor deep pass: `npm run test:server`
 - [x] Follow-up split pass: `CurriculumTab.jsx` `502 -> 195`, `DeadlinesTab.jsx` `552 -> 126`
 - [x] Post-follow-up headless smoke: Curriculum/Deadlines split rechecked with landing, theme persistence, CTĐT, Roadmap, ĐKMH, Messages, Deadlines, and MyBK login CTA
+- [x] Wave 3/4/5/6 follow-up pass: `notes-plans`, `gpa`, `settings`, and `exam` moved into `src/features/*`
+- [x] Final architecture pass: `npm run lint`
+- [x] Final architecture pass: `npm run build`

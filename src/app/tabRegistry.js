@@ -1,15 +1,17 @@
-import CurriculumTab from "@features/curriculum";
-import DeadlinesTab from "@features/deadlines";
-import MessagesTab from "@features/messages";
-import PreviewRegistrationTab from "@features/registration/PreviewRegistrationTab";
-import RegistrationTab from "@features/registration";
-import RoadmapTab from "@features/roadmap";
-import ExamTab from "@components/ExamTab";
-import GpaTab from "@components/GpaTab";
-import NotesPlansTab from "@components/NotesPlansTab";
-import ScheduleTab from "@components/ScheduleTab";
-import SettingsPage from "@components/SettingsPage";
-import TeachingScheduleTab from "@components/TeachingScheduleTab";
+import { lazy } from "react";
+
+const CurriculumTab = lazy(() => import("@features/curriculum"));
+const DeadlinesTab = lazy(() => import("@features/deadlines"));
+const ExamTab = lazy(() => import("@features/exam"));
+const GpaTab = lazy(() => import("@features/gpa"));
+const MessagesTab = lazy(() => import("@features/messages"));
+const NotesPlansTab = lazy(() => import("@features/notes-plans"));
+const PreviewRegistrationTab = lazy(() => import("@features/registration/PreviewRegistrationTab"));
+const RegistrationTab = lazy(() => import("@features/registration"));
+const RoadmapTab = lazy(() => import("@features/roadmap"));
+const ScheduleTab = lazy(() => import("@features/schedule"));
+const SettingsPage = lazy(() => import("@features/settings"));
+const TeachingScheduleTab = lazy(() => import("@features/teaching-schedule"));
 
 export const tabRegistry = {
   schedule: ScheduleTab,

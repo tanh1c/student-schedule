@@ -1,1 +1,1 @@
-export { default } from "@/features/curriculum";
+export { default } from "@features/curriculum";

@@ -25,7 +25,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import AppLogo from './AppLogo';
+import AppLogo from '@shared/components/AppLogo';
 
 const features = [
     {

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { Suspense, useMemo, useState } from "react";
 import {
   ChevronRight,
   CloudUpload,
@@ -8,10 +8,10 @@ import {
   SunMedium,
   X,
 } from "lucide-react";
-import AppLogo from "@components/AppLogo";
-import DataManagement from "@components/DataManagement";
+import AppLogo from "@shared/components/AppLogo";
+import DataManagement from "@shared/components/DataManagement";
 import LandingPage from "@components/LandingPage";
-import WelcomeFeedback from "@components/WelcomeFeedback";
+import WelcomeFeedback from "@shared/components/WelcomeFeedback";
 import { defaultTabId, menuItems, mobileNavMenuItems } from "@app/menuConfig";
 import { tabRegistry } from "@app/tabRegistry";
 import { Badge } from "@shared/ui/badge";
@@ -32,6 +32,22 @@ import { Switch } from "@shared/ui/switch";
 import { useThemeMode } from "@shared/hooks/useThemeMode";
 
 const HAS_VISITED_STORAGE_KEY = "hasVisitedApp";
+
+function TabLoadingFallback({ label }) {
+  return (
+    <div className="flex min-h-[calc(100vh-220px)] w-full items-center justify-center px-4">
+      <div className="w-full max-w-md rounded-3xl border bg-card/80 p-8 text-center shadow-sm backdrop-blur">
+        <div className="mx-auto mb-4 h-11 w-11 animate-pulse rounded-2xl bg-primary/10" />
+        <p className="text-sm font-semibold text-foreground">
+          Đang tải {label.toLowerCase()}...
+        </p>
+        <p className="mt-1 text-xs text-muted-foreground">
+          Nội dung của tab sẽ xuất hiện ngay khi chunk được tải xong.
+        </p>
+      </div>
+    </div>
+  );
+}
 
 function AppShell() {
   const [showLanding, setShowLanding] = useState(() => {
@@ -372,7 +388,9 @@ function AppShell() {
 
           <main className="min-h-[calc(100vh-57px)] w-full max-w-full overflow-x-hidden pb-20 lg:pb-6">
             <div className="mx-auto w-full max-w-[1600px] overflow-hidden">
-              <ActiveTabComponent />
+              <Suspense fallback={<TabLoadingFallback label={activeMenuItem.label} />}>
+                <ActiveTabComponent />
+              </Suspense>
             </div>
           </main>
         </div>

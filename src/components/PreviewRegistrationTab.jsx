@@ -1,1 +1,1 @@
-export { default } from "@/features/registration/PreviewRegistrationTab";
+export { default } from "@features/registration/PreviewRegistrationTab";

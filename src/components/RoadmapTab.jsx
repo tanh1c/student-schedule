@@ -1,1 +1,1 @@
-export { default } from "@/features/roadmap";
+export { default } from "@features/roadmap";
