@@ -164,7 +164,7 @@ function LandingPage({ onEnterApp }) {
                         <div className="flex items-center gap-3">
                             <AppLogo size={44} className="shadow-xl shadow-primary/30 ring-2 ring-white/20 rounded-2xl" />
                             <div>
-                                <span className="text-xl font-bold text-foreground">TKB Smart</span>
+                                <span className="text-xl font-bold text-foreground">StuSpace</span>
                                 <span className="hidden sm:inline text-xs text-muted-foreground ml-2 bg-muted px-2 py-0.5 rounded-full">v2.0</span>
                             </div>
                         </div>
@@ -600,7 +600,7 @@ function LandingPage({ onEnterApp }) {
                                 GitHub
                             </a>
                             <span className="text-border">•</span>
-                            <span>© 2024 TKB Smart</span>
+                            <span>© 2024 StuSpace</span>
                         </div>
                     </div>
                 </div>

@@ -3,7 +3,7 @@
 
 services:
   - type: web
-    name: student-schedule
+    name: stuspace
     runtime: node
     region: singapore  # Gần Việt Nam nhất
     plan: free

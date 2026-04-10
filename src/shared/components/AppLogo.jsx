@@ -15,7 +15,7 @@ const AppLogo = ({ className, size }) => {
         >
             <img
                 src="/logo.png"
-                alt="TKB Smart Logo"
+                alt="StuSpace Logo"
                 className="w-full h-full object-cover"
             />
         </div>

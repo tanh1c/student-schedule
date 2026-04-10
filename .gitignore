@@ -28,6 +28,7 @@ build
 # ========================
 server/debug_*.html
 server/debug_*.json
+server/docs/debug/
 debug_*.html
 debug_*.json
 

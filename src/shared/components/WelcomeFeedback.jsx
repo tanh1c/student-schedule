@@ -65,8 +65,8 @@ export default function WelcomeFeedback({ hideOnMobile = false }) {
     };
 
     const sendEmail = () => {
-        const subject = encodeURIComponent("Feedback TKB Smart App");
-        const body = encodeURIComponent("Chào bạn,\n\nMình có góp ý cho ứng dụng TKB Smart như sau:\n\n...");
+        const subject = encodeURIComponent("Feedback StuSpace App");
+        const body = encodeURIComponent("Chào bạn,\n\nMình có góp ý cho ứng dụng StuSpace như sau:\n\n...");
         window.location.href = `mailto:${emailAddress}?subject=${subject}&body=${body}`;
     };
 
@@ -98,7 +98,7 @@ export default function WelcomeFeedback({ hideOnMobile = false }) {
 
                         <div className="space-y-6 sm:space-y-8 text-muted-foreground dark:text-zinc-400 leading-relaxed max-w-[360px] mx-auto">
                             <p className="text-base sm:text-lg font-bold text-zinc-900 dark:text-zinc-100 px-2">
-                                Chào mừng bạn đã đến với <span className="text-indigo-600 dark:text-indigo-400">TKB Smart</span>
+                                Chào mừng bạn đã đến với <span className="text-indigo-600 dark:text-indigo-400">StuSpace</span>
                             </p>
 
                             <div className="space-y-4 sm:space-y-5">

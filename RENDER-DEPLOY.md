@@ -19,7 +19,7 @@ Render sẽ host **cả Frontend và Backend** trong 1 Web Service duy nhất:
 2. Đăng ký/Đăng nhập (có thể dùng GitHub)
 3. Click **"Create Database"**
 4. Chọn:
-   - **Name**: `student-schedule-cache`
+   - **Name**: `stuspace-cache`
    - **Type**: `Regional`
    - **Region**: `Singapore` (gần Việt Nam)
 5. Click **"Create"**
@@ -50,7 +50,7 @@ Render sẽ host **cả Frontend và Backend** trong 1 Web Service duy nhất:
 
 ```bash
 # Xóa file debug chứa thông tin nhạy cảm
-rm -f server/debug_*.html server/debug_*.json
+rm -f server/docs/debug/*
 ```
 
 ### 2.3 Commit và push lên GitHub:
@@ -74,13 +74,13 @@ git push origin test-feature
 
 1. Click **"New +"** → **"Web Service"**
 2. Connect với GitHub repo của bạn
-3. Chọn repo `student-schedule` (hoặc tên repo của bạn)
+3. Chọn repo GitHub hiện tại của bạn (`student-schedule` nếu chưa rename slug)
 
 ### 3.3 Cấu hình Service
 
 | Field | Value |
 |-------|-------|
-| **Name** | `student-schedule` |
+| **Name** | `stuspace` |
 | **Region** | `Singapore (Southeast Asia)` |
 | **Branch** | `test-feature` ⚠️ |
 | **Runtime** | `Node` |
@@ -112,7 +112,7 @@ Click **"Add Environment Variable"** và thêm:
 
 ### URL của bạn:
 ```
-https://student-schedule.onrender.com
+https://stuspace.onrender.com
 ```
 *(Tên sẽ tự động thêm random nếu trùng)*
 

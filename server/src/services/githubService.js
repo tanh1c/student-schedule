@@ -3,6 +3,7 @@ import logger from '../utils/logger.js';
 import { swr, getClient } from './redisService.js';
 
 const GITHUB_OWNER = 'tanh1c';
+// Keep the real GitHub slug until the repository is renamed remotely.
 const GITHUB_REPO = 'student-schedule';
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN || '';
 
@@ -18,7 +19,7 @@ const CACHE_KEY = 'github:contributors';
 function getGitHubHeaders() {
     const headers = {
         'Accept': 'application/vnd.github.v3+json',
-        'User-Agent': 'student-schedule-app'
+        'User-Agent': 'stuspace-app'
     };
     if (GITHUB_TOKEN) {
         headers['Authorization'] = `token ${GITHUB_TOKEN}`;

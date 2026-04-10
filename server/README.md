@@ -37,11 +37,14 @@ npm test -- --runInBand
 
 ## Structure
 
+- `data/`: subject + lecturer reference data
+- `docs/`: backend notes and test summaries
 - `src/controllers/`: request handlers
 - `src/routes/`: route definitions
 - `src/services/`: MyBK, DKMH, LMS, Redis, session logic
 - `src/middlewares/`: auth + error handling
 - `src/utils/`: logger, masking, validation, AppError
+- `scripts/`: backend helper scripts
 - `tests/`: Jest tests
 
 ## Important Endpoints

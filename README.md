@@ -1,6 +1,6 @@
-# TKB Smart
+# StuSpace
 
-TKB Smart là workspace học tập dành cho sinh viên HCMUT, giúp gom các nhu cầu thường ngày vào một nơi: thời khóa biểu, lịch thi, CTĐT, GPA, roadmap học tập, ĐKMH, lịch giảng dạy và LMS.
+StuSpace là workspace học tập dành cho sinh viên HCMUT, giúp gom các nhu cầu thường ngày vào một nơi: thời khóa biểu, lịch thi, CTĐT, GPA, roadmap học tập, ĐKMH, lịch giảng dạy và LMS.
 
 ## Highlights
 

@@ -270,7 +270,7 @@ export default function HonorWallPage() {
 
                     <p className="text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed mb-6">
                         Cảm ơn tất cả những đóng góp quý giá từ cộng đồng sinh viên Bách Khoa. <br className="hidden sm:block" />
-                        Cùng nhau xây dựng TKB Smart ngày càng tốt hơn! 💜
+                        Cùng nhau xây dựng StuSpace ngày càng tốt hơn! 💜
                     </p>
 
                     {/* Real-time stats from GitHub - Simplified */}
@@ -411,7 +411,7 @@ export default function HonorWallPage() {
                     </div>
 
                     <p className="text-slate-300 text-sm mb-6">
-                        Có nhiều cách để đóng góp cho TKB Smart: viết code, báo lỗi, đề xuất tính năng,
+                        Có nhiều cách để đóng góp cho StuSpace: viết code, báo lỗi, đề xuất tính năng,
                         hoặc đơn giản là chia sẻ với bạn bè. Trang này tự động cập nhật từ GitHub!
                     </p>
 
@@ -450,7 +450,7 @@ export default function HonorWallPage() {
                     Made with <Heart className="h-4 w-4 text-red-500 fill-red-500" /> by the community
                 </p>
                 <p className="text-xs text-muted-foreground">
-                    © 2024 - 2026 TKB Smart • For HCMUT Students
+                    © 2024 - 2026 StuSpace • For HCMUT Students
                 </p>
             </div>
         </div>

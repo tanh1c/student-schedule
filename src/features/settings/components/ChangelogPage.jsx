@@ -484,7 +484,7 @@ function FeedbackSection() {
                 title: "Báo lỗi",
                 description: "Chọn cách bạn muốn báo lỗi cho chúng tôi",
                 icon: Bug,
-                emailSubject: "[Bug Report] Báo lỗi TKB Smart",
+                emailSubject: "[Bug Report] Báo lỗi StuSpace",
                 githubLabel: "Tạo Bug Report trên GitHub"
             };
         }
@@ -647,7 +647,7 @@ export default function ChangelogPage() {
                         Changelog
                     </h1>
                     <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 max-w-2xl mx-auto px-2">
-                        Theo dõi các <strong>bản cập nhật</strong>, <strong>tính năng mới</strong> và <strong>sửa lỗi</strong> của TKB Smart.
+                        Theo dõi các <strong>bản cập nhật</strong>, <strong>tính năng mới</strong> và <strong>sửa lỗi</strong> của StuSpace.
                         Chúng tôi liên tục cải thiện để mang lại trải nghiệm tốt nhất cho bạn.
                     </p>
                 </div>

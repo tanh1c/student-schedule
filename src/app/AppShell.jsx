@@ -106,7 +106,7 @@ function AppShell() {
             <AppLogo size={36} />
             {!sidebarCollapsed && (
               <div className="min-w-0">
-                <p className="truncate text-sm font-bold">TKB Smart</p>
+                <p className="truncate text-sm font-bold">StuSpace</p>
                 <p className="truncate text-[10px] text-muted-foreground">
                   Dashboard SV
                 </p>
@@ -238,7 +238,7 @@ function AppShell() {
             <div className="flex items-center gap-2">
               <AppLogo size={36} />
               <div>
-                <p className="text-sm font-bold">TKB Smart</p>
+                <p className="text-sm font-bold">StuSpace</p>
                 <p className="text-[10px] text-muted-foreground">
                   Dashboard sinh viên
                 </p>
@@ -349,7 +349,7 @@ function AppShell() {
                     <AppLogo size={32} />
                   </div>
                   <span className="truncate text-sm font-bold min-[380px]:text-base">
-                    TKB Smart
+                    StuSpace
                   </span>
                 </div>
               </div>
