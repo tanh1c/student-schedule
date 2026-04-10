@@ -1,317 +1,118 @@
 # Next Refactor Roadmap
 
-## Mục tiêu
+## Status
 
-Đợt refactor tiếp theo tập trung vào 3 việc:
+The large frontend architecture pass is complete.
 
-- giảm thêm các file monolith còn nằm trong `src/components`
-- tiếp tục chuyển page-level logic sang `src/features/*`
-- chuẩn hóa pattern `components / hooks / services / utils / constants` để codebase đều tay hơn
+Current state:
 
-## Trạng thái hiện tại
+- `12/12` main tabs now live behind `src/features/*`
+- app shell, tab registry, and menu config are already normalized
+- shared app-level components were moved into `src/shared`
+- the repo is now in a stable state for smaller, more targeted refactor rounds
 
-- [x] `curriculum` đã ở `src/features/curriculum`
-- [x] `roadmap` đã ở `src/features/roadmap`
-- [x] `registration` đã ở `src/features/registration`
-- [x] `messages` đã ở `src/features/messages`
-- [x] `deadlines` đã ở `src/features/deadlines`
-- [x] `preview registration` đã đi cùng `src/features/registration`
-- [x] `schedule` đã ở `src/features/schedule`
-- [x] `teaching schedule` đã ở `src/features/teaching-schedule`
-- [x] `notes & plans` đã ở `src/features/notes-plans`
-- [x] `gpa` đã ở `src/features/gpa`
-- [x] `settings` đã ở `src/features/settings`
-- [x] `exam` đã ở `src/features/exam`
+This file now tracks the next practical cleanup wave after the completed feature architecture migration.
 
-## Ưu tiên tổng
+## Completed Baseline
 
-1. `schedule`
-2. `teaching-schedule`
-3. `notes-plans`
-4. `gpa`
-5. cleanup thêm `roadmap`
+- [x] Phase 1 repo hygiene
+- [x] Phase 2 frontend modularization
+- [x] Wave 1 schedule featureization
+- [x] Wave 2 teaching schedule featureization
+- [x] Wave 3 notes & plans featureization
+- [x] Wave 4 GPA featureization
+- [x] Wave 5 post-refactor cleanup
+- [x] Wave 6a settings featureization
+- [x] Wave 6b exam featureization
 
-## Wave 1: Schedule
+## Next Priority Stack
 
-- [x] Tạo `src/features/schedule`
-- [x] Di chuyển container chính từ `src/components/ScheduleTab.jsx`
-- [x] Tách logic fetch/sync dữ liệu MyBK
-- [x] Tách logic tuần hiện tại, ngày hiện tại, tiết hiện tại
-- [x] Tách `timeline view`
-- [x] Tách `agenda view`
-- [x] Tách `day view`
-- [x] Tách course detail popover
-- [x] Tách export Google Calendar
-- [x] Tạo `meta.js` để menu config không phụ thuộc hardcode phân tán
+1. Backend structure cleanup
+2. CI/CD baseline
+3. Bundle and runtime performance
+4. Documentation consolidation
+5. Regression safety improvements
 
-### Cấu trúc đề xuất
+## Wave A: Backend Structure Cleanup
+
+- [ ] split `server/src/routes/apiRoutes.js` by domain
+- [ ] reduce controller-level legacy alias sprawl in `studentController.js`
+- [ ] decide whether backend should stay layer-based or move toward `modules/*`
+- [ ] group backend docs/scripts/data more consistently
+- [ ] re-check backend file size hotspots after route split
+
+### Target Shape
 
 ```text
-src/features/schedule/
-  index.jsx
-  components/
-    ScheduleTab.jsx
-    ScheduleHeader.jsx
-    ScheduleWeekToolbar.jsx
-    ScheduleViewSwitcher.jsx
-    ScheduleWeekGrid.jsx
-    ScheduleDayView.jsx
-    ScheduleAgendaView.jsx
-    ScheduleCourseCard.jsx
-    ScheduleCoursePopover.jsx
-    ScheduleEmptyState.jsx
-  hooks/
-    useScheduleData.js
-    useScheduleWeekNavigation.js
-    useScheduleViewMode.js
-    useCurrentTimeIndicator.js
-    useScheduleFilters.js
-  services/
-    scheduleApi.js
-    scheduleStorage.js
+server/src/
+  app.js
+  server.js
+  modules/
+    auth/
+    student/
+    dkmh/
+    lms/
+    lecturer/
+  middlewares/
   utils/
-    scheduleParser.js
-    scheduleTime.js
-    scheduleGrouping.js
-    scheduleColors.js
-    scheduleExport.js
-  constants/
-    periods.js
-    viewModes.js
-    storageKeys.js
-    meta.js
 ```
 
 ### Exit Criteria
 
-- [x] `ScheduleTab.jsx` container còn khoảng `200-300` dòng
-- [x] mỗi chế độ xem là một component riêng
-- [x] current-time logic không nằm lẫn trong JSX render chính
-- [x] `npm run lint`
-- [x] `npm run build`
+- [ ] route files are domain-based instead of one shared API bucket
+- [ ] student-related legacy endpoints are easier to trace
+- [ ] backend docs and source tree feel clearly separated
 
-## Wave 2: Teaching Schedule
+## Wave B: CI/CD Baseline
 
-- [x] Tạo `src/features/teaching-schedule`
-- [x] Di chuyển container chính từ `src/components/TeachingScheduleTab.jsx`
-- [x] Tách search mode `theo mã môn`
-- [x] Tách search mode `theo giảng viên`
-- [x] Tách search mode `theo thời gian`
-- [x] Tách mobile UI riêng cho `theo thời gian`
-- [x] Tách client-side search trong kết quả
-- [x] Tách filter mapper/formatter
-- [x] Tạo `meta.js`
-
-### Cấu trúc đề xuất
-
-```text
-src/features/teaching-schedule/
-  index.jsx
-  components/
-    TeachingScheduleTab.jsx
-    SearchModeTabs.jsx
-    SearchByCourseForm.jsx
-    SearchByLecturerForm.jsx
-    SearchByTimeForm.jsx
-    TimeFilterSummaryCard.jsx
-    TimeFilterPanelDesktop.jsx
-    TimeFilterPanelMobile.jsx
-    SearchResultsHeader.jsx
-    TeachingResultList.jsx
-    TeachingResultCard.jsx
-    TeachingResultEmptyState.jsx
-  hooks/
-    useTeachingSearchState.js
-    useTeachingSearchResults.js
-    useTimeFilterState.js
-    useResponsiveSearchLayout.js
-  services/
-    teachingScheduleApi.js
-  utils/
-    teachingSearchMapper.js
-    teachingSearchFilter.js
-    teachingSearchFormatter.js
-  constants/
-    campuses.js
-    weekdays.js
-    periods.js
-    searchModes.js
-    meta.js
-```
-
-### Exit Criteria
-
-- [x] mỗi mode tìm kiếm là một form riêng
-- [x] mobile và desktop không trộn quá nhiều trong cùng block JSX
-- [x] result rendering tách khỏi filter form
-- [x] `npm run lint`
-- [x] `npm run build`
-
-## Wave 3: Notes & Plans
-
-- [x] Tạo `src/features/notes-plans`
-- [x] Di chuyển container chính từ `src/components/NotesPlansTab.jsx`
-- [x] Tách header và alerts
-- [x] Tách kanban column/task card
-- [x] Tách calendar view
-- [x] Tách task dialog
-- [x] Tách localStorage/state logic vào hook riêng
-- [x] Tạo `meta.js`
-
-### Cấu trúc đề xuất
-
-```text
-src/features/notes-plans/
-  index.jsx
-  components/
-    NotesPlansTab.jsx
-    NotesPlansHeader.jsx
-    NotesPlansAlerts.jsx
-    KanbanBoard.jsx
-    KanbanColumn.jsx
-    TaskCard.jsx
-    CalendarView.jsx
-    TaskDialog.jsx
-  hooks/
-    useNotesPlansState.js
-  utils/
-    notesHelpers.js
-  constants/
-    notesConfig.js
-    meta.js
-```
-
-### Exit Criteria
-
-- [x] calendar rendering không nằm chung với kanban/task rendering
-- [x] dialog/editor state tách khỏi list rendering
-- [x] local state và persisted state được gom rõ ràng
-- [x] `npm run lint`
-- [x] `npm run build`
-
-## Wave 4: GPA
-
-- [x] Tạo `src/features/gpa`
-- [x] Chuyển `GpaTab.jsx` thành entry wrapper cho feature
-- [x] Tách sync GPA view
-- [x] Tách manual GPA view
-- [x] Tách calculator/utils dùng chung
-- [x] Tách MyBK login flow vào feature GPA
-- [x] Tạo `meta.js`
-
-### Cấu trúc đề xuất
-
-```text
-src/features/gpa/
-  index.jsx
-  components/
-    GpaTab.jsx
-    SyncGpaView.jsx
-    ManualGpaView.jsx
-    MyBKLoginCard.jsx
-  services/
-    gpaApi.js
-  utils/
-    gpaGradeScale.js
-  constants/
-    meta.js
-```
-
-### Exit Criteria
-
-- [x] `GpaTab.jsx` chỉ còn vai trò shell
-- [x] calculator logic tách khỏi JSX chính và gom vào util dùng chung
-- [x] sync/manual là 2 module riêng
-- [x] `npm run lint`
-- [x] `npm run build`
-
-## Wave 5: Cleanup Sau Refactor
-
-- [x] Di chuyển metadata tab của feature mới sang `constants/meta.js`
-- [x] Chuẩn hóa metadata tab không còn hardcode phân tán trong app shell/menu config
-- [x] Cập nhật `src/app/tabRegistry.js`
-- [x] Cập nhật `src/app/menuConfig.js`
-- [x] Giảm dần wrapper cũ trong `src/components`
-- [x] Chỉ giữ wrapper 1 dòng cho các feature đã migrate
-- [x] Chuyển shared app-level components (`AppLogo`, `DataManagement`, `WelcomeFeedback`) sang `src/shared`
-- [x] Chuẩn hóa alias wrapper về `@features/@shared`
-
-## Wave 6a: Settings
-
-- [x] Tạo `src/features/settings`
-- [x] Di chuyển `SettingsPage.jsx` vào feature
-- [x] Di chuyển `ChangelogPage.jsx` vào feature
-- [x] Di chuyển `SecurityPage.jsx` vào feature
-- [x] Di chuyển `HonorWallPage.jsx` vào feature
-- [x] Di chuyển `LocalStorageViewer.jsx` vào feature
-- [x] Tạo `meta.js`
-- [x] Cập nhật `tabRegistry` sang `@features/settings`
-- [x] Giữ compatibility wrapper ở `src/components`
-- [x] `npm run lint`
-- [x] `npm run build`
-
-### Cấu trúc đề xuất
-
-```text
-src/features/settings/
-  index.jsx
-  components/
-    SettingsPage.jsx
-    ChangelogPage.jsx
-    SecurityPage.jsx
-    HonorWallPage.jsx
-    LocalStorageViewer.jsx
-  constants/
-    meta.js
-```
-
-## Wave 6b: Exam
-
-- [x] Tạo `src/features/exam`
-- [x] Di chuyển `ExamTab.jsx` vào feature
-- [x] Tạo `meta.js`
-- [x] Cập nhật `tabRegistry` sang `@features/exam`
-- [x] Chuyển metadata `exam` từ shared constants sang feature constants
-- [x] Giữ compatibility wrapper ở `src/components`
-- [x] `npm run lint`
-- [x] `npm run build`
-
-### Cấu trúc đề xuất
-
-```text
-src/features/exam/
-  index.jsx
-  components/
-    ExamTab.jsx
-  constants/
-    meta.js
-```
-
-## Thứ tự thực thi khuyên dùng
-
-- [x] Wave 1: Schedule
-- [x] Wave 2: Teaching Schedule
-- [x] Wave 3: Notes & Plans
-- [x] Wave 4: GPA
-- [x] Wave 5: Cleanup
-- [x] Wave 6a: Settings
-- [x] Wave 6b: Exam
-
-## Mốc kỳ vọng sau đợt này
-
-- [x] đã tăng từ `6/12` lên `12/12` tab feature hóa
-- [x] giảm mạnh số file page-level trên `800` dòng
-- [x] `src/components` chủ yếu còn page nhỏ, wrapper mỏng, hoặc shared page
-- [x] pattern thư mục giữa các feature đồng nhất hơn
-
-Ghi chú: hiện không còn page-level file nào trên `800` dòng; file còn vượt ngưỡng là [`src/components/ui/map.jsx`](/c:/Users/LG/Desktop/Study%20Material/AI/TKBSV/src/components/ui/map.jsx), đây là shared UI infrastructure chứ không phải tab/page.
-
-## Ghi chú khi triển khai
-
-- [x] ưu tiên refactor không đổi behavior trước, polish UI sau
-- [x] giữ compatibility wrapper ở `src/components/*Tab.jsx` trong giai đoạn chuyển tiếp
-- [~] mỗi wave nên có commit riêng
-- [x] sau mỗi wave phải chạy:
+- [ ] add GitHub Actions CI for lint/build/test
+- [ ] ensure CI runs:
   - `npm run lint`
   - `npm run build`
-- [x] với `schedule` và `teaching-schedule`, nên smoke test riêng trên mobile
+  - `npm run test:server`
+- [ ] document required production secrets
+- [ ] decide whether to auto-deploy only from `main`
+
+### Exit Criteria
+
+- [ ] pull requests get automatic quality checks
+- [ ] deployment flow is documented with current commands and env vars
+
+## Wave C: Performance Follow-Up
+
+- [ ] inspect remaining large shared chunks after lazy-loading
+- [ ] decide whether more manual chunking is worth it
+- [ ] profile heavy tabs on mobile
+- [ ] revisit large shared infra files if they become bottlenecks
+
+### Exit Criteria
+
+- [ ] build stays warning-free or warnings are explicitly understood
+- [ ] first-load path is acceptable on mobile hardware
+
+## Wave D: Documentation Cleanup
+
+- [ ] keep root docs short and role-based
+- [ ] avoid stale deploy steps or old branch names
+- [ ] keep backend-only notes under `server/`
+- [ ] decide whether historical refactor notes should move to `docs/` later
+
+### Exit Criteria
+
+- [ ] each root markdown file has one clear purpose
+- [ ] no stale references to old entrypoints or outdated runtime flow
+
+## Wave E: Regression Safety
+
+- [ ] add a lightweight manual smoke checklist for release validation
+- [ ] consider a small automated browser smoke test for critical tabs
+- [ ] verify login, schedule, registration, LMS, and deadlines flows after major changes
+
+### Exit Criteria
+
+- [ ] major refactors have a repeatable validation path
+
+## Notes
+
+- The remaining work is now mostly about maintainability and delivery quality, not large frontend architecture moves.
+- For frontend structure, the repo is already in a good place; the next big gains come from backend cleanup and release process quality.

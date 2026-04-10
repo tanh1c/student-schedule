@@ -80,6 +80,13 @@ npm run dev:server
 
 Backend production có thể serve trực tiếp frontend từ `dist/`. File `render.yaml` là điểm bắt đầu tốt nếu bạn muốn deploy toàn app như một web service Node.
 
+## Docs
+
+- `DEPLOYMENT.md`: deployment overview chung
+- `RENDER-DEPLOY.md`: hướng dẫn deploy nhanh lên Render
+- `REFACTOR_PROGRESS.md`: trạng thái refactor đã hoàn thành
+- `NEXT_REFACTOR_ROADMAP.md`: các bước cleanup tiếp theo sau khi kiến trúc mới đã ổn định
+
 ## Quality Check
 
 Trước khi commit, nên chạy:

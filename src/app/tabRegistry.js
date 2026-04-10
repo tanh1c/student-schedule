@@ -12,6 +12,7 @@ const RoadmapTab = lazy(() => import("@features/roadmap"));
 const ScheduleTab = lazy(() => import("@features/schedule"));
 const SettingsPage = lazy(() => import("@features/settings"));
 const TeachingScheduleTab = lazy(() => import("@features/teaching-schedule"));
+const UsefulToolsPage = lazy(() => import("@features/tools"));
 
 export const tabRegistry = {
   schedule: ScheduleTab,
@@ -25,5 +26,6 @@ export const tabRegistry = {
   messages: MessagesTab,
   deadlines: DeadlinesTab,
   preview: PreviewRegistrationTab,
+  tools: UsefulToolsPage,
   settings: SettingsPage,
 };
