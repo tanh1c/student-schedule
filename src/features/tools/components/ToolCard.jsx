@@ -6,17 +6,24 @@ import { Card, CardContent } from "@components/ui/card";
 
 export default function ToolCard({ tool }) {
   const Icon = tool.icon;
+  const gradientStyle = {
+    backgroundImage: `linear-gradient(to right, ${tool.gradientStyle.from}, ${tool.gradientStyle.to})`,
+  };
+  const iconGradientStyle = {
+    backgroundImage: `linear-gradient(to bottom right, ${tool.gradientStyle.from}, ${tool.gradientStyle.to})`,
+  };
 
   return (
     <Card className="overflow-hidden border-border/60 bg-card/90 shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg">
       <CardContent className="p-0">
-        <div className={`h-1.5 w-full bg-gradient-to-r ${tool.gradient}`} />
+        <div className="h-1.5 w-full" style={gradientStyle} />
 
         <div className="space-y-5 p-5 sm:p-6">
           <div className="flex items-start justify-between gap-3">
             <div className="flex items-start gap-3">
               <div
-                className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br ${tool.gradient} text-white shadow-lg`}
+                className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl text-white shadow-lg"
+                style={iconGradientStyle}
               >
                 <Icon className="h-6 w-6" />
               </div>

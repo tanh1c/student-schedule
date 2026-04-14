@@ -3,7 +3,6 @@ import {
   Filter,
   Github,
   Search,
-  ShieldCheck,
   Sparkles,
   Wrench,
 } from "lucide-react";
@@ -83,10 +82,6 @@ export default function UsefulToolsPage() {
           </p>
 
           <div className="flex flex-wrap gap-2">
-            <Badge className="border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-400">
-              <ShieldCheck className="mr-1 h-3.5 w-3.5" />
-              Chỉ giới thiệu tool an toàn / compliant
-            </Badge>
             <Badge className="border-blue-500/30 bg-blue-500/10 text-blue-700 dark:text-blue-400">
               <Sparkles className="mr-1 h-3.5 w-3.5" />
               Dễ mở rộng thêm tool mới sau này
@@ -153,20 +148,6 @@ export default function UsefulToolsPage() {
               })}
             </div>
           </div>
-        </CardContent>
-      </Card>
-
-      <Card className="border-amber-200/60 bg-amber-50/70 shadow-sm dark:border-amber-900/40 dark:bg-amber-950/20">
-        <CardContent className="space-y-3 p-5">
-          <h2 className="text-base font-semibold text-foreground">
-            Ghi chú về danh sách curated
-          </h2>
-          <p className="text-sm leading-7 text-muted-foreground">
-            Trang này ưu tiên các công cụ học tập hợp lệ, minh bạch và có giá
-            trị sử dụng dài hạn. Các tool can thiệp vào paywall, watermark hoặc
-            cơ chế hạn chế nội dung của bên thứ ba sẽ không được đưa vào danh
-            sách này.
-          </p>
         </CardContent>
       </Card>
 

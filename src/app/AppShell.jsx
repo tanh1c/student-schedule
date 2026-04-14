@@ -32,6 +32,22 @@ import { Switch } from "@shared/ui/switch";
 import { useThemeMode } from "@shared/hooks/useThemeMode";
 
 const HAS_VISITED_STORAGE_KEY = "hasVisitedApp";
+const ACTIVE_TAB_STORAGE_KEY = "activeWorkspaceTab";
+
+const getStoredActiveTab = () => {
+  try {
+    const storedTab = localStorage.getItem(ACTIVE_TAB_STORAGE_KEY);
+    const isValidTab =
+      storedTab &&
+      menuItems.some((item) => item.id === storedTab) &&
+      tabRegistry[storedTab];
+
+    return isValidTab ? storedTab : defaultTabId;
+  } catch (error) {
+    console.error("Error reading active workspace tab:", error);
+    return defaultTabId;
+  }
+};
 
 function TabLoadingFallback({ label }) {
   return (
@@ -53,7 +69,7 @@ function AppShell() {
   const [showLanding, setShowLanding] = useState(() => {
     return !localStorage.getItem(HAS_VISITED_STORAGE_KEY);
   });
-  const [activeTab, setActiveTab] = useState(defaultTabId);
+  const [activeTab, setActiveTab] = useState(getStoredActiveTab);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const { darkMode, toggleDarkMode } = useThemeMode();
@@ -75,6 +91,7 @@ function AppShell() {
   };
 
   const handleTabChange = (tabId) => {
+    localStorage.setItem(ACTIVE_TAB_STORAGE_KEY, tabId);
     setActiveTab(tabId);
     setSidebarOpen(false);
   };

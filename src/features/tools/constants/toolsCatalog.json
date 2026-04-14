@@ -1,0 +1,222 @@
+[
+  {
+    "id": "anki",
+    "name": "Anki",
+    "category": "Ghi nhớ",
+    "iconKey": "brain",
+    "websiteUrl": "https://apps.ankiweb.net/",
+    "githubUrl": "https://github.com/ankitects/anki",
+    "badges": ["Open source", "Desktop", "Flashcards"],
+    "description": "Phù hợp để ôn công thức, thuật ngữ, từ vựng và các môn cần lặp lại dài hạn.",
+    "highlights": [
+      "Spaced repetition giúp nhớ lâu hơn",
+      "Sync giữa nhiều thiết bị qua AnkiWeb",
+      "Có hệ sinh thái deck và add-on rất lớn"
+    ],
+    "installSteps": [
+      "Mở trang chủ Anki và tải bản phù hợp với hệ điều hành.",
+      "Cài ứng dụng desktop, tạo tài khoản AnkiWeb nếu muốn đồng bộ.",
+      "Tạo deck riêng cho từng môn hoặc import deck có sẵn."
+    ],
+    "credit": "Maintained by Ankitects and the Anki open-source community.",
+    "gradient": "from-blue-500 to-indigo-600"
+  },
+  {
+    "id": "zotero",
+    "name": "Zotero",
+    "category": "Tài liệu",
+    "iconKey": "files",
+    "websiteUrl": "https://www.zotero.org/",
+    "githubUrl": "https://github.com/zotero/zotero",
+    "badges": ["Open source", "Desktop", "Reference manager"],
+    "description": "Rất hữu ích nếu bạn hay lưu PDF, paper, slide hoặc cần trích dẫn tài liệu cho báo cáo.",
+    "highlights": [
+      "Quản lý thư viện tài liệu và PDF gọn gàng",
+      "Có browser connector để lưu tài liệu cực nhanh",
+      "Hỗ trợ citation cho Word và Google Docs"
+    ],
+    "installSteps": [
+      "Tải Zotero desktop từ trang chủ chính thức.",
+      "Cài thêm Zotero Connector cho trình duyệt bạn dùng.",
+      "Tạo collection theo môn học hoặc đề tài để quản lý tài liệu."
+    ],
+    "credit": "Developed by the Corporation for Digital Scholarship and the Zotero community.",
+    "gradient": "from-emerald-500 to-teal-600"
+  },
+  {
+    "id": "logseq",
+    "name": "Logseq",
+    "category": "Ghi chú",
+    "iconKey": "notes",
+    "websiteUrl": "https://logseq.com/",
+    "githubUrl": "https://github.com/logseq/logseq",
+    "badges": ["Open source", "Desktop", "Knowledge graph"],
+    "description": "Phù hợp để ghi chú học tập theo kiểu linked notes, daily journal và xây hệ thống kiến thức cá nhân.",
+    "highlights": [
+      "Ghi chú theo block nên rất nhanh để capture ý tưởng",
+      "Liên kết nội dung giữa các môn học rất tốt",
+      "Hữu ích cho note học, project, thesis và daily planning"
+    ],
+    "installSteps": [
+      "Tải Logseq từ trang chủ hoặc release page.",
+      "Mở hoặc tạo một local graph mới trên máy.",
+      "Tổ chức note theo course, semester hoặc topic để dễ truy xuất."
+    ],
+    "credit": "Built by the Logseq team and open-source contributors.",
+    "gradient": "from-violet-500 to-purple-600"
+  },
+  {
+    "id": "localsend",
+    "name": "LocalSend",
+    "category": "Chia sẻ file",
+    "iconKey": "send",
+    "websiteUrl": "https://localsend.org/",
+    "githubUrl": "https://github.com/localsend/localsend",
+    "badges": ["Open source", "Cross-platform", "LAN transfer"],
+    "description": "Dùng để chuyển file giữa laptop và điện thoại trong cùng mạng Wi-Fi mà không cần cáp hay upload cloud.",
+    "highlights": [
+      "Chuyển file nhanh trong mạng nội bộ",
+      "Hỗ trợ Windows, macOS, Linux, Android, iOS",
+      "Tiện để gửi slide, PDF, ảnh scan và file project"
+    ],
+    "installSteps": [
+      "Cài LocalSend trên các thiết bị bạn muốn dùng.",
+      "Đảm bảo các thiết bị cùng mạng nội bộ.",
+      "Mở app, chọn thiết bị đích rồi gửi file trực tiếp."
+    ],
+    "credit": "Maintained by the LocalSend community.",
+    "gradient": "from-amber-500 to-orange-600"
+  },
+  {
+    "id": "obsidian",
+    "name": "Obsidian",
+    "category": "Ghi chú",
+    "iconKey": "notes",
+    "websiteUrl": "https://obsidian.md/",
+    "githubUrl": "https://github.com/obsidianmd/obsidian-releases",
+    "badges": ["Knowledge base", "Markdown", "Desktop"],
+    "description": "Hợp với sinh viên thích ghi chú bằng Markdown, backlink và xây kho kiến thức học tập lâu dài.",
+    "highlights": [
+      "Vault local nên dễ kiểm soát dữ liệu cá nhân",
+      "Plugin ecosystem rất mạnh cho note, Kanban, flashcard và calendar",
+      "Phù hợp để quản lý nhiều môn học và research notes"
+    ],
+    "installSteps": [
+      "Tải ứng dụng từ trang chủ hoặc release page chính thức.",
+      "Tạo một vault mới cho việc học hoặc mở thư mục note có sẵn.",
+      "Cài thêm plugin cần thiết như Calendar, Kanban hoặc Excalidraw nếu muốn."
+    ],
+    "credit": "Developed by Obsidian.",
+    "gradient": "from-fuchsia-500 to-violet-600"
+  },
+  {
+    "id": "joplin",
+    "name": "Joplin",
+    "category": "Ghi chú",
+    "iconKey": "notes",
+    "websiteUrl": "https://joplinapp.org/",
+    "githubUrl": "https://github.com/laurent22/joplin",
+    "badges": ["Open source", "Markdown", "Sync"],
+    "description": "Một lựa chọn note app mã nguồn mở gọn gàng, hợp nếu bạn muốn đồng bộ ghi chú giữa nhiều thiết bị.",
+    "highlights": [
+      "Hỗ trợ notebook, tag và to-do trong cùng hệ thống",
+      "Có thể sync qua nhiều dịch vụ khác nhau",
+      "Phù hợp cho ghi chú môn học, checklist và tài liệu cá nhân"
+    ],
+    "installSteps": [
+      "Tải Joplin desktop từ trang chủ chính thức.",
+      "Tạo notebook theo học kỳ hoặc từng môn học.",
+      "Bật sync nếu bạn muốn dùng thêm trên điện thoại hoặc máy khác."
+    ],
+    "credit": "Maintained by Laurent Cozic and the Joplin open-source community.",
+    "gradient": "from-sky-500 to-blue-600"
+  },
+  {
+    "id": "sumatrapdf",
+    "name": "SumatraPDF",
+    "category": "Tài liệu",
+    "iconKey": "files",
+    "websiteUrl": "https://www.sumatrapdfreader.org/free-pdf-reader",
+    "githubUrl": "https://github.com/sumatrapdfreader/sumatrapdf",
+    "badges": ["Open source", "Windows", "Lightweight"],
+    "description": "Trình đọc PDF cực nhẹ cho Windows, mở slide và tài liệu học tập rất nhanh, hợp cho máy cấu hình vừa phải.",
+    "highlights": [
+      "Khởi động nhanh và dùng rất ít tài nguyên",
+      "Mở tốt PDF, ePub, MOBI và vài định dạng tài liệu khác",
+      "Hợp để đọc slide, giáo trình và tài liệu scan hằng ngày"
+    ],
+    "installSteps": [
+      "Tải bản installer hoặc portable từ trang chủ.",
+      "Đặt làm trình đọc PDF mặc định nếu bạn muốn dùng thường xuyên.",
+      "Mở trực tiếp thư mục tài liệu học tập để đọc nhanh hơn."
+    ],
+    "credit": "Maintained by the SumatraPDF project contributors.",
+    "gradient": "from-rose-500 to-red-600"
+  },
+  {
+    "id": "everything",
+    "name": "Everything",
+    "category": "Tìm kiếm",
+    "iconKey": "search",
+    "websiteUrl": "https://www.voidtools.com/",
+    "githubUrl": "https://github.com/voidtools/Everything",
+    "badges": ["Windows", "Fast search", "Desktop"],
+    "description": "Cực kỳ hữu ích nếu máy bạn có nhiều tài liệu học tập, project, PDF và muốn tìm file gần như tức thì.",
+    "highlights": [
+      "Index tên file rất nhanh trên Windows",
+      "Tìm lại slide, tài liệu, source code gần như tức thì",
+      "Phù hợp cho thư mục học tập lớn hoặc nhiều ổ đĩa"
+    ],
+    "installSteps": [
+      "Tải Everything từ trang chủ hoặc GitHub releases.",
+      "Cài đặt và cho phép app index các ổ đĩa cần thiết.",
+      "Tạo bookmark hoặc filter nếu bạn thường xuyên tìm PDF, slide hoặc project."
+    ],
+    "credit": "Developed by voidtools.",
+    "gradient": "from-cyan-500 to-sky-600"
+  },
+  {
+    "id": "notion-calendar",
+    "name": "Notion Calendar",
+    "category": "Lịch",
+    "iconKey": "calendar",
+    "websiteUrl": "https://www.notion.com/product/calendar",
+    "githubUrl": "https://github.com/makenotion/notion-calendar-releases",
+    "badges": ["Calendar", "Desktop", "Productivity"],
+    "description": "Phù hợp nếu bạn muốn gom deadline cá nhân, lịch học thêm và nhắc việc vào một giao diện lịch hiện đại.",
+    "highlights": [
+      "Giao diện lịch đẹp và dễ nhìn",
+      "Sync tốt với Google Calendar",
+      "Hữu ích để kết hợp lịch học, lịch họp nhóm và việc cá nhân"
+    ],
+    "installSteps": [
+      "Tải ứng dụng từ trang chủ hoặc release page chính thức.",
+      "Kết nối tài khoản lịch bạn đang dùng.",
+      "Tạo thêm lịch riêng cho học tập nếu bạn muốn tách khỏi việc cá nhân."
+    ],
+    "credit": "Developed by Notion.",
+    "gradient": "from-slate-500 to-zinc-700"
+  },
+  {
+    "id": "vscode",
+    "name": "Visual Studio Code",
+    "category": "Lập trình",
+    "iconKey": "code",
+    "websiteUrl": "https://code.visualstudio.com/",
+    "githubUrl": "https://github.com/microsoft/vscode",
+    "badges": ["Open source core", "Desktop", "Extensions"],
+    "description": "Nếu bạn học lập trình hoặc làm đồ án, đây vẫn là lựa chọn editor rất cân bằng giữa tính năng, cộng đồng và extension.",
+    "highlights": [
+      "Extension ecosystem rất lớn",
+      "Tốt cho web, Python, C/C++, Java và nhiều stack khác",
+      "Có terminal, Git integration và debug khá tiện cho sinh viên"
+    ],
+    "installSteps": [
+      "Tải VS Code từ trang chủ chính thức.",
+      "Cài extension theo môn hoặc stack bạn đang học.",
+      "Bật sync settings nếu bạn dùng nhiều máy."
+    ],
+    "credit": "Developed by Microsoft and the VS Code community.",
+    "gradient": "from-blue-500 to-cyan-600"
+  }
+]
