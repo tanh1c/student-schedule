@@ -35,10 +35,43 @@ import {
 // Changelog data - Add new entries at the top
 const changelogData = [
     {
+        version: "2.6.0",
+        date: "2026-04-14",
+        title: "StuSpace Refresh, Landing Polish & Mobile Navigation Upgrade ✨",
+        isLatest: true,
+        changes: [
+            {
+                type: "improvement",
+                title: "Nhận diện StuSpace được làm mới với logo SVG",
+                description: "Logo header và app shell giờ dùng SVG mới thay cho ảnh raster cũ, giúp hiển thị sắc nét hơn ở cả desktop, mobile và các kích thước nhỏ."
+            },
+            {
+                type: "improvement",
+                title: "Landing page gọn hơn và tối ưu hơn cho mobile",
+                description: "Trang giới thiệu được viết lại theo hướng product-focused, hero rõ ràng hơn, CTA lớn hơn trên điện thoại và bố cục bento bên dưới được nén lại để đỡ dài và dễ quét hơn."
+            },
+            {
+                type: "improvement",
+                title: "Bottom nav mobile chuyển sang kiểu floating dock + mục Thêm thông minh hơn",
+                description: "Điều hướng mobile giờ tập trung vào 4 tab chính, phần còn lại được gom vào sheet riêng có mục Yêu thích và Gần đây để truy cập nhanh hơn mà không làm thanh dưới bị quá tải."
+            },
+            {
+                type: "improvement",
+                title: "Bỏ popup chào mừng lần đầu nhưng vẫn giữ kênh góp ý",
+                description: "Popup welcome khi mới vào web đã được gỡ để tránh cản luồng sử dụng, trong khi nút feedback và dialog góp ý vẫn được giữ lại để người dùng báo lỗi hoặc đề xuất tính năng."
+            },
+            {
+                type: "improvement",
+                title: "Trang Công cụ và sheet mobile được dọn lại gọn hơn",
+                description: "Bỏ bớt phần giải thích không cần thiết ở trang Công cụ, đồng thời cập nhật sheet mobile để hỗ trợ bottom sheet, safe-area và accessibility tốt hơn."
+            }
+        ]
+    },
+    {
         version: "2.5.0",
         date: "2026-04-10",
         title: "Complete Frontend Modularization & Final Architecture Cleanup 🧩",
-        isLatest: true,
+        isLatest: false,
         changes: [
             {
                 type: "improvement",

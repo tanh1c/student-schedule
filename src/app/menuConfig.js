@@ -29,6 +29,8 @@ import { toolsTabMeta } from "@features/tools/constants/meta";
 
 export const defaultTabId = "schedule";
 
+export const mobilePrimaryTabIds = ["schedule", "exam", "curriculum", "gpa"];
+
 export const menuItems = [
   {
     ...scheduleTabMeta,
@@ -84,4 +86,33 @@ export const menuItems = [
   },
 ];
 
-export const mobileNavMenuItems = menuItems.slice(0, 5);
+export const mobileNavMenuItems = mobilePrimaryTabIds
+  .map((id) => menuItems.find((item) => item.id === id))
+  .filter(Boolean);
+
+export const mobileMenuGroups = [
+  {
+    id: "study",
+    label: "Học tập",
+    description: "Các tab học vụ và lập kế hoạch học tập.",
+    itemIds: ["schedule", "exam", "curriculum", "gpa", "roadmap", "notes-plans"],
+  },
+  {
+    id: "services",
+    label: "Dịch vụ",
+    description: "Các dịch vụ học tập, LMS và đăng ký.",
+    itemIds: [
+      "teaching-schedule",
+      "registration",
+      "preview",
+      "messages",
+      "deadlines",
+    ],
+  },
+  {
+    id: "workspace",
+    label: "Khác",
+    description: "Công cụ hỗ trợ và cài đặt hệ thống.",
+    itemIds: ["tools", "settings"],
+  },
+];

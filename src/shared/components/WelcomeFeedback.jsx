@@ -1,20 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
     Dialog,
     DialogContent,
     DialogHeader,
     DialogTitle,
     DialogDescription,
-    DialogFooter
 } from "@components/ui/dialog";
 import { Button } from "@components/ui/button";
 import {
     MessageSquareHeart,
     Github,
     Mail,
-    Sparkles,
-    Bug,
-    Smile,
     Check,
     Copy,
     ExternalLink,
@@ -22,37 +18,13 @@ import {
     ChevronUp
 } from "lucide-react";
 import { Badge } from "@components/ui/badge";
-import { Switch } from "@components/ui/switch";
 
 export default function WelcomeFeedback({ hideOnMobile = false }) {
-    const [isOpen, setIsOpen] = useState(false);
     const [showFeedbackDialog, setShowFeedbackDialog] = useState(false);
-    const [dontShowAgain, setDontShowAgain] = useState(false);
     const [showEmailDetails, setShowEmailDetails] = useState(false);
     const [copied, setCopied] = useState(false);
 
     const emailAddress = "tanhbku@proton.me"; // Thay bằng Gmail của bạn
-
-    useEffect(() => {
-        // Kiểm tra xem user đã chọn ẩn popup vĩnh viễn chưa
-        const hiddenForever = localStorage.getItem('hideWelcomeForever_v2');
-        if (hiddenForever === 'true') return;
-
-        // Nếu chưa ẩn, kiểm tra xem session này đã hiện chưa (tránh spam khi reload nhẹ)
-        const hasSeenWelcome = sessionStorage.getItem('hasSeenWelcomeSession');
-        if (!hasSeenWelcome) {
-            const timer = setTimeout(() => setIsOpen(true), 1500);
-            return () => clearTimeout(timer);
-        }
-    }, []);
-
-    const handleCloseWelcome = () => {
-        setIsOpen(false);
-        sessionStorage.setItem('hasSeenWelcomeSession', 'true');
-        if (dontShowAgain) {
-            localStorage.setItem('hideWelcomeForever_v2', 'true');
-        }
-    };
 
     const handleOpenFeedback = () => {
         setShowFeedbackDialog(true);
@@ -79,69 +51,6 @@ export default function WelcomeFeedback({ hideOnMobile = false }) {
             >
                 <MessageSquareHeart className="h-5 w-5 lg:h-6 lg:w-6" />
             </button>
-
-            {/* 1. Popup Chào mừng - Mobile Optimized */}
-            <Dialog open={isOpen} onOpenChange={setIsOpen}>
-                <DialogContent className="w-[94%] sm:max-w-md border-none bg-background/95 dark:bg-zinc-950/95 backdrop-blur-2xl p-0 overflow-hidden rounded-[2rem] sm:rounded-[2.5rem] shadow-2xl border border-white/10 dark:border-white/5 mx-auto">
-                    <div className="relative p-6 sm:p-8 pt-10 sm:pt-12 text-center">
-                        {/* Soft Gradients */}
-                        <div className="absolute -top-24 -right-24 h-64 w-64 bg-indigo-500/10 rounded-full blur-[100px] pointer-events-none" />
-                        <div className="absolute -bottom-24 -left-24 h-64 w-64 bg-purple-500/10 rounded-full blur-[100px] pointer-events-none" />
-
-                        <div className="mx-auto mb-6 sm:mb-8 flex h-20 w-20 sm:h-24 sm:w-24 items-center justify-center rounded-3xl sm:rounded-[2rem] bg-indigo-50/80 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400">
-                            <Smile className="h-10 w-10 sm:h-12 sm:w-12 drop-shadow-[0_0_15px_rgba(99,102,241,0.5)]" />
-                        </div>
-
-                        <DialogTitle className="text-2xl sm:text-4xl font-black tracking-tight mb-4 sm:mb-6 bg-clip-text text-transparent bg-gradient-to-br from-indigo-600 to-purple-600 dark:from-indigo-300 dark:to-purple-300">
-                            Chào các bạn <span className="inline-block text-foreground">👋</span>
-                        </DialogTitle>
-
-                        <div className="space-y-6 sm:space-y-8 text-muted-foreground dark:text-zinc-400 leading-relaxed max-w-[360px] mx-auto">
-                            <p className="text-base sm:text-lg font-bold text-zinc-900 dark:text-zinc-100 px-2">
-                                Chào mừng bạn đã đến với <span className="text-indigo-600 dark:text-indigo-400">StuSpace</span>
-                            </p>
-
-                            <div className="space-y-4 sm:space-y-5">
-                                <div className="flex gap-4 sm:gap-5 p-4 sm:p-5 rounded-2xl sm:rounded-[2rem] bg-amber-50/50 dark:bg-amber-950/20 border border-amber-100/50 dark:border-amber-900/30 transition-colors shadow-sm">
-                                    <Sparkles className="h-5 w-5 sm:h-6 sm:w-6 text-amber-500 shrink-0 mt-0.5" />
-                                    <p className="text-sm sm:text-base text-left leading-relaxed">
-                                        Chiếc web này mình tự tay build với sự hỗ trợ của AI từ <span className="font-bold text-amber-900 dark:text-amber-300">hồi năm nhất</span>. Mình làm vì đam mê nên giao diện có thể hơi lỏ xíu.
-                                    </p>
-                                </div>
-
-                                <div className="flex gap-4 sm:gap-5 p-4 sm:p-5 rounded-2xl sm:rounded-[2rem] bg-rose-50/50 dark:bg-rose-950/20 border border-rose-100/50 dark:border-rose-900/30 transition-colors shadow-sm">
-                                    <Bug className="h-5 w-5 sm:h-6 sm:w-6 text-rose-500 shrink-0 mt-0.5" />
-                                    <p className="text-sm sm:text-base text-left leading-relaxed">
-                                        Dù đã nâng cấp nhiều nhưng <span className="font-bold text-rose-900 dark:text-rose-300">vẫn có thể có bug</span>. Mong các bạn nhẹ tay và góp ý giúp mình nha! 🙏
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* "Don't show again" Option */}
-                        <div className="mt-8 sm:mt-10 flex items-center justify-center gap-3 py-2 sm:py-3 px-5 sm:px-6 rounded-xl sm:rounded-2xl bg-muted/40 dark:bg-zinc-900/60 border border-border/40 w-fit mx-auto transition-all hover:bg-muted/60">
-                            <label htmlFor="dont-show" className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-muted-foreground dark:text-zinc-500 cursor-pointer">
-                                Đừng hiện lại
-                            </label>
-                            <Switch
-                                id="dont-show"
-                                checked={dontShowAgain}
-                                onCheckedChange={setDontShowAgain}
-                                className="scale-[0.8] sm:scale-90 data-[state=checked]:bg-indigo-600"
-                            />
-                        </div>
-
-                        <div className="mt-8 sm:mt-10 flex flex-col gap-3 px-2 sm:px-4 pb-4">
-                            <Button
-                                onClick={handleCloseWelcome}
-                                className="w-full h-14 sm:h-16 rounded-2xl sm:rounded-[2rem] bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white font-black text-base sm:text-xl shadow-[0_12px_24px_-10px_rgba(79,70,229,0.5)] transition-all active:scale-[0.98]"
-                            >
-                                Trải nghiệm ngay ✨
-                            </Button>
-                        </div>
-                    </div>
-                </DialogContent>
-            </Dialog>
 
             {/* 2. Popup Feedback - Mobile Optimized */}
             <Dialog open={showFeedbackDialog} onOpenChange={setShowFeedbackDialog} >

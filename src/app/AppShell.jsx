@@ -1,20 +1,17 @@
 import React, { Suspense, useMemo, useState } from "react";
-import {
-  ChevronRight,
-  CloudUpload,
-  Home,
-  Menu,
-  Moon,
-  SunMedium,
-  X,
-} from "lucide-react";
+import { ChevronRight, CloudUpload, Home, Menu, Moon, SunMedium, X } from "lucide-react";
 import AppLogo from "@shared/components/AppLogo";
 import DataManagement from "@shared/components/DataManagement";
 import LandingPage from "@components/LandingPage";
 import WelcomeFeedback from "@shared/components/WelcomeFeedback";
-import { defaultTabId, menuItems, mobileNavMenuItems } from "@app/menuConfig";
+import {
+  defaultTabId,
+  menuItems,
+  mobileNavMenuItems,
+} from "@app/menuConfig";
 import { tabRegistry } from "@app/tabRegistry";
 import { Badge } from "@shared/ui/badge";
+import MobileMoreSheet from "@app/MobileMoreSheet";
 import {
   Dialog,
   DialogContent,
@@ -33,6 +30,35 @@ import { useThemeMode } from "@shared/hooks/useThemeMode";
 
 const HAS_VISITED_STORAGE_KEY = "hasVisitedApp";
 const ACTIVE_TAB_STORAGE_KEY = "activeWorkspaceTab";
+const FAVORITE_TABS_STORAGE_KEY = "favoriteWorkspaceTabs";
+const RECENT_TABS_STORAGE_KEY = "recentWorkspaceTabs";
+
+const getStoredTabList = (storageKey) => {
+  try {
+    const storedValue = localStorage.getItem(storageKey);
+
+    if (!storedValue) {
+      return [];
+    }
+
+    const parsedValue = JSON.parse(storedValue);
+
+    if (!Array.isArray(parsedValue)) {
+      return [];
+    }
+
+    return parsedValue.filter(
+      (tabId) => typeof tabId === "string" && menuItems.some((item) => item.id === tabId),
+    );
+  } catch (error) {
+    console.error(`Error reading tab list from ${storageKey}:`, error);
+    return [];
+  }
+};
+
+const persistTabList = (storageKey, value) => {
+  localStorage.setItem(storageKey, JSON.stringify(value));
+};
 
 const getStoredActiveTab = () => {
   try {
@@ -72,10 +98,20 @@ function AppShell() {
   const [activeTab, setActiveTab] = useState(getStoredActiveTab);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [mobileMoreOpen, setMobileMoreOpen] = useState(false);
+  const [favoriteTabIds, setFavoriteTabIds] = useState(() =>
+    getStoredTabList(FAVORITE_TABS_STORAGE_KEY),
+  );
+  const [recentTabIds, setRecentTabIds] = useState(() =>
+    getStoredTabList(RECENT_TABS_STORAGE_KEY),
+  );
   const { darkMode, toggleDarkMode } = useThemeMode();
 
   const activeMenuItem = useMemo(() => {
     return menuItems.find((item) => item.id === activeTab) ?? menuItems[0];
+  }, [activeTab]);
+  const isMoreNavActive = useMemo(() => {
+    return !mobileNavMenuItems.some((item) => item.id === activeTab);
   }, [activeTab]);
 
   const activeTabKey = tabRegistry[activeTab] ? activeTab : defaultTabId;
@@ -93,7 +129,24 @@ function AppShell() {
   const handleTabChange = (tabId) => {
     localStorage.setItem(ACTIVE_TAB_STORAGE_KEY, tabId);
     setActiveTab(tabId);
+    setRecentTabIds((current) => {
+      const nextValue = [tabId, ...current.filter((id) => id !== tabId)].slice(0, 6);
+      persistTabList(RECENT_TABS_STORAGE_KEY, nextValue);
+      return nextValue;
+    });
     setSidebarOpen(false);
+    setMobileMoreOpen(false);
+  };
+
+  const handleToggleFavoriteTab = (tabId) => {
+    setFavoriteTabIds((current) => {
+      const nextValue = current.includes(tabId)
+        ? current.filter((id) => id !== tabId)
+        : [tabId, ...current].slice(0, 8);
+
+      persistTabList(FAVORITE_TABS_STORAGE_KEY, nextValue);
+      return nextValue;
+    });
   };
 
   if (showLanding) {
@@ -403,7 +456,7 @@ function AppShell() {
             </div>
           </header>
 
-          <main className="min-h-[calc(100vh-57px)] w-full max-w-full overflow-x-hidden pb-20 lg:pb-6">
+          <main className="min-h-[calc(100vh-57px)] w-full max-w-full overflow-x-hidden pb-28 lg:pb-6">
             <div className="mx-auto w-full max-w-[1600px] overflow-hidden">
               <Suspense fallback={<TabLoadingFallback label={activeMenuItem.label} />}>
                 <ActiveTabComponent />
@@ -414,13 +467,17 @@ function AppShell() {
       </div>
 
       <nav
-        className="fixed bottom-0 left-0 right-0 z-50 border-t bg-card/95 backdrop-blur-lg lg:hidden"
+        className={`pointer-events-none fixed inset-x-0 bottom-0 z-50 justify-center px-3 transition-all duration-200 lg:hidden ${
+          sidebarOpen ? "invisible translate-y-6 opacity-0" : "visible flex translate-y-0 opacity-100"
+        }`}
         style={{
           transform: "translateZ(0)",
-          paddingBottom: "env(safe-area-inset-bottom, 0px)",
+          paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 10px)",
         }}
       >
-        <div className="flex items-center justify-around px-2 py-2">
+        <div className="pointer-events-auto relative w-full max-w-[350px] overflow-hidden rounded-full border border-white/20 bg-background/72 px-1.5 py-1.5 shadow-[0_16px_40px_rgba(15,23,42,0.16)] backdrop-blur-2xl dark:border-white/10 dark:bg-slate-950/78 dark:shadow-[0_18px_42px_rgba(2,6,23,0.48)]">
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-white/20 via-transparent to-primary/5 dark:from-white/5 dark:to-sky-500/10" />
+          <div className="relative flex items-center justify-between gap-0.5">
           {mobileNavMenuItems.map((item) => {
             const Icon = item.icon;
             const isActive = activeTab === item.id;
@@ -429,18 +486,28 @@ function AppShell() {
               <button
                 key={item.id}
                 onClick={() => handleTabChange(item.id)}
-                className={`flex flex-col items-center gap-1 rounded-lg px-3 py-1.5 transition-all ${
-                  isActive ? "text-primary" : "text-muted-foreground"
+                className={`group relative flex min-w-0 flex-1 flex-col items-center gap-0.5 rounded-full px-1.5 py-1.5 transition-all ${
+                  isActive
+                    ? "text-primary"
+                    : "text-muted-foreground hover:bg-accent/60 hover:text-foreground"
                 }`}
               >
-                <Icon
-                  className={`h-5 w-5 transition-transform ${
-                    isActive ? "scale-110" : ""
+                <div
+                  className={`flex h-8 w-8 items-center justify-center rounded-full transition-all ${
+                    isActive
+                      ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
+                      : "bg-muted/65 text-muted-foreground group-hover:bg-accent"
                   }`}
-                />
+                >
+                  <Icon
+                    className={`h-4 w-4 transition-transform ${
+                      isActive ? "scale-105" : ""
+                    }`}
+                  />
+                </div>
                 <span
-                  className={`text-[10px] font-medium ${
-                    isActive ? "font-semibold" : ""
+                  className={`max-w-full truncate text-[9px] font-medium leading-none ${
+                    isActive ? "font-semibold tracking-[0.01em]" : ""
                   }`}
                 >
                   {item.shortLabel}
@@ -449,14 +516,43 @@ function AppShell() {
             );
           })}
           <button
-            onClick={() => setSidebarOpen(true)}
-            className="flex flex-col items-center gap-1 rounded-lg px-3 py-1.5 text-muted-foreground transition-all"
+            onClick={() => setMobileMoreOpen(true)}
+            className={`group relative flex min-w-0 flex-1 flex-col items-center gap-0.5 rounded-full px-1.5 py-1.5 transition-all ${
+              isMoreNavActive || mobileMoreOpen
+                ? "text-primary"
+                : "text-muted-foreground hover:bg-accent/60 hover:text-foreground"
+            }`}
           >
-            <Menu className="h-5 w-5" />
-            <span className="text-[10px] font-medium">Thêm</span>
+            <div
+              className={`flex h-8 w-8 items-center justify-center rounded-full transition-all ${
+                isMoreNavActive || mobileMoreOpen
+                  ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
+                  : "bg-muted/65 text-muted-foreground group-hover:bg-accent"
+              }`}
+            >
+              <Menu className="h-4 w-4" />
+            </div>
+            <span
+              className={`max-w-full truncate text-[9px] font-medium leading-none ${
+                isMoreNavActive || mobileMoreOpen ? "font-semibold" : ""
+              }`}
+            >
+              Thêm
+            </span>
           </button>
         </div>
+        </div>
       </nav>
+
+      <MobileMoreSheet
+        open={mobileMoreOpen}
+        onOpenChange={setMobileMoreOpen}
+        activeTab={activeTab}
+        favoriteTabIds={favoriteTabIds}
+        recentTabIds={recentTabIds}
+        onTabSelect={handleTabChange}
+        onToggleFavorite={handleToggleFavoriteTab}
+      />
 
       <WelcomeFeedback hideOnMobile={activeTab === "gpa"} />
     </div>

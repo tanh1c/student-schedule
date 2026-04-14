@@ -80,13 +80,6 @@ export default function UsefulToolsPage() {
             tool đều có link GitHub, cách cài nhanh và credit rõ ràng để bạn
             tiện bắt đầu.
           </p>
-
-          <div className="flex flex-wrap gap-2">
-            <Badge className="border-blue-500/30 bg-blue-500/10 text-blue-700 dark:text-blue-400">
-              <Sparkles className="mr-1 h-3.5 w-3.5" />
-              Dễ mở rộng thêm tool mới sau này
-            </Badge>
-          </div>
         </div>
       </div>
 
