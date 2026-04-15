@@ -1,4 +1,4 @@
-import React, { Suspense, useMemo, useState } from "react";
+import React, { Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import { ChevronRight, CloudUpload, Home, Menu, Moon, SunMedium, X } from "lucide-react";
 import AppLogo from "@shared/components/AppLogo";
 import DataManagement from "@shared/components/DataManagement";
@@ -9,6 +9,7 @@ import {
   menuItems,
   mobileNavMenuItems,
 } from "@app/menuConfig";
+import { WORKSPACE_TAB_CHANGE_EVENT } from "@app/navigationEvents";
 import { tabRegistry } from "@app/tabRegistry";
 import { Badge } from "@shared/ui/badge";
 import MobileMoreSheet from "@app/MobileMoreSheet";
@@ -126,7 +127,7 @@ function AppShell() {
     setShowLanding(true);
   };
 
-  const handleTabChange = (tabId) => {
+  const handleTabChange = useCallback((tabId) => {
     localStorage.setItem(ACTIVE_TAB_STORAGE_KEY, tabId);
     setActiveTab(tabId);
     setRecentTabIds((current) => {
@@ -136,9 +137,9 @@ function AppShell() {
     });
     setSidebarOpen(false);
     setMobileMoreOpen(false);
-  };
+  }, []);
 
-  const handleToggleFavoriteTab = (tabId) => {
+  const handleToggleFavoriteTab = useCallback((tabId) => {
     setFavoriteTabIds((current) => {
       const nextValue = current.includes(tabId)
         ? current.filter((id) => id !== tabId)
@@ -147,7 +148,26 @@ function AppShell() {
       persistTabList(FAVORITE_TABS_STORAGE_KEY, nextValue);
       return nextValue;
     });
-  };
+  }, []);
+
+  useEffect(() => {
+    const handleExternalTabChange = (event) => {
+      const nextTabId = event?.detail?.tabId;
+
+      if (
+        typeof nextTabId === "string"
+        && menuItems.some((item) => item.id === nextTabId)
+        && tabRegistry[nextTabId]
+      ) {
+        handleTabChange(nextTabId);
+      }
+    };
+
+    window.addEventListener(WORKSPACE_TAB_CHANGE_EVENT, handleExternalTabChange);
+    return () => {
+      window.removeEventListener(WORKSPACE_TAB_CHANGE_EVENT, handleExternalTabChange);
+    };
+  }, [handleTabChange]);
 
   if (showLanding) {
     return <LandingPage onEnterApp={handleEnterApp} />;
@@ -554,7 +574,7 @@ function AppShell() {
         onToggleFavorite={handleToggleFavoriteTab}
       />
 
-      <WelcomeFeedback hideOnMobile={activeTab === "gpa"} />
+      <WelcomeFeedback hideOnMobile={activeTab === "gpa" || activeTab === "dashboard"} />
     </div>
   );
 }

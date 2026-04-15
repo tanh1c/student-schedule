@@ -2,6 +2,7 @@ import {
   BadgePercent,
   CalendarClock,
   GraduationCap,
+  House,
   LayoutDashboard,
   Mail,
   NotebookPen,
@@ -13,6 +14,7 @@ import {
 } from "lucide-react";
 import { scheduleTabMeta } from "@features/schedule/constants/meta";
 import { curriculumTabMeta } from "@features/curriculum/constants/meta";
+import { dashboardTabMeta } from "@features/dashboard/constants/meta";
 import { deadlinesTabMeta } from "@features/deadlines/constants/meta";
 import { examTabMeta } from "@features/exam/constants/meta";
 import { gpaTabMeta } from "@features/gpa/constants/meta";
@@ -27,11 +29,15 @@ import { teachingScheduleTabMeta } from "@features/teaching-schedule/constants/m
 import { notesPlansTabMeta } from "@features/notes-plans/constants/meta";
 import { toolsTabMeta } from "@features/tools/constants/meta";
 
-export const defaultTabId = "schedule";
+export const defaultTabId = "dashboard";
 
-export const mobilePrimaryTabIds = ["schedule", "exam", "curriculum", "gpa"];
+export const mobilePrimaryTabIds = ["dashboard", "schedule", "exam", "curriculum"];
 
 export const menuItems = [
+  {
+    ...dashboardTabMeta,
+    icon: House,
+  },
   {
     ...scheduleTabMeta,
     icon: CalendarClock,
@@ -94,15 +100,15 @@ export const mobileMenuGroups = [
   {
     id: "study",
     label: "Học tập",
-    description: "Các tab học vụ và lập kế hoạch học tập.",
-    itemIds: ["schedule", "exam", "curriculum", "gpa", "roadmap", "notes-plans"],
+    description: "Các tab học vụ, tổng quan và lập kế hoạch học tập.",
+    itemIds: ["dashboard", "schedule", "exam", "curriculum", "gpa", "roadmap", "notes"],
   },
   {
     id: "services",
     label: "Dịch vụ",
     description: "Các dịch vụ học tập, LMS và đăng ký.",
     itemIds: [
-      "teaching-schedule",
+      "teaching",
       "registration",
       "preview",
       "messages",

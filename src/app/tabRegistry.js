@@ -1,6 +1,7 @@
 import { lazy } from "react";
 
 const CurriculumTab = lazy(() => import("@features/curriculum"));
+const DashboardPage = lazy(() => import("@features/dashboard"));
 const DeadlinesTab = lazy(() => import("@features/deadlines"));
 const ExamTab = lazy(() => import("@features/exam"));
 const GpaTab = lazy(() => import("@features/gpa"));
@@ -15,6 +16,7 @@ const TeachingScheduleTab = lazy(() => import("@features/teaching-schedule"));
 const UsefulToolsPage = lazy(() => import("@features/tools"));
 
 export const tabRegistry = {
+  dashboard: DashboardPage,
   schedule: ScheduleTab,
   exam: ExamTab,
   curriculum: CurriculumTab,

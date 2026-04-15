@@ -35,10 +35,43 @@ import {
 // Changelog data - Add new entries at the top
 const changelogData = [
     {
+        version: "2.7.0",
+        date: "2026-04-15",
+        title: "Dashboard Overview & Mobile-First Polish 📊",
+        isLatest: true,
+        changes: [
+            {
+                type: "feature",
+                title: "Ra mắt Dashboard tổng quan sau khi vào app",
+                description: "StuSpace giờ có một màn tổng hợp mới để gom lịch học hôm nay, deadline LMS, tin nhắn, lịch thi, GPA, roadmap và task quan trọng vào cùng một nơi để mở app là nắm được việc cần ưu tiên."
+            },
+            {
+                type: "improvement",
+                title: "Dashboard desktop chuyển sang layout kiểu kanban rõ lane hơn",
+                description: "Các nhóm thông tin được chia theo cột Hôm nay, LMS, Kế hoạch và Tiến độ, giúp dữ liệu dày hơn nhưng vẫn dễ quét và ít bị chồng chéo hơn so với layout cũ."
+            },
+            {
+                type: "improvement",
+                title: "Thiết kế riêng dashboard cho mobile thay vì co từ desktop xuống",
+                description: "Mobile dashboard giờ có hero compact, quick actions dễ chạm hơn, các block nội dung được sắp lại theo thứ tự dùng thực tế và tránh tình trạng card bị tràn hoặc bị bottom nav che mất."
+            },
+            {
+                type: "improvement",
+                title: "Màu sắc và badge trong dashboard được đồng bộ lại",
+                description: "Các lane, button hành động, empty state và badge thời gian đã được chỉnh lại để đồng nhất hơn giữa light mode và dark mode, đồng thời dễ đọc hơn trên các card nhiều thông tin."
+            },
+            {
+                type: "improvement",
+                title: "Header dashboard được lược bớt phần trùng với kanban bên dưới",
+                description: "Các chỉ số và quick action bị lặp thông tin đã được bỏ bớt ở card trên cùng để dashboard nhìn clean hơn và tập trung hơn vào các khối dữ liệu chính."
+            }
+        ]
+    },
+    {
         version: "2.6.0",
         date: "2026-04-14",
         title: "StuSpace Refresh, Landing Polish & Mobile Navigation Upgrade ✨",
-        isLatest: true,
+        isLatest: false,
         changes: [
             {
                 type: "improvement",
