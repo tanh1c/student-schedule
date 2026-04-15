@@ -304,7 +304,7 @@ export default function DashboardPage() {
   const mobileTaskItems = snapshot.tasks.items.slice(0, 2);
 
   return (
-    <div className="mx-auto flex w-full max-w-[1600px] flex-col gap-3 px-4 pb-32 pt-4 md:px-6 md:pt-6 lg:h-[calc(100vh-108px)] lg:overflow-hidden lg:p-6">
+    <div className="mx-auto flex w-full max-w-[1600px] flex-col gap-3 px-4 pb-32 pt-4 md:px-6 md:pt-6 lg:h-full lg:min-h-0 lg:overflow-hidden lg:p-6">
       <Card className="hidden shrink-0 overflow-hidden border-0 bg-[radial-gradient(circle_at_top_left,rgba(56,189,248,0.34),transparent_30%),radial-gradient(circle_at_82%_18%,rgba(139,92,246,0.28),transparent_24%),linear-gradient(135deg,#020617_0%,#0f172a_48%,#1d4ed8_100%)] text-white shadow-2xl shadow-slate-950/15 lg:block">
         <CardContent className="p-4 sm:p-5 lg:p-6">
           <div className="grid gap-3 xl:grid-cols-[minmax(0,1.7fr)_minmax(280px,0.72fr)]">
@@ -316,9 +316,6 @@ export default function DashboardPage() {
                 <h1 className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-[1.95rem]">
                   Dashboard học tập gọn, nhanh và đủ việc cần ưu tiên
                 </h1>
-                <p className="mt-2 max-w-2xl text-sm leading-6 text-white/74 sm:text-[15px] sm:leading-6">
-                  Mở một lần để biết hôm nay có gì cần làm, có gì cần ưu tiên và nên nhảy vào tab nào tiếp theo.
-                </p>
               </div>
               <div className="mt-4 flex flex-wrap gap-2">
                 <Badge className="rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-medium text-white/80 backdrop-blur">
@@ -333,11 +330,11 @@ export default function DashboardPage() {
               </div>
             </div>
 
-            <div className="flex flex-col justify-end">
+            <div className="flex flex-col justify-center xl:pl-2">
               <button
                 type="button"
                 onClick={refresh}
-                className="group rounded-2xl border border-white/12 bg-white/10 p-4 text-left backdrop-blur transition-colors hover:bg-white/16"
+                className="group mx-auto w-full max-w-md rounded-2xl border border-white/12 bg-white/10 p-4 text-left backdrop-blur transition-colors hover:bg-white/16"
               >
                 <div className="flex items-center justify-between gap-3">
                   <div>

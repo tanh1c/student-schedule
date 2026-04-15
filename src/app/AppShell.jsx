@@ -117,6 +117,7 @@ function AppShell() {
 
   const activeTabKey = tabRegistry[activeTab] ? activeTab : defaultTabId;
   const ActiveTabComponent = tabRegistry[activeTabKey];
+  const isDashboardLayout = activeTabKey === "dashboard";
 
   const handleEnterApp = () => {
     localStorage.setItem(HAS_VISITED_STORAGE_KEY, "true");
@@ -476,8 +477,8 @@ function AppShell() {
             </div>
           </header>
 
-          <main className="min-h-[calc(100vh-57px)] w-full max-w-full overflow-x-hidden pb-28 lg:pb-6">
-            <div className="mx-auto w-full max-w-[1600px] overflow-hidden">
+          <main className={`w-full max-w-full overflow-x-hidden pb-28 lg:pb-6 ${isDashboardLayout ? "min-h-[calc(100vh-57px)] lg:h-[calc(100vh-72px)] lg:min-h-[calc(100vh-72px)] lg:overflow-hidden" : "min-h-[calc(100vh-57px)]"}`}>
+            <div className={`mx-auto w-full max-w-[1600px] overflow-hidden ${isDashboardLayout ? "lg:h-full" : ""}`}>
               <Suspense fallback={<TabLoadingFallback label={activeMenuItem.label} />}>
                 <ActiveTabComponent />
               </Suspense>
