@@ -8,7 +8,7 @@ services:
     region: singapore  # Gần Việt Nam nhất
     plan: free
     branch: main  # Deploy từ branch main
-    buildCommand: npm install --include=dev && cd server && npm install && cd .. && npm run build
+    buildCommand: npm install --include=dev && npm run build
     startCommand: npm start
     envVars:
       - key: NODE_ENV
