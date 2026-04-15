@@ -28,6 +28,7 @@ build
 # ========================
 server/debug_*.html
 server/debug_*.json
+server/docs/debug/
 debug_*.html
 debug_*.json
 
@@ -45,6 +46,7 @@ lerna-debug.log*
 # ========================
 # IDE / Editor
 # ========================
+.claude/
 .vscode/*
 !.vscode/extensions.json
 !.vscode/settings.json
@@ -91,6 +93,7 @@ __pycache__
 .Python
 venv
 .venv
+server/backup/
 
 # ========================
 # Render / Deployment
@@ -111,3 +114,4 @@ hcmut_lecturer_schedule-main/
 /pdfprocess/
 /scripts/
 /htmlSpecs/
+/ref_tools/

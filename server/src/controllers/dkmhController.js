@@ -4,7 +4,7 @@ import { CookieJar } from 'tough-cookie';
 import { activePeriodJars } from '../services/sessionStore.js';
 import * as parser from '../services/dkmhParser.js';
 import config from '../../config/default.js';
-import { maskCookie, maskUrl } from '../utils/masking.js';
+import { maskUrl } from '../utils/masking.js';
 import logger from '../utils/logger.js';
 
 const FETCH_TIMEOUT = 15000;
@@ -123,7 +123,11 @@ export const getPeriodDetails = async (req, res) => {
 
         const cookieParts = dkmhCookie.split('; ');
         for (const part of cookieParts) {
-            try { await jar.setCookie(part, 'https://mybk.hcmut.edu.vn'); } catch { }
+            try {
+                await jar.setCookie(part, 'https://mybk.hcmut.edu.vn');
+            } catch (_error) {
+                // Ignore malformed cookie fragments from upstream responses.
+            }
         }
 
         const baseHeaders = {
@@ -253,7 +257,11 @@ export const register = async (req, res) => {
         if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
 
         let result = {};
-        try { result = JSON.parse(text); } catch { }
+        try {
+            result = JSON.parse(text);
+        } catch (_error) {
+            // Some upstream responses are plain text; fall back to a generic error payload.
+        }
 
         if (result.code === 'SUCCESS' || forceMode) {
             // Refresh list
@@ -301,7 +309,7 @@ export const cancel = async (req, res) => {
     if (!storedData) return res.status(400).json({ error: 'Session expired' });
 
     try {
-        const response = await storedData.fetch('https://mybk.hcmut.edu.vn/dkmh/xoaKetQuaDangKy.action', {
+        await storedData.fetch('https://mybk.hcmut.edu.vn/dkmh/xoaKetQuaDangKy.action', {
             method: 'POST', body: `ketquaId=${ketquaId}`, headers: storedData.baseHeaders
         });
 

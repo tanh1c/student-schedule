@@ -48,10 +48,23 @@ const CommandInput = React.forwardRef(({ className, ...props }, ref) => (
 
 CommandInput.displayName = CommandPrimitive.Input.displayName
 
-const CommandList = React.forwardRef(({ className, ...props }, ref) => (
+const CommandList = React.forwardRef(({
+  className,
+  onTouchMoveCapture,
+  onWheelCapture,
+  ...props
+}, ref) => (
   <CommandPrimitive.List
     ref={ref}
-    className={cn("max-h-[300px] overflow-y-auto overflow-x-hidden", className)}
+    className={cn("max-h-[300px] overflow-y-auto overflow-x-hidden overscroll-contain", className)}
+    onWheelCapture={(event) => {
+      onWheelCapture?.(event)
+      event.stopPropagation()
+    }}
+    onTouchMoveCapture={(event) => {
+      onTouchMoveCapture?.(event)
+      event.stopPropagation()
+    }}
     {...props} />
 ))
 

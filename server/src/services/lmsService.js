@@ -338,7 +338,7 @@ async function getCalendarMonth(lmsSession, year, month) {
  * @param {number} month - Month context (1-12)
  * @returns {Array} - Parsed events
  */
-function parseMonthEvents(monthData, year, month) {
+function parseMonthEvents(monthData, _year, _month) {
     const events = [];
 
     // The API returns weeks[] -> days[] -> events[]

@@ -1,150 +1,126 @@
-# 🚀 Hướng dẫn Deploy Student Schedule App
+# StuSpace Deployment Guide
 
-## 📋 Tổng quan
+## Overview
 
-Ứng dụng này bao gồm:
-- **Frontend (FE)**: React + Vite (static files)
-- **Backend (BE)**: Node.js + Express (API proxy cho MyBK/DKMH)
+StuSpace currently ships as:
 
-## 🔐 Yêu cầu bảo mật QUAN TRỌNG
+- a Vite frontend built to `dist/`
+- an Express backend in `server/`
+- an optional Redis layer for session/cache behavior
 
-Vì BE xử lý credentials của người dùng (tài khoản MyBK), cần đảm bảo:
+Production backend entrypoint:
 
-### 1. HTTPS bắt buộc
-- Cả FE và BE đều PHẢI chạy trên HTTPS
-- Không bao giờ truyền credentials qua HTTP
+- `server/src/server.js`
 
-### 2. Không lưu trữ password
-- ⚠️ Code hiện tại đang lưu password trong session (line 201-202)
-- Cần xóa việc lưu password sau khi login xong
+Production app wiring:
 
-### 3. Environment Variables
-- Không hardcode bất kỳ secrets nào
-- Sử dụng `.env` cho local, env vars cho production
+- `server/src/app.js`
 
-### 4. Rate Limiting
-- Giới hạn số request để tránh brute force
-- Khuyến nghị: 5 login attempts / IP / 15 minutes
+## Recommended Topology
 
-### 5. CORS Configuration
-- Chỉ cho phép origin cụ thể của FE
-- Không dùng wildcard (`*`)
+The simplest production setup is:
 
----
+- one Node web service serving both API and built frontend
+- one Redis instance for cache and session support
 
-## 🏗️ Cấu trúc Deploy
+This repo already supports that layout through:
 
-### Option 1: Vercel (FE) + Railway/Render (BE) - KHUYẾN NGHỊ
+- `npm run build`
+- `npm start`
+- `render.yaml`
 
-#### Frontend trên Vercel (FREE)
-```bash
-# 1. Build production
-npm run build
+## Supported Deployment Modes
 
-# 2. Deploy với Vercel CLI
-npx vercel --prod
-```
+### 1. Recommended: Single Node Service
 
-**Cấu hình `vercel.json`:**
-```json
-{
-  "buildCommand": "npm run build",
-  "outputDirectory": "dist",
-  "framework": "vite"
-}
-```
+Use one service that:
 
-#### Backend trên Railway (FREE tier)
-```bash
-# 1. Tạo repo riêng cho server hoặc dùng monorepo
-# 2. Connect Railway với GitHub
-# 3. Set environment variables trên Railway dashboard
-```
+- builds the frontend to `dist/`
+- starts the backend with `npm start`
+- serves static frontend files from Express in production
 
-**Environment Variables cần set:**
-```
+Good fit for:
+
+- Render
+- Railway
+- Fly.io
+- a VPS with Node + reverse proxy
+
+### 2. Split Frontend / Backend
+
+You can also deploy:
+
+- frontend on Vercel or Netlify
+- backend on Render or Railway
+
+If you split deployment, make sure:
+
+- `CORS_ORIGIN` points to the frontend domain
+- frontend API base URL points to the backend domain
+
+## Required Environment Variables
+
+At minimum, production should set:
+
+```env
 NODE_ENV=production
 PORT=3001
-ALLOWED_ORIGIN=https://your-frontend.vercel.app
-SESSION_SECRET=<random-32-char-string>
+REDIS_URL=rediss://...
+CREDENTIALS_ENCRYPTION_KEY=<64-char-hex-string>
+CORS_ORIGIN=https://your-frontend-domain
 ```
 
-### Option 2: Render (Full-stack FREE)
+Optional but useful:
 
-Render hỗ trợ cả static sites và web services miễn phí.
-
----
-
-## 🔧 Cập nhật code cho Production
-
-### 1. Tạo file `.env.example`
 ```env
-NODE_ENV=development
-PORT=3001
-ALLOWED_ORIGIN=http://localhost:3000
-SESSION_SECRET=your-secret-key-here
+GITHUB_TOKEN=<optional-github-token>
+UPSTASH_DAILY_COMMAND_LIMIT=10000
 ```
 
-### 2. Cập nhật server/index.js
+## Build And Start
 
-Xem file `server/index.production.js` để áp dụng các thay đổi bảo mật.
+Install dependencies:
 
----
-
-## 📦 Scripts cần thêm vào package.json
-
-```json
-{
-  "scripts": {
-    "build": "vite build",
-    "start:server": "node server/index.js",
-    "start:prod": "NODE_ENV=production node server/index.js"
-  }
-}
+```bash
+npm install
+npm --prefix server install
 ```
 
----
+Build frontend:
 
-## 🛡️ Checklist bảo mật trước khi deploy
+```bash
+npm run build
+```
 
-- [ ] Xóa tất cả `console.log` chứa thông tin nhạy cảm
-- [ ] Xóa các file debug (`debug_*.html`, `debug_*.json`)
-- [ ] Cấu hình CORS chỉ cho phép domain FE
-- [ ] Enable HTTPS
-- [ ] Thêm rate limiting
-- [ ] Thêm helmet.js cho HTTP headers
-- [ ] Xóa việc lưu password trong session
-- [ ] Set secure cookie options
-- [ ] Thêm input validation
+Start production server:
 
----
+```bash
+npm start
+```
 
-## 🌐 Cấu hình DNS (nếu dùng domain riêng)
+## Security Checklist
 
-1. **Frontend**: Point domain tới Vercel
-2. **Backend**: Dùng subdomain như `api.yourdomain.com`
+Before deploying publicly, make sure:
 
----
+- HTTPS is enabled
+- `.env` is not committed
+- `CORS_ORIGIN` is narrowed to the real frontend domain
+- `CREDENTIALS_ENCRYPTION_KEY` is set in production
+- Redis is configured if you want stable session/cache behavior
+- old debug artifacts under `server/docs/debug/` are not shipped around casually
+- `/api/health` and `/api/stats` are monitored
 
-## 💡 Lưu ý quan trọng
+## Verify After Deploy
 
-1. **Session Storage**: Hiện tại dùng in-memory (`Map`). 
-   - Production nên dùng Redis hoặc database
-   - In-memory sẽ mất session khi server restart
+Check these first:
 
-2. **Scalability**: Với in-memory sessions, không thể scale horizontal
-   - Cần migrate sang Redis nếu muốn multiple instances
+- `GET /api/health`
+- load `/`
+- login flow
+- schedule fetch
+- LMS/deadline fetch if enabled
 
-3. **Monitoring**: Thêm logging service như:
-   - Sentry (error tracking)
-   - LogTail/Papertrail (logs)
+## Notes
 
-4. **Backup**: Không lưu dữ liệu người dùng trên server
-   - Tất cả data đều được fetch từ MyBK
-   - Không cần backup database
-
----
-
-## 📞 Liên hệ hỗ trợ
-
-Nếu gặp vấn đề khi deploy, vui lòng tạo issue trên GitHub repo.
+- The repo still uses the current GitHub slug `student-schedule` in GitHub-facing integrations until the remote repository is renamed.
+- For a Render-specific walkthrough, see `RENDER-DEPLOY.md`.

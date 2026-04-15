@@ -1,82 +1,61 @@
-# MyBK Sync Feature
+# Backend Notes
 
-## Tổng quan
+Backend của project nằm trong `server/` và dùng Express + Redis.
 
-Tính năng này cho phép bạn đăng nhập bằng tài khoản MyBK (SSO BKU) và tự động lấy thời khóa biểu từ hệ thống.
+## Entry Point
 
-## Cách sử dụng
+- Development: `server/src/server.js`
+- App wiring: `server/src/app.js`
 
-### Bước 1: Khởi động Backend Server
-
-Mở terminal mới và chạy:
+## Run
 
 ```bash
 cd server
 npm install
-npm start
-```
-
-Server sẽ chạy tại `http://localhost:3001`
-
-### Bước 2: Khởi động Frontend
-
-Mở terminal khác và chạy:
-
-```bash
 npm run dev
 ```
 
-Frontend sẽ chạy tại `http://localhost:3000`
+Backend mặc định chạy ở `http://localhost:3001`.
 
-### Bước 3: Đăng nhập và Đồng bộ
+## Environment
 
-1. Truy cập `http://localhost:3000`
-2. Vào tab **Thời khóa biểu**
-3. Chọn tab **🔄 Đồng bộ MyBK**
-4. Nhập **MSSV** và **Mật khẩu** MyBK
-5. Nhấn **Đăng nhập & Đồng bộ**
+Tạo `server/.env`:
 
-## Cách hoạt động
-
-```
-┌─────────────────┐      ┌─────────────────┐      ┌─────────────────┐
-│   Frontend      │ ──── │  Backend Proxy  │ ──── │     MyBK API    │
-│  (localhost:3000)│      │ (localhost:3001) │      │ (mybk.hcmut.edu.vn) │
-└─────────────────┘      └─────────────────┘      └─────────────────┘
+```env
+NODE_ENV=development
+PORT=3001
+REDIS_URL=redis://localhost:6379
+CREDENTIALS_ENCRYPTION_KEY=<64-char-hex-string>
+UPSTASH_DAILY_COMMAND_LIMIT=10000
 ```
 
-1. **Frontend** gửi credentials đến **Backend Proxy**
-2. **Backend** thực hiện CAS authentication với SSO BKU
-3. **Backend** lưu session cookies và gọi MyBK API
-4. **Backend** trả về dữ liệu cho **Frontend**
+## Test
 
-## API Endpoints
+```bash
+npm test -- --runInBand
+```
 
-| Endpoint | Method | Mô tả |
-|----------|--------|-------|
-| `/api/health` | GET | Kiểm tra server status |
-| `/api/auth/login` | POST | Đăng nhập CAS |
-| `/api/auth/logout` | POST | Đăng xuất |
-| `/api/student/info` | GET | Lấy thông tin sinh viên |
-| `/api/student/schedule` | GET | Lấy thời khóa biểu |
+## Structure
 
-## Bảo mật
+- `data/`: subject + lecturer reference data
+- `docs/`: backend notes and test summaries
+- `src/controllers/`: request handlers
+- `src/routes/`: route definitions
+- `src/services/`: MyBK, DKMH, LMS, Redis, session logic
+- `src/middlewares/`: auth + error handling
+- `src/utils/`: logger, masking, validation, AppError
+- `scripts/`: backend helper scripts
+- `tests/`: Jest tests
 
-- Mật khẩu **không được lưu trữ** - chỉ được gửi một lần đến SSO
-- Session được lưu trong memory của server, sẽ mất khi restart
-- Tất cả requests đến MyBK đều qua HTTPS
-- Frontend không bao giờ truy cập trực tiếp đến MyBK
+## Important Endpoints
 
-## Troubleshooting
+- `GET /api/health`
+- `GET /api/stats`
+- `POST /api/auth/login`
+- `POST /api/auth/logout`
+- `GET /api/student/info`
+- `GET /api/student/schedule`
+- `GET /api/dkmh/registration-periods`
+- `GET /api/lms/messages`
 
-### Server offline
-- Đảm bảo đã chạy `npm install` trong thư mục `server/`
-- Kiểm tra port 3001 có bị chiếm không
-
-### Đăng nhập thất bại
-- Kiểm tra lại MSSV và mật khẩu
-- Thử đăng nhập trực tiếp tại mybk.hcmut.edu.vn để xác nhận thông tin
-
-### Không lấy được lịch
-- Server có thể bị timeout - thử lại
-- MyBK có thể đang bảo trì
+Frontend local dev mặc định gọi backend qua Vite proxy từ `http://localhost:5173` sang `http://localhost:3001`.

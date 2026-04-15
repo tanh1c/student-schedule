@@ -1,227 +1,277 @@
 import React from 'react';
 import {
-    Shield,
-    Lock,
-    Eye,
-    Server,
-    Github,
-    CalendarClock,
-    GraduationCap,
-    BadgePercent,
-    Route,
-    NotebookTabs,
-    CheckCircle2,
     ArrowRight,
-    ExternalLink,
+    CheckCircle2,
     Code2,
+    ExternalLink,
+    Github,
     Heart,
-    Sparkles,
-    KeyRound,
-    RefreshCw,
-    Rocket,
-    ChevronRight,
-    Users
+    Lock,
+    MessageSquare,
+    Route,
+    Shield,
+    TimerReset,
 } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import AppLogo from './AppLogo';
-
-const features = [
-    {
-        icon: CalendarClock,
-        title: 'Thời khóa biểu',
-        description: 'Xem và quản lý lịch học theo tuần, hỗ trợ sync từ MyBK',
-        color: 'bg-blue-500',
-        iconColor: 'text-blue-500'
-    },
-    {
-        icon: GraduationCap,
-        title: 'Lịch thi & CTĐT',
-        description: 'Tra cứu lịch thi và chương trình đào tạo dễ dàng',
-        color: 'bg-emerald-500',
-        iconColor: 'text-emerald-500'
-    },
-    {
-        icon: BadgePercent,
-        title: 'Tính GPA',
-        description: 'Tính điểm trung bình tích lũy với giao diện trực quan',
-        color: 'bg-violet-500',
-        iconColor: 'text-violet-500'
-    },
-    {
-        icon: NotebookTabs,
-        title: 'Đăng ký môn học',
-        description: 'Hỗ trợ đăng ký môn học với tính năng tìm kiếm nhanh',
-        color: 'bg-amber-500',
-        iconColor: 'text-amber-500'
-    },
-    {
-        icon: Route,
-        title: 'Roadmap học tập',
-        description: 'Lên kế hoạch và theo dõi tiến trình học tập theo kỳ',
-        color: 'bg-cyan-500',
-        iconColor: 'text-cyan-500'
-    },
-    {
-        icon: Users,
-        title: 'Lịch giảng dạy',
-        description: 'Tra cứu lịch dạy của giảng viên, tìm lớp theo thời gian',
-        color: 'bg-rose-500',
-        iconColor: 'text-rose-500'
-    }
-];
-
-const securityPoints = [
-    {
-        icon: Lock,
-        title: 'Không lưu mật khẩu',
-        description: 'Mật khẩu của bạn chỉ được sử dụng để xác thực với SSO của trường và KHÔNG được lưu trữ trên server của chúng tôi.'
-    },
-    {
-        icon: Eye,
-        title: 'Không thu thập dữ liệu',
-        description: 'Chúng tôi không lưu trữ thông tin cá nhân, điểm số, hay bất kỳ dữ liệu nào của bạn. Mọi thứ đều được xử lý real-time.'
-    },
-    {
-        icon: Server,
-        title: 'Session tạm thời',
-        description: 'Session đăng nhập tự động hết hạn sau 1 giờ. Không có dữ liệu nào được lưu lại sau khi bạn đăng xuất.'
-    },
-    {
-        icon: Shield,
-        title: 'HTTPS + Mã hóa',
-        description: 'Tất cả kết nối đều qua HTTPS với SSL/TLS encryption, đảm bảo an toàn khi truyền dữ liệu.'
-    }
-];
+import { Card, CardContent } from '@/components/ui/card';
+import AppLogo from '@shared/components/AppLogo';
+import SectionHeading from './landing/SectionHeading';
+import {
+    footerYear,
+    heroTitleLines,
+    productHighlights,
+    securityPoints,
+    trustChips,
+} from './landing/landingContent';
 
 function LandingPage({ onEnterApp }) {
     return (
-        <div className="min-h-screen bg-background">
-            {/* Hero Section - Full viewport with stunning design */}
-            <div className="relative overflow-hidden min-h-screen flex flex-col">
-                {/* Animated gradient background - Enhanced for both modes */}
-                <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                    {/* Base gradient - More vibrant in light mode */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-indigo-50/50 to-violet-50 dark:from-transparent dark:via-transparent dark:to-transparent" />
-
-                    {/* Primary gradient mesh - Stronger in light mode */}
-                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(99,102,241,0.25),rgba(255,255,255,0))] dark:bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.2),rgba(0,0,0,0))]" />
-
-                    {/* Secondary accent gradient - Bottom right */}
-                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_60%_at_80%_80%,rgba(236,72,153,0.12),rgba(255,255,255,0))] dark:bg-[radial-gradient(ellipse_60%_60%_at_80%_80%,rgba(236,72,153,0.08),rgba(0,0,0,0))]" />
-
-                    {/* Animated gradient orbs - More visible in light mode */}
-                    <div className="absolute -top-40 -right-40 w-[600px] h-[600px] bg-gradient-to-br from-blue-400/40 via-indigo-400/30 to-violet-400/40 dark:from-primary/30 dark:via-blue-500/20 dark:to-violet-500/30 rounded-full blur-3xl animate-pulse" />
-                    <div className="absolute top-1/2 -left-32 w-[500px] h-[500px] bg-gradient-to-tr from-purple-400/30 via-pink-400/25 to-rose-400/30 dark:from-indigo-500/20 dark:via-purple-500/15 dark:to-pink-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s', animationDuration: '4s' }} />
-                    <div className="absolute -bottom-20 right-1/4 w-[450px] h-[450px] bg-gradient-to-tl from-cyan-400/30 via-teal-400/25 to-emerald-400/30 dark:from-cyan-500/20 dark:via-teal-500/15 dark:to-emerald-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s', animationDuration: '5s' }} />
-
-                    {/* Extra light mode accent - center glow */}
-                    <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-r from-transparent via-primary/10 to-transparent dark:via-primary/5 rounded-full blur-3xl" />
-
-                    {/* Floating particles effect - More colorful */}
-                    <div className="absolute inset-0">
-                        {[
-                            { color: 'bg-blue-400/40 dark:bg-primary/30', size: 'w-3 h-3' },
-                            { color: 'bg-violet-400/40 dark:bg-violet-500/30', size: 'w-2 h-2' },
-                            { color: 'bg-pink-400/40 dark:bg-pink-500/30', size: 'w-2.5 h-2.5' },
-                            { color: 'bg-indigo-400/40 dark:bg-indigo-500/30', size: 'w-2 h-2' },
-                            { color: 'bg-cyan-400/40 dark:bg-cyan-500/30', size: 'w-3 h-3' },
-                            { color: 'bg-emerald-400/40 dark:bg-emerald-500/30', size: 'w-2 h-2' },
-                        ].map((particle, i) => (
-                            <div
-                                key={i}
-                                className={`absolute ${particle.size} ${particle.color} rounded-full animate-bounce`}
-                                style={{
-                                    left: `${15 + i * 15}%`,
-                                    top: `${20 + (i % 3) * 25}%`,
-                                    animationDelay: `${i * 0.3}s`,
-                                    animationDuration: `${2 + i * 0.5}s`
-                                }}
-                            />
-                        ))}
-                    </div>
-
-                    {/* Grid pattern overlay */}
-                    <div
-                        className="absolute inset-0 opacity-[0.03] dark:opacity-[0.04]"
-                        style={{
-                            backgroundImage: `linear-gradient(hsl(var(--primary)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--primary)) 1px, transparent 1px)`,
-                            backgroundSize: '80px 80px'
-                        }}
-                    />
-
-                    {/* Radial fade to background - Softer in light mode */}
-                    <div
-                        className="absolute inset-0"
-                        style={{ background: 'radial-gradient(circle at center, transparent 0%, hsl(var(--background)) 80%)' }}
-                    />
+        <div className="min-h-screen bg-background text-foreground">
+            <section className="relative overflow-hidden">
+                <div className="pointer-events-none absolute inset-0">
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(59,130,246,0.16),transparent_32%),radial-gradient(circle_at_85%_18%,rgba(99,102,241,0.12),transparent_28%),radial-gradient(circle_at_50%_100%,rgba(56,189,248,0.08),transparent_30%)]" />
+                    <div className="absolute left-[-6rem] top-20 h-64 w-64 rounded-full bg-sky-400/20 blur-3xl dark:bg-sky-500/12" />
+                    <div className="absolute right-[-6rem] top-0 h-72 w-72 rounded-full bg-violet-500/14 blur-3xl dark:bg-violet-500/12" />
+                    <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(255,255,255,0.35),transparent_20%,transparent_80%,rgba(255,255,255,0.45))] dark:bg-[linear-gradient(to_bottom,rgba(2,6,23,0.08),transparent_25%,transparent_80%,rgba(2,6,23,0.25))]" />
                 </div>
 
-                <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-8 sm:pt-10 sm:pb-12 flex-1 flex flex-col">
-                    {/* Header with glassmorphism */}
-                    <div className="flex items-center justify-between mb-8 sm:mb-12">
-                        <div className="flex items-center gap-3">
-                            <AppLogo size={44} className="shadow-xl shadow-primary/30 ring-2 ring-white/20 rounded-2xl" />
-                            <div>
-                                <span className="text-xl font-bold text-foreground">TKB Smart</span>
-                                <span className="hidden sm:inline text-xs text-muted-foreground ml-2 bg-muted px-2 py-0.5 rounded-full">v2.0</span>
+                <div className="relative mx-auto flex min-h-[100svh] max-w-7xl flex-col px-4 pb-6 pt-4 sm:px-6 sm:pb-8 sm:pt-5 lg:px-8 lg:pb-10">
+                    <header className="mb-3 flex items-center justify-between gap-3 rounded-[26px] border border-white/70 bg-white/80 px-4 py-3.5 shadow-lg shadow-slate-200/40 backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/55 dark:shadow-black/20 sm:mb-4 sm:rounded-[24px] sm:px-4 sm:py-3">
+                        <div className="flex min-w-0 items-center gap-3">
+                            <AppLogo size={56} className="rounded-2xl shadow-md ring-1 ring-black/5 dark:ring-white/10 sm:h-auto sm:w-auto" />
+                            <div className="min-w-0">
+                                <p className="truncate text-2xl font-semibold tracking-tight sm:text-lg">StuSpace</p>
+                                <p className="truncate text-[15px] leading-6 text-muted-foreground sm:text-xs sm:leading-normal">
+                                    Workspace học tập cho sinh viên Bách Khoa
+                                </p>
                             </div>
                         </div>
+
                         <a
                             href="https://github.com/tanh1c/student-schedule"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-all px-4 py-2 rounded-full border border-border/50 hover:border-primary/50 hover:bg-primary/5"
                         >
-                            <Github className="h-4 w-4" />
-                            <span className="hidden sm:inline">Star on GitHub</span>
+                            <Button variant="outline" className="h-12 min-w-[3.25rem] rounded-full border-border/70 bg-background/80 px-4 text-base shadow-sm sm:h-10 sm:text-sm">
+                                <Github className="mr-0 h-5 w-5 sm:mr-2 sm:h-4 sm:w-4" />
+                                <span className="hidden sm:inline">GitHub</span>
+                            </Button>
                         </a>
-                    </div>
+                    </header>
 
-                    {/* Main Content - Centered */}
-                    <div className="flex-1 flex flex-col justify-center">
-                        {/* Hero Content */}
-                        <div className="text-center max-w-5xl mx-auto mb-10 sm:mb-14">
-                            {/* Animated Badge */}
-                            <div className="inline-flex items-center gap-2 mb-6 px-5 py-2 bg-gradient-to-r from-primary/10 via-primary/5 to-violet-500/10 border border-primary/20 rounded-full shadow-lg shadow-primary/10 animate-pulse">
-                                <Sparkles className="h-4 w-4 text-primary animate-spin" style={{ animationDuration: '3s' }} />
-                                <span className="text-sm font-semibold bg-gradient-to-r from-primary to-violet-500 bg-clip-text text-transparent">
-                                    Miễn phí • Mã nguồn mở • Bảo mật
-                                </span>
-                            </div>
+                    <div className="flex flex-1 justify-center pt-4 sm:items-center sm:pt-0">
+                        <div className="mx-auto max-w-[24.5rem] text-center sm:max-w-4xl">
+                            <Badge className="mb-4 rounded-full border-primary/15 bg-white/80 px-5 py-2.5 text-[13px] font-medium text-foreground shadow-sm dark:bg-slate-950/60 sm:mb-3 sm:px-3 sm:py-1.5 sm:text-[11px]">
+                                Dành cho sinh viên Đại học Bách Khoa TP.HCM
+                            </Badge>
 
-                            {/* Main Headline with enhanced typography */}
-                            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold tracking-tight mb-6 text-foreground leading-[1.1]">
-                                <span className="block">Quản lý lịch học</span>
-                                <span className="relative inline-block mt-2">
-                                    <span className="bg-gradient-to-r from-primary via-blue-500 to-violet-500 bg-clip-text text-transparent animate-gradient bg-[length:200%_auto]">
-                                        thông minh
-                                    </span>
-                                    <svg className="absolute -bottom-2 left-0 w-full h-3 text-primary/30" viewBox="0 0 100 10" preserveAspectRatio="none">
-                                        <path d="M0 5 Q 25 0, 50 5 T 100 5" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" />
-                                    </svg>
+                            <h1 className="pb-[0.11em] text-[3.85rem] font-semibold leading-[0.91] tracking-[-0.095em] text-foreground sm:text-[4rem] lg:text-[5rem] xl:text-[5.9rem]">
+                                {heroTitleLines[0]}
+                                <span className="mt-1.5 block pb-[0.1em] bg-gradient-to-r from-slate-900 via-slate-700 to-primary bg-clip-text text-transparent dark:from-white dark:via-slate-200 dark:to-blue-300 sm:mt-2">
+                                    {heroTitleLines[1]}
                                 </span>
                             </h1>
 
-                            {/* Subheadline */}
-                            <p className="text-lg sm:text-xl lg:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed font-medium">
-                                Công cụ <span className="text-foreground font-semibold">all-in-one</span> cho sinh viên
-                                <span className="inline-flex items-center mx-2 px-2 py-0.5 bg-blue-500/10 text-blue-600 dark:text-blue-400 rounded-md text-base font-bold">
-                                    ĐH Bách Khoa TPHCM
-                                </span>
+                            <p className="mx-auto mt-5 max-w-[22rem] text-[1.15rem] leading-8 text-muted-foreground sm:mt-5 sm:max-w-3xl sm:text-xl sm:leading-8">
+                                Thời khóa biểu, lịch thi, GPA, LMS và kế hoạch học tập trong một nơi đủ nhanh để dùng mỗi ngày.
                             </p>
 
-                            {/* CTA Buttons with enhanced styling */}
-                            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
+                            <div className="mt-8 flex flex-col items-center gap-3.5 sm:mt-7 sm:flex-row sm:justify-center sm:gap-4">
                                 <Button
                                     size="lg"
                                     onClick={onEnterApp}
-                                    className="w-full sm:w-auto text-base px-10 py-7 shadow-2xl shadow-primary/30 hover:shadow-primary/40 hover:scale-105 transition-all duration-300 bg-gradient-to-r from-primary to-blue-600 border-0 rounded-2xl font-semibold"
+                                    className="h-16 w-full max-w-md rounded-full bg-slate-950 px-8 text-[1.28rem] font-semibold text-white shadow-xl shadow-slate-900/20 hover:bg-slate-800 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-100 sm:h-14 sm:w-auto sm:max-w-none sm:px-8 sm:text-lg"
                                 >
-                                    <Rocket className="mr-2 h-5 w-5" />
-                                    Vào ứng dụng ngay
-                                    <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                                    Vào ứng dụng
+                                    <ArrowRight className="ml-2.5 h-5.5 w-5.5 sm:h-5 sm:w-5" />
+                                </Button>
+                                <a
+                                    href="https://github.com/tanh1c/student-schedule"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="w-full max-w-sm sm:w-auto sm:max-w-none"
+                                >
+                                    <Button
+                                        variant="outline"
+                                        size="lg"
+                                        className="h-16 w-full rounded-full border-border/70 bg-white/80 px-8 text-[1.22rem] font-medium shadow-sm dark:bg-slate-950/55 sm:h-14 sm:w-auto sm:px-8 sm:text-lg"
+                                    >
+                                        <Code2 className="mr-2.5 h-5.5 w-5.5 sm:h-5 sm:w-5" />
+                                        Xem mã nguồn
+                                    </Button>
+                                </a>
+                            </div>
+
+                            <div className="mt-7 flex flex-wrap justify-center gap-3 sm:mt-6">
+                                {trustChips.map((item, index) => (
+                                    <div
+                                        key={item}
+                                        className={`inline-flex min-h-[3.5rem] w-full max-w-[18rem] items-center justify-center gap-2.5 rounded-full border border-border/70 bg-white/80 px-5 py-3 text-base text-muted-foreground shadow-sm dark:bg-slate-950/50 sm:min-h-0 sm:w-auto sm:max-w-none sm:px-3.5 sm:py-1.5 sm:text-sm ${index > 1 ? 'hidden sm:inline-flex' : ''}`}
+                                    >
+                                        <CheckCircle2 className="h-4.5 w-4.5 text-emerald-500 sm:h-3.5 sm:w-3.5" />
+                                        <span>{item}</span>
+                                    </div>
+                                ))}
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20 lg:px-8">
+                <SectionHeading
+                    badge="Tại sao dùng StuSpace"
+                    title="Mọi thứ quan trọng cho việc học, ở cùng một nơi"
+                    description="Ít tab hơn. Ít phải chuyển ngữ cảnh hơn."
+                />
+
+                <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-4 lg:auto-rows-[minmax(180px,auto)]">
+                    <Card className="overflow-hidden rounded-[30px] border-border/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(248,250,252,0.92))] shadow-sm dark:bg-[linear-gradient(180deg,rgba(2,6,23,0.88),rgba(15,23,42,0.82))] md:col-span-2 lg:col-span-2">
+                        <CardContent className="p-7 sm:p-7">
+                            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground sm:text-[11px]">
+                                StuSpace
+                            </p>
+                            <h3 className="mt-3 text-[2.15rem] font-semibold leading-[1.05] tracking-tight sm:text-3xl">
+                                Một workspace đủ gọn để mở ra mỗi ngày
+                            </h3>
+                            <div className="mt-5 flex flex-wrap gap-2.5">
+                                {trustChips.map((item) => (
+                                    <div
+                                        key={item}
+                                        className="rounded-full border border-border/70 bg-background/75 px-4 py-2.5 text-[15px] text-muted-foreground sm:px-3.5 sm:py-2 sm:text-sm"
+                                    >
+                                        {item}
+                                    </div>
+                                ))}
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    {productHighlights.slice(0, 2).map((item, index) => {
+                        const HighlightIcon = item.icon;
+                        const extraIcon = index === 0 ? <Route className="h-4 w-4 text-muted-foreground" /> : <MessageSquare className="h-4 w-4 text-muted-foreground" />;
+
+                        return (
+                            <Card
+                                key={item.title}
+                                className="relative overflow-hidden rounded-[30px] border-border/70 bg-card shadow-sm"
+                            >
+                                <div className={`pointer-events-none absolute inset-0 bg-gradient-to-br ${item.glow}`} />
+                                <CardContent className="relative p-7 sm:p-6">
+                                    <div className="mb-5 flex items-center justify-between">
+                                        <div className={`flex h-14 w-14 items-center justify-center rounded-[1.7rem] bg-gradient-to-br ${item.iconGradient} text-white shadow-md sm:h-12 sm:w-12 sm:rounded-3xl`}>
+                                            <HighlightIcon className="h-7 w-7 sm:h-6 sm:w-6" />
+                                        </div>
+                                        {extraIcon}
+                                    </div>
+                                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground sm:text-[11px]">{item.eyebrow}</p>
+                                    <h3 className="mt-3 text-[2rem] font-semibold leading-[1.08] tracking-tight sm:text-xl">{item.title}</h3>
+                                </CardContent>
+                            </Card>
+                        );
+                    })}
+
+                    <Card className="relative overflow-hidden rounded-[30px] border-border/70 bg-card shadow-sm md:col-span-2 lg:col-span-2">
+                        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-cyan-500/5 to-transparent" />
+                        <CardContent className="relative p-7 sm:p-7">
+                            <div className="mb-4 flex items-center gap-3">
+                                <div className="flex h-14 w-14 items-center justify-center rounded-[1.7rem] bg-gradient-to-br from-emerald-500 to-cyan-500 text-white shadow-md sm:h-12 sm:w-12 sm:rounded-3xl">
+                                    <Route className="h-7 w-7 sm:h-6 sm:w-6" />
+                                </div>
+                                <div>
+                                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground sm:text-[11px]">Tối ưu lâu dài</p>
+                                    <h3 className="text-[2.05rem] font-semibold leading-[1.08] tracking-tight sm:text-2xl">GPA, roadmap và kế hoạch học tập</h3>
+                                </div>
+                            </div>
+                            <div className="grid gap-3 sm:grid-cols-3">
+                                {[
+                                    'Theo dõi mục tiêu GPA',
+                                    'Lập kế hoạch từng học kỳ',
+                                    'Giữ góc nhìn dài hạn',
+                                ].map((item) => (
+                                    <div key={item} className="rounded-2xl border border-border/70 bg-background/80 px-4 py-3.5 text-[15px] leading-7 text-muted-foreground sm:py-3 sm:text-sm sm:leading-6">
+                                        {item}
+                                    </div>
+                                ))}
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    <Card className="rounded-[30px] border-border/70 bg-card shadow-sm">
+                        <CardContent className="p-7 sm:p-6">
+                            <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-[1.7rem] bg-primary/10 text-primary sm:h-12 sm:w-12 sm:rounded-3xl">
+                                <TimerReset className="h-7 w-7 sm:h-6 sm:w-6" />
+                            </div>
+                            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground sm:text-[11px]">Điều hướng</p>
+                            <h3 className="mt-3 text-[2rem] font-semibold leading-[1.08] tracking-tight sm:text-xl">Nhanh, gọn, hợp mobile</h3>
+                        </CardContent>
+                    </Card>
+
+                    {securityPoints.slice(0, 3).map((item, index) => {
+                        const SecurityIcon = item.icon;
+
+                        return (
+                            <Card
+                                key={item.title}
+                                className={`rounded-[30px] border-border/70 bg-card shadow-sm ${index === 2 ? 'lg:col-span-1' : ''}`}
+                            >
+                                <CardContent className="p-7 sm:p-6">
+                                    <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-[1.7rem] bg-slate-950/10 text-slate-900 dark:bg-white/10 dark:text-white sm:h-12 sm:w-12 sm:rounded-3xl">
+                                        <SecurityIcon className="h-6.5 w-6.5 sm:h-5.5 sm:w-5.5" />
+                                    </div>
+                                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground sm:text-[11px]">Tin cậy</p>
+                                    <h3 className="mt-3 text-[2rem] font-semibold leading-[1.08] tracking-tight sm:text-xl">{item.title}</h3>
+                                </CardContent>
+                            </Card>
+                        );
+                    })}
+
+                    <Card className="overflow-hidden rounded-[30px] border-border/70 bg-[linear-gradient(135deg,#0f172a_0%,#1d4ed8_100%)] text-white shadow-sm md:col-span-2 lg:col-span-2 lg:row-span-2">
+                        <CardContent className="flex h-full flex-col justify-between p-6 sm:p-6">
+                            <div>
+                                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/70 sm:text-[11px]">Bắt đầu</p>
+                                <h3 className="mt-3 text-[2.25rem] font-semibold leading-[1.05] tracking-tight sm:text-2xl">Vào StuSpace</h3>
+                                <p className="mt-4 max-w-xl text-[1.02rem] leading-7 text-white/72 sm:text-base">
+                                    Mở một nơi duy nhất để theo dõi lịch học, LMS và kế hoạch học tập mà không phải chuyển qua lại quá nhiều tab.
+                                </p>
+
+                                <div className="mt-5 grid gap-3 sm:grid-cols-3">
+                                    {[
+                                        { title: 'Thời khóa biểu', meta: 'Theo tuần, theo ngày' },
+                                        { title: 'LMS', meta: 'Tin nhắn và deadline' },
+                                        { title: 'GPA & roadmap', meta: 'Theo sát cả học kỳ' },
+                                    ].map((item) => (
+                                        <div
+                                            key={item.title}
+                                            className="rounded-2xl border border-white/12 bg-white/10 px-4 py-3.5 backdrop-blur"
+                                        >
+                                            <p className="text-[15px] font-medium text-white sm:text-sm">{item.title}</p>
+                                            <p className="mt-1 text-sm leading-6 text-white/70 sm:text-xs">{item.meta}</p>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                <div className="mt-4 flex flex-wrap gap-2.5">
+                                    {['Không lưu mật khẩu', 'Mã nguồn mở', 'Thiết kế cho mobile'].map((item) => (
+                                        <div
+                                            key={item}
+                                            className="rounded-full border border-white/12 bg-white/8 px-3.5 py-2 text-[14px] text-white/78 sm:py-1.5 sm:text-xs"
+                                        >
+                                            {item}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                            <div className="mt-6 flex flex-col gap-3">
+                                <Button
+                                    size="lg"
+                                    onClick={onEnterApp}
+                                    className="h-15 rounded-full bg-white text-[1.1rem] font-semibold text-slate-950 hover:bg-white/90 sm:h-14 sm:text-base"
+                                >
+                                    Vào ứng dụng
+                                    <ArrowRight className="ml-2 h-5 w-5 sm:h-4.5 sm:w-4.5" />
                                 </Button>
                                 <a
                                     href="https://github.com/tanh1c/student-schedule"
@@ -229,379 +279,60 @@ function LandingPage({ onEnterApp }) {
                                     rel="noopener noreferrer"
                                 >
                                     <Button
-                                        variant="outline"
                                         size="lg"
-                                        className="w-full sm:w-auto text-base px-10 py-7 border-2 border-gray-300 dark:border-white/30 hover:border-primary/50 dark:hover:border-primary/70 bg-white/80 dark:bg-white/10 backdrop-blur-xl hover:bg-white dark:hover:bg-white/20 rounded-2xl font-semibold text-foreground dark:text-white"
+                                        variant="outline"
+                                        className="h-15 w-full rounded-full border-white/20 bg-white/10 text-[1.1rem] text-white hover:bg-white/15 sm:h-14 sm:text-base"
                                     >
-                                        <Code2 className="mr-2 h-5 w-5" />
-                                        Xem mã nguồn
+                                        Xem repo
+                                        <ExternalLink className="ml-2 h-4.5 w-4.5 sm:h-4 sm:w-4" />
                                     </Button>
                                 </a>
                             </div>
+                        </CardContent>
+                    </Card>
 
-                            {/* Stats Row */}
-                            <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-12 mb-8">
-                                {[
-                                    { value: '1000+', label: 'Sinh viên', icon: Users },
-                                    { value: '6+', label: 'Tính năng', icon: Sparkles },
-                                    { value: '100%', label: 'Bảo mật', icon: Shield }
-                                ].map((stat, i) => (
-                                    <div key={i} className="text-center group cursor-default">
-                                        <div className="flex items-center justify-center gap-2 mb-1">
-                                            <stat.icon className="h-4 w-4 text-primary group-hover:scale-110 transition-transform" />
-                                            <span className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
-                                                {stat.value}
-                                            </span>
-                                        </div>
-                                        <span className="text-xs sm:text-sm text-muted-foreground font-medium">{stat.label}</span>
-                                    </div>
-                                ))}
-                            </div>
-
-                            {/* Trust Badges with enhanced styling */}
-                            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
-                                <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-100 dark:bg-emerald-500/10 border border-emerald-300 dark:border-emerald-500/20 text-emerald-700 dark:text-emerald-400 text-xs sm:text-sm font-medium shadow-sm">
-                                    <Shield className="h-3.5 w-3.5" />
-                                    <span>Không lưu mật khẩu</span>
+                    <Card className="rounded-[30px] border-border/70 bg-card shadow-sm md:col-span-2 lg:col-span-2">
+                        <CardContent className="p-7 sm:p-6">
+                            <div className="mb-4 flex items-center gap-3">
+                                <div className="flex h-14 w-14 items-center justify-center rounded-[1.7rem] bg-slate-950/10 text-slate-900 dark:bg-white/10 dark:text-white sm:h-12 sm:w-12 sm:rounded-3xl">
+                                    <Lock className="h-7 w-7 sm:h-6 sm:w-6" />
                                 </div>
-                                <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/20 text-blue-700 dark:text-blue-400 text-xs sm:text-sm font-medium shadow-sm">
-                                    <Lock className="h-3.5 w-3.5" />
-                                    <span>HTTPS mã hóa</span>
-                                </div>
-                                <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-violet-100 dark:bg-violet-500/10 border border-violet-300 dark:border-violet-500/20 text-violet-700 dark:text-violet-400 text-xs sm:text-sm font-medium shadow-sm">
-                                    <Eye className="h-3.5 w-3.5" />
-                                    <span>Không thu thập dữ liệu</span>
+                                <div>
+                                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground sm:text-[11px]">Tin cậy</p>
+                                    <h3 className="text-[2rem] font-semibold leading-[1.08] tracking-tight sm:text-2xl">{securityPoints[3].title}</h3>
                                 </div>
                             </div>
-                        </div>
-
-                        {/* Feature Grid with enhanced cards */}
-                        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 max-w-6xl mx-auto w-full">
-                            {[
-                                { icon: CalendarClock, label: 'Thời khóa biểu', desc: 'Xem theo tuần', gradient: 'from-blue-500 to-cyan-500', bg: 'bg-blue-50 dark:bg-blue-950/20' },
-                                { icon: GraduationCap, label: 'Lịch thi', desc: 'Tra cứu nhanh', gradient: 'from-emerald-500 to-teal-500', bg: 'bg-emerald-50 dark:bg-emerald-950/20' },
-                                { icon: BadgePercent, label: 'Tính GPA', desc: 'Tự động tính', gradient: 'from-violet-500 to-purple-500', bg: 'bg-violet-50 dark:bg-violet-950/20' },
-                                { icon: NotebookTabs, label: 'Đăng ký môn', desc: 'Hỗ trợ ĐKMH', gradient: 'from-amber-500 to-orange-500', bg: 'bg-amber-50 dark:bg-amber-950/20' },
-                                { icon: Route, label: 'Roadmap', desc: 'Kế hoạch học', gradient: 'from-cyan-500 to-blue-500', bg: 'bg-cyan-50 dark:bg-cyan-950/20' },
-                                { icon: Users, label: 'Lịch giảng dạy', desc: 'Tra cứu GV', gradient: 'from-rose-500 to-pink-500', bg: 'bg-rose-50 dark:bg-rose-950/20' },
-                            ].map((item, index) => {
-                                const Icon = item.icon;
-                                return (
-                                    <div
-                                        key={index}
-                                        className={`group relative flex flex-col items-center gap-3 p-5 sm:p-6 rounded-2xl ${item.bg} backdrop-blur-xl border border-gray-200/80 dark:border-border/50 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 cursor-default overflow-hidden shadow-sm`}
-                                    >
-                                        {/* Hover gradient overlay */}
-                                        <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient} opacity-0 group-hover:opacity-10 dark:group-hover:opacity-5 transition-opacity duration-300`} />
-
-                                        <div className={`relative h-12 w-12 sm:h-14 sm:w-14 rounded-2xl bg-gradient-to-br ${item.gradient} flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg`}>
-                                            <Icon className="h-6 w-6 sm:h-7 sm:w-7 text-white" />
-                                        </div>
-                                        <div className="relative text-center">
-                                            <span className="block text-sm sm:text-base font-semibold text-foreground">
-                                                {item.label}
-                                            </span>
-                                            <span className="text-[11px] sm:text-xs text-muted-foreground hidden sm:block mt-0.5">
-                                                {item.desc}
-                                            </span>
-                                        </div>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    </div>
-
-                    {/* Scroll Indicator */}
-                    <div className="flex justify-center pb-4 sm:pb-6 pt-8">
-                        <div className="flex flex-col items-center gap-2 text-muted-foreground/60">
-                            <span className="text-xs hidden sm:block font-medium">Khám phá thêm</span>
-                            <div className="w-6 h-10 rounded-full border-2 border-muted-foreground/30 flex justify-center pt-2">
-                                <div className="w-1.5 h-3 bg-muted-foreground/50 rounded-full animate-bounce" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {/* Features Section */}
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
-                <div className="text-center mb-12">
-                    <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-foreground">Tính năng nổi bật</h2>
-                    <p className="text-muted-foreground max-w-2xl mx-auto">
-                        Tất cả những gì bạn cần để quản lý việc học tập một cách hiệu quả
-                    </p>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-                    {features.map((feature, index) => {
-                        const Icon = feature.icon;
-                        return (
-                            <Card
-                                key={index}
-                                className="group hover:shadow-lg hover:border-primary/20 transition-all duration-300 overflow-hidden bg-card"
-                            >
-                                <CardContent className="p-6">
-                                    <div className={`h-12 w-12 rounded-xl ${feature.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg`}>
-                                        <Icon className="h-6 w-6 text-white" />
-                                    </div>
-                                    <h3 className="text-lg font-semibold mb-2 text-foreground">{feature.title}</h3>
-                                    <p className="text-sm text-muted-foreground leading-relaxed">{feature.description}</p>
-                                </CardContent>
-                            </Card>
-                        );
-                    })}
-                </div>
-            </div>
-
-            {/* Security Section */}
-            <div className="bg-muted/30 border-y border-border">
-                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
-                    <div className="text-center mb-12">
-                        <Badge className="mb-4 px-4 py-1.5 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20">
-                            <Shield className="h-3 w-3 mr-1" />
-                            Bảo mật & Minh bạch
-                        </Badge>
-                        <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-foreground">
-                            Cam kết bảo mật của chúng tôi
-                        </h2>
-                        <p className="text-muted-foreground max-w-2xl mx-auto">
-                            Chúng tôi hiểu việc đăng nhập tài khoản MyBK là một quyết định tin tưởng lớn.
-                            Dưới đây là cách chúng tôi bảo vệ bạn.
-                        </p>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {securityPoints.map((point, index) => {
-                            const Icon = point.icon;
-                            return (
-                                <Card key={index} className="border-emerald-500/20 bg-emerald-500/5">
-                                    <CardContent className="p-6 flex gap-4">
-                                        <div className="h-10 w-10 rounded-lg bg-emerald-500/20 flex items-center justify-center shrink-0">
-                                            <Icon className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
-                                        </div>
-                                        <div>
-                                            <h3 className="font-semibold mb-1 text-foreground">{point.title}</h3>
-                                            <p className="text-sm text-muted-foreground leading-relaxed">{point.description}</p>
-                                        </div>
-                                    </CardContent>
-                                </Card>
-                            );
-                        })}
-                    </div>
-
-                    {/* Transparency proof */}
-                    <Card className="mt-8 border-blue-500/20 bg-blue-500/5">
-                        <CardContent className="p-6">
-                            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                                <div className="h-12 w-12 rounded-xl bg-blue-500/20 flex items-center justify-center shrink-0">
-                                    <Code2 className="h-6 w-6 text-blue-600 dark:text-blue-400" />
-                                </div>
-                                <div className="flex-1">
-                                    <h3 className="font-semibold mb-1 text-foreground">100% Mã nguồn mở</h3>
-                                    <p className="text-sm text-muted-foreground mb-3 leading-relaxed">
-                                        Toàn bộ mã nguồn được công khai trên GitHub. Bạn có thể tự kiểm tra,
-                                        review code, hoặc tự host phiên bản của riêng mình.
-                                    </p>
-                                    <div className="flex flex-wrap gap-2">
-                                        <a
-                                            href="https://github.com/tanh1c/student-schedule"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                        >
-                                            <Button variant="outline" size="sm" className="gap-2">
-                                                <Github className="h-4 w-4" />
-                                                Xem trên GitHub
-                                                <ExternalLink className="h-3 w-3" />
-                                            </Button>
-                                        </a>
-                                        <a
-                                            href="https://github.com/tanh1c/student-schedule/blob/main/server/index.production.js"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                        >
-                                            <Button variant="ghost" size="sm" className="gap-2">
-                                                Xem code backend
-                                                <ExternalLink className="h-3 w-3" />
-                                            </Button>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
+                            <p className="max-w-xl text-[1.02rem] leading-8 text-muted-foreground sm:text-sm sm:leading-6">{securityPoints[3].description}</p>
                         </CardContent>
                     </Card>
                 </div>
-            </div>
+            </section>
 
-            {/* How it works */}
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
-                <div className="text-center mb-12">
-                    <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-foreground">Cách hoạt động</h2>
-                    <p className="text-muted-foreground max-w-2xl mx-auto">
-                        Đơn giản, nhanh chóng và an toàn
-                    </p>
-                </div>
-
-                {/* Desktop Layout */}
-                <div className="hidden md:flex items-start justify-between gap-4">
-                    {[
-                        {
-                            step: '01',
-                            title: 'Đăng nhập MyBK',
-                            description: 'Sử dụng tài khoản SSO của trường để đăng nhập. Mật khẩu chỉ dùng để xác thực với server của BK.',
-                            Icon: KeyRound,
-                            color: 'text-blue-500'
-                        },
-                        {
-                            step: '02',
-                            title: 'Sync dữ liệu',
-                            description: 'Dữ liệu TKB, lịch thi, điểm được lấy trực tiếp từ MyBK và hiển thị ngay lập tức.',
-                            Icon: RefreshCw,
-                            color: 'text-emerald-500'
-                        },
-                        {
-                            step: '03',
-                            title: 'Sử dụng & Đăng xuất',
-                            description: 'Sử dụng các tính năng. Khi đăng xuất, mọi dữ liệu session đều bị xóa sạch.',
-                            Icon: Rocket,
-                            color: 'text-violet-500'
-                        }
-                    ].map((item, index) => {
-                        const StepIcon = item.Icon;
-                        return (
-                            <React.Fragment key={index}>
-                                <div className="flex-1 text-center max-w-xs">
-                                    <div className="relative inline-block mb-4">
-                                        <div className="h-20 w-20 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center border-2 border-primary/30 shadow-lg shadow-primary/10">
-                                            <StepIcon className={`h-9 w-9 ${item.color}`} />
-                                        </div>
-                                        <div className="absolute -top-2 -right-2 h-7 w-7 rounded-full bg-primary text-primary-foreground text-xs font-bold flex items-center justify-center shadow-md">
-                                            {item.step}
-                                        </div>
-                                    </div>
-                                    <h3 className="text-lg font-semibold mb-2 text-foreground">{item.title}</h3>
-                                    <p className="text-sm text-muted-foreground leading-relaxed">{item.description}</p>
-                                </div>
-
-                                {/* Arrow between steps */}
-                                {index < 2 && (
-                                    <div className="flex-shrink-0 flex items-center pt-8">
-                                        <ChevronRight className="h-8 w-8 text-primary/30" />
-                                        <ChevronRight className="h-8 w-8 text-primary/30 -ml-4" />
-                                    </div>
-                                )}
-                            </React.Fragment>
-                        );
-                    })}
-                </div>
-
-                {/* Mobile Layout */}
-                <div className="md:hidden space-y-4">
-                    {[
-                        {
-                            step: '01',
-                            title: 'Đăng nhập MyBK',
-                            description: 'Sử dụng tài khoản SSO của trường để đăng nhập.',
-                            Icon: KeyRound,
-                            color: 'text-blue-500'
-                        },
-                        {
-                            step: '02',
-                            title: 'Sync dữ liệu',
-                            description: 'Dữ liệu được lấy trực tiếp từ MyBK và hiển thị ngay.',
-                            Icon: RefreshCw,
-                            color: 'text-emerald-500'
-                        },
-                        {
-                            step: '03',
-                            title: 'Sử dụng & Đăng xuất',
-                            description: 'Khi đăng xuất, mọi dữ liệu session đều bị xóa.',
-                            Icon: Rocket,
-                            color: 'text-violet-500'
-                        }
-                    ].map((item, index) => {
-                        const StepIcon = item.Icon;
-                        return (
-                            <React.Fragment key={index}>
-                                <div className="flex items-center gap-4 bg-card rounded-xl p-4 border border-border">
-                                    <div className="relative shrink-0">
-                                        <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center border-2 border-primary/30">
-                                            <StepIcon className={`h-6 w-6 ${item.color}`} />
-                                        </div>
-                                        <div className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-primary text-primary-foreground text-[10px] font-bold flex items-center justify-center shadow-md">
-                                            {item.step}
-                                        </div>
-                                    </div>
-                                    <div className="flex-1 min-w-0">
-                                        <h3 className="text-sm font-semibold text-foreground">{item.title}</h3>
-                                        <p className="text-xs text-muted-foreground leading-relaxed">{item.description}</p>
-                                    </div>
-                                    {index < 2 && (
-                                        <ChevronRight className="h-5 w-5 text-muted-foreground/50 shrink-0 rotate-90" />
-                                    )}
-                                </div>
-                            </React.Fragment>
-                        );
-                    })}
-                </div>
-            </div>
-
-            {/* CTA Section */}
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 sm:pb-24">
-                <Card className="bg-gradient-to-r from-primary to-blue-600 border-0 overflow-hidden shadow-xl shadow-primary/20">
-                    <CardContent className="p-8 sm:p-12 text-center relative">
-                        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                            <div className="absolute -top-20 -right-20 w-60 h-60 bg-white/10 rounded-full blur-2xl" />
-                            <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-white/5 rounded-full blur-xl" />
-                        </div>
-
-                        <div className="relative">
-                            <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-white">
-                                Sẵn sàng bắt đầu?
-                            </h2>
-                            <p className="text-white/80 mb-8 max-w-xl mx-auto">
-                                Trải nghiệm ngay công cụ quản lý lịch học hiện đại nhất dành cho sinh viên BK
-                            </p>
-                            <Button
-                                size="lg"
-                                onClick={onEnterApp}
-                                className="text-base px-8 py-6 bg-white text-primary hover:bg-white/90 shadow-lg hover:shadow-xl transition-all"
-                            >
-                                Vào ứng dụng ngay
-                                <ArrowRight className="ml-2 h-5 w-5" />
-                            </Button>
-                        </div>
-                    </CardContent>
-                </Card>
-            </div>
-
-            {/* Footer */}
-            <footer className="border-t border-border bg-muted/30">
-                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                    <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                            Made with <Heart className="h-4 w-4 text-red-500 fill-red-500" /> by{' '}
-                            <a
-                                href="https://github.com/tanh1c"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="font-medium text-foreground hover:text-primary transition-colors"
-                            >
-                                tanh1c
-                            </a>
-                        </div>
-                        <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                            <a
-                                href="https://github.com/tanh1c/student-schedule"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex items-center gap-1 hover:text-foreground transition-colors"
-                            >
-                                <Github className="h-4 w-4" />
-                                GitHub
-                            </a>
-                            <span className="text-border">•</span>
-                            <span>© 2024 TKB Smart</span>
-                        </div>
+            <footer className="border-t border-border bg-muted/20">
+                <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-8 text-sm sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
+                    <div className="flex items-center gap-2 text-muted-foreground">
+                        Made with <Heart className="h-4 w-4 fill-red-500 text-red-500" /> by{' '}
+                        <a
+                            href="https://github.com/tanh1c"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="font-medium text-foreground transition-colors hover:text-primary"
+                        >
+                            tanh1c
+                        </a>
+                    </div>
+                    <div className="flex flex-wrap items-center gap-4 text-muted-foreground">
+                        <a
+                            href="https://github.com/tanh1c/student-schedule"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-1 transition-colors hover:text-foreground"
+                        >
+                            <Github className="h-4 w-4" />
+                            GitHub
+                        </a>
+                        <span className="hidden text-border sm:inline">•</span>
+                        <span>© {footerYear} StuSpace</span>
                     </div>
                 </div>
             </footer>

@@ -1,6 +1,5 @@
 import { createClient } from 'redis';
 import logger from '../utils/logger.js';
-import config from '../../config/default.js';
 
 let client;
 let isConnected = false;
@@ -99,7 +98,7 @@ export const swr = async (key, fetchFn, ttlSeconds = 14400, freshSeconds = 60) =
             let cached;
             try {
                 cached = JSON.parse(cachedRaw);
-            } catch (e) {
+            } catch (_error) {
                 return await fetchAndCache(key, fetchFn, ttlSeconds);
             }
 
@@ -124,7 +123,9 @@ export const swr = async (key, fetchFn, ttlSeconds = 14400, freshSeconds = 60) =
                             trackCommand();
                             await client.del(key);
                             logger.info(`[REDIS] Purged stale key after failed revalidation: ${key}`);
-                        } catch (delErr) { /* ignore */ }
+                        } catch (_deleteError) {
+                            /* ignore cleanup failure after failed revalidation */
+                        }
                     });
                 }
 
@@ -135,8 +136,8 @@ export const swr = async (key, fetchFn, ttlSeconds = 14400, freshSeconds = 60) =
             return await fetchAndCache(key, fetchFn, ttlSeconds);
         }
 
-    } catch (e) {
-        logger.error(`[REDIS] SWR Error for ${key}`, e);
+    } catch (error) {
+        logger.error(`[REDIS] SWR Error for ${key}`, error);
         return await fetchFn();
     }
 };

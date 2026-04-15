@@ -1,4 +1,4 @@
-import { jest, describe, it, expect, beforeEach, afterEach, beforeAll, afterAll } from '@jest/globals';
+import { describe, it, expect } from '@jest/globals';
 import { maskSensitive, maskCookie, maskUrl, maskStudentId } from '../../src/utils/masking.js';
 
 describe('Masking Utilities', () => {

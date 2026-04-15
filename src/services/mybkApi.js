@@ -17,7 +17,9 @@ try {
         localStorage.removeItem('mybk_saved_credentials');
         console.log('[mybkApi] Removed legacy credential key');
     }
-} catch (e) { /* ignore */ }
+} catch (_error) {
+    /* ignore legacy cleanup failure */
+}
 
 // ═══════════════════════════════════════════════════════
 // REMEMBER ME — Client-side credential storage
@@ -55,7 +57,7 @@ export function getSavedCredentials() {
         const { u, p } = JSON.parse(payload);
         if (!u || !p) return null;
         return { username: u, password: p };
-    } catch (e) {
+    } catch {
         // Corrupted data — clear it
         localStorage.removeItem(SAVED_CREDENTIALS_KEY);
         return null;

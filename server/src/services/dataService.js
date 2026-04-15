@@ -13,7 +13,7 @@ let lecturerData = null;
 function loadData() {
     try {
         // Load Subject Data
-        const subjectPath = path.join(PKG_ROOT, 'data_subject.json');
+        const subjectPath = path.join(PKG_ROOT, 'data', 'data_subject.json');
         if (fs.existsSync(subjectPath)) {
             subjectData = JSON.parse(fs.readFileSync(subjectPath, 'utf8'));
         } else {
@@ -21,7 +21,7 @@ function loadData() {
         }
 
         // Load Lecturer Data
-        const lecturerPath = path.join(PKG_ROOT, 'data_lecturer.json');
+        const lecturerPath = path.join(PKG_ROOT, 'data', 'data_lecturer.json');
         if (fs.existsSync(lecturerPath)) {
             lecturerData = JSON.parse(fs.readFileSync(lecturerPath, 'utf8'));
         } else {

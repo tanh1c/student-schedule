@@ -1,4 +1,4 @@
-import { jest, describe, it, expect, beforeEach, afterEach, beforeAll, afterAll } from '@jest/globals';
+import { jest, describe, it, expect, beforeEach } from '@jest/globals';
 
 // Define mocks BEFORE importing the module under test
 jest.unstable_mockModule('../../src/services/dataService.js', () => ({

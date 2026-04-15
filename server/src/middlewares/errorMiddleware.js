@@ -8,7 +8,7 @@ export const requestIdMiddleware = (req, res, next) => {
     next();
 };
 
-export const globalErrorHandler = (err, req, res, next) => {
+export const globalErrorHandler = (err, req, res, _next) => {
     err.statusCode = err.statusCode || 500;
     err.status = err.status || 'error';
     const reqId = req.requestId || 'unknown-id';

@@ -14,7 +14,7 @@ export default {
     userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
     server: {
         port: process.env.PORT || 3001,
-        corsOrigin: process.env.CORS_ORIGIN || 'http://localhost:3000'
+        corsOrigin: process.env.CORS_ORIGIN || 'http://localhost:5173'
     },
     session: {
         timeoutMs: 15 * 60 * 1000, // 15 minutes

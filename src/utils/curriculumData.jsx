@@ -56,7 +56,7 @@ function findHeaderRow(csvRows) {
     if (hasHeaderKeywords) {
       // Kiểm tra xem có phải là dòng dữ liệu không (có số ở cột đầu)
       const firstCell = (row[0] || '').trim();
-      const isDataRow = /^\d+[\.\)]?/.test(firstCell); // Bắt đầu bằng số
+      const isDataRow = /^\d+[.)]?/.test(firstCell); // Bắt đầu bằng số
       
       if (!isDataRow) {
         lastHeaderRow = i;
@@ -121,7 +121,7 @@ export function parseCurriculumData(csvRows) {
     // Kiểm tra xem đây có phải là dòng category/header không
     // (có text ở cột đầu nhưng không phải số, và có thể có số ở cột tín chỉ)
     const isCategoryRow = firstCell && 
-                          !/^\d+[\.\)]?/.test(firstCell) && // Không bắt đầu bằng số
+                          !/^\d+[.)]?/.test(firstCell) && // Không bắt đầu bằng số
                           (firstCell.includes('.') || firstCell.includes('(') || firstCell.includes('[')) &&
                           !maHocPhan; // Không có mã học phần
     
@@ -180,4 +180,3 @@ export function parseCurriculumData(csvRows) {
     sections: [] // Không dùng sections nữa
   };
 }
-

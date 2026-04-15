@@ -1,4 +1,4 @@
-import { jest, describe, it, expect, beforeEach, afterEach, beforeAll, afterAll } from '@jest/globals';
+import { describe, it, expect } from '@jest/globals';
 import AppError from '../../src/utils/AppError.js';
 
 describe('AppError', () => {

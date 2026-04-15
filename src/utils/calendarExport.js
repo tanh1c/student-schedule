@@ -87,7 +87,7 @@ function formatDateTimeICS(date, time) {
  */
 function generateUID(course, weekNumber) {
     const base = `${course.code}-${course.day}-${course.startPeriod}-W${weekNumber}`;
-    return `${base}@tkbsv-bk`;
+    return `${base}@stuspace`;
 }
 
 /**
@@ -182,10 +182,10 @@ export function generateICS(scheduleData, year = new Date().getFullYear()) {
     const icsLines = [
         'BEGIN:VCALENDAR',
         'VERSION:2.0',
-        'PRODID:-//TKBSV-BK//ThoiKhoaBieu//VI',
+        'PRODID:-//StuSpace//Schedule//VI',
         'CALSCALE:GREGORIAN',
         'METHOD:PUBLISH',
-        `X-WR-CALNAME:TKB ${year}`,
+        `X-WR-CALNAME:StuSpace TKB ${year}`,
         `X-WR-TIMEZONE:Asia/Ho_Chi_Minh`,
     ];
 
@@ -227,7 +227,7 @@ export function generateICS(scheduleData, year = new Date().getFullYear()) {
  * @param {string} icsContent - ICS file content
  * @param {string} filename - Filename without extension
  */
-export function downloadICS(icsContent, filename = 'tkb-bk') {
+export function downloadICS(icsContent, filename = 'stuspace-tkb') {
     const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
     const url = URL.createObjectURL(blob);
 
@@ -250,7 +250,7 @@ export function downloadICS(icsContent, filename = 'tkb-bk') {
 export function exportToGoogleCalendar(scheduleData, year = new Date().getFullYear()) {
     try {
         const icsContent = generateICS(scheduleData, year);
-        downloadICS(icsContent, `tkb-bk-${year}`);
+        downloadICS(icsContent, `stuspace-tkb-${year}`);
         return { success: true, eventCount: scheduleData.length };
     } catch (error) {
         return { success: false, error: error.message };

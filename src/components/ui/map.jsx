@@ -1092,7 +1092,6 @@ function MapClusterLayer(
 
 export {
   Map,
-  useMap,
   MapMarker,
   MarkerContent,
   MarkerPopup,
