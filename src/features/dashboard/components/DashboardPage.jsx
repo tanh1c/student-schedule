@@ -264,8 +264,54 @@ function MobileQuickAction({ action }) {
   );
 }
 
+function useResponsiveDashboardMode() {
+  const [viewportWidth, setViewportWidth] = React.useState(() => {
+    if (typeof window === "undefined") {
+      return 1280;
+    }
+
+    return window.innerWidth;
+  });
+
+  React.useEffect(() => {
+    if (typeof window === "undefined") {
+      return undefined;
+    }
+
+    const mediaQuery = window.matchMedia("(min-width: 1024px)");
+    const updateViewportWidth = () => {
+      setViewportWidth(window.innerWidth);
+    };
+
+    updateViewportWidth();
+    mediaQuery.addEventListener("change", updateViewportWidth);
+    window.addEventListener("resize", updateViewportWidth);
+    window.addEventListener("orientationchange", updateViewportWidth);
+
+    return () => {
+      mediaQuery.removeEventListener("change", updateViewportWidth);
+      window.removeEventListener("resize", updateViewportWidth);
+      window.removeEventListener("orientationchange", updateViewportWidth);
+    };
+  }, []);
+
+  return {
+    viewportWidth,
+    isDesktopLayout: viewportWidth >= 1024,
+    useTwoColumnOverview: viewportWidth >= 430,
+    useTwoColumnQuickActions: viewportWidth >= 460,
+    useTwoColumnMobileSections: viewportWidth >= 560,
+  };
+}
+
 export default function DashboardPage() {
   const { snapshot, refresh } = useDashboardOverview();
+  const {
+    isDesktopLayout,
+    useTwoColumnOverview,
+    useTwoColumnQuickActions,
+    useTwoColumnMobileSections,
+  } = useResponsiveDashboardMode();
   const totalPeriodsToday = snapshot.schedule.todayClasses.reduce(
     (total, course) => total + (Number(course.endPeriod) - Number(course.startPeriod) + 1),
     0,
@@ -305,7 +351,8 @@ export default function DashboardPage() {
 
   return (
     <div className="mx-auto flex w-full max-w-[1600px] flex-col gap-3 px-4 pb-32 pt-4 md:px-6 md:pt-6 lg:h-full lg:min-h-0 lg:overflow-hidden lg:p-6">
-      <Card className="hidden shrink-0 overflow-hidden border-0 bg-[radial-gradient(circle_at_top_left,rgba(56,189,248,0.34),transparent_30%),radial-gradient(circle_at_82%_18%,rgba(139,92,246,0.28),transparent_24%),linear-gradient(135deg,#020617_0%,#0f172a_48%,#1d4ed8_100%)] text-white shadow-2xl shadow-slate-950/15 lg:block">
+      {isDesktopLayout && (
+        <Card className="shrink-0 overflow-hidden border-0 bg-[radial-gradient(circle_at_top_left,rgba(56,189,248,0.34),transparent_30%),radial-gradient(circle_at_82%_18%,rgba(139,92,246,0.28),transparent_24%),linear-gradient(135deg,#020617_0%,#0f172a_48%,#1d4ed8_100%)] text-white shadow-2xl shadow-slate-950/15">
         <CardContent className="p-4 sm:p-5 lg:p-6">
           <div className="grid gap-3 xl:grid-cols-[minmax(0,1.7fr)_minmax(280px,0.72fr)]">
             <div className="min-w-0">
@@ -347,9 +394,11 @@ export default function DashboardPage() {
             </div>
           </div>
         </CardContent>
-      </Card>
+        </Card>
+      )}
 
-      <div className="space-y-3 lg:hidden">
+      {!isDesktopLayout && (
+        <div className="space-y-3">
         <Card className="overflow-hidden border-0 bg-[radial-gradient(circle_at_top_left,rgba(56,189,248,0.22),transparent_38%),radial-gradient(circle_at_82%_18%,rgba(139,92,246,0.2),transparent_24%),linear-gradient(160deg,#020617_0%,#0f172a_52%,#1d4ed8_100%)] text-white shadow-xl shadow-slate-950/15">
           <CardContent className="p-4">
             <div className="min-w-0">
@@ -371,7 +420,7 @@ export default function DashboardPage() {
               <RefreshCcw className="h-4.5 w-4.5" />
             </Button>
 
-            <div className="mt-4 grid grid-cols-1 gap-2 min-[430px]:grid-cols-2">
+            <div className={cn("mt-4 grid gap-2", useTwoColumnOverview ? "grid-cols-2" : "grid-cols-1")}>
               {mobileOverviewCards.map((item) => (
                 <MobileOverviewCard
                   key={item.label}
@@ -382,7 +431,7 @@ export default function DashboardPage() {
               ))}
             </div>
 
-            <div className="mt-4 grid grid-cols-1 gap-2 min-[440px]:grid-cols-2">
+            <div className={cn("mt-4 grid gap-2", useTwoColumnQuickActions ? "grid-cols-2" : "grid-cols-1")}>
               {quickActions.map((action) => (
                 <MobileQuickAction key={`${action.tabId}-mobile`} action={action} />
               ))}
@@ -457,7 +506,7 @@ export default function DashboardPage() {
           )}
         </ToneCard>
 
-        <div className="grid gap-3 min-[560px]:grid-cols-2">
+        <div className={cn("grid gap-3", useTwoColumnMobileSections ? "grid-cols-2" : "grid-cols-1")}>
           <ToneCard
             tone="rose"
             icon={Target}
@@ -543,7 +592,7 @@ export default function DashboardPage() {
           </ToneCard>
         </div>
 
-        <div className="grid gap-3 min-[560px]:grid-cols-2">
+        <div className={cn("grid gap-3", useTwoColumnMobileSections ? "grid-cols-2" : "grid-cols-1")}>
           <ToneCard
             tone="emerald"
             icon={GraduationCap}
@@ -676,9 +725,11 @@ export default function DashboardPage() {
             </div>
           )}
         </ToneCard>
-      </div>
+        </div>
+      )}
 
-      <div className="hidden gap-3 lg:min-h-0 lg:flex-1 lg:grid-cols-2 xl:grid-cols-4 lg:grid">
+      {isDesktopLayout && (
+        <div className="gap-3 lg:min-h-0 lg:flex-1 lg:grid lg:grid-cols-2 xl:grid-cols-4">
         <Lane title="Hôm nay" description="Nhịp trong ngày và các lớp học hiện tại.">
           <ToneCard
             tone="sky"
@@ -989,7 +1040,8 @@ export default function DashboardPage() {
             </div>
           </ToneCard>
         </Lane>
-      </div>
+        </div>
+      )}
     </div>
   );
 }
