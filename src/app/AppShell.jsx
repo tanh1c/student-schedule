@@ -1,5 +1,5 @@
-import React, { Suspense, useCallback, useEffect, useMemo, useState } from "react";
-import { ChevronRight, CloudUpload, Home, Menu, Moon, SunMedium, X } from "lucide-react";
+import React, { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { ChevronRight, CloudUpload, Home, Menu, Moon, RefreshCcw, SunMedium, X } from "lucide-react";
 import AppLogo from "@shared/components/AppLogo";
 import DataManagement from "@shared/components/DataManagement";
 import LandingPage from "@components/LandingPage";
@@ -100,6 +100,8 @@ function AppShell() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMoreOpen, setMobileMoreOpen] = useState(false);
+  const [showLayoutRecovery, setShowLayoutRecovery] = useState(false);
+  const [isRecoveringLayout, setIsRecoveringLayout] = useState(false);
   const [favoriteTabIds, setFavoriteTabIds] = useState(() =>
     getStoredTabList(FAVORITE_TABS_STORAGE_KEY),
   );
@@ -107,6 +109,7 @@ function AppShell() {
     getStoredTabList(RECENT_TABS_STORAGE_KEY),
   );
   const { darkMode, toggleDarkMode } = useThemeMode();
+  const mainContentRef = useRef(null);
 
   const activeMenuItem = useMemo(() => {
     return menuItems.find((item) => item.id === activeTab) ?? menuItems[0];
@@ -151,6 +154,42 @@ function AppShell() {
     });
   }, []);
 
+  const checkDashboardMobileOverflow = useCallback(() => {
+    if (typeof window === "undefined" || activeTabKey !== "dashboard") {
+      setShowLayoutRecovery(false);
+      return;
+    }
+
+    if (window.innerWidth >= 1024) {
+      setShowLayoutRecovery(false);
+      return;
+    }
+
+    const mainElement = mainContentRef.current;
+    if (!mainElement) {
+      setShowLayoutRecovery(false);
+      return;
+    }
+
+    const overflowAmount = mainElement.scrollWidth - mainElement.clientWidth;
+    setShowLayoutRecovery(overflowAmount > 10);
+  }, [activeTabKey]);
+
+  const handleRecoverMobileLayout = useCallback(async () => {
+    setIsRecoveringLayout(true);
+
+    try {
+      if ("caches" in window) {
+        const cacheKeys = await window.caches.keys();
+        await Promise.all(cacheKeys.map((cacheKey) => window.caches.delete(cacheKey)));
+      }
+    } catch (error) {
+      console.warn("Unable to clear browser caches before reload:", error);
+    }
+
+    window.location.reload();
+  }, []);
+
   useEffect(() => {
     const handleExternalTabChange = (event) => {
       const nextTabId = event?.detail?.tabId;
@@ -169,6 +208,28 @@ function AppShell() {
       window.removeEventListener(WORKSPACE_TAB_CHANGE_EVENT, handleExternalTabChange);
     };
   }, [handleTabChange]);
+
+  useEffect(() => {
+    let animationFrameId = 0;
+    const timeoutId = window.setTimeout(() => {
+      animationFrameId = window.requestAnimationFrame(checkDashboardMobileOverflow);
+    }, 180);
+
+    const handleViewportChange = () => {
+      window.cancelAnimationFrame(animationFrameId);
+      animationFrameId = window.requestAnimationFrame(checkDashboardMobileOverflow);
+    };
+
+    window.addEventListener("resize", handleViewportChange);
+    window.addEventListener("orientationchange", handleViewportChange);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+      window.cancelAnimationFrame(animationFrameId);
+      window.removeEventListener("resize", handleViewportChange);
+      window.removeEventListener("orientationchange", handleViewportChange);
+    };
+  }, [activeTabKey, checkDashboardMobileOverflow, sidebarOpen, mobileMoreOpen]);
 
   if (showLanding) {
     return <LandingPage onEnterApp={handleEnterApp} />;
@@ -477,7 +538,7 @@ function AppShell() {
             </div>
           </header>
 
-          <main className={`w-full max-w-full overflow-x-hidden pb-28 lg:pb-6 ${isDashboardLayout ? "min-h-[calc(100vh-57px)] lg:h-[calc(100vh-72px)] lg:min-h-[calc(100vh-72px)] lg:overflow-hidden" : "min-h-[calc(100vh-57px)]"}`}>
+          <main ref={mainContentRef} className={`w-full max-w-full overflow-x-hidden pb-28 lg:pb-6 ${isDashboardLayout ? "min-h-[calc(100vh-57px)] lg:h-[calc(100vh-72px)] lg:min-h-[calc(100vh-72px)] lg:overflow-hidden" : "min-h-[calc(100vh-57px)]"}`}>
             <div className={`mx-auto w-full max-w-[1600px] overflow-hidden ${isDashboardLayout ? "lg:h-full" : ""}`}>
               <Suspense fallback={<TabLoadingFallback label={activeMenuItem.label} />}>
                 <ActiveTabComponent />
@@ -574,6 +635,33 @@ function AppShell() {
         onTabSelect={handleTabChange}
         onToggleFavorite={handleToggleFavoriteTab}
       />
+
+      {showLayoutRecovery && !sidebarOpen && !mobileMoreOpen && (
+        <div
+          className="pointer-events-none fixed inset-x-0 bottom-24 z-40 flex justify-center px-4 lg:hidden"
+          style={{ paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 6px)" }}
+        >
+          <button
+            onClick={handleRecoverMobileLayout}
+            disabled={isRecoveringLayout}
+            className="pointer-events-auto flex w-full max-w-sm items-center justify-between gap-3 rounded-2xl border border-amber-200/60 bg-amber-50/95 px-4 py-3 text-left shadow-lg shadow-amber-900/10 backdrop-blur dark:border-amber-700/40 dark:bg-amber-950/90"
+          >
+            <div className="min-w-0">
+              <p className="text-sm font-semibold text-amber-900 dark:text-amber-100">
+                Làm mới giao diện
+              </p>
+              <p className="text-xs text-amber-800/80 dark:text-amber-200/75">
+                Phát hiện layout mobile đang bị tràn. Chạm để tải lại app.
+              </p>
+            </div>
+            <RefreshCcw
+              className={`h-4.5 w-4.5 shrink-0 text-amber-800 dark:text-amber-200 ${
+                isRecoveringLayout ? "animate-spin" : ""
+              }`}
+            />
+          </button>
+        </div>
+      )}
 
       <WelcomeFeedback hideOnMobile={activeTab === "gpa" || activeTab === "dashboard"} />
     </div>
