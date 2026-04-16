@@ -352,27 +352,26 @@ export default function DashboardPage() {
       <div className="space-y-3 lg:hidden">
         <Card className="overflow-hidden border-0 bg-[radial-gradient(circle_at_top_left,rgba(56,189,248,0.22),transparent_38%),radial-gradient(circle_at_82%_18%,rgba(139,92,246,0.2),transparent_24%),linear-gradient(160deg,#020617_0%,#0f172a_52%,#1d4ed8_100%)] text-white shadow-xl shadow-slate-950/15">
           <CardContent className="p-4">
-            <div className="flex items-start justify-between gap-3">
-              <div className="min-w-0">
-                <Badge className="rounded-full border border-white/12 bg-white/10 px-3 py-1 text-[11px] font-medium text-white/90 backdrop-blur">
-                  {snapshot.greeting} • {snapshot.shortDateLabel}
-                </Badge>
-                <h2 className="mt-3 text-2xl font-bold leading-tight">Hôm nay cần ưu tiên gì?</h2>
-                <p className="mt-2 text-sm leading-6 text-white/72">
-                  Mở nhanh lịch, deadline, roadmap và LMS từ một màn mobile gọn hơn.
-                </p>
-              </div>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={refresh}
-                className="h-11 w-11 shrink-0 rounded-2xl border border-white/12 bg-white/10 text-white hover:bg-white/16 hover:text-white"
-              >
-                <RefreshCcw className="h-4.5 w-4.5" />
-              </Button>
+            <div className="min-w-0">
+              <Badge className="rounded-full border border-white/12 bg-white/10 px-3 py-1 text-[11px] font-medium text-white/90 backdrop-blur">
+                {snapshot.greeting} • {snapshot.shortDateLabel}
+              </Badge>
+              <h2 className="mt-3 text-2xl font-bold leading-tight">Hôm nay cần ưu tiên gì?</h2>
+              <p className="mt-2 text-sm leading-6 text-white/72">
+                Mở nhanh lịch, deadline, roadmap và LMS từ một màn mobile gọn hơn.
+              </p>
             </div>
 
-            <div className="mt-4 grid grid-cols-2 gap-2">
+            <Button
+              variant="ghost"
+              onClick={refresh}
+              className="mt-4 flex h-11 w-full items-center justify-between rounded-2xl border border-white/12 bg-white/10 px-4 text-white hover:bg-white/16 hover:text-white"
+            >
+              <span className="text-sm font-semibold">Làm mới snapshot</span>
+              <RefreshCcw className="h-4.5 w-4.5" />
+            </Button>
+
+            <div className="mt-4 grid grid-cols-1 gap-2 min-[430px]:grid-cols-2">
               {mobileOverviewCards.map((item) => (
                 <MobileOverviewCard
                   key={item.label}

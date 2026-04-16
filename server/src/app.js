@@ -17,12 +17,34 @@ import { requestIdMiddleware, globalErrorHandler } from './middlewares/errorMidd
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const isProduction = process.env.NODE_ENV === 'production';
+const LEGACY_HOST_REDIRECTS = new Map([
+    ['student-schedule.onrender.com', 'https://bkstuspace.me'],
+    ['www.bkstuspace.me', 'https://bkstuspace.me']
+]);
 
 const app = express();
 
 // Trust proxy for Render (behind load balancer)
 if (isProduction) {
     app.set('trust proxy', 1);
+}
+
+if (isProduction) {
+    app.use((req, res, next) => {
+        const forwardedHost = req.headers['x-forwarded-host'];
+        const currentHost = (Array.isArray(forwardedHost) ? forwardedHost[0] : forwardedHost || req.get('host') || '')
+            .split(',')[0]
+            .trim()
+            .toLowerCase();
+
+        const redirectBaseUrl = LEGACY_HOST_REDIRECTS.get(currentHost);
+
+        if (!redirectBaseUrl || req.path === '/api/health') {
+            return next();
+        }
+
+        return res.redirect(301, new URL(req.originalUrl || '/', redirectBaseUrl).toString());
+    });
 }
 
 app.use(helmet({
