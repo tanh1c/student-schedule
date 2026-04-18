@@ -126,6 +126,21 @@ function formatRelativeDate(targetDate) {
   return `${Math.abs(diffDays)} ngày trước`;
 }
 
+function formatCompactRelativeDate(targetDate) {
+  if (!targetDate) return "";
+  const now = new Date();
+  const today = new Date(now);
+  const date = new Date(targetDate);
+  today.setHours(0, 0, 0, 0);
+  date.setHours(0, 0, 0, 0);
+
+  const diffDays = Math.round((date - today) / (24 * 60 * 60 * 1000));
+
+  if (diffDays === 0) return "HN";
+  if (diffDays > 0) return String(diffDays);
+  return `QH ${Math.abs(diffDays)}`;
+}
+
 function Lane({ title, description, children }) {
   return (
     <div className="flex min-h-0 flex-col gap-3">
@@ -237,30 +252,10 @@ function ScheduleItem({ course, isCurrent, isNext }) {
 function MobileOverviewCard({ label, value, meta }) {
   return (
     <div className="min-w-0 rounded-2xl border border-white/12 bg-white/10 p-3 backdrop-blur">
-      <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/65">{label}</p>
-      <p className="mt-1 text-xl font-semibold text-white">{value}</p>
-      <p className="mt-1 text-xs leading-5 text-white/68">{meta}</p>
+      <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-white/62">{label}</p>
+      <p className="mt-2 text-[1.9rem] font-semibold leading-none text-white">{value}</p>
+      <p className="mt-2 line-clamp-2 text-[13px] leading-5 text-white/72">{meta}</p>
     </div>
-  );
-}
-
-function MobileQuickAction({ action }) {
-  const Icon = action.icon;
-
-  return (
-    <button
-      type="button"
-      onClick={() => navigateToTab(action.tabId)}
-      className="flex w-full min-w-0 items-center gap-3 overflow-hidden rounded-2xl border border-white/12 bg-white/10 p-3 text-left backdrop-blur transition-colors hover:bg-white/14"
-    >
-      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-white/16 text-white shadow-sm">
-        <Icon className="h-4.5 w-4.5" />
-      </div>
-      <div className="min-w-0">
-        <p className="truncate text-sm font-semibold text-white">{action.label}</p>
-        <p className="mt-0.5 line-clamp-2 text-xs leading-5 text-white/65">{action.meta}</p>
-      </div>
-    </button>
   );
 }
 
@@ -298,18 +293,16 @@ function useResponsiveDashboardMode() {
   return {
     viewportWidth,
     isDesktopLayout: viewportWidth >= 1024,
-    useTwoColumnOverview: viewportWidth >= 430,
-    useTwoColumnQuickActions: viewportWidth >= 460,
+    useTwoColumnOverview: viewportWidth >= 360,
     useTwoColumnMobileSections: viewportWidth >= 560,
   };
 }
 
 export default function DashboardPage() {
-  const { snapshot, refresh } = useDashboardOverview();
+  const { snapshot, refresh, isRefreshing } = useDashboardOverview();
   const {
     isDesktopLayout,
     useTwoColumnOverview,
-    useTwoColumnQuickActions,
     useTwoColumnMobileSections,
   } = useResponsiveDashboardMode();
   const totalPeriodsToday = snapshot.schedule.todayClasses.reduce(
@@ -327,7 +320,7 @@ export default function DashboardPage() {
     {
       label: "Lớp hôm nay",
       value: snapshot.stats.classesToday,
-      meta: totalPeriodsToday > 0 ? `${totalPeriodsToday} tiết trong ngày` : "Không có lớp nào",
+      meta: totalPeriodsToday > 0 ? `${totalPeriodsToday} tiết hôm nay` : "Không có lớp",
     },
     {
       label: "Deadline gần",
@@ -361,7 +354,7 @@ export default function DashboardPage() {
               </Badge>
               <div className="mt-3">
                 <h1 className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-[1.95rem]">
-                  Dashboard học tập gọn, nhanh và đủ việc cần ưu tiên
+                  Dashboard học tập
                 </h1>
               </div>
               <div className="mt-4 flex flex-wrap gap-2">
@@ -381,14 +374,19 @@ export default function DashboardPage() {
               <button
                 type="button"
                 onClick={refresh}
-                className="group mx-auto w-full max-w-md rounded-2xl border border-white/12 bg-white/10 p-4 text-left backdrop-blur transition-colors hover:bg-white/16"
+                disabled={isRefreshing}
+                className="group mx-auto w-full max-w-md rounded-2xl border border-white/12 bg-white/10 p-4 text-left backdrop-blur transition-colors hover:bg-white/16 disabled:cursor-default disabled:bg-white/14"
               >
                 <div className="flex items-center justify-between gap-3">
                   <div>
-                    <p className="text-sm font-semibold text-white">Làm mới snapshot</p>
-                    <p className="mt-1 text-xs leading-5 text-white/68">Cập nhật dashboard từ cache và local data hiện có</p>
+                    <p className="text-sm font-semibold text-white">
+                      {isRefreshing ? "Đang cập nhật snapshot" : "Làm mới snapshot"}
+                    </p>
+                    <p className="mt-1 text-xs leading-5 text-white/68">
+                      {isRefreshing ? "Dashboard đang nạp lại dữ liệu local hiện có" : "Cập nhật dashboard từ cache và local data hiện có"}
+                    </p>
                   </div>
-                  <RefreshCcw className="h-4 w-4 shrink-0 text-white/72 transition-transform group-hover:rotate-45" />
+                  <RefreshCcw className={cn("h-4 w-4 shrink-0 text-white/72 transition-transform group-hover:rotate-45", isRefreshing && "animate-spin text-white")} />
                 </div>
               </button>
             </div>
@@ -405,22 +403,20 @@ export default function DashboardPage() {
               <Badge className="rounded-full border border-white/12 bg-white/10 px-3 py-1 text-[11px] font-medium text-white/90 backdrop-blur">
                 {snapshot.greeting} • {snapshot.shortDateLabel}
               </Badge>
-              <h2 className="mt-3 text-2xl font-bold leading-tight">Hôm nay cần ưu tiên gì?</h2>
-              <p className="mt-2 text-sm leading-6 text-white/72">
-                Mở nhanh lịch, deadline, roadmap và LMS từ một màn mobile gọn hơn.
-              </p>
+              <h2 className="mt-3 text-2xl font-bold leading-tight">Ưu tiên hôm nay</h2>
             </div>
 
             <Button
               variant="ghost"
               onClick={refresh}
-              className="mt-4 flex h-11 w-full items-center justify-between rounded-2xl border border-white/12 bg-white/10 px-4 text-white hover:bg-white/16 hover:text-white"
+              disabled={isRefreshing}
+              className="mt-3 flex h-10 w-full items-center justify-center gap-2 rounded-2xl border border-white/12 bg-white/10 px-4 text-white hover:bg-white/16 hover:text-white disabled:cursor-default disabled:bg-white/14 disabled:text-white"
             >
-              <span className="text-sm font-semibold">Làm mới snapshot</span>
-              <RefreshCcw className="h-4.5 w-4.5" />
+              <span className="text-sm font-semibold">{isRefreshing ? "Đang cập nhật" : "Làm mới snapshot"}</span>
+              <RefreshCcw className={cn("h-4.5 w-4.5", isRefreshing && "animate-spin")} />
             </Button>
 
-            <div className={cn("mt-4 grid gap-2", useTwoColumnOverview ? "grid-cols-2" : "grid-cols-1")}>
+            <div className={cn("mt-3 grid gap-2", useTwoColumnOverview ? "grid-cols-2" : "grid-cols-1")}>
               {mobileOverviewCards.map((item) => (
                 <MobileOverviewCard
                   key={item.label}
@@ -428,12 +424,6 @@ export default function DashboardPage() {
                   value={item.value}
                   meta={item.meta}
                 />
-              ))}
-            </div>
-
-            <div className={cn("mt-4 grid gap-2", useTwoColumnQuickActions ? "grid-cols-2" : "grid-cols-1")}>
-              {quickActions.map((action) => (
-                <MobileQuickAction key={`${action.tabId}-mobile`} action={action} />
               ))}
             </div>
           </CardContent>
@@ -533,7 +523,7 @@ export default function DashboardPage() {
                         <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">{item.courseName || "Sự kiện LMS"}</p>
                       </div>
                       <Badge variant="outline" className={cn(toneStyles.rose.action, "pointer-events-none border-transparent dark:border-transparent")}>
-                        {formatRelativeDate(item.eventDate)}
+                        {formatCompactRelativeDate(item.eventDate)}
                       </Badge>
                     </div>
                     <div className="mt-3 flex flex-wrap gap-2 text-xs text-muted-foreground">
@@ -825,7 +815,7 @@ export default function DashboardPage() {
                         <p className="text-sm font-semibold text-foreground">{item.name || item.title}</p>
                         <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">{item.courseName || "Sự kiện LMS"}</p>
                       </div>
-                      <Badge variant="outline" className={cn(toneStyles.rose.action, "pointer-events-none border-transparent dark:border-transparent")}>{formatRelativeDate(item.eventDate)}</Badge>
+                      <Badge variant="outline" className={cn(toneStyles.rose.action, "pointer-events-none border-transparent dark:border-transparent")}>{formatCompactRelativeDate(item.eventDate)}</Badge>
                     </div>
                     <div className="mt-3 flex flex-wrap gap-2 text-xs text-muted-foreground">
                       <span>{formatFullDate(item.eventDate)}</span>

@@ -53,7 +53,7 @@ Exit Criteria: app shell is thin, product domains live behind `src/features/*`, 
 - [x] Backend ancillary assets were reorganized into `server/data` and `server/docs`
 - [x] Frontend feature architecture is complete at `12/12` tabs
 - [~] Remaining follow-up work is now mostly backend modular cleanup, CI/CD, and performance polish
-- [ ] Decide later whether historical root docs should move under a dedicated `docs/` directory
+- [x] Move historical project docs under a dedicated `docs/` directory
 
 # Verification Log
 

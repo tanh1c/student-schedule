@@ -96,6 +96,6 @@ Before shipping or sharing debugging artifacts, keep `server/docs/debug/` clean.
 
 ## Related Docs
 
-- `README.md`
+- `../README.md`
 - `DEPLOYMENT.md`
-- `server/README.md`
+- `../server/README.md`
