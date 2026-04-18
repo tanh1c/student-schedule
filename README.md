@@ -82,10 +82,11 @@ Backend production có thể serve trực tiếp frontend từ `dist/`. File `re
 
 ## Docs
 
-- `DEPLOYMENT.md`: deployment overview chung
-- `RENDER-DEPLOY.md`: hướng dẫn deploy nhanh lên Render
-- `REFACTOR_PROGRESS.md`: trạng thái refactor đã hoàn thành
-- `NEXT_REFACTOR_ROADMAP.md`: các bước cleanup tiếp theo sau khi kiến trúc mới đã ổn định
+- `docs/DEPLOYMENT.md`: deployment overview chung
+- `docs/RENDER-DEPLOY.md`: hướng dẫn deploy nhanh lên Render
+- `docs/REFACTOR_PROGRESS.md`: trạng thái refactor đã hoàn thành
+- `docs/NEXT_REFACTOR_ROADMAP.md`: các bước cleanup tiếp theo sau khi kiến trúc mới đã ổn định
+- `docs/OFFLINE_PWA_PLAN.md`: kế hoạch đưa app tới mức offline-ready an toàn
 
 ## Quality Check
 
@@ -99,4 +100,4 @@ npm run test:server
 
 ## Tracking
 
-Tiến độ refactor hiện được ghi tại `REFACTOR_PROGRESS.md`.
+Tiến độ refactor hiện được ghi tại `docs/REFACTOR_PROGRESS.md`.

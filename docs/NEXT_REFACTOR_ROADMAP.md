@@ -92,10 +92,10 @@ server/src/
 
 ## Wave D: Documentation Cleanup
 
-- [ ] keep root docs short and role-based
+- [x] keep root docs short and role-based
 - [ ] avoid stale deploy steps or old branch names
 - [ ] keep backend-only notes under `server/`
-- [ ] decide whether historical refactor notes should move to `docs/` later
+- [x] move historical refactor notes and project docs to `docs/`
 
 ### Exit Criteria
 

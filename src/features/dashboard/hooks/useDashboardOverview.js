@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { calculatePreciseCurrentGpa } from "@/features/gpa/utils/gpaGradeScale";
 import { calculateSemesterGpa } from "@/features/roadmap/utils/gpa";
 import {
@@ -308,9 +308,21 @@ function loadDashboardSnapshot() {
 
 export function useDashboardOverview() {
   const [snapshot, setSnapshot] = useState(() => loadDashboardSnapshot());
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const refreshTimerRef = useRef(null);
 
   const refresh = useCallback(() => {
+    if (refreshTimerRef.current) {
+      window.clearTimeout(refreshTimerRef.current);
+    }
+
+    setIsRefreshing(true);
     setSnapshot(loadDashboardSnapshot());
+
+    refreshTimerRef.current = window.setTimeout(() => {
+      setIsRefreshing(false);
+      refreshTimerRef.current = null;
+    }, 650);
   }, []);
 
   useEffect(() => {
@@ -328,6 +340,9 @@ export function useDashboardOverview() {
     document.addEventListener("visibilitychange", handleVisibilityChange);
 
     return () => {
+      if (refreshTimerRef.current) {
+        window.clearTimeout(refreshTimerRef.current);
+      }
       window.removeEventListener("focus", handleFocus);
       window.removeEventListener("storage", handleStorage);
       window.removeEventListener("kanbanTasksChanged", handleStorage);
@@ -338,5 +353,6 @@ export function useDashboardOverview() {
   return {
     snapshot,
     refresh,
+    isRefreshing,
   };
 }
