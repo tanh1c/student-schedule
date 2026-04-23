@@ -8,6 +8,7 @@ import {
 } from "@/features/schedule/utils/scheduleTime";
 
 const SCHEDULE_STORAGE_KEY = "scheduleData";
+const SELECTED_WEEK_STORAGE_KEY = "selectedWeek";
 const DEADLINES_STORAGE_KEY = "lms_cache_deadlines";
 const CONVERSATIONS_STORAGE_KEY = "lms_cache_conversations";
 const EXAM_STORAGE_KEY = "examSchedule";
@@ -110,6 +111,7 @@ function loadDashboardSnapshot() {
   const currentWeek = getCurrentSemesterWeek();
   const currentDayId = getCurrentScheduleDayId(now);
   const currentTimeSlotInfo = getCurrentTimeSlotInfo(now);
+  const selectedWeek = readJsonStorage(SELECTED_WEEK_STORAGE_KEY, currentWeek);
 
   const scheduleData = readJsonStorage(SCHEDULE_STORAGE_KEY, []);
   const examSchedule = readJsonStorage(EXAM_STORAGE_KEY, []);
@@ -122,7 +124,7 @@ function loadDashboardSnapshot() {
   const todayClasses = scheduleData
     .filter((course) => {
       const matchesWeek = Array.isArray(course.weeks)
-        ? course.weeks.includes(currentWeek)
+        ? course.weeks.includes(selectedWeek)
         : true;
       return matchesWeek && course.day === currentDayId && Number(course.startPeriod) > 0;
     })
@@ -131,7 +133,7 @@ function loadDashboardSnapshot() {
   const weeklyClasses = scheduleData
     .filter((course) => {
       const matchesWeek = Array.isArray(course.weeks)
-        ? course.weeks.includes(currentWeek)
+        ? course.weeks.includes(selectedWeek)
         : true;
       return matchesWeek && Number(course.startPeriod) > 0;
     })
@@ -177,13 +179,21 @@ function loadDashboardSnapshot() {
     return timestamp >= nowSeconds && timestamp - nowSeconds <= (3 * DAY_IN_SECONDS);
   }).length;
 
-  const upcomingExams = examSchedule
+  const normalizedExams = examSchedule
     .map((exam) => ({
       ...exam,
       examDate: parseDateTime(exam.NGAYTHI, exam.GIOBD),
     }))
-    .filter((exam) => exam.examDate && exam.examDate.getTime() >= now.getTime() - DAY_IN_MS)
+    .filter((exam) => exam.examDate)
     .sort((left, right) => left.examDate - right.examDate);
+
+  const upcomingExams = normalizedExams
+    .filter((exam) => exam.examDate.getTime() >= now.getTime() - DAY_IN_MS)
+    .sort((left, right) => left.examDate - right.examDate);
+
+  const dashboardExamItems = upcomingExams.length > 0
+    ? upcomingExams
+    : normalizedExams;
 
   const populatedSemesters = roadmapSemesters.filter((semester) => (
     (semester?.courses?.length ?? 0) > 0
@@ -280,6 +290,9 @@ function loadDashboardSnapshot() {
     schedule: {
       hasData: scheduleData.length > 0,
       currentWeek,
+      selectedWeek,
+      currentDayId,
+      currentTimeSlotInfo,
       weeklyClasses,
       todayClasses,
       currentClass,
@@ -293,7 +306,7 @@ function loadDashboardSnapshot() {
     },
     exams: {
       hasData: examSchedule.length > 0,
-      items: upcomingExams.slice(0, 4),
+      items: dashboardExamItems.slice(0, 4),
       nextExam: upcomingExams[0] ?? null,
     },
     roadmap: {

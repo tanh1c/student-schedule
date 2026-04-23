@@ -593,7 +593,7 @@ function AppShell() {
                 <div className="flex items-center space-x-3 sm:space-x-4">
                 <button
                   type="button"
-                  className="text-slate-500 transition-colors hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-100"
+                  className="relative text-slate-500 transition-colors hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-100"
                   title={`${headerSignals.urgentDeadlines} deadline gần`}
                 >
                   <Bell className="h-5 w-5" />
