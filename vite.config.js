@@ -65,6 +65,10 @@ export default defineConfig({
             return 'map-vendor'
           }
 
+          if (id.includes('@lottiefiles') || id.includes('@dotlottie')) {
+            return 'lottie-vendor'
+          }
+
           return 'vendor'
         },
       },

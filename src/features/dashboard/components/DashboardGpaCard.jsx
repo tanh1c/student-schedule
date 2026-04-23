@@ -1,15 +1,25 @@
 import React, { useEffect, useState } from "react";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { Eye, EyeOff } from "lucide-react";
 import { DashboardCard } from "@/features/dashboard/components/DashboardShared";
 import { navigateToTab } from "@/features/dashboard/components/DashboardHelpers";
 import { cn } from "@lib/utils";
 
 const GPA_CARD_HIDDEN_KEY = "dashboard_gpa_card_hidden";
+const GPA_HIDDEN_LOTTIE_URL = "https://lottie.host/40aa4f34-df5a-41f4-828d-29d2e450d905/pTK9Pq8fMc.lottie";
+
+function getScorePercent(score, maxScore) {
+  if (!Number.isFinite(score) || maxScore <= 0) return 0;
+  return Math.min(100, Math.max(0, (score / maxScore) * 100));
+}
 
 export function DashboardGpaCard({ snapshot, compact = false }) {
-  const gpa4 = snapshot.gpa.snapshot?.gpa4?.toFixed(2) ?? "--";
-  const gpa10 = snapshot.gpa.snapshot?.gpa10?.toFixed(2) ?? "--";
-  const hasGpaData = Boolean(snapshot.gpa.snapshot);
+  const gpa4Value = Number(snapshot.gpa.snapshot?.gpa4);
+  const gpa10Value = Number(snapshot.gpa.snapshot?.gpa10);
+  const gpa4 = Number.isFinite(gpa4Value) ? gpa4Value.toFixed(2) : "--";
+  const gpa10 = Number.isFinite(gpa10Value) ? gpa10Value.toFixed(2) : "--";
+  const gpa4Progress = getScorePercent(gpa4Value, 4);
+  const gpa10Progress = getScorePercent(gpa10Value, 10);
   const [isScoreHidden, setIsScoreHidden] = useState(() => {
     if (typeof window === "undefined") return false;
     return window.localStorage.getItem(GPA_CARD_HIDDEN_KEY) === "true";
@@ -20,10 +30,9 @@ export function DashboardGpaCard({ snapshot, compact = false }) {
     window.localStorage.setItem(GPA_CARD_HIDDEN_KEY, isScoreHidden ? "true" : "false");
   }, [isScoreHidden]);
 
-  const statusText = hasGpaData ? "Đã sync GPA" : "Chưa có dữ liệu";
-  const maskedText = "--.--";
   const scoreTextClassName = compact ? "text-4xl font-extrabold" : "text-5xl font-extrabold";
-  const insetCardClassName = compact ? "rounded-2xl p-3" : "rounded-2xl p-4";
+  const gpa10ScoreTextClassName = compact ? "text-3xl font-extrabold" : "text-4xl font-extrabold";
+  const insetCardClassName = compact ? "rounded-2xl px-4 py-3.5" : "rounded-3xl px-5 py-4";
 
   const headerActions = (
     <>
@@ -52,59 +61,64 @@ export function DashboardGpaCard({ snapshot, compact = false }) {
 
   return (
     <DashboardCard title="GPA hiện tại" headerActions={headerActions} className="h-full" contentClassName="h-full">
-      <div className="flex flex-1 flex-col">
-        <div className={compact ? "grid gap-3 px-0.5 pb-0.5" : "grid gap-4 px-0.5 pb-0.5"}>
-          <div className="grid grid-cols-2 gap-3">
-            <div className={cn(insetCardClassName, "overflow-hidden bg-gradient-to-br from-sky-100 via-blue-50 to-white dark:from-sky-950/35 dark:via-blue-950/20 dark:to-slate-950")}>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-sky-600 dark:text-sky-300">Hệ 4</p>
-              <div className="relative mt-2 flex items-end gap-2 tracking-tight">
-                <span
-                  className={cn(
-                    scoreTextClassName,
-                    "text-slate-900 transition-all duration-300 dark:text-slate-50",
-                    isScoreHidden && "select-none text-slate-500/85 dark:text-slate-300/80",
-                  )}
-                >
-                  {isScoreHidden ? maskedText : gpa4}
-                </span>
-                <span className={compact ? "mb-1 text-base font-semibold text-sky-500/70 dark:text-sky-300/70" : "mb-1 text-lg font-semibold text-sky-500/70 dark:text-sky-300/70"}>/ 4.0</span>
-                {isScoreHidden ? (
-                  <span className="pointer-events-none absolute inset-x-0 top-1/2 h-6 -translate-y-1/2 rounded-lg bg-[repeating-linear-gradient(-55deg,rgba(125,211,252,0.14)_0px,rgba(125,211,252,0.14)_7px,rgba(255,255,255,0.7)_7px,rgba(255,255,255,0.7)_14px)] dark:bg-[repeating-linear-gradient(-55deg,rgba(56,189,248,0.18)_0px,rgba(56,189,248,0.18)_7px,rgba(15,23,42,0.45)_7px,rgba(15,23,42,0.45)_14px)]" />
-                ) : null}
-              </div>
+      <div className="flex min-h-0 flex-1 flex-col py-0.5">
+        {isScoreHidden ? (
+          <div className="relative flex min-h-0 flex-1 items-center justify-center overflow-hidden rounded-3xl bg-gradient-to-br from-slate-50 via-blue-50 to-zinc-50 p-5 dark:from-slate-900/65 dark:via-blue-950/25 dark:to-zinc-950">
+            <div className="pointer-events-none absolute left-5 top-1/2 hidden -translate-y-1/2 flex-col items-start gap-2 opacity-65 sm:flex" aria-hidden="true">
+              <span className="h-2 w-12 rounded-full bg-slate-300/55 dark:bg-slate-500/25" />
+              <span className="h-2 w-8 rounded-full bg-blue-300/45 dark:bg-blue-500/20" />
+              <span className="h-2 w-10 rounded-full bg-zinc-300/45 dark:bg-zinc-500/20" />
+            </div>
+            <div className="pointer-events-none absolute right-5 top-1/2 hidden -translate-y-1/2 flex-col items-end gap-2 opacity-65 sm:flex" aria-hidden="true">
+              <span className="h-2 w-10 rounded-full bg-zinc-300/45 dark:bg-zinc-500/20" />
+              <span className="h-2 w-8 rounded-full bg-blue-300/45 dark:bg-blue-500/20" />
+              <span className="h-2 w-12 rounded-full bg-slate-300/55 dark:bg-slate-500/25" />
             </div>
 
-            <div className={cn(insetCardClassName, "overflow-hidden bg-gradient-to-br from-violet-100 via-fuchsia-50 to-white dark:from-violet-950/35 dark:via-fuchsia-950/15 dark:to-slate-950")}>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-violet-600 dark:text-violet-300">Hệ 10</p>
-              <div className="relative mt-2">
-                <p
-                  className={cn(
-                    "text-2xl font-bold tracking-tight text-slate-900 transition-all duration-300 dark:text-slate-50",
-                    isScoreHidden && "select-none text-slate-500/85 dark:text-slate-300/80",
-                  )}
-                >
-                  {isScoreHidden ? maskedText : gpa10}
-                </p>
-                {isScoreHidden ? (
-                  <span className="pointer-events-none absolute inset-x-0 top-1/2 h-5 -translate-y-1/2 rounded-lg bg-[repeating-linear-gradient(-55deg,rgba(192,132,252,0.16)_0px,rgba(192,132,252,0.16)_7px,rgba(255,255,255,0.7)_7px,rgba(255,255,255,0.7)_14px)] dark:bg-[repeating-linear-gradient(-55deg,rgba(167,139,250,0.18)_0px,rgba(167,139,250,0.18)_7px,rgba(15,23,42,0.45)_7px,rgba(15,23,42,0.45)_14px)]" />
-                ) : null}
+            <div className="relative z-10 grid place-items-center">
+              <div className="relative flex h-[144px] w-[144px] items-center justify-center overflow-hidden rounded-[2rem] bg-white/75 shadow-inner dark:bg-slate-950/35">
+                <div className="absolute inset-x-5 bottom-4 h-10 rounded-full bg-slate-400/20 blur-xl dark:bg-blue-400/15" />
+                <DotLottieReact
+                  src={GPA_HIDDEN_LOTTIE_URL}
+                  loop
+                  autoplay
+                  className="relative z-10 h-[128px] w-[128px]"
+                  style={{ width: 128, height: 128 }}
+                />
               </div>
             </div>
           </div>
-
-          <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3">
-            <div className={cn(insetCardClassName, "self-start bg-slate-50 dark:bg-slate-900")}>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400 dark:text-slate-500">Trạng thái</p>
-              <p className="mt-2 text-[13px] font-semibold leading-5 text-slate-700 dark:text-slate-200">{statusText}</p>
-            </div>
-
-            <div className={compact ? "flex min-w-[96px] self-start items-center justify-center rounded-2xl bg-emerald-50 px-3 py-3 dark:bg-emerald-950/20" : "flex min-w-[110px] self-start items-center justify-center rounded-2xl bg-emerald-50 px-4 py-4 dark:bg-emerald-950/20"}>
-              <span className="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-600 dark:text-emerald-300">
-                {isScoreHidden ? "Đang ẩn điểm" : "Đang hiển thị"}
+        ) : (
+          <div className={compact ? "grid min-h-0 flex-1 grid-cols-2 gap-3 p-0.5" : "grid min-h-0 flex-1 grid-cols-2 gap-4 p-0.5"}>
+            <div className={cn(insetCardClassName, "relative flex min-h-[116px] flex-col justify-center overflow-hidden bg-gradient-to-br from-sky-100 via-blue-50 to-white dark:from-sky-950/35 dark:via-blue-950/20 dark:to-slate-950")}>
+              <span className="pointer-events-none absolute bottom-1 right-4 text-4xl font-black tracking-tighter text-sky-200/45 dark:text-sky-500/10" aria-hidden="true">
+                /4
               </span>
+              <p className="relative z-10 text-[11px] font-semibold uppercase tracking-[0.14em] text-sky-600 dark:text-sky-300">Hệ 4</p>
+              <div className="relative z-10 mt-3 flex items-end gap-2 tracking-tight">
+                <span className={cn(scoreTextClassName, "text-slate-900 dark:text-slate-50")}>{gpa4}</span>
+                <span className={compact ? "mb-1 text-base font-semibold text-sky-500/70 dark:text-sky-300/70" : "mb-1 text-lg font-semibold text-sky-500/70 dark:text-sky-300/70"}>/ 4.0</span>
+              </div>
+              <div className="relative z-10 mt-4 h-1.5 overflow-hidden rounded-full bg-white/80 dark:bg-slate-800/80">
+                <div className="h-full rounded-full bg-sky-500/75 dark:bg-sky-400/80" style={{ width: `${gpa4Progress}%` }} />
+              </div>
+            </div>
+
+            <div className={cn(insetCardClassName, "relative flex min-h-[116px] flex-col justify-center overflow-hidden bg-gradient-to-br from-violet-100 via-fuchsia-50 to-white dark:from-violet-950/35 dark:via-fuchsia-950/15 dark:to-slate-950")}>
+              <span className="pointer-events-none absolute bottom-1 right-4 text-4xl font-black tracking-tighter text-violet-200/45 dark:text-violet-500/10" aria-hidden="true">
+                /10
+              </span>
+              <p className="relative z-10 text-[11px] font-semibold uppercase tracking-[0.14em] text-violet-600 dark:text-violet-300">Hệ 10</p>
+              <div className="relative z-10 mt-3 flex items-end gap-2 tracking-tight">
+                <span className={cn(gpa10ScoreTextClassName, "text-slate-900 dark:text-slate-50")}>{gpa10}</span>
+                <span className={compact ? "mb-1 text-base font-semibold text-violet-500/70 dark:text-violet-300/70" : "mb-1 text-lg font-semibold text-violet-500/70 dark:text-violet-300/70"}>/ 10</span>
+              </div>
+              <div className="relative z-10 mt-4 h-1.5 overflow-hidden rounded-full bg-white/80 dark:bg-slate-800/80">
+                <div className="h-full rounded-full bg-violet-500/75 dark:bg-violet-400/80" style={{ width: `${gpa10Progress}%` }} />
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </DashboardCard>
   );

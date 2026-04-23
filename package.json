@@ -20,6 +20,7 @@
     "start": "npm --prefix server start"
   },
   "dependencies": {
+    "@lottiefiles/dotlottie-react": "^0.19.0",
     "@radix-ui/react-dialog": "^1.1.15",
     "@radix-ui/react-popover": "^1.1.15",
     "@radix-ui/react-scroll-area": "^1.2.10",

@@ -199,6 +199,24 @@ function loadDashboardSnapshot() {
     (semester?.courses?.length ?? 0) > 0
     || Boolean(semester?.note?.trim?.())
   ));
+  const roadmapSemesterSummaries = populatedSemesters.map((semester) => {
+    const courses = semester.courses || [];
+    const credits = courses.reduce(
+      (creditsTotal, course) => creditsTotal + (parseInt(course.credits, 10) || 0),
+      0,
+    );
+
+    return {
+      id: semester.id,
+      name: semester.name || "Học kỳ",
+      year: semester.year || "",
+      note: semester.note || "",
+      courses,
+      courseCount: courses.length,
+      credits,
+      gpa: calculateSemesterGpa(courses),
+    };
+  });
 
   const totalPlannedCourses = populatedSemesters.reduce(
     (total, semester) => total + (semester.courses?.length ?? 0),
@@ -213,12 +231,11 @@ function loadDashboardSnapshot() {
     ),
     0,
   );
-  const roadmapGoal = populatedSemesters
-    .map((semester) => ({
-      semester,
-      gpa: calculateSemesterGpa(semester.courses || []),
-    }))
-    .find((item) => item.gpa);
+  const roadmapGoal = roadmapSemesterSummaries.find((semester) => semester.gpa);
+  const activeRoadmapSemester =
+    roadmapSemesterSummaries.find((semester) => semester.courseCount > 0)
+    ?? roadmapSemesterSummaries[0]
+    ?? null;
 
   const gpaSnapshot = calculatePreciseCurrentGpa(gpaDetails);
 
@@ -310,15 +327,19 @@ function loadDashboardSnapshot() {
       nextExam: upcomingExams[0] ?? null,
     },
     roadmap: {
-      hasData: roadmapSemesters.length > 0,
+      hasData: populatedSemesters.length > 0,
       semesterCount: populatedSemesters.length,
       totalCourses: totalPlannedCourses,
       totalCredits: totalPlannedCredits,
+      semesters: roadmapSemesterSummaries,
+      activeSemester: activeRoadmapSemester,
       goal: roadmapGoal
         ? {
-            semesterName: roadmapGoal.semester.name,
+            semesterName: roadmapGoal.name,
+            semesterYear: roadmapGoal.year,
             gpa10: roadmapGoal.gpa.gpa10,
             gpa4: roadmapGoal.gpa.gpa4,
+            validCourses: roadmapGoal.gpa.validCourses,
           }
         : null,
     },

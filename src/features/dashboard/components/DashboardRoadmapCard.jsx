@@ -1,56 +1,41 @@
 import React from "react";
-import { ArrowRight } from "lucide-react";
-import { cn } from "@lib/utils";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { DashboardCard } from "@/features/dashboard/components/DashboardShared";
-import { navigateToTab } from "@/features/dashboard/components/DashboardHelpers";
 
-function getRoadmapProgress(snapshot) {
-  const totalSemesters = Math.max(snapshot.roadmap.semesterCount || 0, 1);
-  const semesterProgress = Math.min(100, Math.round((snapshot.roadmap.semesterCount / 8) * 100));
-  const courseProgress = Math.min(100, Math.round((snapshot.roadmap.totalCourses / 45) * 100));
-  const creditProgress = Math.min(100, Math.round((snapshot.roadmap.totalCredits / 140) * 100));
-  const gpaProgress = snapshot.roadmap.goal ? Math.min(100, Math.round((snapshot.roadmap.goal.gpa4 / 4) * 100)) : 0;
+const CAT_MARK_LOTTIE_URL = "https://lottie.host/54788f45-e825-4a15-b41d-552d56542bac/BCicficDD7.lottie";
 
-  return [
-    { label: "Kế hoạch học kỳ", value: semesterProgress, tone: "bg-emerald-500" },
-    { label: "Môn đã lên", value: courseProgress, tone: "bg-sky-500" },
-    { label: "Tín chỉ", value: creditProgress, tone: "bg-amber-500" },
-    { label: "Mục tiêu GPA", value: gpaProgress, tone: "bg-violet-500" },
-  ].slice(0, totalSemesters > 0 ? 4 : 0);
-}
-
-export function DashboardRoadmapCard({ snapshot, compact = false }) {
-  const progressItems = getRoadmapProgress(snapshot);
-
+export function DashboardRoadmapCard() {
   return (
-    <DashboardCard title="Roadmap học tập" className="h-full" contentClassName="h-full">
-      <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
-        {snapshot.roadmap.goal?.semesterName || "Kế hoạch học kỳ hiện tại"}
-      </p>
+    <DashboardCard
+      title="Coming soon"
+      headerActions={<span className="h-8 w-8" aria-hidden="true" />}
+      className="h-full"
+      contentClassName="h-full"
+    >
+      <div className="relative flex min-h-0 flex-1 items-center justify-center overflow-hidden rounded-3xl bg-gradient-to-br from-teal-50 via-cyan-50 to-sky-50 p-4 dark:from-teal-950/25 dark:via-cyan-950/15 dark:to-slate-950">
+        <div className="pointer-events-none absolute left-6 top-1/2 hidden -translate-y-1/2 flex-col items-start gap-2 opacity-70 sm:flex" aria-hidden="true">
+          <span className="h-2 w-14 rounded-full bg-teal-300/45 dark:bg-teal-500/20" />
+          <span className="h-2 w-9 rounded-full bg-cyan-300/45 dark:bg-cyan-500/20" />
+          <span className="h-2 w-12 rounded-full bg-sky-300/35 dark:bg-sky-500/15" />
+        </div>
+        <div className="pointer-events-none absolute right-6 top-1/2 hidden -translate-y-1/2 flex-col items-end gap-2 opacity-70 sm:flex" aria-hidden="true">
+          <span className="h-2 w-12 rounded-full bg-sky-300/35 dark:bg-sky-500/15" />
+          <span className="h-2 w-9 rounded-full bg-cyan-300/45 dark:bg-cyan-500/20" />
+          <span className="h-2 w-14 rounded-full bg-teal-300/45 dark:bg-teal-500/20" />
+        </div>
 
-      <div className={compact ? "mt-4 flex-1 space-y-3" : "mt-5 flex-1 space-y-4"}>
-        {progressItems.slice(0, compact ? 3 : progressItems.length).map((item) => (
-          <div key={item.label}>
-            <div className="mb-2 flex items-center justify-between gap-3">
-              <span className="text-sm font-semibold text-slate-700 dark:text-slate-200">{item.label}</span>
-              <span className="text-sm font-semibold text-slate-500 dark:text-slate-400">{item.value}%</span>
-            </div>
-            <div className="h-2 rounded-full bg-slate-100 dark:bg-slate-800">
-              <div className={cn("h-2 rounded-full", item.tone)} style={{ width: `${item.value}%` }} />
-            </div>
+        <div className="relative z-10 grid place-items-center">
+          <div className="relative flex aspect-square h-[152px] w-[152px] items-center justify-center overflow-hidden rounded-[2rem] bg-white/75 shadow-inner dark:bg-slate-950/35">
+            <div className="absolute inset-x-6 bottom-5 h-10 rounded-full bg-teal-300/25 blur-xl" />
+            <DotLottieReact
+              src={CAT_MARK_LOTTIE_URL}
+              loop
+              autoplay
+              className="relative z-10 h-[132px] w-[132px]"
+              style={{ width: 132, height: 132 }}
+            />
           </div>
-        ))}
-      </div>
-
-      <div className={compact ? "mt-3 pt-3" : "mt-4 pt-4"}>
-        <button
-          type="button"
-          onClick={() => navigateToTab("roadmap")}
-          className="inline-flex items-center gap-1.5 text-sm font-semibold text-blue-600 transition-colors hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
-        >
-          Xem roadmap
-          <ArrowRight className="h-4 w-4" />
-        </button>
+        </div>
       </div>
     </DashboardCard>
   );
