@@ -26,6 +26,9 @@ import { WORKSPACE_TAB_CHANGE_EVENT } from "@app/navigationEvents";
 import { tabRegistry } from "@app/tabRegistry";
 import { Badge } from "@shared/ui/badge";
 import MobileMoreSheet from "@app/MobileMoreSheet";
+import { MYBK_AUTH_CHANGE_EVENT, MYBK_WORKSPACE_SYNC_EVENT } from "@shared/constants/mybkAuth";
+import { warmMybkWorkspaceData } from "@/services/mybkWorkspaceWarmup";
+import mybkApi from "@/services/mybkApi";
 import {
   Dialog,
   DialogContent,
@@ -277,12 +280,38 @@ function AppShell() {
     refreshSignals();
     window.addEventListener("focus", refreshSignals);
     window.addEventListener("storage", refreshSignals);
+    window.addEventListener(MYBK_WORKSPACE_SYNC_EVENT, refreshSignals);
 
     return () => {
       window.removeEventListener("focus", refreshSignals);
       window.removeEventListener("storage", refreshSignals);
+      window.removeEventListener(MYBK_WORKSPACE_SYNC_EVENT, refreshSignals);
     };
   }, [activeTabKey]);
+
+  useEffect(() => {
+    const runWarmup = (reason) => {
+      void warmMybkWorkspaceData({ reason }).then(() => {
+        setHeaderSignals(readHeaderSignals());
+      });
+    };
+
+    const handleMybkAuthChange = (event) => {
+      if (event?.detail?.authenticated) {
+        runWarmup(event.detail.reason || "login");
+      }
+    };
+
+    window.addEventListener(MYBK_AUTH_CHANGE_EVENT, handleMybkAuthChange);
+
+    if (mybkApi.isAuthenticated()) {
+      runWarmup("existing-session");
+    }
+
+    return () => {
+      window.removeEventListener(MYBK_AUTH_CHANGE_EVENT, handleMybkAuthChange);
+    };
+  }, []);
 
   if (showLanding) {
     return <LandingPage onEnterApp={handleEnterApp} />;

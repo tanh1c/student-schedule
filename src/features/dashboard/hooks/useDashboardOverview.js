@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { MYBK_WORKSPACE_SYNC_EVENT } from "@shared/constants/mybkAuth";
 import { calculatePreciseCurrentGpa } from "@/features/gpa/utils/gpaGradeScale";
 import { calculateSemesterGpa } from "@/features/roadmap/utils/gpa";
 import {
@@ -406,6 +407,7 @@ export function useDashboardOverview() {
     window.addEventListener("focus", handleFocus);
     window.addEventListener("storage", handleStorage);
     window.addEventListener("kanbanTasksChanged", handleStorage);
+    window.addEventListener(MYBK_WORKSPACE_SYNC_EVENT, handleStorage);
     document.addEventListener("visibilitychange", handleVisibilityChange);
 
     return () => {
@@ -415,6 +417,7 @@ export function useDashboardOverview() {
       window.removeEventListener("focus", handleFocus);
       window.removeEventListener("storage", handleStorage);
       window.removeEventListener("kanbanTasksChanged", handleStorage);
+      window.removeEventListener(MYBK_WORKSPACE_SYNC_EVENT, handleStorage);
       document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, [refresh]);

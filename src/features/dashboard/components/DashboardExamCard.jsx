@@ -16,7 +16,7 @@ export function DashboardExamCard({ snapshot, limit = 3, compact = false }) {
           Chưa có lịch thi đã sync
         </div>
       ) : (
-        <div className={compact ? "space-y-3" : "min-h-0 flex-1 space-y-4 overflow-y-auto pr-1"}>
+        <div className={compact ? "min-w-0 space-y-3" : "min-h-0 flex-1 space-y-4 overflow-y-auto pr-1"}>
           {snapshot.exams.items.slice(0, limit).map((exam) => {
             const parsedExamDate = exam.examDate instanceof Date && !Number.isNaN(exam.examDate.getTime())
               ? exam.examDate
@@ -25,17 +25,17 @@ export function DashboardExamCard({ snapshot, limit = 3, compact = false }) {
             const displayTime = exam.GIOBD || formatTimeOnly(parsedExamDate);
 
             return (
-              <div key={`${exam.ID || exam.MAMONHOC}-${exam.NGAYTHI}-${exam.GIOBD}`} className="flex items-start gap-3">
+              <div key={`${exam.ID || exam.MAMONHOC}-${exam.NGAYTHI}-${exam.GIOBD}`} className="flex min-w-0 items-start gap-3">
               <div className="mt-1 h-8 w-1 rounded-full bg-blue-600" />
-              <div className="flex min-w-0 flex-1 items-start justify-between gap-3">
-                <div className="min-w-0 flex-1">
-                  <p className="text-[15px] font-semibold text-slate-900 dark:text-slate-100">{exam.TENMONHOC || exam.MAMONHOC}</p>
-                  <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+              <div className="flex min-w-0 flex-1 w-0 items-start justify-between gap-3">
+                <div className="min-w-0 flex-1 w-0">
+                  <p className="line-clamp-2 text-[15px] font-semibold text-slate-900 dark:text-slate-100">{exam.TENMONHOC || exam.MAMONHOC}</p>
+                  <p className="mt-1 truncate text-sm text-slate-500 dark:text-slate-400">
                     {exam.MAMONHOC} {(exam.MAPHONG || exam.PHONGTHI) ? `- Phòng ${exam.MAPHONG || exam.PHONGTHI}` : ""}
                   </p>
-                  <div className="mt-2 flex items-center gap-2 text-xs text-slate-400 dark:text-slate-500">
-                    <Clock3 className="h-3.5 w-3.5" />
-                    <span>
+                  <div className="mt-2 flex min-w-0 items-center gap-2 text-xs text-slate-400 dark:text-slate-500">
+                    <Clock3 className="h-3.5 w-3.5 shrink-0" />
+                    <span className="min-w-0 truncate">
                       {displayDate}
                       {(displayDate && displayTime) ? " • " : ""}
                       {displayTime}
@@ -44,7 +44,7 @@ export function DashboardExamCard({ snapshot, limit = 3, compact = false }) {
                 </div>
 
                 <div className="shrink-0 pt-0.5">
-                  <span className="inline-flex rounded-full bg-blue-50 px-2.5 py-1 text-[11px] font-semibold text-blue-700 dark:bg-blue-950/35 dark:text-blue-300">
+                  <span className="inline-flex max-w-[74px] truncate rounded-full bg-blue-50 px-2.5 py-1 text-[11px] font-semibold text-blue-700 dark:bg-blue-950/35 dark:text-blue-300 sm:max-w-none">
                     {formatCountdown(parsedExamDate)}
                   </span>
                 </div>

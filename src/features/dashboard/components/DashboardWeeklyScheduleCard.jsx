@@ -62,7 +62,9 @@ export function DashboardWeeklyScheduleCard({ snapshot, refresh, isRefreshing, c
   const scrollAreaRef = useRef(null);
   const [viewportMetrics, setViewportMetrics] = useState({
     scrollTop: 0,
+    scrollLeft: 0,
     viewportHeight: DEFAULT_VISIBLE_ROW_COUNT * ROW_HEIGHT,
+    contentWidth: 720,
   });
   const weeklyClasses = snapshot.schedule.weeklyClasses || [];
   const todayClasses = snapshot.schedule.todayClasses || [];
@@ -99,7 +101,9 @@ export function DashboardWeeklyScheduleCard({ snapshot, refresh, isRefreshing, c
     const updateViewportMetrics = () => {
       setViewportMetrics({
         scrollTop: viewport.scrollTop,
+        scrollLeft: viewport.scrollLeft,
         viewportHeight: viewport.clientHeight,
+        contentWidth: Math.max(viewport.scrollWidth, viewport.clientWidth, 720),
       });
     };
 
@@ -116,18 +120,18 @@ export function DashboardWeeklyScheduleCard({ snapshot, refresh, isRefreshing, c
   if (compact) {
     return (
       <DashboardCard title="Lịch học hôm nay">
-        <div className="mb-4 flex items-start justify-between gap-3">
-          <div className="space-y-1">
-            <div className="flex flex-wrap items-center gap-2">
+        <div className="mb-4 flex min-w-0 items-start justify-between gap-3">
+          <div className="min-w-0 flex-1 w-0 space-y-1">
+            <div className="flex min-w-0 flex-wrap items-center gap-2">
               <Badge
                 variant="secondary"
                 className="rounded-full border border-slate-200 bg-slate-100 px-2.5 py-1 text-[11px] font-medium text-slate-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300"
               >
                 Tuần {selectedWeek}
               </Badge>
-              <span className="text-xs text-slate-500 dark:text-slate-400">{snapshot.heroDateLabel}</span>
+              <span className="min-w-0 truncate text-xs text-slate-500 dark:text-slate-400">{snapshot.heroDateLabel}</span>
             </div>
-            <p className="text-sm text-slate-500 dark:text-slate-400">
+            <p className="truncate text-sm text-slate-500 dark:text-slate-400">
               {todayClasses.length > 0 ? `${todayClasses.length} lớp trong ngày` : "Không có lớp nào hôm nay"}
             </p>
           </div>
@@ -143,30 +147,30 @@ export function DashboardWeeklyScheduleCard({ snapshot, refresh, isRefreshing, c
           </Button>
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
-          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 dark:border-slate-800 dark:bg-slate-900">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400 dark:text-slate-500">Đang diễn ra</p>
+        <div className="grid min-w-0 grid-cols-2 gap-3">
+          <div className="min-w-0 rounded-2xl border border-slate-200 bg-slate-50 p-3 dark:border-slate-800 dark:bg-slate-900">
+            <p className="truncate text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400 dark:text-slate-500">Đang diễn ra</p>
             <p className="mt-2 text-sm font-semibold text-slate-900 dark:text-slate-100">
               {snapshot.schedule.currentClass?.code || "--"}
             </p>
-            <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+            <p className="mt-1 truncate text-xs text-slate-500 dark:text-slate-400">
               {snapshot.schedule.currentClass ? getCourseTimeRange(snapshot.schedule.currentClass).startTime : "Không có"}
             </p>
           </div>
-          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 dark:border-slate-800 dark:bg-slate-900">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400 dark:text-slate-500">Kế tiếp</p>
+          <div className="min-w-0 rounded-2xl border border-slate-200 bg-slate-50 p-3 dark:border-slate-800 dark:bg-slate-900">
+            <p className="truncate text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400 dark:text-slate-500">Kế tiếp</p>
             <p className="mt-2 text-sm font-semibold text-slate-900 dark:text-slate-100">
               {snapshot.schedule.nextClass?.code || "--"}
             </p>
-            <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+            <p className="mt-1 truncate text-xs text-slate-500 dark:text-slate-400">
               {snapshot.schedule.nextClass ? getCourseTimeRange(snapshot.schedule.nextClass).startTime : "Chưa có"}
             </p>
           </div>
         </div>
 
-        <div className="mt-4 space-y-3">
+        <div className="mt-4 min-w-0 space-y-3">
           {todayClasses.length === 0 ? (
-            <div className="rounded-2xl border border-dashed border-slate-200 bg-slate-50 px-4 py-5 text-center text-sm text-slate-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400">
+            <div className="min-w-0 rounded-2xl border border-dashed border-slate-200 bg-slate-50 px-4 py-5 text-center text-sm leading-relaxed text-slate-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400">
               Hôm nay chưa có lớp học nào trong thời khóa biểu đã lưu.
             </div>
           ) : (
@@ -175,18 +179,18 @@ export function DashboardWeeklyScheduleCard({ snapshot, refresh, isRefreshing, c
               return (
                 <div
                   key={`${course.code}-${course.day}-${course.startPeriod}-${course.room || "na"}`}
-                  className="rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm dark:border-slate-800 dark:bg-slate-950"
+                  className="min-w-0 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm dark:border-slate-800 dark:bg-slate-950"
                 >
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="min-w-0">
-                      <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">{course.code}</p>
+                  <div className="flex min-w-0 items-start justify-between gap-3">
+                    <div className="min-w-0 flex-1 w-0">
+                      <p className="truncate text-sm font-semibold text-slate-900 dark:text-slate-100">{course.code}</p>
                       <p className="mt-1 line-clamp-2 text-sm text-slate-500 dark:text-slate-400">{course.name || "Môn học"}</p>
                     </div>
-                    <Badge className="rounded-full border-0 bg-blue-50 px-2.5 py-1 text-[11px] font-semibold text-blue-600 dark:bg-blue-950/35 dark:text-blue-300">
+                    <Badge className="shrink-0 rounded-full border-0 bg-blue-50 px-2.5 py-1 text-[11px] font-semibold text-blue-600 dark:bg-blue-950/35 dark:text-blue-300">
                       {startTime}
                     </Badge>
                   </div>
-                  <p className="mt-3 text-xs text-slate-500 dark:text-slate-400">
+                  <p className="mt-3 truncate text-xs text-slate-500 dark:text-slate-400">
                     {course.room || "TBA"} • Tiết {course.startPeriod}-{course.endPeriod} • {startTime}-{endTime}
                   </p>
                 </div>
@@ -382,7 +386,13 @@ export function DashboardWeeklyScheduleCard({ snapshot, refresh, isRefreshing, c
         </ScrollArea>
 
         {hiddenCourseIndicators.length > 0 ? (
-          <div className="pointer-events-none absolute inset-x-0 bottom-3 z-20 px-2">
+          <div
+            className="pointer-events-none absolute bottom-3 left-0 z-20"
+            style={{
+              width: `${viewportMetrics.contentWidth}px`,
+              transform: `translateX(-${viewportMetrics.scrollLeft}px)`,
+            }}
+          >
             {hiddenCourseIndicators.map((hiddenItem) => {
               const dayIndex = DAYS_OF_WEEK.findIndex((day) => day.id === hiddenItem.day.id);
               return (

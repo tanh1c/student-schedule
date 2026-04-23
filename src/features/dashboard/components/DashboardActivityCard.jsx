@@ -17,17 +17,17 @@ export function DashboardActivityCard({ snapshot, limit = 3, compact = false }) 
           Chưa có hoạt động LMS gần đây
         </div>
       ) : (
-        <div className={compact ? "space-y-3" : "min-h-0 flex-1 space-y-4 overflow-y-auto pr-1"}>
+        <div className={compact ? "min-w-0 space-y-3" : "min-h-0 flex-1 space-y-4 overflow-y-auto pr-1"}>
           {snapshot.messages.recentActivities.slice(0, limit).map((activity, index) => (
-            <div key={`${activity.id}-${index}`} className="flex items-start gap-3">
+            <div key={`${activity.id}-${index}`} className="flex min-w-0 items-start gap-3">
               <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-200">
                 <MessageSquare className="h-4 w-4" />
               </div>
-              <div className="min-w-0 flex-1">
-                <p className="text-[15px] font-semibold text-slate-900 dark:text-slate-100">{activity.sender}</p>
+              <div className="min-w-0 flex-1 w-0">
+                <p className="truncate text-[15px] font-semibold text-slate-900 dark:text-slate-100">{activity.sender}</p>
                 <p className="mt-0.5 line-clamp-2 text-sm text-slate-500 dark:text-slate-400">{activity.preview || "Không có nội dung xem trước."}</p>
               </div>
-              <span className="shrink-0 text-xs text-slate-400 dark:text-slate-500">{activity.timeLabel}</span>
+              <span className="max-w-[64px] shrink-0 truncate text-xs text-slate-400 dark:text-slate-500 sm:max-w-none">{activity.timeLabel}</span>
             </div>
           ))}
         </div>
