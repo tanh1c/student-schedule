@@ -128,6 +128,20 @@ function loadDashboardSnapshot() {
     })
     .sort((left, right) => Number(left.startPeriod) - Number(right.startPeriod));
 
+  const weeklyClasses = scheduleData
+    .filter((course) => {
+      const matchesWeek = Array.isArray(course.weeks)
+        ? course.weeks.includes(currentWeek)
+        : true;
+      return matchesWeek && Number(course.startPeriod) > 0;
+    })
+    .sort((left, right) => {
+      if (left.day !== right.day) {
+        return Number(left.day) - Number(right.day);
+      }
+      return Number(left.startPeriod) - Number(right.startPeriod);
+    });
+
   const currentClass = currentTimeSlotInfo
     ? todayClasses.find((course) => (
         currentTimeSlotInfo.id >= Number(course.startPeriod)
@@ -226,6 +240,25 @@ function loadDashboardSnapshot() {
       const rightTime = Number(right.messages?.[0]?.timecreated || 0);
       return rightTime - leftTime;
     })[0] ?? null;
+  const recentActivities = [...conversations]
+    .sort((left, right) => {
+      const leftTime = Number(left.messages?.[0]?.timecreated || 0);
+      const rightTime = Number(right.messages?.[0]?.timecreated || 0);
+      return rightTime - leftTime;
+    })
+    .slice(0, 3)
+    .map((conversation) => ({
+      id: conversation.id,
+      sender: conversation.members?.[0]?.fullname || "Không rõ",
+      preview: stripHtml(conversation.messages?.[0]?.text || ""),
+      courseName: conversation.members?.[0]?.fullname || "LMS",
+      timeLabel: conversation.messages?.[0]?.timecreated
+        ? getRelativeDayLabel(
+            new Date(Number(conversation.messages[0].timecreated) * 1000),
+            now,
+          )
+        : "",
+    }));
 
   return {
     generatedAt: now,
@@ -247,6 +280,7 @@ function loadDashboardSnapshot() {
     schedule: {
       hasData: scheduleData.length > 0,
       currentWeek,
+      weeklyClasses,
       todayClasses,
       currentClass,
       nextClass,
@@ -302,6 +336,7 @@ function loadDashboardSnapshot() {
               : "",
           }
         : null,
+      recentActivities,
     },
   };
 }
