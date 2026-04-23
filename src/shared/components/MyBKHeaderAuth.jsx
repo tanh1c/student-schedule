@@ -24,7 +24,7 @@ function getStudentCode(studentInfo) {
   return studentInfo?.code || studentInfo?.id || "Đăng nhập MyBK";
 }
 
-export default function MyBKHeaderAuth({ compact = false, desktopHeader = false }) {
+export default function MyBKHeaderAuth({ compact = false, desktopHeader = false, autoLoginEnabled = true }) {
   const [open, setOpen] = React.useState(false);
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -118,7 +118,7 @@ export default function MyBKHeaderAuth({ compact = false, desktopHeader = false 
 
   React.useEffect(() => {
     const tryAutoLogin = async () => {
-      if (autoLoginAttempted || isAuthenticated || loading) return;
+      if (!autoLoginEnabled || autoLoginAttempted || isAuthenticated || loading) return;
 
       const savedCredentials = mybkApi.getSavedCredentials();
       if (!savedCredentials) {
@@ -140,7 +140,7 @@ export default function MyBKHeaderAuth({ compact = false, desktopHeader = false 
     };
 
     void tryAutoLogin();
-  }, [autoLoginAttempted, isAuthenticated, loading, performLogin]);
+  }, [autoLoginAttempted, autoLoginEnabled, isAuthenticated, loading, performLogin]);
 
   const handleLogin = async (event) => {
     event?.preventDefault();

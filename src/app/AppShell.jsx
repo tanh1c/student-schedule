@@ -135,6 +135,73 @@ function TabLoadingFallback({ label }) {
   );
 }
 
+class TabErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { error: null };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { error };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.error("[AppShell] Tab render failed:", error, errorInfo);
+  }
+
+  componentDidUpdate(previousProps) {
+    if (previousProps.resetKey !== this.props.resetKey && this.state.error) {
+      this.setState({ error: null });
+    }
+  }
+
+  render() {
+    if (this.state.error) {
+      return (
+        <div className="flex min-h-[calc(100vh-180px)] w-full items-center justify-center px-4">
+          <div className="w-full max-w-md rounded-3xl border bg-card/90 p-6 text-center shadow-sm">
+            <p className="text-base font-semibold text-foreground">
+              Tab này vừa gặp lỗi khi tải dữ liệu
+            </p>
+            <p className="mt-2 text-sm text-muted-foreground">
+              StuSpace đã chặn màn hình trắng. Hãy thử mở lại tab hoặc làm mới trang.
+            </p>
+            <button
+              type="button"
+              onClick={() => this.setState({ error: null })}
+              className="mt-4 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90"
+            >
+              Thử mở lại
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
+
+function useDesktopViewport() {
+  const [isDesktopViewport, setIsDesktopViewport] = useState(() => (
+    typeof window !== "undefined" ? window.matchMedia("(min-width: 1024px)").matches : false
+  ));
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(min-width: 1024px)");
+    const updateViewport = () => setIsDesktopViewport(mediaQuery.matches);
+
+    updateViewport();
+    mediaQuery.addEventListener("change", updateViewport);
+
+    return () => {
+      mediaQuery.removeEventListener("change", updateViewport);
+    };
+  }, []);
+
+  return isDesktopViewport;
+}
+
 function AppShell() {
   const [showLanding, setShowLanding] = useState(() => {
     return !localStorage.getItem(HAS_VISITED_STORAGE_KEY);
@@ -153,6 +220,7 @@ function AppShell() {
   );
   const [headerSignals, setHeaderSignals] = useState(readHeaderSignals);
   const { darkMode, toggleDarkMode } = useThemeMode();
+  const isDesktopViewport = useDesktopViewport();
   const mainContentRef = useRef(null);
 
   const activeMenuItem = useMemo(() => {
@@ -291,9 +359,13 @@ function AppShell() {
 
   useEffect(() => {
     const runWarmup = (reason) => {
-      void warmMybkWorkspaceData({ reason }).then(() => {
-        setHeaderSignals(readHeaderSignals());
-      });
+      void warmMybkWorkspaceData({ reason })
+        .then(() => {
+          setHeaderSignals(readHeaderSignals());
+        })
+        .catch((error) => {
+          console.warn("[MyBK warmup] Background sync failed:", error);
+        });
     };
 
     const handleMybkAuthChange = (event) => {
@@ -598,7 +670,7 @@ function AppShell() {
                 )}
               </button>
               <div className="shrink-0">
-                <MyBKHeaderAuth compact />
+                <MyBKHeaderAuth compact autoLoginEnabled={!isDesktopViewport} />
               </div>
             </div>
           </header>
@@ -659,16 +731,18 @@ function AppShell() {
                   )}
                 </button>
 
-                <MyBKHeaderAuth desktopHeader />
+                <MyBKHeaderAuth desktopHeader autoLoginEnabled={isDesktopViewport} />
               </div>
             </div>
           </header>
 
           <main ref={mainContentRef} className={`w-full max-w-full overflow-x-hidden pb-28 lg:pb-6 ${isDashboardLayout ? "min-h-[calc(100vh-57px)] lg:h-[calc(100vh-64px)] lg:min-h-[calc(100vh-64px)] lg:overflow-hidden" : "min-h-[calc(100vh-57px)]"}`}>
             <div className={`mx-auto w-full max-w-[1600px] overflow-hidden ${isDashboardLayout ? "lg:h-full" : ""}`}>
-              <Suspense fallback={<TabLoadingFallback label={activeMenuItem.label} />}>
-                <ActiveTabComponent />
-              </Suspense>
+              <TabErrorBoundary resetKey={activeTabKey}>
+                <Suspense fallback={<TabLoadingFallback label={activeMenuItem.label} />}>
+                  <ActiveTabComponent />
+                </Suspense>
+              </TabErrorBoundary>
             </div>
           </main>
         </div>
