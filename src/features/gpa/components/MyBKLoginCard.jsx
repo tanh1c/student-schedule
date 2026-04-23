@@ -28,6 +28,7 @@ import { Input } from "@components/ui/input";
 import { Badge } from "@components/ui/badge";
 import { Separator } from "@components/ui/separator";
 import { Card, CardContent } from "@components/ui/card";
+import { dispatchMybkAuthChange } from "@shared/constants/mybkAuth";
 
 /**
  * Generate semester options for dropdown
@@ -158,6 +159,7 @@ function MyBKLoginCard({ onScheduleFetched, onError, onLoginSuccess }) {
                 setIsLoggedIn(true);
                 setServerBusy(false);
                 await loadStudentInfo();
+                dispatchMybkAuthChange({ authenticated: true });
                 if (onLoginSuccess) onLoginSuccess();
             } else {
                 // Credentials may have changed — don't clear yet,
@@ -195,6 +197,7 @@ function MyBKLoginCard({ onScheduleFetched, onError, onLoginSuccess }) {
                 setPassword(''); // Clear password from memory
 
                 await loadStudentInfo();
+                dispatchMybkAuthChange({ authenticated: true });
 
                 if (onLoginSuccess) {
                     onLoginSuccess();
@@ -258,6 +261,7 @@ function MyBKLoginCard({ onScheduleFetched, onError, onLoginSuccess }) {
         setStudentInfo(null);
         setUsername('');
         setPassword('');
+        dispatchMybkAuthChange({ authenticated: false });
 
         if (clearRemembered) {
             setRememberMe(false);

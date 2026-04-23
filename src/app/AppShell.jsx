@@ -1,7 +1,20 @@
 import React, { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { ChevronRight, CloudUpload, Home, Menu, Moon, RefreshCcw, SunMedium, X } from "lucide-react";
+import {
+  Bell,
+  ChevronRight,
+  CloudUpload,
+  Home,
+  Menu,
+  MessageSquareMore,
+  Moon,
+  RefreshCcw,
+  Search,
+  SunMedium,
+  X,
+} from "lucide-react";
 import AppLogo from "@shared/components/AppLogo";
 import DataManagement from "@shared/components/DataManagement";
+import MyBKHeaderAuth from "@shared/components/MyBKHeaderAuth";
 import LandingPage from "@components/LandingPage";
 import WelcomeFeedback from "@shared/components/WelcomeFeedback";
 import {
@@ -13,6 +26,9 @@ import { WORKSPACE_TAB_CHANGE_EVENT } from "@app/navigationEvents";
 import { tabRegistry } from "@app/tabRegistry";
 import { Badge } from "@shared/ui/badge";
 import MobileMoreSheet from "@app/MobileMoreSheet";
+import { MYBK_AUTH_CHANGE_EVENT, MYBK_WORKSPACE_SYNC_EVENT } from "@shared/constants/mybkAuth";
+import { warmMybkWorkspaceData } from "@/services/mybkWorkspaceWarmup";
+import mybkApi from "@/services/mybkApi";
 import {
   Dialog,
   DialogContent,
@@ -33,6 +49,33 @@ const HAS_VISITED_STORAGE_KEY = "hasVisitedApp";
 const ACTIVE_TAB_STORAGE_KEY = "activeWorkspaceTab";
 const FAVORITE_TABS_STORAGE_KEY = "favoriteWorkspaceTabs";
 const RECENT_TABS_STORAGE_KEY = "recentWorkspaceTabs";
+const DEADLINES_STORAGE_KEY = "lms_cache_deadlines";
+const CONVERSATIONS_STORAGE_KEY = "lms_cache_conversations";
+
+const readHeaderSignals = () => {
+  try {
+    const deadlinesPayload = JSON.parse(localStorage.getItem(DEADLINES_STORAGE_KEY) || "null");
+    const conversationsPayload = JSON.parse(localStorage.getItem(CONVERSATIONS_STORAGE_KEY) || "null");
+    const urgentDeadlines =
+      (deadlinesPayload?.deadlines || []).filter((item) => {
+        const timestamp = item?.dayTimestamp;
+        if (!timestamp) return false;
+        const now = Math.floor(Date.now() / 1000);
+        return timestamp >= now && timestamp - now <= (3 * 24 * 60 * 60);
+      }).length;
+    const unreadMessages = (conversationsPayload?.conversations || []).filter((item) => !item.isread).length;
+
+    return {
+      urgentDeadlines,
+      unreadMessages,
+    };
+  } catch (_error) {
+    return {
+      urgentDeadlines: 0,
+      unreadMessages: 0,
+    };
+  }
+};
 
 const getStoredTabList = (storageKey) => {
   try {
@@ -108,6 +151,7 @@ function AppShell() {
   const [recentTabIds, setRecentTabIds] = useState(() =>
     getStoredTabList(RECENT_TABS_STORAGE_KEY),
   );
+  const [headerSignals, setHeaderSignals] = useState(readHeaderSignals);
   const { darkMode, toggleDarkMode } = useThemeMode();
   const mainContentRef = useRef(null);
 
@@ -231,12 +275,50 @@ function AppShell() {
     };
   }, [activeTabKey, checkDashboardMobileOverflow, sidebarOpen, mobileMoreOpen]);
 
+  useEffect(() => {
+    const refreshSignals = () => setHeaderSignals(readHeaderSignals());
+    refreshSignals();
+    window.addEventListener("focus", refreshSignals);
+    window.addEventListener("storage", refreshSignals);
+    window.addEventListener(MYBK_WORKSPACE_SYNC_EVENT, refreshSignals);
+
+    return () => {
+      window.removeEventListener("focus", refreshSignals);
+      window.removeEventListener("storage", refreshSignals);
+      window.removeEventListener(MYBK_WORKSPACE_SYNC_EVENT, refreshSignals);
+    };
+  }, [activeTabKey]);
+
+  useEffect(() => {
+    const runWarmup = (reason) => {
+      void warmMybkWorkspaceData({ reason }).then(() => {
+        setHeaderSignals(readHeaderSignals());
+      });
+    };
+
+    const handleMybkAuthChange = (event) => {
+      if (event?.detail?.authenticated) {
+        runWarmup(event.detail.reason || "login");
+      }
+    };
+
+    window.addEventListener(MYBK_AUTH_CHANGE_EVENT, handleMybkAuthChange);
+
+    if (mybkApi.isAuthenticated()) {
+      runWarmup("existing-session");
+    }
+
+    return () => {
+      window.removeEventListener(MYBK_AUTH_CHANGE_EVENT, handleMybkAuthChange);
+    };
+  }, []);
+
   if (showLanding) {
     return <LandingPage onEnterApp={handleEnterApp} />;
   }
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-background text-foreground">
+    <div className="min-h-screen overflow-x-hidden bg-[#F7F9FA] text-foreground dark:bg-slate-950">
       {sidebarOpen && (
         <div
           className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm lg:hidden"
@@ -251,11 +333,11 @@ function AppShell() {
           }`}
         >
           <div
-            className={`flex h-[72px] items-center gap-2 border-b px-3 ${
+            className={`flex h-16 items-center gap-2 border-b px-3 ${
               sidebarCollapsed ? "justify-center" : ""
             }`}
           >
-            <AppLogo size={36} />
+            <AppLogo size={34} />
             {!sidebarCollapsed && (
               <div className="min-w-0">
                 <p className="truncate text-sm font-bold">StuSpace</p>
@@ -515,30 +597,74 @@ function AppShell() {
                   <Moon className="h-5 w-5" />
                 )}
               </button>
-            </div>
-          </header>
-
-          <header className="sticky top-0 z-30 hidden h-[72px] border-b bg-background/80 backdrop-blur-lg lg:block">
-            <div className="flex h-full items-center justify-between px-6">
-              <div>
-                <p className="text-[11px] uppercase tracking-widest text-muted-foreground">
-                  Không gian làm việc
-                </p>
-                <h1 className="text-lg font-semibold">{activeMenuItem.label}</h1>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="hidden text-xs text-muted-foreground xl:inline">
-                  {new Date().toLocaleDateString("vi-VN", {
-                    weekday: "long",
-                    day: "numeric",
-                    month: "numeric",
-                  })}
-                </span>
+              <div className="shrink-0">
+                <MyBKHeaderAuth compact />
               </div>
             </div>
           </header>
 
-          <main ref={mainContentRef} className={`w-full max-w-full overflow-x-hidden pb-28 lg:pb-6 ${isDashboardLayout ? "min-h-[calc(100vh-57px)] lg:h-[calc(100vh-72px)] lg:min-h-[calc(100vh-72px)] lg:overflow-hidden" : "min-h-[calc(100vh-57px)]"}`}>
+          <header className="sticky top-0 z-30 hidden h-16 border-b border-slate-200 bg-white lg:block dark:border-slate-800 dark:bg-slate-950">
+            <div className="flex h-full items-center justify-between px-4 xl:px-8">
+              <div className="flex min-w-0 flex-1 items-center">
+                <div className="hidden w-full max-w-sm sm:block">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                    <input
+                      type="text"
+                      placeholder="Tìm kiếm môn học, tài liệu..."
+                      className="w-full rounded-full bg-slate-100 py-2 pl-9 pr-4 text-sm text-slate-700 outline-none ring-0 placeholder:text-slate-400 focus:ring-2 focus:ring-blue-100 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:ring-blue-900/40"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-center space-x-4 pr-1 sm:pr-0">
+                <div className="flex items-center space-x-3 sm:space-x-4">
+                <button
+                  type="button"
+                  className="relative text-slate-500 transition-colors hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-100"
+                  title={`${headerSignals.urgentDeadlines} deadline gần`}
+                >
+                  <Bell className="h-5 w-5" />
+                  {headerSignals.urgentDeadlines > 0 ? (
+                    <span className="absolute -right-1 -top-1 flex h-3.5 min-w-3.5 items-center justify-center rounded-full border-2 border-white bg-rose-500 px-1 text-[9px] font-bold text-white dark:border-slate-950">
+                      {Math.min(headerSignals.urgentDeadlines, 9)}
+                    </span>
+                  ) : null}
+                </button>
+
+                <button
+                  type="button"
+                  className="relative text-slate-500 transition-colors hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-100"
+                  title={`${headerSignals.unreadMessages} hội thoại chưa đọc`}
+                >
+                  <MessageSquareMore className="h-5 w-5" />
+                  {headerSignals.unreadMessages > 0 ? (
+                    <span className="absolute -right-1 -top-1 flex h-3.5 min-w-3.5 items-center justify-center rounded-full border-2 border-white bg-primary px-1 text-[9px] font-bold text-primary-foreground dark:border-slate-950">
+                      {Math.min(headerSignals.unreadMessages, 9)}
+                    </span>
+                  ) : null}
+                </button>
+                </div>
+
+                <button
+                  onClick={toggleDarkMode}
+                  className="text-slate-500 transition-colors hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-100"
+                  title={darkMode ? "Chế độ sáng" : "Chế độ tối"}
+                >
+                  {darkMode ? (
+                    <SunMedium className="h-5 w-5" />
+                  ) : (
+                    <Moon className="h-5 w-5" />
+                  )}
+                </button>
+
+                <MyBKHeaderAuth desktopHeader />
+              </div>
+            </div>
+          </header>
+
+          <main ref={mainContentRef} className={`w-full max-w-full overflow-x-hidden pb-28 lg:pb-6 ${isDashboardLayout ? "min-h-[calc(100vh-57px)] lg:h-[calc(100vh-64px)] lg:min-h-[calc(100vh-64px)] lg:overflow-hidden" : "min-h-[calc(100vh-57px)]"}`}>
             <div className={`mx-auto w-full max-w-[1600px] overflow-hidden ${isDashboardLayout ? "lg:h-full" : ""}`}>
               <Suspense fallback={<TabLoadingFallback label={activeMenuItem.label} />}>
                 <ActiveTabComponent />

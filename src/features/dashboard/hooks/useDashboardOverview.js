@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { MYBK_WORKSPACE_SYNC_EVENT } from "@shared/constants/mybkAuth";
 import { calculatePreciseCurrentGpa } from "@/features/gpa/utils/gpaGradeScale";
 import { calculateSemesterGpa } from "@/features/roadmap/utils/gpa";
 import {
@@ -8,6 +9,7 @@ import {
 } from "@/features/schedule/utils/scheduleTime";
 
 const SCHEDULE_STORAGE_KEY = "scheduleData";
+const SELECTED_WEEK_STORAGE_KEY = "selectedWeek";
 const DEADLINES_STORAGE_KEY = "lms_cache_deadlines";
 const CONVERSATIONS_STORAGE_KEY = "lms_cache_conversations";
 const EXAM_STORAGE_KEY = "examSchedule";
@@ -110,6 +112,7 @@ function loadDashboardSnapshot() {
   const currentWeek = getCurrentSemesterWeek();
   const currentDayId = getCurrentScheduleDayId(now);
   const currentTimeSlotInfo = getCurrentTimeSlotInfo(now);
+  const selectedWeek = readJsonStorage(SELECTED_WEEK_STORAGE_KEY, currentWeek);
 
   const scheduleData = readJsonStorage(SCHEDULE_STORAGE_KEY, []);
   const examSchedule = readJsonStorage(EXAM_STORAGE_KEY, []);
@@ -122,11 +125,25 @@ function loadDashboardSnapshot() {
   const todayClasses = scheduleData
     .filter((course) => {
       const matchesWeek = Array.isArray(course.weeks)
-        ? course.weeks.includes(currentWeek)
+        ? course.weeks.includes(selectedWeek)
         : true;
       return matchesWeek && course.day === currentDayId && Number(course.startPeriod) > 0;
     })
     .sort((left, right) => Number(left.startPeriod) - Number(right.startPeriod));
+
+  const weeklyClasses = scheduleData
+    .filter((course) => {
+      const matchesWeek = Array.isArray(course.weeks)
+        ? course.weeks.includes(selectedWeek)
+        : true;
+      return matchesWeek && Number(course.startPeriod) > 0;
+    })
+    .sort((left, right) => {
+      if (left.day !== right.day) {
+        return Number(left.day) - Number(right.day);
+      }
+      return Number(left.startPeriod) - Number(right.startPeriod);
+    });
 
   const currentClass = currentTimeSlotInfo
     ? todayClasses.find((course) => (
@@ -163,18 +180,44 @@ function loadDashboardSnapshot() {
     return timestamp >= nowSeconds && timestamp - nowSeconds <= (3 * DAY_IN_SECONDS);
   }).length;
 
-  const upcomingExams = examSchedule
+  const normalizedExams = examSchedule
     .map((exam) => ({
       ...exam,
       examDate: parseDateTime(exam.NGAYTHI, exam.GIOBD),
     }))
-    .filter((exam) => exam.examDate && exam.examDate.getTime() >= now.getTime() - DAY_IN_MS)
+    .filter((exam) => exam.examDate)
     .sort((left, right) => left.examDate - right.examDate);
+
+  const upcomingExams = normalizedExams
+    .filter((exam) => exam.examDate.getTime() >= now.getTime() - DAY_IN_MS)
+    .sort((left, right) => left.examDate - right.examDate);
+
+  const dashboardExamItems = upcomingExams.length > 0
+    ? upcomingExams
+    : normalizedExams;
 
   const populatedSemesters = roadmapSemesters.filter((semester) => (
     (semester?.courses?.length ?? 0) > 0
     || Boolean(semester?.note?.trim?.())
   ));
+  const roadmapSemesterSummaries = populatedSemesters.map((semester) => {
+    const courses = semester.courses || [];
+    const credits = courses.reduce(
+      (creditsTotal, course) => creditsTotal + (parseInt(course.credits, 10) || 0),
+      0,
+    );
+
+    return {
+      id: semester.id,
+      name: semester.name || "Học kỳ",
+      year: semester.year || "",
+      note: semester.note || "",
+      courses,
+      courseCount: courses.length,
+      credits,
+      gpa: calculateSemesterGpa(courses),
+    };
+  });
 
   const totalPlannedCourses = populatedSemesters.reduce(
     (total, semester) => total + (semester.courses?.length ?? 0),
@@ -189,12 +232,11 @@ function loadDashboardSnapshot() {
     ),
     0,
   );
-  const roadmapGoal = populatedSemesters
-    .map((semester) => ({
-      semester,
-      gpa: calculateSemesterGpa(semester.courses || []),
-    }))
-    .find((item) => item.gpa);
+  const roadmapGoal = roadmapSemesterSummaries.find((semester) => semester.gpa);
+  const activeRoadmapSemester =
+    roadmapSemesterSummaries.find((semester) => semester.courseCount > 0)
+    ?? roadmapSemesterSummaries[0]
+    ?? null;
 
   const gpaSnapshot = calculatePreciseCurrentGpa(gpaDetails);
 
@@ -226,6 +268,25 @@ function loadDashboardSnapshot() {
       const rightTime = Number(right.messages?.[0]?.timecreated || 0);
       return rightTime - leftTime;
     })[0] ?? null;
+  const recentActivities = [...conversations]
+    .sort((left, right) => {
+      const leftTime = Number(left.messages?.[0]?.timecreated || 0);
+      const rightTime = Number(right.messages?.[0]?.timecreated || 0);
+      return rightTime - leftTime;
+    })
+    .slice(0, 3)
+    .map((conversation) => ({
+      id: conversation.id,
+      sender: conversation.members?.[0]?.fullname || "Không rõ",
+      preview: stripHtml(conversation.messages?.[0]?.text || ""),
+      courseName: conversation.members?.[0]?.fullname || "LMS",
+      timeLabel: conversation.messages?.[0]?.timecreated
+        ? getRelativeDayLabel(
+            new Date(Number(conversation.messages[0].timecreated) * 1000),
+            now,
+          )
+        : "",
+    }));
 
   return {
     generatedAt: now,
@@ -247,6 +308,10 @@ function loadDashboardSnapshot() {
     schedule: {
       hasData: scheduleData.length > 0,
       currentWeek,
+      selectedWeek,
+      currentDayId,
+      currentTimeSlotInfo,
+      weeklyClasses,
       todayClasses,
       currentClass,
       nextClass,
@@ -259,19 +324,23 @@ function loadDashboardSnapshot() {
     },
     exams: {
       hasData: examSchedule.length > 0,
-      items: upcomingExams.slice(0, 4),
+      items: dashboardExamItems.slice(0, 4),
       nextExam: upcomingExams[0] ?? null,
     },
     roadmap: {
-      hasData: roadmapSemesters.length > 0,
+      hasData: populatedSemesters.length > 0,
       semesterCount: populatedSemesters.length,
       totalCourses: totalPlannedCourses,
       totalCredits: totalPlannedCredits,
+      semesters: roadmapSemesterSummaries,
+      activeSemester: activeRoadmapSemester,
       goal: roadmapGoal
         ? {
-            semesterName: roadmapGoal.semester.name,
+            semesterName: roadmapGoal.name,
+            semesterYear: roadmapGoal.year,
             gpa10: roadmapGoal.gpa.gpa10,
             gpa4: roadmapGoal.gpa.gpa4,
+            validCourses: roadmapGoal.gpa.validCourses,
           }
         : null,
     },
@@ -302,6 +371,7 @@ function loadDashboardSnapshot() {
               : "",
           }
         : null,
+      recentActivities,
     },
   };
 }
@@ -337,6 +407,7 @@ export function useDashboardOverview() {
     window.addEventListener("focus", handleFocus);
     window.addEventListener("storage", handleStorage);
     window.addEventListener("kanbanTasksChanged", handleStorage);
+    window.addEventListener(MYBK_WORKSPACE_SYNC_EVENT, handleStorage);
     document.addEventListener("visibilitychange", handleVisibilityChange);
 
     return () => {
@@ -346,6 +417,7 @@ export function useDashboardOverview() {
       window.removeEventListener("focus", handleFocus);
       window.removeEventListener("storage", handleStorage);
       window.removeEventListener("kanbanTasksChanged", handleStorage);
+      window.removeEventListener(MYBK_WORKSPACE_SYNC_EVENT, handleStorage);
       document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, [refresh]);
