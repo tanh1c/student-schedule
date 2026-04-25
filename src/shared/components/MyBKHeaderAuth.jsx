@@ -24,7 +24,7 @@ function getStudentCode(studentInfo) {
   return studentInfo?.code || studentInfo?.id || "Đăng nhập MyBK";
 }
 
-export default function MyBKHeaderAuth({ compact = false, desktopHeader = false, autoLoginEnabled = true }) {
+export default function MyBKHeaderAuth({ compact = false, desktopHeader = false }) {
   const [open, setOpen] = React.useState(false);
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -34,7 +34,6 @@ export default function MyBKHeaderAuth({ compact = false, desktopHeader = false,
   const [studentInfo, setStudentInfo] = React.useState(() => mybkApi.getUserData());
   const [isAuthenticated, setIsAuthenticated] = React.useState(() => mybkApi.isAuthenticated());
   const [error, setError] = React.useState("");
-  const [autoLoginAttempted, setAutoLoginAttempted] = React.useState(false);
 
   const loadStudentProfile = React.useCallback(async () => {
     if (!mybkApi.isAuthenticated()) {
@@ -100,6 +99,7 @@ export default function MyBKHeaderAuth({ compact = false, desktopHeader = false,
     const savedCredentials = mybkApi.getSavedCredentials();
     if (savedCredentials) {
       setUsername(savedCredentials.username);
+      setPassword(savedCredentials.password);
       setRememberMe(true);
     }
 
@@ -117,30 +117,15 @@ export default function MyBKHeaderAuth({ compact = false, desktopHeader = false,
   }, [loadStudentProfile]);
 
   React.useEffect(() => {
-    const tryAutoLogin = async () => {
-      if (!autoLoginEnabled || autoLoginAttempted || isAuthenticated || loading) return;
+    if (!open) return;
 
-      const savedCredentials = mybkApi.getSavedCredentials();
-      if (!savedCredentials) {
-        setAutoLoginAttempted(true);
-        return;
-      }
+    const savedCredentials = mybkApi.getSavedCredentials();
+    if (!savedCredentials) return;
 
-      setAutoLoginAttempted(true);
-      const success = await performLogin({
-        loginUsername: savedCredentials.username,
-        loginPassword: savedCredentials.password,
-        saveCredentials: true,
-        silent: true,
-      });
-
-      if (!success) {
-        setPassword("");
-      }
-    };
-
-    void tryAutoLogin();
-  }, [autoLoginAttempted, autoLoginEnabled, isAuthenticated, loading, performLogin]);
+    setUsername(savedCredentials.username);
+    setPassword(savedCredentials.password);
+    setRememberMe(true);
+  }, [open]);
 
   const handleLogin = async (event) => {
     event?.preventDefault();
@@ -326,7 +311,7 @@ export default function MyBKHeaderAuth({ compact = false, desktopHeader = false,
           </Button>
 
           <p className="text-center text-xs leading-5 text-muted-foreground">
-            Đăng nhập bằng tài khoản MyBK. Nếu đã bật ghi nhớ đăng nhập, header sẽ tự kết nối lại khi bạn quay lại web.
+            Đăng nhập bằng tài khoản MyBK. Nếu đã bật ghi nhớ đăng nhập, popup sẽ tự điền sẵn thông tin khi bạn mở lại.
           </p>
         </form>
       </DialogContent>
