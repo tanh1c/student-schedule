@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Lock } from "lucide-react";
 import { DashboardCard } from "@/features/dashboard/components/DashboardShared";
 import { navigateToTab } from "@/features/dashboard/components/DashboardHelpers";
 import { cn } from "@lib/utils";
@@ -24,11 +24,28 @@ export function DashboardGpaCard({ snapshot, compact = false }) {
     if (typeof window === "undefined") return false;
     return window.localStorage.getItem(GPA_CARD_HIDDEN_KEY) === "true";
   });
+  const [canRenderHiddenLottie, setCanRenderHiddenLottie] = useState(false);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
     window.localStorage.setItem(GPA_CARD_HIDDEN_KEY, isScoreHidden ? "true" : "false");
   }, [isScoreHidden]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const mediaQuery = window.matchMedia("(min-width: 1024px)");
+    const updateCapability = () => {
+      setCanRenderHiddenLottie(mediaQuery.matches && !compact);
+    };
+
+    updateCapability();
+    mediaQuery.addEventListener("change", updateCapability);
+
+    return () => {
+      mediaQuery.removeEventListener("change", updateCapability);
+    };
+  }, [compact]);
 
   const scoreTextClassName = compact ? "text-3xl font-extrabold" : "text-5xl font-extrabold";
   const gpa10ScoreTextClassName = compact ? "text-3xl font-extrabold" : "text-4xl font-extrabold";
@@ -78,13 +95,19 @@ export function DashboardGpaCard({ snapshot, compact = false }) {
             <div className="relative z-10 grid place-items-center">
               <div className="relative flex h-[132px] w-[132px] max-w-full items-center justify-center overflow-hidden rounded-[2rem] bg-white/75 shadow-inner dark:bg-slate-950/35 sm:h-[144px] sm:w-[144px]">
                 <div className="absolute inset-x-5 bottom-4 h-10 rounded-full bg-slate-400/20 blur-xl dark:bg-blue-400/15" />
-                <DotLottieReact
-                  src={GPA_HIDDEN_LOTTIE_URL}
-                  loop
-                  autoplay
-                  className="relative z-10 h-[116px] w-[116px] sm:h-[128px] sm:w-[128px]"
-                  style={{ maxWidth: "100%", maxHeight: "100%" }}
-                />
+                {canRenderHiddenLottie ? (
+                  <DotLottieReact
+                    src={GPA_HIDDEN_LOTTIE_URL}
+                    loop
+                    autoplay
+                    className="relative z-10 h-[116px] w-[116px] sm:h-[128px] sm:w-[128px]"
+                    style={{ maxWidth: "100%", maxHeight: "100%" }}
+                  />
+                ) : (
+                  <div className="relative z-10 flex h-[104px] w-[104px] items-center justify-center rounded-[1.75rem] bg-slate-900 text-white shadow-sm dark:bg-slate-100 dark:text-slate-900">
+                    <Lock className="h-10 w-10 opacity-90" />
+                  </div>
+                )}
               </div>
             </div>
           </div>
