@@ -182,26 +182,6 @@ class TabErrorBoundary extends React.Component {
   }
 }
 
-function useDesktopViewport() {
-  const [isDesktopViewport, setIsDesktopViewport] = useState(() => (
-    typeof window !== "undefined" ? window.matchMedia("(min-width: 1024px)").matches : false
-  ));
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(min-width: 1024px)");
-    const updateViewport = () => setIsDesktopViewport(mediaQuery.matches);
-
-    updateViewport();
-    mediaQuery.addEventListener("change", updateViewport);
-
-    return () => {
-      mediaQuery.removeEventListener("change", updateViewport);
-    };
-  }, []);
-
-  return isDesktopViewport;
-}
-
 function AppShell() {
   const [showLanding, setShowLanding] = useState(() => {
     return !localStorage.getItem(HAS_VISITED_STORAGE_KEY);
@@ -220,7 +200,6 @@ function AppShell() {
   );
   const [headerSignals, setHeaderSignals] = useState(readHeaderSignals);
   const { darkMode, toggleDarkMode } = useThemeMode();
-  const isDesktopViewport = useDesktopViewport();
   const mainContentRef = useRef(null);
 
   const activeMenuItem = useMemo(() => {
@@ -670,7 +649,7 @@ function AppShell() {
                 )}
               </button>
               <div className="shrink-0">
-                <MyBKHeaderAuth compact autoLoginEnabled={!isDesktopViewport} />
+                <MyBKHeaderAuth compact />
               </div>
             </div>
           </header>
@@ -731,7 +710,7 @@ function AppShell() {
                   )}
                 </button>
 
-                <MyBKHeaderAuth desktopHeader autoLoginEnabled={isDesktopViewport} />
+                <MyBKHeaderAuth desktopHeader />
               </div>
             </div>
           </header>
