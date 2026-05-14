@@ -1,6 +1,6 @@
 import logger from '../utils/logger.js';
 import { swr } from '../services/redisService.js';
-import { ssoJars, saveSession } from '../services/sessionStore.js';
+import { ssoJars, saveSession, getSession } from '../services/sessionStore.js';
 import * as lmsService from '../services/lmsService.js';
 
 /**
@@ -44,15 +44,18 @@ export const initLmsSession = async (req, res) => {
             return res.status(401).json({ error: result.error });
         }
 
-        // Store LMS session data
-        session.lms = {
+        const latestSession = await getSession(token);
+        if (!latestSession) {
+            return res.status(401).json({ error: 'Session expired' });
+        }
+
+        latestSession.lms = {
             lmsCookie: result.lmsCookie,
             sesskey: result.sesskey,
             userid: result.userid
         };
 
-        // Save updated session with LMS data to Redis
-        await saveSession(token, session);
+        await saveSession(token, latestSession);
 
         logger.info('[LMS] LMS session initialized successfully');
         res.json({
