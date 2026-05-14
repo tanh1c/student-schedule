@@ -86,6 +86,10 @@ let studentInfoCache = {
 };
 const STUDENT_INFO_CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
+function resetStudentInfoCache() {
+    studentInfoCache = { data: null, timestamp: 0, promise: null };
+}
+
 /**
  * Get stored auth token
  */
@@ -127,7 +131,7 @@ export async function login(username, password) {
         const data = await response.json();
 
         if (response.ok && data.success) {
-            // Store token and user data
+            resetStudentInfoCache();
             localStorage.setItem(TOKEN_KEY, data.token);
             if (data.user) {
                 localStorage.setItem(USER_KEY, JSON.stringify(data.user));
@@ -153,6 +157,14 @@ export async function login(username, password) {
 export async function logout(clearRemembered = false) {
     const token = getAuthToken();
 
+    localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(USER_KEY);
+    resetStudentInfoCache();
+
+    if (clearRemembered) {
+        clearSavedCredentials();
+    }
+
     try {
         await fetch(`${API_BASE}/auth/logout`, {
             method: 'POST',
@@ -163,25 +175,13 @@ export async function logout(clearRemembered = false) {
     } catch (error) {
         console.error('Logout error:', error);
     }
-
-    // Clear all local storage
-    localStorage.removeItem(TOKEN_KEY);
-    localStorage.removeItem(USER_KEY);
-
-    // Clear remembered credentials if requested
-    if (clearRemembered) {
-        clearSavedCredentials();
-    }
-
-    // Clear cache
-    studentInfoCache = { data: null, timestamp: 0, promise: null };
 }
 
 /**
  * Clear student info cache (call on logout or when data changes)
  */
 export function clearStudentInfoCache() {
-    studentInfoCache = { data: null, timestamp: 0, promise: null };
+    resetStudentInfoCache();
 }
 
 
@@ -221,9 +221,7 @@ export async function getStudentInfo(forceRefresh = false) {
             });
 
             if (response.status === 401) {
-                // Token expired, clear storage
-                logout();
-                clearStudentInfoCache();
+                await logout();
                 return { success: false, error: 'Phiên đăng nhập đã hết hạn' };
             }
 
@@ -278,7 +276,7 @@ export async function getSchedule(studentId, semesterYear) {
         );
 
         if (response.status === 401) {
-            logout();
+            await logout();
             return { success: false, error: 'Phiên đăng nhập đã hết hạn' };
         }
 
@@ -320,7 +318,7 @@ export async function getExamSchedule(studentId, namhoc, hocky) {
         );
 
         if (response.status === 401) {
-            logout();
+            await logout();
             return { success: false, error: 'Phiên đăng nhập đã hết hạn' };
         }
 
