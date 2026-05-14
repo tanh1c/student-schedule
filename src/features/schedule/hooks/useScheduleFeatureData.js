@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { MYBK_WORKSPACE_SYNC_EVENT } from "@shared/constants/mybkAuth";
 
 const getCurrentSemesterWeek = () => {
   const now = new Date();
@@ -41,6 +42,32 @@ export const useScheduleFeatureData = () => {
     }
     return storedWeek;
   });
+
+  const reloadStoredScheduleData = useCallback(() => {
+    const nextScheduleData = readLocalStorageValue("scheduleData", []);
+    const nextSelectedWeek = readLocalStorageValue("selectedWeek", currentWeek);
+
+    setScheduleDataState(nextScheduleData);
+    if (Array.isArray(nextScheduleData) && nextScheduleData.length > 0) {
+      setSelectedWeekState(currentWeek);
+      writeLocalStorageValue("selectedWeek", currentWeek);
+      return;
+    }
+
+    setSelectedWeekState(nextSelectedWeek);
+  }, [currentWeek]);
+
+  useEffect(() => {
+    window.addEventListener(MYBK_WORKSPACE_SYNC_EVENT, reloadStoredScheduleData);
+    window.addEventListener("storage", reloadStoredScheduleData);
+    window.addEventListener("focus", reloadStoredScheduleData);
+
+    return () => {
+      window.removeEventListener(MYBK_WORKSPACE_SYNC_EVENT, reloadStoredScheduleData);
+      window.removeEventListener("storage", reloadStoredScheduleData);
+      window.removeEventListener("focus", reloadStoredScheduleData);
+    };
+  }, [reloadStoredScheduleData]);
 
   const setSelectedWeek = (value) => {
     const valueToStore = value instanceof Function ? value(selectedWeek) : value;
