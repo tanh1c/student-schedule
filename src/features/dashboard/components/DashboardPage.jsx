@@ -45,11 +45,6 @@ function MobileFallback({ snapshot, refresh, isRefreshing }) {
 
       <DashboardWeeklyScheduleCard snapshot={snapshot} refresh={refresh} isRefreshing={isRefreshing} compact />
 
-      <div className="grid min-w-0 grid-cols-1 gap-4 sm:grid-cols-2">
-        <DashboardGpaCard snapshot={snapshot} compact />
-        <DashboardRoadmapCard snapshot={snapshot} compact />
-      </div>
-
       <DashboardDeadlineCard snapshot={snapshot} limit={2} compact />
       <DashboardExamCard snapshot={snapshot} limit={2} compact />
       <DashboardActivityCard snapshot={snapshot} limit={2} compact />
