@@ -1,8 +1,5 @@
 import React from "react";
-import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { DashboardCard } from "@/features/dashboard/components/DashboardShared";
-
-const CAT_MARK_LOTTIE_URL = "https://lottie.host/54788f45-e825-4a15-b41d-552d56542bac/BCicficDD7.lottie";
 
 export function DashboardRoadmapCard() {
   return (
@@ -27,12 +24,10 @@ export function DashboardRoadmapCard() {
         <div className="relative z-10 grid place-items-center">
           <div className="relative flex aspect-square h-[136px] w-[136px] max-w-full items-center justify-center overflow-hidden rounded-[2rem] bg-white/75 shadow-inner dark:bg-slate-950/35 sm:h-[152px] sm:w-[152px]">
             <div className="absolute inset-x-6 bottom-5 h-10 rounded-full bg-teal-300/25 blur-xl" />
-            <DotLottieReact
-              src={CAT_MARK_LOTTIE_URL}
-              loop
-              autoplay
-              className="relative z-10 h-[116px] w-[116px] sm:h-[132px] sm:w-[132px]"
-              style={{ maxWidth: "100%", maxHeight: "100%" }}
+            <img
+              src="/coming-soon.png"
+              alt=""
+              className="relative z-10 h-[116px] w-[116px] object-contain sm:h-[132px] sm:w-[132px]"
             />
           </div>
         </div>
