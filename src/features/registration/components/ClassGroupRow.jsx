@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import mybkApi from "@/services/mybkApi";
 
-export default function ClassGroupRow({ group, periodId, forceMode = false }) {
+export default function ClassGroupRow({ group, periodId, forceMode = false, registrationOpen = true }) {
     const availableSlots = group.capacity - group.registered;
     const isFull = availableSlots <= 0;
     const [showSchedule, setShowSchedule] = useState(false);
@@ -72,7 +72,7 @@ export default function ClassGroupRow({ group, periodId, forceMode = false }) {
                     )}
                 </div>
                 <div className="flex items-center gap-2">
-                    {((group.canRegister && !isFull) || forceMode) && registerResult?.type !== "success" ? (
+                    {((group.canRegister && !isFull && registrationOpen) || forceMode) && registerResult?.type !== "success" ? (
                         <Button
                             size="sm"
                             className={`h-6 text-xs ${forceMode ? "bg-purple-600 hover:bg-purple-700" : "bg-green-600 hover:bg-green-700"}`}
@@ -85,7 +85,7 @@ export default function ClassGroupRow({ group, periodId, forceMode = false }) {
                         </Button>
                     ) : (
                         <span className="text-xs text-muted-foreground">
-                            {isFull ? "Đã đầy" : ""}
+                            {isFull ? "Đã đầy" : (!registrationOpen && group.canRegister ? "Chưa tới giờ ĐK" : "")}
                         </span>
                     )}
                     {showSchedule ? (

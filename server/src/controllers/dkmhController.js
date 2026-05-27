@@ -203,8 +203,9 @@ export const searchCourses = async (req, res) => {
             });
         }
 
+        const searchParams = new URLSearchParams({ msmh: query });
         const response = await fetch('https://mybk.hcmut.edu.vn/dkmh/searchMonHocDangKy.action', {
-            method: 'POST', body: `msmh=${encodeURIComponent(query)}`, headers: baseHeaders
+            method: 'POST', body: searchParams.toString(), headers: baseHeaders
         });
         const html = await response.text();
         res.json({ success: true, data: parser.parseSearchResultsHtml(html) });

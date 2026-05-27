@@ -66,9 +66,9 @@ export default function PeriodDetailsView({ period, details, loading, onBack }) 
     const colors = isOpen ? colorScheme.open : (isUpcoming ? colorScheme.upcoming : colorScheme.closed);
     const StatusIcon = isOpen ? CheckCircle2 : (isUpcoming ? Clock : Lock);
 
-    const handleSearch = async (event) => {
+    const handleSearch = async (event, searchAll = false) => {
         const isForceClick = event?.shiftKey === true;
-        let query = searchQuery.trim();
+        let query = searchAll ? " " : searchQuery.trim();
         const hasForceCommand = query.toLowerCase().includes("#force");
         if (hasForceCommand) {
             query = query.replace(/#force/gi, "").trim();
@@ -192,7 +192,7 @@ export default function PeriodDetailsView({ period, details, loading, onBack }) 
                 </div>
             )}
 
-            {!loading && period.status === "open" && (
+            {!loading && details && (
                 <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-violet-50 via-purple-50 to-fuchsia-50 dark:from-violet-950/20 dark:via-purple-950/15 dark:to-fuchsia-950/20 border border-violet-200/60 dark:border-violet-900/50 p-4 shadow-sm">
                     <div className="absolute -top-10 -right-10 h-32 w-32 bg-violet-200/30 dark:bg-violet-900/20 rounded-full blur-2xl" />
                     <div className="absolute -bottom-10 -left-10 h-32 w-32 bg-purple-200/30 dark:bg-purple-900/20 rounded-full blur-2xl" />
@@ -205,7 +205,7 @@ export default function PeriodDetailsView({ period, details, loading, onBack }) 
                                 </div>
                                 <div>
                                     <h3 className="font-bold text-violet-800 dark:text-violet-300">Đăng ký hiệu chỉnh</h3>
-                                    <p className="text-xs text-violet-600/70 dark:text-violet-400/70">Tìm và đăng ký thêm môn học</p>
+                                    <p className="text-xs text-violet-600/70 dark:text-violet-400/70">Tìm môn/lớp để xem lịch, đăng ký khi tới hạn</p>
                                 </div>
                             </div>
                             <button
@@ -218,26 +218,36 @@ export default function PeriodDetailsView({ period, details, loading, onBack }) 
 
                         {showSearch && (
                             <div className="space-y-3 pt-3 border-t border-violet-200/50 dark:border-violet-800/30">
-                                <div className="flex gap-2">
+                                <div className="flex flex-col gap-2 sm:flex-row">
                                     <input
                                         type="text"
                                         value={searchQuery}
                                         onChange={(event) => setSearchQuery(event.target.value)}
                                         onKeyDown={handleKeyDown}
                                         placeholder="Nhập mã hoặc tên môn học (VD: CO3005)"
-                                        className="flex-1 h-10 px-3 rounded-xl border-2 border-violet-200 dark:border-violet-800 bg-white dark:bg-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-violet-400/50 focus:border-violet-400"
+                                        className="h-10 flex-1 rounded-xl border-2 border-violet-200 bg-white px-3 text-sm focus:outline-none focus:ring-2 focus:ring-violet-400/50 focus:border-violet-400 dark:border-violet-800 dark:bg-slate-900"
                                     />
-                                    <Button
-                                        onClick={handleSearch}
-                                        disabled={searching || !searchQuery.trim()}
-                                        className="h-10 px-4 bg-gradient-to-r from-violet-500 to-purple-600 hover:from-violet-600 hover:to-purple-700 text-white rounded-xl"
-                                    >
-                                        {searching ? (
-                                            <Loader2 className="h-4 w-4 animate-spin" />
-                                        ) : (
-                                            <Search className="h-4 w-4" />
-                                        )}
-                                    </Button>
+                                    <div className="flex gap-2">
+                                        <Button
+                                            onClick={handleSearch}
+                                            disabled={searching || !searchQuery.trim()}
+                                            className="h-10 flex-1 rounded-xl bg-gradient-to-r from-violet-500 to-purple-600 px-4 text-white hover:from-violet-600 hover:to-purple-700 sm:flex-none"
+                                        >
+                                            {searching ? (
+                                                <Loader2 className="h-4 w-4 animate-spin" />
+                                            ) : (
+                                                <Search className="h-4 w-4" />
+                                            )}
+                                        </Button>
+                                        <Button
+                                            onClick={(event) => handleSearch(event, true)}
+                                            disabled={searching}
+                                            variant="outline"
+                                            className="h-10 flex-1 rounded-xl border-violet-200 text-violet-700 hover:bg-violet-50 dark:border-violet-800 dark:text-violet-300 dark:hover:bg-violet-950/30 sm:flex-none"
+                                        >
+                                            Xem tất cả lớp
+                                        </Button>
+                                    </div>
                                 </div>
 
                                 {searchError && (
@@ -266,6 +276,7 @@ export default function PeriodDetailsView({ period, details, loading, onBack }) 
                                                 course={course}
                                                 periodId={period.id}
                                                 forceMode={forceMode}
+                                                registrationOpen={schedule.isOpen}
                                             />
                                         ))}
                                     </div>
