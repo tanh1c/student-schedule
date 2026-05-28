@@ -26,7 +26,7 @@ export default function CourseCard({ course, index, periodId, onDeleted }) {
             if (result.success) {
                 setDeleteResult({ type: "success", message: `Đã hủy đăng ký ${course.code}` });
                 setTimeout(() => {
-                    if (onDeleted) onDeleted();
+                    if (onDeleted) onDeleted(course);
                 }, 1500);
             } else {
                 setDeleteResult({ type: "error", message: result.error || "Hủy đăng ký thất bại" });

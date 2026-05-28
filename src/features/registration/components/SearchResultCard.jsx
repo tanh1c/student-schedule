@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import mybkApi from "@/services/mybkApi";
 import ClassGroupRow from "@/features/registration/components/ClassGroupRow";
 
-export default function SearchResultCard({ course, periodId, forceMode = false, registrationOpen = true }) {
+export default function SearchResultCard({ course, periodId, forceMode = false, registrationOpen = true, onAddToTemplate, onRegistrationResult }) {
     const [expanded, setExpanded] = useState(false);
     const [classGroups, setClassGroups] = useState([]);
     const [loadingGroups, setLoadingGroups] = useState(false);
@@ -76,10 +76,13 @@ export default function SearchResultCard({ course, periodId, forceMode = false, 
                                 {classGroups.map((group, index) => (
                                     <ClassGroupRow
                                         key={index}
+                                        course={course}
                                         group={group}
                                         periodId={periodId}
                                         forceMode={forceMode}
                                         registrationOpen={registrationOpen}
+                                        onAddToTemplate={onAddToTemplate}
+                                        onRegistrationResult={onRegistrationResult}
                                     />
                                 ))}
                             </div>

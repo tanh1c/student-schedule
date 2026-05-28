@@ -78,6 +78,44 @@ export const schemas = {
         periodId: z.union([z.string(), z.number()]).transform(v => String(v)),
         monHocId: z.union([z.string(), z.number()]),
     }),
+
+    registrationTemplateUpsert: z.object({
+        id: z.string().optional(),
+        periodId: z.union([z.string(), z.number()]).transform(v => String(v)),
+        periodCode: z.string().optional(),
+        periodType: z.enum(['D1', 'D2', 'unknown']).optional(),
+        name: z.string().min(1, 'Template name required'),
+        courses: z.array(z.object({
+            code: z.string().min(1),
+            name: z.string().optional(),
+            credits: z.union([z.string(), z.number()]).optional(),
+            monHocId: z.union([z.string(), z.number()]).optional(),
+            priority: z.array(z.object({
+                nlmhId: z.union([z.string(), z.number()]).optional(),
+                groupCode: z.string().optional(),
+                ltGroup: z.string().optional(),
+                btGroup: z.string().optional(),
+                lecturer: z.string().optional(),
+                registered: z.number().optional(),
+                capacity: z.number().optional(),
+                schedules: z.array(z.any()).optional(),
+                source: z.enum(['class-group', 'manual']).optional()
+            })).optional()
+        })).optional()
+    }),
+
+    registrationTemplateRun: z.object({
+        periodId: z.union([z.string(), z.number()]).transform(v => String(v)).optional()
+    }),
+
+    scheduledJobCreate: z.object({
+        templateId: z.string().min(1, 'Template ID required'),
+        periodId: z.union([z.string(), z.number()]).transform(v => String(v)),
+        periodCode: z.string().optional(),
+        runAt: z.string().datetime('Invalid run time'),
+        retryCount: z.number().min(0).max(5).optional(),
+        retryDelaySeconds: z.number().min(5).max(60).optional()
+    }),
 };
 
 // Middleware

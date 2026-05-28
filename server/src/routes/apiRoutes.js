@@ -3,6 +3,8 @@ import rateLimit from 'express-rate-limit';
 import * as authController from '../controllers/authController.js';
 import * as studentController from '../controllers/studentController.js';
 import * as dkmhController from '../controllers/dkmhController.js';
+import * as registrationTemplateController from '../controllers/registrationTemplateController.js';
+import * as registrationSchedulerController from '../controllers/registrationSchedulerController.js';
 import * as lmsController from '../controllers/lmsController.js';
 import { authenticate } from '../middlewares/authMiddleware.js';
 import { validate, schemas } from '../utils/validation.js';
@@ -52,6 +54,15 @@ router.post('/dkmh/class-groups', authenticate, validate(schemas.classGroups), d
 router.post('/dkmh/register', authenticate, validate(schemas.register), dkmhController.register);
 router.post('/dkmh/registration-result', authenticate, dkmhController.getRegistrationResult);
 router.post('/dkmh/cancel', authenticate, validate(schemas.cancel), dkmhController.cancel);
+router.get('/dkmh/templates', authenticate, registrationTemplateController.listTemplates);
+router.post('/dkmh/templates', authenticate, validate(schemas.registrationTemplateUpsert), registrationTemplateController.upsertTemplate);
+router.delete('/dkmh/templates/:templateId', authenticate, registrationTemplateController.deleteTemplate);
+router.post('/dkmh/templates/:templateId/run', authenticate, validate(schemas.registrationTemplateRun), registrationTemplateController.runTemplate);
+router.get('/dkmh/scheduled-jobs', authenticate, registrationSchedulerController.listScheduledJobs);
+router.post('/dkmh/scheduled-jobs', authenticate, validate(schemas.scheduledJobCreate), registrationSchedulerController.createScheduledJob);
+router.post('/dkmh/scheduled-jobs/run-due', authenticate, registrationSchedulerController.runDueScheduledJobsEndpoint);
+router.delete('/dkmh/scheduled-jobs/:jobId', authenticate, registrationSchedulerController.deleteScheduledJob);
+router.post('/dkmh/scheduled-jobs/:jobId/cancel', authenticate, registrationSchedulerController.cancelScheduledJob);
 
 // LMS (BK E-Learning) - Moodle integration
 router.post('/lms/init', authenticate, lmsController.initLmsSession);
