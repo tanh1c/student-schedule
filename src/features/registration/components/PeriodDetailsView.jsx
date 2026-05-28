@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
     ArrowLeft,
     BookOpen,
@@ -15,12 +15,52 @@ import { Badge } from "@/components/ui/badge";
 import mybkApi from "@/services/mybkApi";
 import CourseCard from "@/features/registration/components/CourseCard";
 import SearchResultCard from "@/features/registration/components/SearchResultCard";
+import RegistrationTemplatePanel from "@/features/registration/components/RegistrationTemplatePanel";
+import { findTemplateScheduleConflicts } from "@/features/registration/utils/scheduleConflicts";
 import { getRegistrationStatusBadge } from "@/features/registration/utils/statusBadge";
 
+function parseVietnameseDateTime(value) {
+    if (!value) return null;
+    if (value instanceof Date && !Number.isNaN(value.getTime())) return value;
+
+    const text = String(value).trim();
+    const isoDate = new Date(text);
+    if (!Number.isNaN(isoDate.getTime())) return isoDate;
+
+    const match = text.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})\s+(\d{1,2}):(\d{2})/);
+    if (!match) return null;
+
+    const [, day, month, year, hour, minute] = match;
+    const parsed = new Date(Number(year), Number(month) - 1, Number(day), Number(hour), Number(minute));
+    return Number.isNaN(parsed.getTime()) ? null : parsed;
+}
+
+function toDatetimeLocalValue(date) {
+    if (!date) return "";
+    const offsetDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+    return offsetDate.toISOString().slice(0, 16);
+}
+
+const AUTO_SCHEDULER_KEY = "dkmh_auto_scheduler_enabled";
+
+function getSavedAutoSchedulerEnabled() {
+    try {
+        return localStorage.getItem(AUTO_SCHEDULER_KEY) === "true";
+    } catch {
+        return false;
+    }
+}
+
 export default function PeriodDetailsView({ period, details, loading, onBack }) {
-    const courses = details?.courses?.courses || [];
-    const totalCredits = details?.courses?.totalCredits || 0;
-    const totalCourses = details?.courses?.totalCourses || 0;
+    const initialCourses = details?.courses?.courses || [];
+    const [registeredCourses, setRegisteredCourses] = useState(initialCourses);
+    const [registeredSummary, setRegisteredSummary] = useState({
+        totalCredits: details?.courses?.totalCredits || 0,
+        totalCourses: details?.courses?.totalCourses || 0
+    });
+    const courses = registeredCourses;
+    const totalCredits = registeredSummary.totalCredits;
+    const totalCourses = registeredSummary.totalCourses;
     const schedule = details?.schedule || {};
 
     const [searchQuery, setSearchQuery] = useState("");
@@ -29,9 +69,103 @@ export default function PeriodDetailsView({ period, details, loading, onBack }) 
     const [searchError, setSearchError] = useState(null);
     const [showSearch, setShowSearch] = useState(false);
     const [forceMode, setForceMode] = useState(false);
+    const [template, setTemplate] = useState(null);
+    const [loadingTemplate, setLoadingTemplate] = useState(false);
+    const [savingTemplate, setSavingTemplate] = useState(false);
+    const [runningTemplate, setRunningTemplate] = useState(false);
+    const [templateError, setTemplateError] = useState(null);
+    const [runResult, setRunResult] = useState(null);
+    const [scheduledJobs, setScheduledJobs] = useState([]);
+    const [loadingScheduledJobs, setLoadingScheduledJobs] = useState(false);
+    const [schedulingJob, setSchedulingJob] = useState(false);
+    const [autoSchedulerEnabled, setAutoSchedulerEnabled] = useState(getSavedAutoSchedulerEnabled);
+
+    useEffect(() => {
+        setRegisteredCourses(details?.courses?.courses || []);
+        setRegisteredSummary({
+            totalCredits: details?.courses?.totalCredits || 0,
+            totalCourses: details?.courses?.totalCourses || 0
+        });
+    }, [details?.courses?.courses, details?.courses?.totalCredits, details?.courses?.totalCourses]);
+
+    const mergeRegistrationResult = (registrationResult) => {
+        if (!registrationResult?.courses) return;
+        setRegisteredCourses((currentCourses) => {
+            const byKey = new Map(currentCourses.map((course) => [course.ketquaId || course.code, course]));
+            registrationResult.courses.forEach((course) => {
+                byKey.set(course.ketquaId || course.code, course);
+            });
+            return [...byKey.values()];
+        });
+        setRegisteredSummary({
+            totalCredits: registrationResult.totalCredits ?? registeredSummary.totalCredits,
+            totalCourses: registrationResult.totalCourses ?? registrationResult.courses.length
+        });
+    };
 
     const isOpen = period.status === "open";
     const isUpcoming = period.status === "upcoming";
+    const periodType = period.code?.includes("_D1") ? "D1" : period.code?.includes("_D2") ? "D2" : "unknown";
+    const defaultRunAt = toDatetimeLocalValue(
+        parseVietnameseDateTime(schedule.from) ||
+        parseVietnameseDateTime(period.start) ||
+        parseVietnameseDateTime(period.startTime)
+    );
+
+    const loadScheduledJobs = useCallback(async () => {
+        setLoadingScheduledJobs(true);
+        try {
+            const result = await mybkApi.listScheduledRegistrationJobs();
+            if (result.success) {
+                const nextJobs = (result.data || []).filter((job) => String(job.periodId) === String(period.id));
+                setScheduledJobs(nextJobs);
+                return nextJobs;
+            } else {
+                setTemplateError(result.error || "Không thể tải lịch tự chạy");
+            }
+        } catch (error) {
+            setTemplateError(error.message);
+        } finally {
+            setLoadingScheduledJobs(false);
+        }
+        return [];
+    }, [period.id]);
+
+    useEffect(() => {
+        let cancelled = false;
+
+        const loadTemplate = async () => {
+            setLoadingTemplate(true);
+            setTemplateError(null);
+            try {
+                const result = await mybkApi.listRegistrationTemplates();
+                if (cancelled) return;
+
+                if (result.success) {
+                    const existingTemplate = (result.data || []).find((item) => String(item.periodId) === String(period.id));
+                    setTemplate(existingTemplate || {
+                        periodId: String(period.id),
+                        periodCode: period.code,
+                        periodType,
+                        name: `${period.code || "Kỳ đăng ký"} - Mẫu đăng ký`,
+                        courses: []
+                    });
+                } else {
+                    setTemplateError(result.error || "Không thể tải mẫu đăng ký");
+                }
+            } catch (error) {
+                if (!cancelled) setTemplateError(error.message);
+            } finally {
+                if (!cancelled) setLoadingTemplate(false);
+            }
+        };
+
+        loadTemplate();
+        loadScheduledJobs();
+        return () => {
+            cancelled = true;
+        };
+    }, [period.id, period.code, periodType, loadScheduledJobs]);
 
     const colorScheme = {
         open: {
@@ -66,12 +200,19 @@ export default function PeriodDetailsView({ period, details, loading, onBack }) 
     const colors = isOpen ? colorScheme.open : (isUpcoming ? colorScheme.upcoming : colorScheme.closed);
     const StatusIcon = isOpen ? CheckCircle2 : (isUpcoming ? Clock : Lock);
 
-    const handleSearch = async (event) => {
+    const handleSearch = async (event, searchAll = false) => {
         const isForceClick = event?.shiftKey === true;
-        let query = searchQuery.trim();
+        let query = searchAll ? " " : searchQuery.trim();
         const hasForceCommand = query.toLowerCase().includes("#force");
+        const hasAutoCommand = query.toLowerCase().includes("#auto");
         if (hasForceCommand) {
             query = query.replace(/#force/gi, "").trim();
+        }
+        if (hasAutoCommand) {
+            query = query.replace(/#auto/gi, "").trim();
+            setAutoSchedulerEnabled(true);
+            localStorage.setItem(AUTO_SCHEDULER_KEY, "true");
+            setSearchError("Đã bật Option B tự chạy. Khu vực lên lịch sẽ hiện trong Mẫu đăng ký.");
         }
         const useForceMode = isForceClick || hasForceCommand;
 
@@ -97,6 +238,199 @@ export default function PeriodDetailsView({ period, details, loading, onBack }) 
         } finally {
             setSearching(false);
         }
+    };
+
+    const saveTemplate = async (nextTemplate) => {
+        setSavingTemplate(true);
+        setTemplateError(null);
+        setRunResult(null);
+        try {
+            const result = await mybkApi.saveRegistrationTemplate(nextTemplate);
+            if (result.success) {
+                setTemplate(result.data);
+                return result.data;
+            }
+            setTemplateError(result.error || "Không thể lưu mẫu đăng ký");
+            return null;
+        } catch (error) {
+            setTemplateError(error.message);
+            return null;
+        } finally {
+            setSavingTemplate(false);
+        }
+    };
+
+    const handleAddToTemplate = async (course, group, manualNlmhId = null) => {
+        const nlmhId = String(manualNlmhId || group.nlmhId || "").trim();
+        if (!nlmhId) {
+            setTemplateError("Nhóm này thiếu NLMHId, cần nhập ID thủ công trước khi thêm vào mẫu");
+            return;
+        }
+
+        const currentTemplate = template || {
+            periodId: String(period.id),
+            periodCode: period.code,
+            periodType,
+            name: `${period.code || "Kỳ đăng ký"} - Mẫu đăng ký`,
+            courses: []
+        };
+        const existingCourses = currentTemplate.courses || [];
+        const existingCourse = existingCourses.find((item) => item.code === course.code || String(item.monHocId) === String(course.monHocId));
+        const priorityItem = {
+            nlmhId,
+            groupCode: group.groupCode,
+            ltGroup: group.ltGroup,
+            btGroup: group.btGroup,
+            lecturer: group.lecturer,
+            registered: group.registered,
+            capacity: group.capacity,
+            schedules: group.schedules || [],
+            source: group.nlmhId ? "class-group" : "manual"
+        };
+        const nextCourses = existingCourse
+            ? existingCourses.map((item) => {
+                if (item !== existingCourse) return item;
+                const priority = item.priority || [];
+                const withoutDuplicate = priority.filter((entry) => String(entry.nlmhId) !== nlmhId);
+                return { ...item, priority: [...withoutDuplicate, priorityItem] };
+            })
+            : [...existingCourses, {
+                code: course.code,
+                name: course.name,
+                credits: course.credits,
+                monHocId: course.monHocId || group.monHocId,
+                priority: [priorityItem]
+            }];
+
+        await saveTemplate({ ...currentTemplate, courses: nextCourses });
+    };
+
+    const handleRunTemplate = async () => {
+        if (!template?.id) return;
+        if (findTemplateScheduleConflicts(template).length > 0) {
+            setTemplateError("Mẫu đang trùng lịch học, cần đổi ưu tiên hoặc xóa lớp trùng trước khi chạy");
+            return;
+        }
+        if (!autoSchedulerEnabled && (template.courses || []).length > 10) {
+            setTemplateError("Option A chỉ cho chạy tối đa 10 môn khi chưa bật #auto");
+            return;
+        }
+        setRunningTemplate(true);
+        setTemplateError(null);
+        setRunResult(null);
+        try {
+            const result = await mybkApi.runRegistrationTemplate(template.id, period.id);
+            if (result.success) {
+                setRunResult(result);
+                mergeRegistrationResult(result.registrationResult);
+            } else {
+                setTemplateError(result.error || "Không thể chạy mẫu đăng ký");
+            }
+        } catch (error) {
+            setTemplateError(error.message);
+        } finally {
+            setRunningTemplate(false);
+        }
+    };
+
+    const handleDeleteTemplate = async () => {
+        if (!template?.id) return;
+        setSavingTemplate(true);
+        setTemplateError(null);
+        try {
+            const result = await mybkApi.deleteRegistrationTemplate(template.id);
+            if (result.success) {
+                setTemplate({
+                    periodId: String(period.id),
+                    periodCode: period.code,
+                    periodType,
+                    name: `${period.code || "Kỳ đăng ký"} - Mẫu đăng ký`,
+                    courses: []
+                });
+                setRunResult(null);
+            } else {
+                setTemplateError(result.error || "Không thể xóa mẫu đăng ký");
+            }
+        } catch (error) {
+            setTemplateError(error.message);
+        } finally {
+            setSavingTemplate(false);
+        }
+    };
+
+    const handleCreateScheduledJob = async ({ runAt, retryCount, retryDelaySeconds }) => {
+        if (!template?.id) return;
+        if (findTemplateScheduleConflicts(template).length > 0) {
+            setTemplateError("Mẫu đang trùng lịch học, cần đổi ưu tiên hoặc xóa lớp trùng trước khi lên lịch");
+            return;
+        }
+        setSchedulingJob(true);
+        setTemplateError(null);
+        try {
+            const result = await mybkApi.createScheduledRegistrationJob({
+                templateId: template.id,
+                periodId: String(period.id),
+                periodCode: period.code,
+                runAt: new Date(runAt).toISOString(),
+                retryCount: Number(retryCount),
+                retryDelaySeconds: Number(retryDelaySeconds)
+            });
+            if (result.success) {
+                const refreshedJobs = await loadScheduledJobs();
+                refreshedJobs?.forEach((job) => mergeRegistrationResult(job.registrationResult));
+            } else {
+                setTemplateError(result.error || "Không thể lên lịch tự chạy");
+            }
+        } catch (error) {
+            setTemplateError(error.message);
+        } finally {
+            setSchedulingJob(false);
+        }
+    };
+
+    const handleDeleteScheduledJob = async (jobId) => {
+        setSchedulingJob(true);
+        setTemplateError(null);
+        try {
+            const result = await mybkApi.deleteScheduledRegistrationJob(jobId);
+            if (result.success) {
+                await loadScheduledJobs();
+            } else {
+                setTemplateError(result.error || "Không thể xóa lịch tự chạy");
+            }
+        } catch (error) {
+            setTemplateError(error.message);
+        } finally {
+            setSchedulingJob(false);
+        }
+    };
+
+    const handleRunDueScheduledJobs = async () => {
+        setSchedulingJob(true);
+        setTemplateError(null);
+        try {
+            const result = await mybkApi.runDueScheduledRegistrationJobs();
+            if (result.success) {
+                const refreshedJobs = await loadScheduledJobs();
+                refreshedJobs?.forEach((job) => mergeRegistrationResult(job.registrationResult));
+            } else {
+                setTemplateError(result.error || "Không thể chạy lịch đến hạn");
+            }
+        } catch (error) {
+            setTemplateError(error.message);
+        } finally {
+            setSchedulingJob(false);
+        }
+    };
+
+    const handleCourseDeleted = (deletedCourse) => {
+        setRegisteredCourses((currentCourses) => currentCourses.filter((course) => (
+            course.ketquaId !== deletedCourse.ketquaId && course.code !== deletedCourse.code
+        )));
+        setRegisteredSummary((currentSummary) => ({
+            totalCredits: Math.max(0, Number(currentSummary.totalCredits || 0) - Number(deletedCourse.credits || 0)),
+            totalCourses: Math.max(0, Number(currentSummary.totalCourses || 0) - 1)
+        }));
     };
 
     const handleKeyDown = (event) => {
@@ -192,7 +526,29 @@ export default function PeriodDetailsView({ period, details, loading, onBack }) 
                 </div>
             )}
 
-            {!loading && period.status === "open" && (
+            {!loading && details && (
+                <RegistrationTemplatePanel
+                    template={template}
+                    loading={loadingTemplate}
+                    saving={savingTemplate}
+                    running={runningTemplate}
+                    error={templateError}
+                    runResult={runResult}
+                    period={period}
+                    defaultRunAt={defaultRunAt}
+                    scheduledJobs={scheduledJobs}
+                    loadingScheduledJobs={loadingScheduledJobs}
+                    schedulingJob={schedulingJob}
+                    onRun={handleRunTemplate}
+                    onDelete={handleDeleteTemplate}
+                    autoSchedulerEnabled={autoSchedulerEnabled}
+                    onCreateScheduledJob={handleCreateScheduledJob}
+                    onDeleteScheduledJob={handleDeleteScheduledJob}
+                    onRunDueScheduledJobs={handleRunDueScheduledJobs}
+                />
+            )}
+
+            {!loading && details && (
                 <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-violet-50 via-purple-50 to-fuchsia-50 dark:from-violet-950/20 dark:via-purple-950/15 dark:to-fuchsia-950/20 border border-violet-200/60 dark:border-violet-900/50 p-4 shadow-sm">
                     <div className="absolute -top-10 -right-10 h-32 w-32 bg-violet-200/30 dark:bg-violet-900/20 rounded-full blur-2xl" />
                     <div className="absolute -bottom-10 -left-10 h-32 w-32 bg-purple-200/30 dark:bg-purple-900/20 rounded-full blur-2xl" />
@@ -205,7 +561,7 @@ export default function PeriodDetailsView({ period, details, loading, onBack }) 
                                 </div>
                                 <div>
                                     <h3 className="font-bold text-violet-800 dark:text-violet-300">Đăng ký hiệu chỉnh</h3>
-                                    <p className="text-xs text-violet-600/70 dark:text-violet-400/70">Tìm và đăng ký thêm môn học</p>
+                                    <p className="text-xs text-violet-600/70 dark:text-violet-400/70">Tìm môn/lớp để xem lịch, đăng ký khi tới hạn</p>
                                 </div>
                             </div>
                             <button
@@ -218,26 +574,36 @@ export default function PeriodDetailsView({ period, details, loading, onBack }) 
 
                         {showSearch && (
                             <div className="space-y-3 pt-3 border-t border-violet-200/50 dark:border-violet-800/30">
-                                <div className="flex gap-2">
+                                <div className="flex flex-col gap-2 sm:flex-row">
                                     <input
                                         type="text"
                                         value={searchQuery}
                                         onChange={(event) => setSearchQuery(event.target.value)}
                                         onKeyDown={handleKeyDown}
                                         placeholder="Nhập mã hoặc tên môn học (VD: CO3005)"
-                                        className="flex-1 h-10 px-3 rounded-xl border-2 border-violet-200 dark:border-violet-800 bg-white dark:bg-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-violet-400/50 focus:border-violet-400"
+                                        className="h-10 flex-1 rounded-xl border-2 border-violet-200 bg-white px-3 text-sm focus:outline-none focus:ring-2 focus:ring-violet-400/50 focus:border-violet-400 dark:border-violet-800 dark:bg-slate-900"
                                     />
-                                    <Button
-                                        onClick={handleSearch}
-                                        disabled={searching || !searchQuery.trim()}
-                                        className="h-10 px-4 bg-gradient-to-r from-violet-500 to-purple-600 hover:from-violet-600 hover:to-purple-700 text-white rounded-xl"
-                                    >
-                                        {searching ? (
-                                            <Loader2 className="h-4 w-4 animate-spin" />
-                                        ) : (
-                                            <Search className="h-4 w-4" />
-                                        )}
-                                    </Button>
+                                    <div className="flex gap-2">
+                                        <Button
+                                            onClick={handleSearch}
+                                            disabled={searching || !searchQuery.trim()}
+                                            className="h-10 flex-1 rounded-xl bg-gradient-to-r from-violet-500 to-purple-600 px-4 text-white hover:from-violet-600 hover:to-purple-700 sm:flex-none"
+                                        >
+                                            {searching ? (
+                                                <Loader2 className="h-4 w-4 animate-spin" />
+                                            ) : (
+                                                <Search className="h-4 w-4" />
+                                            )}
+                                        </Button>
+                                        <Button
+                                            onClick={(event) => handleSearch(event, true)}
+                                            disabled={searching}
+                                            variant="outline"
+                                            className="h-10 flex-1 rounded-xl border-violet-200 text-violet-700 hover:bg-violet-50 dark:border-violet-800 dark:text-violet-300 dark:hover:bg-violet-950/30 sm:flex-none"
+                                        >
+                                            Xem tất cả lớp
+                                        </Button>
+                                    </div>
                                 </div>
 
                                 {searchError && (
@@ -266,6 +632,9 @@ export default function PeriodDetailsView({ period, details, loading, onBack }) 
                                                 course={course}
                                                 periodId={period.id}
                                                 forceMode={forceMode}
+                                                registrationOpen={schedule.isOpen}
+                                                onAddToTemplate={handleAddToTemplate}
+                                                onRegistrationResult={mergeRegistrationResult}
                                             />
                                         ))}
                                     </div>
@@ -290,7 +659,7 @@ export default function PeriodDetailsView({ period, details, loading, onBack }) 
                             course={course}
                             index={index + 1}
                             periodId={period.id}
-                            onDeleted={onBack}
+                            onDeleted={handleCourseDeleted}
                         />
                     ))}
                 </div>

@@ -733,6 +733,15 @@ export default {
     registerCourse,
     getRegistrationResult,
     cancelCourseRegistration,
+    listRegistrationTemplates,
+    saveRegistrationTemplate,
+    deleteRegistrationTemplate,
+    runRegistrationTemplate,
+    listScheduledRegistrationJobs,
+    createScheduledRegistrationJob,
+    cancelScheduledRegistrationJob,
+    deleteScheduledRegistrationJob,
+    runDueScheduledRegistrationJobs,
 };
 
 /**
@@ -801,6 +810,169 @@ export async function getRegistrationResult(periodId) {
  * @param {string} ketquaId - Registration result ID
  * @param {string} monHocMa - Course code
  */
+export async function listRegistrationTemplates() {
+    const token = getAuthToken();
+    if (!token) return { success: false, error: 'Chưa đăng nhập' };
+
+    try {
+        const response = await fetch(`${API_BASE}/dkmh/templates`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await response.json();
+        return response.ok ? data : { success: false, error: data.error || 'Không thể tải mẫu đăng ký' };
+    } catch (error) {
+        console.error('List registration templates error:', error);
+        return { success: false, error: error.message };
+    }
+}
+
+export async function saveRegistrationTemplate(template) {
+    const token = getAuthToken();
+    if (!token) return { success: false, error: 'Chưa đăng nhập' };
+
+    try {
+        const response = await fetch(`${API_BASE}/dkmh/templates`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(template)
+        });
+        const data = await response.json();
+        return response.ok ? data : { success: false, error: data.error || 'Không thể lưu mẫu đăng ký' };
+    } catch (error) {
+        console.error('Save registration template error:', error);
+        return { success: false, error: error.message };
+    }
+}
+
+export async function deleteRegistrationTemplate(templateId) {
+    const token = getAuthToken();
+    if (!token) return { success: false, error: 'Chưa đăng nhập' };
+
+    try {
+        const response = await fetch(`${API_BASE}/dkmh/templates/${templateId}`, {
+            method: 'DELETE',
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await response.json();
+        return response.ok ? data : { success: false, error: data.error || 'Không thể xóa mẫu đăng ký' };
+    } catch (error) {
+        console.error('Delete registration template error:', error);
+        return { success: false, error: error.message };
+    }
+}
+
+export async function runRegistrationTemplate(templateId, periodId) {
+    const token = getAuthToken();
+    if (!token) return { success: false, error: 'Chưa đăng nhập' };
+
+    try {
+        const response = await fetch(`${API_BASE}/dkmh/templates/${templateId}/run`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ periodId })
+        });
+        const data = await response.json();
+        return response.ok ? data : { success: false, error: data.error || 'Không thể chạy mẫu đăng ký' };
+    } catch (error) {
+        console.error('Run registration template error:', error);
+        return { success: false, error: error.message };
+    }
+}
+
+export async function listScheduledRegistrationJobs() {
+    const token = getAuthToken();
+    if (!token) return { success: false, error: 'Chưa đăng nhập' };
+
+    try {
+        const response = await fetch(`${API_BASE}/dkmh/scheduled-jobs`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await response.json();
+        return response.ok ? data : { success: false, error: data.error || 'Không thể tải lịch tự chạy' };
+    } catch (error) {
+        console.error('List scheduled registration jobs error:', error);
+        return { success: false, error: error.message };
+    }
+}
+
+export async function createScheduledRegistrationJob(payload) {
+    const token = getAuthToken();
+    if (!token) return { success: false, error: 'Chưa đăng nhập' };
+
+    try {
+        const response = await fetch(`${API_BASE}/dkmh/scheduled-jobs`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        });
+        const data = await response.json();
+        return response.ok ? data : { success: false, error: data.error || 'Không thể lên lịch tự chạy' };
+    } catch (error) {
+        console.error('Create scheduled registration job error:', error);
+        return { success: false, error: error.message };
+    }
+}
+
+export async function cancelScheduledRegistrationJob(jobId) {
+    const token = getAuthToken();
+    if (!token) return { success: false, error: 'Chưa đăng nhập' };
+
+    try {
+        const response = await fetch(`${API_BASE}/dkmh/scheduled-jobs/${jobId}/cancel`, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await response.json();
+        return response.ok ? data : { success: false, error: data.error || 'Không thể hủy lịch tự chạy' };
+    } catch (error) {
+        console.error('Cancel scheduled registration job error:', error);
+        return { success: false, error: error.message };
+    }
+}
+
+export async function deleteScheduledRegistrationJob(jobId) {
+    const token = getAuthToken();
+    if (!token) return { success: false, error: 'Chưa đăng nhập' };
+
+    try {
+        const response = await fetch(`${API_BASE}/dkmh/scheduled-jobs/${jobId}`, {
+            method: 'DELETE',
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await response.json();
+        return response.ok ? data : { success: false, error: data.error || 'Không thể xóa lịch tự chạy' };
+    } catch (error) {
+        console.error('Delete scheduled registration job error:', error);
+        return { success: false, error: error.message };
+    }
+}
+
+export async function runDueScheduledRegistrationJobs() {
+    const token = getAuthToken();
+    if (!token) return { success: false, error: 'Chưa đăng nhập' };
+
+    try {
+        const response = await fetch(`${API_BASE}/dkmh/scheduled-jobs/run-due`, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await response.json();
+        return response.ok ? data : { success: false, error: data.error || 'Không thể chạy lịch đến hạn' };
+    } catch (error) {
+        console.error('Run due scheduled registration jobs error:', error);
+        return { success: false, error: error.message };
+    }
+}
+
 export async function cancelCourseRegistration(periodId, ketquaId, monHocMa) {
     const token = getAuthToken();
     if (!token) return { success: false, error: 'Chưa đăng nhập' };

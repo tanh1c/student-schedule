@@ -16,6 +16,7 @@ const EXAM_STORAGE_KEY = "examSchedule";
 const GPA_DETAILS_STORAGE_KEY = "mybk_gpa_details";
 const ROADMAP_STORAGE_KEY = "studyRoadmap";
 const TASKS_STORAGE_KEY = "kanbanTasks";
+const DKMH_PERIODS_STORAGE_KEY = "dkmh_periods";
 
 const DAY_IN_MS = 24 * 60 * 60 * 1000;
 const DAY_IN_SECONDS = 24 * 60 * 60;
@@ -121,6 +122,7 @@ function loadDashboardSnapshot() {
   const roadmapSemesters = readJsonStorage(ROADMAP_STORAGE_KEY, []);
   const gpaDetails = readJsonStorage(GPA_DETAILS_STORAGE_KEY, []);
   const tasks = readJsonStorage(TASKS_STORAGE_KEY, []);
+  const registrationPeriods = readJsonStorage(DKMH_PERIODS_STORAGE_KEY, []);
 
   const todayClasses = scheduleData
     .filter((course) => {
@@ -239,6 +241,9 @@ function loadDashboardSnapshot() {
     ?? null;
 
   const gpaSnapshot = calculatePreciseCurrentGpa(gpaDetails);
+  const openRegistrationPeriods = registrationPeriods
+    .filter((period) => period?.status === "open")
+    .slice(0, 1);
 
   const openTasks = tasks.filter((task) => task.status !== "done");
   const dueSoonTasks = openTasks.filter((task) => {
@@ -343,6 +348,11 @@ function loadDashboardSnapshot() {
             validCourses: roadmapGoal.gpa.validCourses,
           }
         : null,
+    },
+    registration: {
+      hasData: registrationPeriods.length > 0,
+      openCount: registrationPeriods.filter((period) => period?.status === "open").length,
+      openPeriods: openRegistrationPeriods,
     },
     gpa: {
       hasData: gpaDetails.length > 0,

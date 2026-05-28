@@ -203,8 +203,9 @@ export const searchCourses = async (req, res) => {
             });
         }
 
+        const searchParams = new URLSearchParams({ msmh: query });
         const response = await fetch('https://mybk.hcmut.edu.vn/dkmh/searchMonHocDangKy.action', {
-            method: 'POST', body: `msmh=${encodeURIComponent(query)}`, headers: baseHeaders
+            method: 'POST', body: searchParams.toString(), headers: baseHeaders
         });
         const html = await response.text();
         res.json({ success: true, data: parser.parseSearchResultsHtml(html) });
@@ -231,50 +232,65 @@ export const getClassGroups = async (req, res) => {
     }
 };
 
+export async function submitRegistrationAttempt(storedData, { nlmhId, monHocId, forceMode }) {
+    const { fetch, baseHeaders } = storedData;
+
+    if (monHocId && !forceMode) {
+        await fetch('https://mybk.hcmut.edu.vn/dkmh/getThongTinNhomLopMonHoc.action', {
+            method: 'POST', body: `monHocId=${monHocId}`, headers: baseHeaders
+        });
+    }
+
+    const response = await fetch('https://mybk.hcmut.edu.vn/dkmh/dangKy.action', {
+        method: 'POST', body: `NLMHId=${nlmhId}`, headers: baseHeaders
+    });
+    let text = await response.text();
+
+    if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+
+    let result = {};
+    try {
+        result = JSON.parse(text);
+    } catch (_error) {
+        // Some upstream responses are plain text; fall back to a generic error payload.
+    }
+
+    const shouldRefresh = result.code === 'SUCCESS' || result.code === 'NOTICE' || forceMode;
+    if (!shouldRefresh) {
+        return {
+            success: false,
+            error: result.msg || 'Failed',
+            message: result.msg || 'Failed',
+            code: result.code
+        };
+    }
+
+    const ketQuaResponse = await fetch('https://mybk.hcmut.edu.vn/dkmh/getKetQuaDangKy.action', {
+        method: 'POST', body: '', headers: baseHeaders
+    });
+    const ketQuaHtml = await ketQuaResponse.text();
+    const registrationResult = parser.parsePeriodDetailsHtml(ketQuaHtml);
+
+    return {
+        success: true,
+        ...(result.code === 'NOTICE' ? { draft: true } : {}),
+        message: result.msg || 'Sent',
+        code: result.code,
+        forceMode,
+        registrationResult
+    };
+}
+
 export const register = async (req, res) => {
     const { periodId, nlmhId, monHocId, forceMode } = req.body;
     const jarKey = `${req.token}_${periodId}`;
     const storedData = activePeriodJars.get(jarKey);
 
     if (!storedData) return res.status(400).json({ error: 'Session expired' });
-    const { fetch, baseHeaders } = storedData;
 
     try {
-        // Prime
-        if (monHocId && !forceMode) {
-            await fetch('https://mybk.hcmut.edu.vn/dkmh/getThongTinNhomLopMonHoc.action', {
-                method: 'POST', body: `monHocId=${monHocId}`, headers: baseHeaders
-            });
-        }
-
-        // Register
-        const response = await fetch('https://mybk.hcmut.edu.vn/dkmh/dangKy.action', {
-            method: 'POST', body: `NLMHId=${nlmhId}`, headers: baseHeaders
-        });
-        let text = await response.text();
-
-        // Handle BOM
-        if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
-
-        let result = {};
-        try {
-            result = JSON.parse(text);
-        } catch (_error) {
-            // Some upstream responses are plain text; fall back to a generic error payload.
-        }
-
-        if (result.code === 'SUCCESS' || forceMode) {
-            // Refresh list
-            if (!forceMode) {
-                await fetch('https://mybk.hcmut.edu.vn/dkmh/getKetQuaDangKy.action', {
-                    method: 'POST', body: '', headers: baseHeaders
-                });
-            }
-            return res.json({ success: true, message: result.msg || 'Sent', forceMode });
-        }
-
-        res.json({ success: false, error: result.msg || 'Failed', code: result.code });
-
+        const result = await submitRegistrationAttempt(storedData, { nlmhId, monHocId, forceMode });
+        res.json(result);
     } catch (e) {
         res.status(500).json({ error: e.message });
     }

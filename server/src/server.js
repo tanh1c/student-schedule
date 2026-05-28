@@ -3,11 +3,13 @@ import app from './app.js';
 import config from '../config/default.js';
 import logger from './utils/logger.js';
 import { initRedis, getClient } from './services/redisService.js';
+import { startRegistrationScheduler } from './services/registrationScheduler.js';
 
 const PORT = config.server.port;
 
 // Initialize Redis before starting HTTP server
 await initRedis();
+startRegistrationScheduler();
 
 const server = app.listen(PORT, () => {
     logger.info(`🚀 Server is running on port ${PORT}`);
