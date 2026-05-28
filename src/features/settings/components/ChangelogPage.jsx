@@ -35,10 +35,53 @@ import {
 // Changelog data - Add new entries at the top
 const changelogData = [
     {
+        version: "2.8.0",
+        date: "2026-05-28",
+        title: "DKMH Templates & Safer Registration Automation 🧭",
+        isLatest: true,
+        changes: [
+            {
+                type: "feature",
+                title: "Thêm Mẫu đăng ký môn theo từng kỳ",
+                description: "Người dùng có thể lưu các lớp/nhóm ưu tiên vào một mẫu riêng cho từng đợt ĐKMH, giữ lại sau khi refresh hoặc đăng nhập lại để chuẩn bị trước giờ mở đăng ký."
+            },
+            {
+                type: "feature",
+                title: "Chạy mẫu đăng ký nhanh trong session hiện tại",
+                description: "Khi tới hạn đăng ký, app có thể gửi lần lượt các lựa chọn ưu tiên trong mẫu, dừng theo từng môn khi có kết quả hợp lệ và hiển thị log thành công, nháp hoặc thất bại rõ ràng."
+            },
+            {
+                type: "feature",
+                title: "Lên lịch tự chạy mẫu đăng ký dạng best-effort",
+                description: "Backend có thể lưu lịch chạy mẫu, dùng cookie DKMH đã mã hóa, retry có giới hạn và lưu lại trạng thái/log để theo dõi kết quả mà không lưu mật khẩu người dùng."
+            },
+            {
+                type: "improvement",
+                title: "Cập nhật danh sách môn đã đăng ký ngay sau khi đăng ký thành công",
+                description: "Sau khi đăng ký trực tiếp, chạy mẫu hoặc chạy lịch đến hạn, danh sách môn đã đăng ký được merge từ phiếu đăng ký mới nhất để người dùng thấy kết quả ngay trong app."
+            },
+            {
+                type: "improvement",
+                title: "Cảnh báo trùng lịch trong mẫu trước khi chạy",
+                description: "Mẫu đăng ký giờ kiểm tra ngày học và tiết học giữa các lựa chọn ưu tiên chính, highlight lớp bị trùng và chặn chạy/lên lịch cho tới khi người dùng đổi ưu tiên hoặc xóa lớp trùng."
+            },
+            {
+                type: "improvement",
+                title: "Thêm giới hạn an toàn cho chạy mẫu thủ công",
+                description: "Luồng chạy mẫu thủ công được giới hạn số môn tối đa để giảm nguy cơ lạm dụng đăng ký nhanh hàng loạt, đồng thời backend cũng chặn giới hạn này để tránh bypass qua API."
+            },
+            {
+                type: "fix",
+                title: "Hủy môn mới đăng ký không còn quay về trang chọn đợt",
+                description: "Khi hủy một môn trong danh sách đã đăng ký, app cập nhật danh sách và tổng tín chỉ tại chỗ thay vì điều hướng ra ngoài màn hình chi tiết kỳ đăng ký."
+            }
+        ]
+    },
+    {
         version: "2.7.0",
         date: "2026-04-15",
         title: "Dashboard Overview & Mobile-First Polish 📊",
-        isLatest: true,
+        isLatest: false,
         changes: [
             {
                 type: "feature",

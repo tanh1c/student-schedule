@@ -10,7 +10,6 @@ import {
   Route,
   ScrollText,
   Settings,
-  Wrench,
 } from "lucide-react";
 import { scheduleTabMeta } from "@features/schedule/constants/meta";
 import { curriculumTabMeta } from "@features/curriculum/constants/meta";
@@ -27,7 +26,6 @@ import { roadmapTabMeta } from "@features/roadmap/constants/meta";
 import { settingsTabMeta } from "@features/settings/constants/meta";
 import { teachingScheduleTabMeta } from "@features/teaching-schedule/constants/meta";
 import { notesPlansTabMeta } from "@features/notes-plans/constants/meta";
-import { toolsTabMeta } from "@features/tools/constants/meta";
 
 export const defaultTabId = "dashboard";
 
@@ -83,10 +81,6 @@ export const menuItems = [
     icon: ScrollText,
   },
   {
-    ...toolsTabMeta,
-    icon: Wrench,
-  },
-  {
     ...settingsTabMeta,
     icon: Settings,
   },
@@ -118,7 +112,7 @@ export const mobileMenuGroups = [
   {
     id: "workspace",
     label: "Khác",
-    description: "Công cụ hỗ trợ và cài đặt hệ thống.",
-    itemIds: ["tools", "settings"],
+    description: "Cài đặt và thông tin hệ thống.",
+    itemIds: ["settings"],
   },
 ];

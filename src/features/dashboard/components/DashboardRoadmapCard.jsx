@@ -1,36 +1,81 @@
 import React from "react";
+import { ArrowRight, CalendarClock, NotebookTabs } from "lucide-react";
+import { WORKSPACE_TAB_CHANGE_EVENT } from "@/app/navigationEvents";
 import { DashboardCard } from "@/features/dashboard/components/DashboardShared";
 
-export function DashboardRoadmapCard() {
+function PeriodItem({ period, onClick }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="w-full rounded-2xl border border-emerald-200/70 bg-white/75 p-3 text-left shadow-sm transition hover:-translate-y-0.5 hover:border-emerald-300 hover:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-300 dark:border-emerald-900/50 dark:bg-slate-950/35 dark:hover:border-emerald-700 dark:hover:bg-slate-950/55"
+    >
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <p className="truncate text-sm font-bold text-emerald-900 dark:text-emerald-100">
+            {period.code || "Đợt ĐKMH"}
+          </p>
+          <p className="mt-0.5 line-clamp-2 text-xs text-emerald-700/75 dark:text-emerald-300/75">
+            {period.description || "Đang trong thời gian đăng ký"}
+          </p>
+        </div>
+        <span className="shrink-0 rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300">
+          Mở
+        </span>
+      </div>
+      <div className="mt-2 flex items-center justify-between gap-2">
+        {(period.startTime || period.endTime) ? (
+          <div className="flex min-w-0 items-center gap-1.5 text-[11px] text-emerald-700/70 dark:text-emerald-300/70">
+            <CalendarClock className="h-3.5 w-3.5 shrink-0" />
+            <span className="truncate">{period.startTime || "--"} → {period.endTime || "--"}</span>
+          </div>
+        ) : <span />}
+        <span className="inline-flex shrink-0 items-center gap-1 text-[11px] font-semibold text-emerald-700 dark:text-emerald-300">
+          Vào ĐKMH <ArrowRight className="h-3.5 w-3.5" />
+        </span>
+      </div>
+    </button>
+  );
+}
+
+export function DashboardRoadmapCard({ snapshot }) {
+  const openPeriods = snapshot.registration?.openPeriods || [];
+  const goToRegistration = () => {
+    window.dispatchEvent(new CustomEvent(WORKSPACE_TAB_CHANGE_EVENT, {
+      detail: { tabId: "registration" },
+    }));
+  };
+
   return (
     <DashboardCard
-      title="Coming soon"
-      headerActions={<span className="h-8 w-8" aria-hidden="true" />}
+      title="ĐKMH"
+      headerActions={<span className="rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-bold text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300">{snapshot.registration?.openCount || 0} mở</span>}
       className="h-full"
       contentClassName="h-full"
     >
-      <div className="relative flex min-h-0 min-w-0 flex-1 items-center justify-center overflow-hidden rounded-3xl bg-gradient-to-br from-teal-50 via-cyan-50 to-sky-50 p-4 dark:from-teal-950/25 dark:via-cyan-950/15 dark:to-slate-950">
-        <div className="pointer-events-none absolute left-6 top-1/2 hidden -translate-y-1/2 flex-col items-start gap-2 opacity-70 sm:flex" aria-hidden="true">
-          <span className="h-2 w-14 rounded-full bg-teal-300/45 dark:bg-teal-500/20" />
-          <span className="h-2 w-9 rounded-full bg-cyan-300/45 dark:bg-cyan-500/20" />
-          <span className="h-2 w-12 rounded-full bg-sky-300/35 dark:bg-sky-500/15" />
-        </div>
-        <div className="pointer-events-none absolute right-6 top-1/2 hidden -translate-y-1/2 flex-col items-end gap-2 opacity-70 sm:flex" aria-hidden="true">
-          <span className="h-2 w-12 rounded-full bg-sky-300/35 dark:bg-sky-500/15" />
-          <span className="h-2 w-9 rounded-full bg-cyan-300/45 dark:bg-cyan-500/20" />
-          <span className="h-2 w-14 rounded-full bg-teal-300/45 dark:bg-teal-500/20" />
-        </div>
-
-        <div className="relative z-10 grid place-items-center">
-          <div className="relative flex aspect-square h-[136px] w-[136px] max-w-full items-center justify-center overflow-hidden rounded-[2rem] bg-white/75 shadow-inner dark:bg-slate-950/35 sm:h-[152px] sm:w-[152px]">
-            <div className="absolute inset-x-6 bottom-5 h-10 rounded-full bg-teal-300/25 blur-xl" />
-            <img
-              src="/coming-soon.png"
-              alt=""
-              className="relative z-10 h-[116px] w-[116px] object-contain sm:h-[132px] sm:w-[132px]"
-            />
+      <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 p-4 dark:from-emerald-950/25 dark:via-teal-950/15 dark:to-slate-950">
+        {openPeriods.length > 0 ? (
+          <div className="min-h-0 flex-1 space-y-3 overflow-hidden">
+            <p className="text-xs font-medium text-emerald-700/80 dark:text-emerald-300/80">
+              Đợt đăng ký môn học đang mở
+            </p>
+            <div className="space-y-2">
+              {openPeriods.map((period) => (
+                <PeriodItem key={period.id || period.code} period={period} onClick={goToRegistration} />
+              ))}
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="flex min-h-0 flex-1 flex-col items-center justify-center text-center">
+            <div className="mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-white/80 shadow-sm dark:bg-slate-950/40">
+              <NotebookTabs className="h-7 w-7 text-emerald-600 dark:text-emerald-300" />
+            </div>
+            <p className="text-sm font-bold text-emerald-900 dark:text-emerald-100">Chưa có đợt ĐKMH nào</p>
+            <p className="mt-1 max-w-[220px] text-xs text-emerald-700/70 dark:text-emerald-300/70">
+              Khi có kỳ đăng ký đang mở, đợt gần nhất sẽ hiện ở đây.
+            </p>
+          </div>
+        )}
       </div>
     </DashboardCard>
   );
