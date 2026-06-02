@@ -26,6 +26,7 @@ export default function RegistrationTemplatePanel({
     autoSchedulerEnabled,
     onRun,
     onDelete,
+    onDeleteCourse,
     onCreateScheduledJob,
     onDeleteScheduledJob,
     onRunDueScheduledJobs
@@ -269,8 +270,22 @@ export default function RegistrationTemplatePanel({
                 <div className="mt-3 space-y-2">
                     {courses.map((course) => (
                         <div key={course.code || course.monHocId} className="rounded-xl bg-white/70 p-3 text-xs dark:bg-slate-950/30">
-                            <div className="font-semibold text-cyan-900 dark:text-cyan-200">
-                                {course.code} {course.name ? `• ${course.name}` : ""}
+                            <div className="flex items-start justify-between gap-2">
+                                <div className="font-semibold text-cyan-900 dark:text-cyan-200">
+                                    {course.code} {course.name ? `• ${course.name}` : ""}
+                                </div>
+                                {onDeleteCourse && (
+                                    <Button
+                                        size="sm"
+                                        variant="ghost"
+                                        className="h-6 w-6 shrink-0 p-0 text-red-500 hover:bg-red-50 hover:text-red-700 dark:hover:bg-red-950/30"
+                                        disabled={saving || running || schedulingJob}
+                                        onClick={() => onDeleteCourse(course)}
+                                        title="Xóa môn khỏi mẫu"
+                                    >
+                                        <Trash2 className="h-3 w-3" />
+                                    </Button>
+                                )}
                             </div>
                             <div className="mt-1 flex flex-wrap gap-1">
                                 {(course.priority || []).map((item, index) => {

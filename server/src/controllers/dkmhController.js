@@ -175,7 +175,7 @@ export const getPeriodDetails = async (req, res) => {
         res.json({
             success: true,
             data: {
-                courses: parser.parsePeriodDetailsHtml(ketQuaHtml).courses,
+                courses: parser.parsePeriodDetailsHtml(ketQuaHtml),
                 schedule: parser.parseScheduleHtml(lichHtml),
                 periodId, dotDKId
             }
