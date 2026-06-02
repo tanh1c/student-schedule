@@ -8,6 +8,7 @@ jest.unstable_mockModule('../../src/services/sessionStore.js', () => ({
 
 jest.unstable_mockModule('../../src/services/dkmhParser.js', () => ({
     parseSearchResultsHtml: jest.fn(() => []),
+    parseScheduleHtml: jest.fn(() => ({ from: '', to: '', isOpen: true })),
     parsePeriodDetailsHtml: jest.fn(() => ({ courses: [], totalCredits: 0, totalCourses: 0 }))
 }));
 
@@ -29,6 +30,7 @@ jest.unstable_mockModule('fetch-cookie', () => ({
 
 const { activePeriodJars } = await import('../../src/services/sessionStore.js');
 const parser = await import('../../src/services/dkmhParser.js');
+const fetchCookie = await import('fetch-cookie');
 const dkmhController = await import('../../src/controllers/dkmhController.js');
 
 describe('dkmhController', () => {
@@ -53,6 +55,38 @@ describe('dkmhController', () => {
         activePeriodJars.set('token-123_period-1', {
             fetch: mockFetch,
             baseHeaders: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        });
+        fetchCookie.default.mockReturnValue(mockFetch);
+    });
+
+    describe('getPeriodDetails', () => {
+        it('should return full registration result summary for reopened D1 periods', async () => {
+            const registrationResult = {
+                courses: [{ code: 'CO3005', ketquaId: 'draft-1' }],
+                totalCredits: 4,
+                totalCourses: 1
+            };
+            req.session = { dkmhCookie: 'JSESSIONID=abc' };
+            req.body = { periodId: '685' };
+            mockFetch
+                .mockResolvedValueOnce({ text: jest.fn().mockResolvedValue('') })
+                .mockResolvedValueOnce({ text: jest.fn().mockResolvedValue('getLichDangKyByDotDKId(this, 767, 767)') })
+                .mockResolvedValueOnce({ text: jest.fn().mockResolvedValue('<input id="hdTrongHanDK" value="true" />') })
+                .mockResolvedValueOnce({ text: jest.fn().mockResolvedValue('') })
+                .mockResolvedValueOnce({ text: jest.fn().mockResolvedValue('<html>d1 draft result</html>') });
+            parser.parsePeriodDetailsHtml.mockReturnValue(registrationResult);
+
+            await dkmhController.getPeriodDetails(req, res);
+
+            expect(parser.parsePeriodDetailsHtml).toHaveBeenCalledWith('<html>d1 draft result</html>');
+            expect(res.json).toHaveBeenCalledWith({
+                success: true,
+                data: expect.objectContaining({
+                    courses: registrationResult,
+                    periodId: '685',
+                    dotDKId: '767'
+                })
+            });
         });
     });
 

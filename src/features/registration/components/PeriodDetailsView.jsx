@@ -305,6 +305,14 @@ export default function PeriodDetailsView({ period, details, loading, onBack }) 
         await saveTemplate({ ...currentTemplate, courses: nextCourses });
     };
 
+    const handleDeleteTemplateCourse = async (courseToDelete) => {
+        if (!template) return;
+        const nextCourses = (template.courses || []).filter((course) => (
+            course.code !== courseToDelete.code && String(course.monHocId || "") !== String(courseToDelete.monHocId || "")
+        ));
+        await saveTemplate({ ...template, courses: nextCourses });
+    };
+
     const handleRunTemplate = async () => {
         if (!template?.id) return;
         if (findTemplateScheduleConflicts(template).length > 0) {
@@ -541,6 +549,7 @@ export default function PeriodDetailsView({ period, details, loading, onBack }) 
                     schedulingJob={schedulingJob}
                     onRun={handleRunTemplate}
                     onDelete={handleDeleteTemplate}
+                    onDeleteCourse={handleDeleteTemplateCourse}
                     autoSchedulerEnabled={autoSchedulerEnabled}
                     onCreateScheduledJob={handleCreateScheduledJob}
                     onDeleteScheduledJob={handleDeleteScheduledJob}
