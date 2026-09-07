@@ -4,6 +4,8 @@ import {
     parseRegistrationBatchIds,
     parseRegistrationPeriods,
     selectRegistrationPeriod,
+    selectMostCompletePeriod,
+    compareRegistrationPeriods,
     crawlTeachingSchedule
 } from '../../src/services/dkmhCrawler.js';
 
@@ -21,6 +23,43 @@ describe('dkmhCrawler', () => {
             id: '685',
             code: 'HK261_D1'
         });
+    });
+
+    it('selects the candidate with the most courses', () => {
+        const comparisons = [
+            { period: { code: 'HK261_D1' }, courses: [{}, {}] },
+            { period: { code: 'HK261_D2' }, courses: [{}, {}, {}] },
+            { period: { code: 'HK261_AVNV2' }, courses: [{}] }
+        ];
+
+        expect(selectMostCompletePeriod(comparisons).period.code).toBe('HK261_D2');
+    });
+
+    it('keeps comparing after a candidate cannot provide registration IDs', async () => {
+        const response = (text) => ({ text: async () => text });
+        const fetch = jest.fn()
+            .mockResolvedValueOnce(response(''))
+            .mockResolvedValueOnce(response('<html></html>'))
+            .mockResolvedValueOnce(response(''))
+            .mockResolvedValueOnce(response('getLichDangKyByDotDKId(this, 749, 750)'))
+            .mockResolvedValueOnce(response(''))
+            .mockResolvedValueOnce(response(''))
+            .mockResolvedValueOnce(response(`
+                <tr id='monHoc123' onclick='getThongTinNhomLopMonHoc(123, 456)'>
+                    <td class="item_list">1</td><td class='item_list'>CO3001</td>
+                    <td class='item_list'>Kỹ thuật phần mềm</td><td class='item_list'>3.0</td>
+                </tr>`));
+
+        const comparisons = await compareRegistrationPeriods({
+            periods: [{ id: '1', code: 'HK261_D1' }, { id: '2', code: 'HK261_D2' }],
+            fetch,
+            baseHeaders: {}
+        });
+
+        expect(comparisons[0]).toMatchObject({
+            period: { code: 'HK261_D1' }, courses: [], error: 'Unable to parse DKMH registration batch IDs'
+        });
+        expect(selectMostCompletePeriod(comparisons).period.code).toBe('HK261_D2');
     });
 
     it('parses both registration batch IDs', async () => {
@@ -59,6 +98,11 @@ describe('dkmhCrawler', () => {
         const response = (text) => ({ text: async () => text });
         const fetch = jest.fn()
             .mockResolvedValueOnce(response(formHtml))
+            .mockResolvedValueOnce(response(''))
+            .mockResolvedValueOnce(response('getLichDangKyByDotDKId(this, 749, 750)'))
+            .mockResolvedValueOnce(response(''))
+            .mockResolvedValueOnce(response(''))
+            .mockResolvedValueOnce(response(searchHtml))
             .mockResolvedValueOnce(response(''))
             .mockResolvedValueOnce(response('getLichDangKyByDotDKId(this, 749, 750)'))
             .mockResolvedValueOnce(response(''))

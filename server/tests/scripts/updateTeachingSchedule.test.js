@@ -20,6 +20,30 @@ describe('updateTeachingSchedule', () => {
         expect(parseArguments(['261', 'apply'])).toEqual({ semester: '261', dryRun: false });
     });
 
+    it('reports every candidate before the selected period', async () => {
+        const output = { write: jest.fn() };
+        await runUpdate({
+            argv: ['261'],
+            prompt: jest.fn().mockResolvedValue('student'),
+            crawl: jest.fn().mockResolvedValue({
+                period: { code: 'HK261_D2' }, hocKyId: '686', dotDKHocVienId: '750', dotDKId: '751', subjects: validSubjects,
+                comparisons: [
+                    { period: { code: 'HK261_D1' }, courses: [{}, {}] },
+                    { period: { code: 'HK261_D2' }, courses: [{}, {}, {}] },
+                    { period: { code: 'HK261_AVNV2' }, courses: [], error: 'Unavailable' }
+                ]
+            }),
+            validate: jest.fn().mockReturnValue({ subjectCount: 1, groupCount: 1 }),
+            install: jest.fn(),
+            stdout: output,
+            paths: { subjectPath: '/tmp/data_subject.json', backupDirectory: '/tmp' }
+        });
+
+        expect(output.write).toHaveBeenNthCalledWith(1, 'HK261_D1: 2 courses\n');
+        expect(output.write).toHaveBeenNthCalledWith(2, 'HK261_D2: 3 courses\n');
+        expect(output.write).toHaveBeenNthCalledWith(3, 'HK261_AVNV2: unavailable (Unavailable)\n');
+    });
+
     it('does not install a snapshot during dry-run', async () => {
         const install = jest.fn();
         const prompt = jest.fn()

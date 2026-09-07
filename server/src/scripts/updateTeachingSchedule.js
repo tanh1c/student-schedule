@@ -45,6 +45,12 @@ export async function runUpdate({
         minimumSubjects: 1
     });
 
+    for (const comparison of result.comparisons ?? []) {
+        const detail = comparison.error
+            ? `unavailable (${comparison.error})`
+            : `${comparison.courses.length} courses`;
+        output.write(`${comparison.period.code}: ${detail}\n`);
+    }
     output.write(`Period: ${result.period.code}\n`);
     output.write(`hocKyId=${result.hocKyId} dotDKHocVienId=${result.dotDKHocVienId} dotDKId=${result.dotDKId}\n`);
     output.write(`Subjects: ${counts.subjectCount}; groups: ${counts.groupCount}\n`);

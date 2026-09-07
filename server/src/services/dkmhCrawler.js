@@ -52,6 +52,14 @@ export function parseRegistrationBatchIds(html) {
     return { dotDKHocVienId: match[1], dotDKId: match[2] };
 }
 
+export function selectMostCompletePeriod(comparisons) {
+    const winner = comparisons.reduce((best, candidate) =>
+        candidate.courses.length > (best?.courses.length ?? 0) ? candidate : best,
+    null);
+    if (!winner?.courses.length) throw new Error('No DKMH registration period returned courses');
+    return winner;
+}
+
 const dayOfWeek = {
     'Chủ nhật': 0,
     'Thứ 2': 1,
@@ -94,9 +102,49 @@ function normalizeSubject(course, groups) {
     };
 }
 
+const dkmhUrls = {
+    result: 'https://mybk.hcmut.edu.vn/dkmh/ketQuaDangKyView.action',
+    batches: 'https://mybk.hcmut.edu.vn/dkmh/getDanhSachDotDK.action',
+    schedule: 'https://mybk.hcmut.edu.vn/dkmh/getLichDangKy.action',
+    courses: 'https://mybk.hcmut.edu.vn/dkmh/getDanhSachMonHocDangKy.action',
+    search: 'https://mybk.hcmut.edu.vn/dkmh/searchMonHocDangKy.action',
+    groups: 'https://mybk.hcmut.edu.vn/dkmh/getThongTinNhomLopMonHoc.action'
+};
+
 async function postText(fetch, url, body, headers) {
     const response = await fetch(url, { method: 'POST', body, headers });
     return response.text();
+}
+
+async function loadPeriodCourses(period, fetch, baseHeaders) {
+    const hocKyId = period.id;
+    await postText(fetch, dkmhUrls.result, `hocKyId=${hocKyId}`, baseHeaders);
+    const batchHtml = await postText(fetch, dkmhUrls.batches, `hocKyId=${hocKyId}`, baseHeaders);
+    const { dotDKHocVienId, dotDKId } = parseRegistrationBatchIds(batchHtml);
+
+    await postText(fetch, dkmhUrls.schedule, `dotDKId=${dotDKId}&dotDKHocVienId=${dotDKHocVienId}`, baseHeaders);
+    await postText(fetch, dkmhUrls.courses, `dotDKId=${dotDKId}`, baseHeaders);
+    const searchHtml = await postText(fetch, dkmhUrls.search, 'msmh=+', baseHeaders);
+
+    return {
+        period,
+        hocKyId,
+        dotDKHocVienId,
+        dotDKId,
+        courses: parseSearchResultsHtml(searchHtml)
+    };
+}
+
+export async function compareRegistrationPeriods({ periods, fetch, baseHeaders }) {
+    const comparisons = [];
+    for (const period of periods) {
+        try {
+            comparisons.push(await loadPeriodCourses(period, fetch, baseHeaders));
+        } catch (error) {
+            comparisons.push({ period, courses: [], error: error.message });
+        }
+    }
+    return comparisons;
 }
 
 export async function crawlTeachingSchedule({ semester, fetch, now = new Date() }) {
@@ -107,23 +155,18 @@ export async function crawlTeachingSchedule({ semester, fetch, now = new Date() 
         'Referer': config.urls.dkmhInfo.formUrl
     };
     const formHtml = await (await fetch(config.urls.dkmhInfo.formUrl, { headers: baseHeaders })).text();
-    const period = selectRegistrationPeriod(parseRegistrationPeriods(formHtml, now), semester);
-    const hocKyId = period.id;
+    const periods = parseRegistrationPeriods(formHtml, now)
+        .filter(({ code }) => code.startsWith(`HK${semester}`));
+    if (!periods.length) throw new Error(`No DKMH registration period found for HK${semester}`);
 
-    await postText(fetch, 'https://mybk.hcmut.edu.vn/dkmh/ketQuaDangKyView.action', `hocKyId=${hocKyId}`, baseHeaders);
-    const batchHtml = await postText(fetch, 'https://mybk.hcmut.edu.vn/dkmh/getDanhSachDotDK.action', `hocKyId=${hocKyId}`, baseHeaders);
-    const { dotDKHocVienId, dotDKId } = parseRegistrationBatchIds(batchHtml);
-
-    await postText(fetch, 'https://mybk.hcmut.edu.vn/dkmh/getLichDangKy.action', `dotDKId=${dotDKId}&dotDKHocVienId=${dotDKHocVienId}`, baseHeaders);
-    await postText(fetch, 'https://mybk.hcmut.edu.vn/dkmh/getDanhSachMonHocDangKy.action', `dotDKId=${dotDKId}`, baseHeaders);
-    const searchHtml = await postText(fetch, 'https://mybk.hcmut.edu.vn/dkmh/searchMonHocDangKy.action', 'msmh=+', baseHeaders);
-    const courses = parseSearchResultsHtml(searchHtml);
-
+    const comparisons = await compareRegistrationPeriods({ periods, fetch, baseHeaders });
+    const selected = selectMostCompletePeriod(comparisons);
+    const activePeriod = await loadPeriodCourses(selected.period, fetch, baseHeaders);
     const subjects = [];
-    for (const course of courses) {
-        const groupHtml = await postText(fetch, 'https://mybk.hcmut.edu.vn/dkmh/getThongTinNhomLopMonHoc.action', `monHocId=${course.monHocId}`, baseHeaders);
+    for (const course of activePeriod.courses) {
+        const groupHtml = await postText(fetch, dkmhUrls.groups, `monHocId=${course.monHocId}`, baseHeaders);
         subjects.push(normalizeSubject(course, parseClassGroupsHtml(groupHtml)));
     }
 
-    return { period, hocKyId, dotDKHocVienId, dotDKId, subjects };
+    return { ...activePeriod, subjects, comparisons };
 }
