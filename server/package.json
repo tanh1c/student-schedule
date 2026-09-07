@@ -7,7 +7,8 @@
         "dev": "node --watch src/server.js",
         "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
         "test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watch",
-        "test:coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage"
+        "test:coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage",
+        "update:teaching-schedule": "node src/scripts/updateTeachingSchedule.js"
     },
     "dependencies": {
         "cheerio": "^1.2.0",

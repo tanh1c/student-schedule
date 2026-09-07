@@ -7,6 +7,8 @@ jest.unstable_mockModule('../../src/services/sessionStore.js', () => ({
 }));
 
 jest.unstable_mockModule('../../src/services/dkmhParser.js', () => ({
+    parseVietnameseDate: jest.fn(() => new Date('2026-09-07T00:00:00Z')),
+    parseClassGroupsHtml: jest.fn(() => []),
     parseSearchResultsHtml: jest.fn(() => []),
     parseScheduleHtml: jest.fn(() => ({ from: '', to: '', isOpen: true })),
     parsePeriodDetailsHtml: jest.fn(() => ({ courses: [], totalCredits: 0, totalCourses: 0 }))
@@ -60,6 +62,20 @@ describe('dkmhController', () => {
     });
 
     describe('getPeriodDetails', () => {
+        it('should return an error instead of using periodId when batch IDs are missing', async () => {
+            req.session = { dkmhCookie: 'JSESSIONID=abc' };
+            req.body = { periodId: '685' };
+            mockFetch
+                .mockResolvedValueOnce({ text: jest.fn().mockResolvedValue('') })
+                .mockResolvedValueOnce({ text: jest.fn().mockResolvedValue('<html></html>') });
+
+            await dkmhController.getPeriodDetails(req, res);
+
+            expect(res.status).toHaveBeenCalledWith(500);
+            expect(res.json).toHaveBeenCalledWith({ error: 'Unable to parse DKMH registration batch IDs' });
+            expect(mockFetch).toHaveBeenCalledTimes(2);
+        });
+
         it('should return full registration result summary for reopened D1 periods', async () => {
             const registrationResult = {
                 courses: [{ code: 'CO3005', ketquaId: 'draft-1' }],

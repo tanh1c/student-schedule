@@ -3,6 +3,7 @@ import fetchCookie from 'fetch-cookie';
 import { CookieJar } from 'tough-cookie';
 import { activePeriodJars } from '../services/sessionStore.js';
 import * as parser from '../services/dkmhParser.js';
+import { parseRegistrationBatchIds, parseRegistrationPeriods } from '../services/dkmhCrawler.js';
 import config from '../../config/default.js';
 import { maskUrl } from '../utils/masking.js';
 import logger from '../utils/logger.js';
@@ -76,33 +77,7 @@ export const getRegistrationPeriods = async (req, res) => {
         });
 
         const html = await response.text();
-
-        const rowRegex = /<tr[^>]*onclick="ketQuaDangKyView\((\d+)[^"]*"[^>]*>\s*<td>(\d+)<\/td>\s*<td[^>]*>([^<]+)<\/td>\s*<td>([\s\S]*?)<\/td>\s*<td>([^<]+)<\/td>\s*<td>([^<]+)<\/td>/g;
-        const periods = [];
-        let match;
-        while ((match = rowRegex.exec(html)) !== null) {
-            const startTime = match[5].trim();
-            const endTime = match[6].trim();
-            const now = new Date();
-            const start = parser.parseVietnameseDate(startTime);
-            const end = parser.parseVietnameseDate(endTime);
-
-            let status = 'upcoming';
-            if (now >= start && now <= end) status = 'open';
-            else if (now > end) status = 'closed';
-
-            periods.push({
-                id: parseInt(match[1]),
-                stt: parseInt(match[2]),
-                code: match[3].trim(),
-                description: match[4].replace(/<[^>]+>/g, '').trim(),
-                startTime, endTime,
-                start: start?.toISOString(),
-                end: end?.toISOString(),
-                status,
-                hasResult: match[4].toLowerCase().includes('kết quả')
-            });
-        }
+        const periods = parseRegistrationPeriods(html);
 
         res.json({ success: true, data: periods.slice(0, 10) });
     } catch (e) {
@@ -147,9 +122,7 @@ export const getPeriodDetails = async (req, res) => {
             method: 'POST', body: `hocKyId=${periodId}`, headers: baseHeaders
         });
         const dotDKHtml = await dotDKResponse.text();
-        const dotDKMatch = dotDKHtml.match(/getLichDangKyByDotDKId\s*\(\s*this\s*,\s*(\d+)\s*,\s*(\d+)/);
-        const dotDKHocVienId = dotDKMatch ? dotDKMatch[1] : periodId;
-        const dotDKId = dotDKMatch ? dotDKMatch[2] : periodId;
+        const { dotDKHocVienId, dotDKId } = parseRegistrationBatchIds(dotDKHtml);
 
         // Step 3
         const lichResponse = await fetch('https://mybk.hcmut.edu.vn/dkmh/getLichDangKy.action', {

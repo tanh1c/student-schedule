@@ -25,7 +25,10 @@ jest.unstable_mockModule('../../src/services/registrationTemplateStore', () => (
 }));
 
 jest.unstable_mockModule('../../src/services/dkmhParser', () => ({
-    parsePeriodDetailsHtml: jest.fn(() => ({ courses: [], totalCredits: 0, totalCourses: 0 }))
+    parseClassGroupsHtml: jest.fn(() => []),
+    parsePeriodDetailsHtml: jest.fn(() => ({ courses: [], totalCredits: 0, totalCourses: 0 })),
+    parseSearchResultsHtml: jest.fn(() => []),
+    parseVietnameseDate: jest.fn(() => new Date('2026-09-07T00:00:00Z'))
 }));
 
 jest.unstable_mockModule('../../src/utils/logger', () => ({
