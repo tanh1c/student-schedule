@@ -12,6 +12,14 @@ describe('updateTeachingSchedule', () => {
             .toEqual({ semester: '261', dryRun: true });
     });
 
+    it('accepts npm-forwarded positional semester values as dry-run', () => {
+        expect(parseArguments(['261'])).toEqual({ semester: '261', dryRun: true });
+    });
+
+    it('requires apply before replacing active snapshots', () => {
+        expect(parseArguments(['261', 'apply'])).toEqual({ semester: '261', dryRun: false });
+    });
+
     it('does not install a snapshot during dry-run', async () => {
         const install = jest.fn();
         const prompt = jest.fn()

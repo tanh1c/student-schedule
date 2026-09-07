@@ -16,7 +16,7 @@
     "lint:server": "eslint server/src server/tests server/config",
     "lint": "npm run lint:web && npm run lint:server",
     "test:server": "npm --prefix server test -- --runInBand",
-    "update:teaching-schedule": "npm --prefix server run update:teaching-schedule --",
+    "update:teaching-schedule": "node server/src/scripts/updateTeachingSchedule.js",
     "preview": "vite preview",
     "start": "npm --prefix server start"
   },

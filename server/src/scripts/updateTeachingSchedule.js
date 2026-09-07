@@ -16,12 +16,12 @@ const defaultPaths = {
 
 export function parseArguments(argv) {
     const semesterIndex = argv.indexOf('--semester');
-    const semester = semesterIndex >= 0 ? argv[semesterIndex + 1] : undefined;
+    const semester = semesterIndex >= 0 ? argv[semesterIndex + 1] : argv.find((value) => /^\d{3}$/.test(value));
     if (!/^\d{3}$/.test(semester ?? '')) {
         throw new Error('Use --semester with a three-digit value, for example 261');
     }
 
-    return { semester, dryRun: argv.includes('--dry-run') };
+    return { semester, dryRun: !argv.includes('apply') && !argv.includes('--apply') };
 }
 
 export async function runUpdate({
