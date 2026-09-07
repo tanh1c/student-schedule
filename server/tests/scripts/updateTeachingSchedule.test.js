@@ -16,6 +16,15 @@ describe('updateTeachingSchedule', () => {
         expect(parseArguments(['261'])).toEqual({ semester: '261', dryRun: true });
     });
 
+    it('accepts an explicit period with either argument syntax', () => {
+        expect(parseArguments(['261', 'HK261_D2']))
+            .toEqual({ semester: '261', period: 'HK261_D2', dryRun: true });
+        expect(parseArguments(['261', '--period', 'HK261_D3', 'apply']))
+            .toEqual({ semester: '261', period: 'HK261_D3', dryRun: false });
+        expect(() => parseArguments(['261', '--period'])).toThrow('registration period');
+        expect(() => parseArguments(['261', 'HK252_D2'])).toThrow('registration period');
+    });
+
     it('requires apply before replacing active snapshots', () => {
         expect(parseArguments(['261', 'apply'])).toEqual({ semester: '261', dryRun: false });
     });

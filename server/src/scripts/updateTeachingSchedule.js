@@ -21,7 +21,13 @@ export function parseArguments(argv) {
         throw new Error('Use --semester with a three-digit value, for example 261');
     }
 
-    return { semester, dryRun: !argv.includes('apply') && !argv.includes('--apply') };
+    const periodIndex = argv.indexOf('--period');
+    const period = periodIndex >= 0 ? argv[periodIndex + 1] : argv.find((value) => value.startsWith('HK'));
+    if ((periodIndex >= 0 || period !== undefined) && !new RegExp(`^HK${semester}_[A-Z0-9_]+$`).test(period ?? '')) {
+        throw new Error(`Use a registration period for HK${semester}, for example HK${semester}_D2`);
+    }
+
+    return { semester, ...(period ? { period } : {}), dryRun: !argv.includes('apply') && !argv.includes('--apply') };
 }
 
 export async function runUpdate({
@@ -33,10 +39,10 @@ export async function runUpdate({
     stdout: output,
     paths = defaultPaths
 }) {
-    const { semester, dryRun } = parseArguments(argv);
+    const { semester, period, dryRun } = parseArguments(argv);
     const username = await prompt('MyBK username: ');
     const password = await prompt('MyBK password: ', { hidden: true });
-    const result = await crawl({ username, password, semester });
+    const result = await crawl({ username, password, semester, period });
     const counts = validate(result.subjects, { minimumSubjects: 1 });
     const installation = dryRun ? null : await install({
         subjects: result.subjects,
@@ -102,12 +108,13 @@ async function promptCredentials(message, { hidden = false } = {}) {
     });
 }
 
-async function crawlWithCredentials({ username, password, semester }) {
+async function crawlWithCredentials({ username, password, semester, period }) {
     const login = await performDKMHLogin(username, password);
     if (!login.success) throw new Error(login.error);
 
     return crawlTeachingSchedule({
         semester,
+        period,
         fetch: fetchCookie(nodeFetch, login.jar)
     });
 }

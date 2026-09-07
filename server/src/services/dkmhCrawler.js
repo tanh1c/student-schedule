@@ -4,6 +4,7 @@ import {
     parseVietnameseDate
 } from './dkmhParser.js';
 import config from '../../config/default.js';
+import logger from '../utils/logger.js';
 
 export function parseRegistrationPeriods(html, now = new Date()) {
     const rowRegex = /<tr[^>]*onclick="ketQuaDangKyView\((\d+)[^"]*"[^>]*>\s*<td>(\d+)<\/td>\s*<td[^>]*>([^<]+)<\/td>\s*<td>([\s\S]*?)<\/td>\s*<td>([^<]+)<\/td>\s*<td>([^<]+)<\/td>/g;
@@ -74,6 +75,14 @@ function parseNumbers(value) {
     return (value.match(/\d+/g) ?? []).map(Number);
 }
 
+function parseWeeks(value) {
+    const weeks = value.trim();
+    // DKMH encodes weeks by position; digits repeat after week 9.
+    return /^[\d-]+$/.test(weeks)
+        ? [...weeks].flatMap((character, index) => character === '-' ? [] : [index + 1])
+        : parseNumbers(weeks);
+}
+
 function normalizeSubject(course, groups) {
     return {
         id: course.monHocId,
@@ -90,13 +99,13 @@ function normalizeSubject(course, groups) {
             giangVienBT: group.btLecturer,
             sisoLT: String(group.maxLT),
             classInfo: group.schedules
-                .filter(({ day }) => dayOfWeek[day] !== undefined)
+                .filter(({ day }) => dayOfWeek[day.normalize('NFC')] !== undefined)
                 .map((schedule) => ({
-                    dayOfWeek: dayOfWeek[schedule.day],
+                    dayOfWeek: dayOfWeek[schedule.day.normalize('NFC')],
                     tietHoc: parseNumbers(schedule.timeSlots),
                     phong: schedule.room,
                     coSo: schedule.campus,
-                    week: parseNumbers(schedule.weeks)
+                    week: parseWeeks(schedule.weeks)
                 }))
         }))
     };
@@ -138,35 +147,47 @@ async function loadPeriodCourses(period, fetch, baseHeaders) {
 export async function compareRegistrationPeriods({ periods, fetch, baseHeaders }) {
     const comparisons = [];
     for (const period of periods) {
+        logger.info(`[DKMH] Checking period ${period.code}...`);
         try {
-            comparisons.push(await loadPeriodCourses(period, fetch, baseHeaders));
+            const comparison = await loadPeriodCourses(period, fetch, baseHeaders);
+            comparisons.push(comparison);
+            logger.info(`[DKMH] ${period.code}: ${comparison.courses.length} courses`);
         } catch (error) {
             comparisons.push({ period, courses: [], error: error.message });
+            logger.warn(`[DKMH] ${period.code}: unavailable`);
         }
     }
     return comparisons;
 }
 
-export async function crawlTeachingSchedule({ semester, fetch, now = new Date() }) {
+export async function crawlTeachingSchedule({ semester, period: periodCode, fetch, now = new Date() }) {
     const baseHeaders = {
         'User-Agent': config.userAgent,
         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
         'Origin': 'https://mybk.hcmut.edu.vn',
         'Referer': config.urls.dkmhInfo.formUrl
     };
+    logger.info(`[DKMH] Loading registration periods for HK${semester}...`);
     const formHtml = await (await fetch(config.urls.dkmhInfo.formUrl, { headers: baseHeaders })).text();
     const periods = parseRegistrationPeriods(formHtml, now)
         .filter(({ code }) => code.startsWith(`HK${semester}`));
     if (!periods.length) throw new Error(`No DKMH registration period found for HK${semester}`);
 
-    const comparisons = await compareRegistrationPeriods({ periods, fetch, baseHeaders });
+    const candidates = periodCode ? periods.filter(({ code }) => code === periodCode) : periods;
+    if (!candidates.length) {
+        throw new Error(`Registration period ${periodCode} not found. Available: ${periods.map(({ code }) => code).join(', ')}`);
+    }
+    const comparisons = await compareRegistrationPeriods({ periods: candidates, fetch, baseHeaders });
     const selected = selectMostCompletePeriod(comparisons);
+    logger.info(`[DKMH] Selected ${selected.period.code}; reinitializing period...`);
     const activePeriod = await loadPeriodCourses(selected.period, fetch, baseHeaders);
     const subjects = [];
     for (const course of activePeriod.courses) {
+        logger.info(`[DKMH] Fetching course ${subjects.length + 1}/${activePeriod.courses.length}: ${course.code}...`);
         const groupHtml = await postText(fetch, dkmhUrls.groups, `monHocId=${course.monHocId}`, baseHeaders);
         subjects.push(normalizeSubject(course, parseClassGroupsHtml(groupHtml)));
     }
+    logger.info(`[DKMH] Completed ${subjects.length}/${activePeriod.courses.length} courses`);
 
     return { ...activePeriod, subjects, comparisons };
 }
