@@ -10,11 +10,12 @@ import {
 const fixture = (name) => readFile(new URL(`../../../htmlSpecs/${name}`, import.meta.url), 'utf8');
 
 describe('dkmhCrawler', () => {
-    it('finds HK261 and uses its ketQuaDangKyView argument as hocKyId', async () => {
-        const periods = parseRegistrationPeriods(
-            await fixture('dangKyMonHocForm.action.html'),
-            new Date('2026-09-07T00:00:00Z')
-        );
+    it('finds HK261 and uses its ketQuaDangKyView argument as hocKyId', () => {
+        const periods = parseRegistrationPeriods(`
+            <tr onclick="ketQuaDangKyView(685, getDanhSachDotDK)">
+                <td>1</td><td>HK261_D1</td><td>Đợt đăng ký</td>
+                <td>01/09/2026 08:00</td><td>30/09/2026 23:59</td>
+            </tr>`, new Date('2026-09-07T00:00:00Z'));
 
         expect(selectRegistrationPeriod(periods, '261')).toMatchObject({
             id: '685',
